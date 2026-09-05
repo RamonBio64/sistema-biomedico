@@ -1,0 +1,2499 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Ficha técnica | Sistema Biomédico</title>
+
+
+    <style>
+
+        /* =====================================================
+           VARIABLES DEL DISEÑO
+        ===================================================== */
+
+        :root {
+
+            --primary: #0f4c5c;
+            --primary-dark: #093744;
+            --secondary: #1d7a8c;
+
+            --background: #f3f6f8;
+
+            --card: #ffffff;
+
+            --text: #17252d;
+            --muted: #6b7b83;
+
+            --border: #e3e9ed;
+
+            --success: #16855b;
+            --success-bg: #e8f7f0;
+
+            --warning: #b7791f;
+            --warning-bg: #fff4df;
+
+            --danger: #c0392b;
+            --danger-bg: #fde8e8;
+
+            --shadow:
+                0 8px 30px rgba(15, 45, 55, 0.08);
+
+            --radius: 16px;
+        }
+
+
+        /* =====================================================
+           GENERAL
+        ===================================================== */
+
+        * {
+
+            box-sizing: border-box;
+
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+
+                linear-gradient(
+                    rgba(243, 246, 248, 0.88),
+                    rgba(243, 246, 248, 0.88)
+                ),
+
+                url("/img/fondo.jfif")
+                center center / cover fixed;
+
+            color: var(--text);
+
+            line-height: 1.5;
+        }
+
+
+        button,
+        input {
+
+            font-family: inherit;
+
+        }
+
+
+        /* =====================================================
+           CONTENEDOR
+        ===================================================== */
+
+        .page {
+
+            width: 100%;
+
+            max-width: 1180px;
+
+            margin: auto;
+
+            padding: 35px 22px 60px;
+
+        }
+
+
+        /* =====================================================
+           ENCABEZADO
+        ===================================================== */
+
+        .hero {
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    var(--primary-dark),
+                    var(--primary)
+                );
+
+            color: white;
+
+            border-radius: 22px;
+
+            padding: 30px 34px;
+
+            margin-bottom: 22px;
+
+            box-shadow:
+                0 12px 35px rgba(9, 55, 68, 0.20);
+
+            position: relative;
+
+            overflow: hidden;
+
+        }
+
+
+        .hero::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 240px;
+
+            height: 240px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.05);
+
+            right: -70px;
+
+            top: -80px;
+
+        }
+
+
+        .hero-top {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-start;
+
+            gap: 20px;
+
+            position: relative;
+
+            z-index: 1;
+
+        }
+
+
+        .system-label {
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.5px;
+
+            text-transform: uppercase;
+
+            opacity: 0.75;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .hero h1 {
+
+            margin: 0;
+
+            font-size:
+                clamp(26px, 4vw, 40px);
+
+            line-height: 1.15;
+
+            font-weight: 750;
+
+        }
+
+
+        .hero-subtitle {
+
+            margin: 10px 0 0;
+
+            font-size: 15px;
+
+            opacity: 0.78;
+
+        }
+
+
+        .asset-box {
+
+            text-align: right;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .asset-label {
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            opacity: 0.65;
+
+        }
+
+
+        .asset-number {
+
+            margin-top: 4px;
+
+            font-size: 18px;
+
+            font-weight: 700;
+
+        }
+
+
+        .hero-badges {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 9px;
+
+            margin-top: 24px;
+
+            position: relative;
+
+            z-index: 1;
+
+        }
+
+
+        /* =====================================================
+           BADGES
+        ===================================================== */
+
+        .badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 7px 12px;
+
+            border-radius: 999px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            background:
+                rgba(255,255,255,0.12);
+
+            border:
+                1px solid rgba(255,255,255,0.15);
+
+        }
+
+
+        .badge-dot {
+
+            width: 7px;
+
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: currentColor;
+
+        }
+
+
+        .badge.operativo {
+
+            color: #9ff0c9;
+
+        }
+
+
+        .badge.no-operativo {
+
+            color: #ffb4ab;
+
+        }
+
+
+        /* =====================================================
+           COLORES DE CRITICIDAD
+        ===================================================== */
+
+        .criticidad-alta {
+
+            background: #fde8e8 !important;
+
+            color: #c0392b !important;
+
+            border-color: #f5b7b1 !important;
+
+        }
+
+
+        .criticidad-media {
+
+            background: #fff4df !important;
+
+            color: #b7791f !important;
+
+            border-color: #f3d39a !important;
+
+        }
+
+
+        .criticidad-baja {
+
+            background: #e8f7f0 !important;
+
+            color: #16855b !important;
+
+            border-color: #b9e5d0 !important;
+
+        }
+
+
+        /* =====================================================
+           TARJETAS
+        ===================================================== */
+
+        .card {
+
+            background: var(--card);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            box-shadow: var(--shadow);
+
+            margin-bottom: 20px;
+
+            overflow: hidden;
+
+        }
+
+
+        .card-header {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 20px 24px;
+
+            border-bottom:
+                1px solid var(--border);
+
+        }
+
+
+        .section-icon {
+
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 11px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #edf6f8;
+
+            color: var(--primary);
+
+            font-size: 18px;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .section-title {
+
+            margin: 0;
+
+            font-size: 17px;
+
+            font-weight: 750;
+
+            color: var(--text);
+
+        }
+
+
+        .section-description {
+
+            margin: 2px 0 0;
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+        }
+
+
+        .card-body {
+
+            padding: 24px;
+
+        }
+
+
+        /* =====================================================
+           INFORMACIÓN
+        ===================================================== */
+
+        .info-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 1px;
+
+            background: var(--border);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 12px;
+
+            overflow: hidden;
+
+        }
+
+
+        .field {
+
+            background: white;
+
+            padding: 17px 18px;
+
+            min-height: 76px;
+
+        }
+
+
+        .label {
+
+            font-size: 10px;
+
+            font-weight: 750;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.75px;
+
+            color: var(--muted);
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .value {
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            color: var(--text);
+
+            word-break: break-word;
+
+        }
+
+
+        /* =====================================================
+           ESTADO
+        ===================================================== */
+
+        .status {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 5px 10px;
+
+            border-radius: 999px;
+
+            font-size: 12px;
+
+            font-weight: 750;
+
+        }
+
+
+        .status::before {
+
+            content: "";
+
+            width: 7px;
+
+            height: 7px;
+
+            border-radius: 50%;
+
+        }
+
+
+        .status.active {
+
+            color: var(--success);
+
+            background: var(--success-bg);
+
+        }
+
+
+        .status.active::before {
+
+            background: var(--success);
+
+        }
+
+
+        .status.inactive {
+
+            color: var(--danger);
+
+            background: var(--danger-bg);
+
+        }
+
+
+        .status.inactive::before {
+
+            background: var(--danger);
+
+        }
+
+
+        /* =====================================================
+           MANTENIMIENTO
+        ===================================================== */
+
+        .maintenance-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 14px;
+
+        }
+
+
+        .maintenance-item {
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 13px;
+
+            padding: 19px;
+
+            background: #fbfcfd;
+
+        }
+
+
+        .maintenance-item.highlight {
+
+            background: #f0f8fa;
+
+            border-color: #cce5ea;
+
+        }
+
+
+        .maintenance-label {
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.7px;
+
+            font-weight: 750;
+
+            color: var(--muted);
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .maintenance-value {
+
+            font-size: 18px;
+
+            font-weight: 750;
+
+            color: var(--text);
+
+        }
+
+
+        .maintenance-value.next {
+
+            color: var(--primary);
+
+        }
+
+
+        /* =====================================================
+           FOTOGRAFÍA
+        ===================================================== */
+
+        .photo-wrapper {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            min-height: 280px;
+
+            padding: 15px;
+
+            border-radius: 14px;
+
+            background:
+
+                linear-gradient(
+                    145deg,
+                    #f8fafb,
+                    #eef3f5
+                );
+
+            border:
+                1px solid var(--border);
+
+        }
+
+
+        .photo-wrapper img {
+
+            display: block;
+
+            max-width: 100%;
+
+            width: auto;
+
+            max-height: 470px;
+
+            object-fit: contain;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.12);
+
+        }
+
+
+        .no-photo {
+
+            color: var(--muted);
+
+            font-size: 14px;
+
+            text-align: center;
+
+        }
+
+
+        /* =====================================================
+           CONTACTO
+        ===================================================== */
+
+        .contact-box {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 18px;
+
+            border-radius: 13px;
+
+            background: #f7fafb;
+
+            border:
+                1px solid var(--border);
+
+        }
+
+
+        .contact-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 12px;
+
+            background: #e7f3f5;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 19px;
+
+        }
+
+
+        .contact-value {
+
+            font-weight: 650;
+
+            color: var(--primary);
+
+            word-break: break-word;
+
+        }
+
+
+        /* =====================================================
+           ACCESORIOS Y REFACCIONES
+        ===================================================== */
+
+        .relations-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 15px;
+
+        }
+
+
+        .relation {
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 14px;
+
+            padding: 22px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+            background: #fcfdfd;
+
+        }
+
+
+        .relation-number {
+
+            font-size: 30px;
+
+            font-weight: 800;
+
+            color: var(--primary);
+
+            line-height: 1;
+
+        }
+
+
+        .relation-title {
+
+            font-size: 14px;
+
+            font-weight: 750;
+
+        }
+
+
+        .relation-subtitle {
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+            margin-top: 2px;
+
+        }
+
+
+        /* =====================================================
+           ACCIONES
+        ===================================================== */
+
+        .actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .print-button {
+
+            border: 0;
+
+            background: var(--primary);
+
+            color: white;
+
+            padding: 12px 18px;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .print-button:hover {
+
+            background: var(--primary-dark);
+
+            transform: translateY(-1px);
+
+        }
+
+
+        .url-box {
+
+            margin-top: 20px;
+
+        }
+
+
+        .url-input {
+
+            width: 100%;
+
+            border:
+                1px solid var(--border);
+
+            background: #f7f9fa;
+
+            border-radius: 9px;
+
+            padding: 12px;
+
+            font-size: 12px;
+
+            color: var(--muted);
+
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+
+            text-align: center;
+
+            padding: 12px 0;
+
+            color: #84939a;
+
+            font-size: 11px;
+
+        }
+
+
+        /* =====================================================
+           CARGANDO / ERROR
+        ===================================================== */
+
+        .loading,
+        .error {
+
+            background: white;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            padding: 45px 25px;
+
+            text-align: center;
+
+            box-shadow: var(--shadow);
+
+        }
+
+
+        .loading-icon {
+
+            font-size: 35px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .error h2,
+        .loading h2 {
+
+            margin: 0 0 8px;
+
+            color: var(--text);
+
+        }
+
+
+        .error p,
+        .loading p {
+
+            margin: 5px 0;
+
+            color: var(--muted);
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 760px) {
+
+            .page {
+
+                padding: 18px 12px 40px;
+
+            }
+
+
+            .hero {
+
+                padding: 24px 20px;
+
+                border-radius: 17px;
+
+            }
+
+
+            .hero-top {
+
+                flex-direction: column;
+
+            }
+
+
+            .asset-box {
+
+                text-align: left;
+
+            }
+
+
+            .info-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .maintenance-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .relations-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .card-header {
+
+                padding: 17px 18px;
+
+            }
+
+
+            .card-body {
+
+                padding: 18px;
+
+            }
+
+
+            .field {
+
+                padding: 15px;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           IMPRESIÓN
+        ===================================================== */
+
+        @media print {
+
+            body {
+
+                background: white;
+
+            }
+
+
+            .page {
+
+                max-width: none;
+
+                padding: 0;
+
+            }
+
+
+            .hero {
+
+                color: black;
+
+                background: white;
+
+                border:
+                    1px solid #ccc;
+
+                box-shadow: none;
+
+                border-radius: 0;
+
+            }
+
+
+            .hero::after {
+
+                display: none;
+
+            }
+
+
+            .hero-badges {
+
+                color: black;
+
+            }
+
+
+            .badge {
+
+                color: black !important;
+
+                border:
+                    1px solid #aaa;
+
+                background: white;
+
+            }
+
+
+            .card {
+
+                box-shadow: none;
+
+                break-inside: avoid;
+
+                border:
+                    1px solid #ccc;
+
+            }
+
+
+            .print-button,
+            .url-box {
+
+                display: none;
+
+            }
+
+
+            .photo-wrapper img {
+
+                box-shadow: none;
+
+                max-height: 400px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <main class="page">
+
+        <div id="app">
+
+            <div class="loading">
+
+                <div class="loading-icon">
+                    ⚙️
+                </div>
+
+                <h2>
+                    Cargando información...
+                </h2>
+
+                <p>
+                    Consultando los datos del equipo biomédico.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer">
+
+            Sistema de Gestión de Equipo Biomédico
+
+        </div>
+
+    </main>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+    /* =====================================================
+       OBTENER ID DESDE LA URL
+    ===================================================== */
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const equipoId =
+        params.get("equipoId");
+
+
+    const app =
+        document.getElementById("app");
+
+
+    /* =====================================================
+       ESCAPAR TEXTO
+    ===================================================== */
+
+    function escapar(valor) {
+
+        if (
+            valor === null ||
+            valor === undefined ||
+            valor === ""
+        ) {
+
+            return "Sin información";
+
+        }
+
+
+        return String(valor)
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+    /* =====================================================
+       FORMATEAR FECHAS
+    ===================================================== */
+
+    function formatearFecha(valor) {
+
+        if (!valor) {
+
+            return "Sin información";
+
+        }
+
+
+        const partes =
+            String(valor).split("-");
+
+
+        if (
+            partes.length === 3
+        ) {
+
+            return (
+                `${partes[2]}/${partes[1]}/${partes[0]}`
+            );
+
+        }
+
+
+        return escapar(valor);
+
+    }
+
+
+    /* =====================================================
+       CAMPO
+    ===================================================== */
+
+    function campo(
+        nombre,
+        valor
+    ) {
+
+        return `
+
+            <div class="field">
+
+                <div class="label">
+                    ${nombre}
+                </div>
+
+                <div class="value">
+                    ${escapar(valor)}
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       ESTADO
+    ===================================================== */
+
+    function obtenerClaseEstado(
+        estado
+    ) {
+
+        if (
+
+            String(estado)
+                .toLowerCase()
+                .includes("operativo")
+
+        ) {
+
+            return "active";
+
+        }
+
+
+        return "inactive";
+
+    }
+
+
+    /* =====================================================
+       CRITICIDAD
+    ===================================================== */
+
+    function obtenerClaseCriticidad(
+        criticidad
+    ) {
+
+        const valor =
+            String(criticidad)
+                .toLowerCase();
+
+
+        if (
+            valor.includes("alta")
+        ) {
+
+            return "criticidad-alta";
+
+        }
+
+
+        if (
+            valor.includes("media")
+        ) {
+
+            return "criticidad-media";
+
+        }
+
+
+        if (
+            valor.includes("baja")
+        ) {
+
+            return "criticidad-baja";
+
+        }
+
+
+        return "";
+
+    }
+
+
+    /* =====================================================
+       SI NO HAY ID
+    ===================================================== */
+
+    if (!equipoId) {
+
+        app.innerHTML = `
+
+            <div class="error">
+
+                <div style="font-size:38px;">
+                    ⚠️
+                </div>
+
+                <h2>
+                    Equipo no especificado
+                </h2>
+
+                <p>
+                    Esta ficha requiere el
+                    identificador del equipo.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       CARGANDO
+    ===================================================== */
+
+    app.innerHTML = `
+
+        <div class="loading">
+
+            <div class="loading-icon">
+                ⚙️
+            </div>
+
+            <h2>
+                Cargando información...
+            </h2>
+
+            <p>
+                Consultando los datos del
+                equipo biomédico.
+            </p>
+
+        </div>
+
+    `;
+
+
+    /* =====================================================
+       CONSULTAR SERVIDOR
+    ===================================================== */
+
+    fetch(
+        `/api/equipo/${encodeURIComponent(equipoId)}`
+    )
+
+
+    .then(
+        response => {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "No se pudo obtener la información del equipo."
+                );
+
+            }
+
+
+            return response.json();
+
+        }
+    )
+
+
+    .then(
+        data => {
+
+
+            console.log(
+                "Respuesta del servidor:",
+                data
+            );
+
+
+            if (
+                !data.correcto ||
+                !data.equipo
+            ) {
+
+                throw new Error(
+                    "Airtable no devolvió información del equipo."
+                );
+
+            }
+
+
+            const equipo =
+                data.equipo.fields;
+
+
+            /* =================================================
+               DATOS
+            ================================================= */
+
+            const nombre =
+                equipo[
+                    "nombre del equipo"
+                ] ||
+                "Equipo biomédico";
+
+
+            const activo =
+                equipo[
+                    "Numero de activo fijo"
+                ] ||
+                "Sin información";
+
+
+            const estado =
+                equipo[
+                    "estado del equipo"
+                ] ||
+                "Sin información";
+
+
+            const criticidad =
+                equipo[
+                    "Criticidad"
+                ] ||
+                "Sin información";
+
+
+            const garantia =
+                equipo[
+                    "Garantía "
+                ] ||
+                "Sin información";
+
+
+            /* =================================================
+               FOTO
+            ================================================= */
+
+            let fotografia = "";
+
+
+            if (
+
+                Array.isArray(
+                    equipo[
+                        "fotografía del equipo"
+                    ]
+                )
+
+                &&
+
+                equipo[
+                    "fotografía del equipo"
+                ].length > 0
+
+            ) {
+
+                fotografia =
+                    equipo[
+                        "fotografía del equipo"
+                    ][0].url ||
+                    "";
+
+            }
+
+
+            /* =================================================
+               RELACIONES
+            ================================================= */
+
+            const accesorios =
+
+                Array.isArray(
+                    equipo[
+                        "Accesorios Médicos"
+                    ]
+                )
+
+                    ?
+
+                equipo[
+                    "Accesorios Médicos"
+                ].length
+
+                    :
+
+                0;
+
+
+            const repuestos =
+
+                Array.isArray(
+                    equipo[
+                        "Repuestos Médicos"
+                    ]
+                )
+
+                    ?
+
+                equipo[
+                    "Repuestos Médicos"
+                ].length
+
+                    :
+
+                0;
+
+
+            /* =================================================
+               CLASES
+            ================================================= */
+
+            const estadoClase =
+                obtenerClaseEstado(
+                    estado
+                );
+
+
+            const criticidadClase =
+                obtenerClaseCriticidad(
+                    criticidad
+                );
+
+
+            /* =================================================
+               MOSTRAR FICHA
+            ================================================= */
+
+            app.innerHTML = `
+
+
+                <!-- =========================================
+                     ENCABEZADO
+                ========================================== -->
+
+                <section class="hero">
+
+
+                    <div class="hero-top">
+
+
+                        <div>
+
+                            <div class="system-label">
+
+                                Sistema Biomédico
+
+                            </div>
+
+
+                            <h1>
+
+                                ${escapar(nombre)}
+
+                            </h1>
+
+
+                            <p class="hero-subtitle">
+
+                                Ficha técnica y administrativa
+                                del equipo biomédico
+
+                            </p>
+
+                        </div>
+
+
+                        <div class="asset-box">
+
+                            <div class="asset-label">
+
+                                Número de activo fijo
+
+                            </div>
+
+
+                            <div class="asset-number">
+
+                                ${escapar(activo)}
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="hero-badges">
+
+
+                        <span
+                            class="badge ${
+                                estadoClase === "active"
+                                    ? "operativo"
+                                    : "no-operativo"
+                            }">
+
+                            <span class="badge-dot"></span>
+
+                            ${escapar(estado)}
+
+                        </span>
+
+
+                        <span
+                            class="badge ${criticidadClase}">
+
+                            ● Criticidad:
+
+                            ${escapar(criticidad)}
+
+                        </span>
+
+
+                        <span class="badge">
+
+                            ✓ Garantía:
+
+                            ${escapar(garantia)}
+
+                        </span>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =========================================
+                     INFORMACIÓN DEL EQUIPO
+                ========================================== -->
+
+                <section class="card">
+
+
+                    <div class="card-header">
+
+
+                        <div class="section-icon">
+                            ⚕
+                        </div>
+
+
+                        <div>
+
+                            <h2 class="section-title">
+
+                                Información del equipo
+
+                            </h2>
+
+
+                            <p class="section-description">
+
+                                Identificación y características
+                                generales
+
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="card-body">
+
+
+                        <div class="info-grid">
+
+
+                            ${campo(
+                                "Número de activo fijo",
+                                equipo[
+                                    "Numero de activo fijo"
+                                ]
+                            )}
+
+
+                            ${campo(
+                                "Servicio o área",
+                                equipo[
+                                    "servicio o área"
+                                ]
+                            )}
+
+
+                            ${campo(
+                                "Nombre del equipo",
+                                equipo[
+                                    "nombre del equipo"
+                                ]
+                            )}
+
+
+                            ${campo(
+                                "Marca",
+                                equipo["marca"]
+                            )}
+
+
+                            ${campo(
+                                "Modelo",
+                                equipo["modelo"]
+                            )}
+
+
+                            ${campo(
+                                "Número de serie",
+                                equipo[
+                                    "número de serie"
+                                ]
+                            )}
+
+
+                            ${campo(
+                                "Ubicación",
+                                equipo["ubicación"]
+                            )}
+
+
+                            ${campo(
+                                "Responsable",
+                                equipo["responsable"]
+                            )}
+
+
+                            <div class="field">
+
+                                <div class="label">
+                                    Estado del equipo
+                                </div>
+
+
+                                <div class="value">
+
+                                    <span
+                                        class="status ${estadoClase}">
+
+                                        ${escapar(estado)}
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            ${campo(
+                                "Condición física",
+                                equipo[
+                                    "Condición Física "
+                                ]
+                            )}
+
+
+                            <div class="field">
+
+                                <div class="label">
+                                    Criticidad
+                                </div>
+
+
+                                <div class="value">
+
+                                    <span
+                                        class="status ${criticidadClase}">
+
+                                        ${escapar(criticidad)}
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            ${campo(
+                                "Fecha de adquisición",
+                                equipo[
+                                    "Fecha de adquisición"
+                                ]
+                            )}
+
+
+                            ${campo(
+                                "Proveedor",
+                                equipo["Proveedor"]
+                            )}
+
+
+                            ${campo(
+                                "Garantía",
+                                equipo["Garantía "]
+                            )}
+
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =========================================
+                     MANTENIMIENTO
+                ========================================== -->
+
+                <section class="card">
+
+
+                    <div class="card-header">
+
+
+                        <div class="section-icon">
+                            🔧
+                        </div>
+
+
+                        <div>
+
+                            <h2 class="section-title">
+
+                                Mantenimiento
+
+                            </h2>
+
+
+                            <p class="section-description">
+
+                                Programación y seguimiento
+                                del mantenimiento preventivo
+
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="card-body">
+
+
+                        <div class="maintenance-grid">
+
+
+                            <div class="maintenance-item">
+
+                                <div class="maintenance-label">
+
+                                    Último mantenimiento
+
+                                </div>
+
+
+                                <div class="maintenance-value">
+
+                                    ${formatearFecha(
+                                        equipo[
+                                            "Fecha de ultimo mantenimiento"
+                                        ]
+                                    )}
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="maintenance-item highlight">
+
+                                <div class="maintenance-label">
+
+                                    Próximo mantenimiento
+
+                                </div>
+
+
+                                <div
+                                    class="maintenance-value next">
+
+                                    ${formatearFecha(
+                                        equipo[
+                                            "Fecha de próximo mantenimiento"
+                                        ]
+                                    )}
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="maintenance-item">
+
+                                <div class="maintenance-label">
+
+                                    Estado de alerta
+
+                                </div>
+
+
+                                <div class="maintenance-value">
+
+                                    ${escapar(
+                                        equipo[
+                                            "alerta mantenimiento próximo"
+                                        ]
+                                    )}
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =========================================
+                     FOTOGRAFÍA
+                ========================================== -->
+
+                <section class="card">
+
+
+                    <div class="card-header">
+
+
+                        <div class="section-icon">
+                            📷
+                        </div>
+
+
+                        <div>
+
+                            <h2 class="section-title">
+
+                                Fotografía del equipo
+
+                            </h2>
+
+
+                            <p class="section-description">
+
+                                Registro visual del equipo
+
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="card-body">
+
+
+                        <div class="photo-wrapper">
+
+
+                            ${
+                                fotografia
+
+                                ?
+
+                                `
+
+                                    <img
+                                        src="${fotografia}"
+                                        alt="Fotografía del equipo"
+                                    >
+
+                                `
+
+                                :
+
+                                `
+
+                                    <div class="no-photo">
+
+                                        📷
+
+                                        <br><br>
+
+                                        No hay fotografía
+                                        disponible para este equipo.
+
+                                    </div>
+
+                                `
+                            }
+
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =========================================
+                     ACCESORIOS Y REFACCIONES
+                ========================================== -->
+
+                <section class="card">
+
+
+                    <div class="card-header">
+
+
+                        <div class="section-icon">
+                            🧰
+                        </div>
+
+
+                        <div>
+
+                            <h2 class="section-title">
+
+                                Accesorios y refacciones
+
+                            </h2>
+
+
+                            <p class="section-description">
+
+                                Elementos relacionados con este equipo
+
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="card-body">
+
+
+                        <div class="relations-grid">
+
+
+                            <div class="relation">
+
+
+                                <div class="relation-number">
+
+                                    ${accesorios}
+
+                                </div>
+
+
+                                <div>
+
+                                    <div class="relation-title">
+
+                                        Accesorios
+
+                                    </div>
+
+
+                                    <div class="relation-subtitle">
+
+                                        Accesorios médicos relacionados
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="relation">
+
+
+                                <div class="relation-number">
+
+                                    ${repuestos}
+
+                                </div>
+
+
+                                <div>
+
+                                    <div class="relation-title">
+
+                                        Refacciones
+
+                                    </div>
+
+
+                                    <div class="relation-subtitle">
+
+                                        Repuestos médicos relacionados
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =========================================
+                     CONTACTO
+                ========================================== -->
+
+                <section class="card">
+
+
+                    <div class="card-header">
+
+
+                        <div class="section-icon">
+                            ✉
+                        </div>
+
+
+                        <div>
+
+                            <h2 class="section-title">
+
+                                Información de contacto
+
+                            </h2>
+
+
+                            <p class="section-description">
+
+                                Contacto relacionado con mantenimiento
+
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="card-body">
+
+
+                        <div class="contact-box">
+
+
+                            <div class="contact-icon">
+                                ✉️
+                            </div>
+
+
+                            <div>
+
+
+                                <div class="label">
+
+                                    Correo de mantenimiento
+
+                                </div>
+
+
+                                <div class="contact-value">
+
+                                    ${escapar(
+                                        equipo[
+                                            "Correo mantenimientos"
+                                        ]
+                                    )}
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =========================================
+                     ACCIONES
+                ========================================== -->
+
+                <section class="card">
+
+
+                    <div class="card-header">
+
+
+                        <div class="section-icon">
+                            ⚙
+                        </div>
+
+
+                        <div>
+
+                            <h2 class="section-title">
+
+                                Acciones
+
+                            </h2>
+
+
+                            <p class="section-description">
+
+                                Opciones disponibles para esta ficha
+
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="card-body">
+
+
+                        <div class="actions">
+
+
+                            <button
+                                class="print-button"
+                                onclick="window.print()">
+
+                                🖨️
+
+                                Imprimir ficha técnica
+
+                            </button>
+
+
+                        </div>
+
+
+                        <div class="url-box">
+
+
+                            <div class="label">
+
+                                URL de esta ficha técnica
+
+                            </div>
+
+
+                            <input
+                                class="url-input"
+                                type="text"
+                                readonly
+                                value="${escapar(
+                                    window.location.href
+                                )}"
+                            >
+
+
+                        </div>
+
+
+                    </div>
+
+                </section>
+
+
+            `;
+
+        }
+    )
+
+
+    /* =====================================================
+       ERROR
+    ===================================================== */
+
+    .catch(
+        error => {
+
+            console.error(
+                "ERROR:",
+                error
+            );
+
+
+            app.innerHTML = `
+
+                <div class="error">
+
+                    <div
+                        style="
+                            font-size:38px;
+                            margin-bottom:12px;
+                        ">
+
+                        ⚠️
+
+                    </div>
+
+
+                    <h2>
+
+                        No fue posible cargar el equipo
+
+                    </h2>
+
+
+                    <p>
+
+                        Ocurrió un problema al consultar
+                        la información desde Airtable.
+
+                    </p>
+
+
+                    <p>
+
+                        ${escapar(
+                            error.message
+                        )}
+
+                    </p>
+
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+});
+
+</script>
+
+
+</body>
+
+</html>
