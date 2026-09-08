@@ -127,6 +127,7 @@
             align-items: center;
             justify-content: center;
             font-size: 27px;
+            flex-shrink: 0;
         }
 
         .nombre {
@@ -258,7 +259,11 @@ const equipoId =
 
 function escaparHTML(valor) {
 
-    if (valor === null || valor === undefined) {
+    if (
+        valor === null ||
+        valor === undefined ||
+        valor === ""
+    ) {
         return "No especificado";
     }
 
@@ -296,11 +301,33 @@ async function cargarDatos() {
         const [respuestaEquipo, respuestaRepuestos] =
             await Promise.all([
 
-                fetch(`/api/equipo/${equipoId}`),
+                fetch(
+                    `/api/equipo/${encodeURIComponent(equipoId)}`
+                ),
 
-                fetch(`/api/equipo/${equipoId}/repuestos`)
+                fetch(
+                    `/api/equipo/${encodeURIComponent(equipoId)}/repuestos`
+                )
 
             ]);
+
+
+        if (!respuestaEquipo.ok) {
+
+            throw new Error(
+                "No se pudo cargar la información del equipo."
+            );
+
+        }
+
+
+        if (!respuestaRepuestos.ok) {
+
+            throw new Error(
+                "No se pudieron cargar los repuestos."
+            );
+
+        }
 
 
         const equipo =
@@ -310,28 +337,40 @@ async function cargarDatos() {
             await respuestaRepuestos.json();
 
 
-        if (equipo.correcto) {
+        /*
+         * La API devuelve directamente
+         * el objeto del equipo.
+         */
 
-            document.getElementById("equipo").textContent =
-                `${equipo.nombre || "Equipo"} · Activo: ${equipo.numeroActivo || "No especificado"}`;
+        if (!equipo || !equipo.id) {
+
+            throw new Error(
+                "No se encontró la información del equipo."
+            );
 
         }
 
 
-        if (
-            !repuestos.correcto ||
-            !Array.isArray(repuestos.repuestos)
-        ) {
+        document.getElementById("equipo").textContent =
+            `${equipo.nombre || "Equipo"} · Activo: ${equipo.numeroActivo || "No especificado"}`;
+
+
+        /*
+         * La API devuelve directamente
+         * un arreglo de repuestos.
+         */
+
+        if (!Array.isArray(repuestos)) {
 
             throw new Error(
-                "No se pudieron cargar los repuestos."
+                "La respuesta de repuestos no tiene un formato válido."
             );
 
         }
 
 
         const lista =
-            repuestos.repuestos;
+            repuestos;
 
 
         if (lista.length === 0) {
@@ -351,8 +390,14 @@ async function cargarDatos() {
 
             lista.map(repuesto => {
 
+                /*
+                 * IMPORTANTE:
+                 * Ahora abre la ficha individual
+                 * del repuesto.
+                 */
+
                 const url =
-                    `/repuesto.html?repuestoId=${encodeURIComponent(repuesto.id)}&equipoId=${encodeURIComponent(equipoId)}`;
+                    `/ficha-repuesto.html?repuestoId=${encodeURIComponent(repuesto.id)}&equipoId=${encodeURIComponent(equipoId)}`;
 
                 return `
 
@@ -370,12 +415,16 @@ async function cargarDatos() {
                             <div>
 
                                 <div class="nombre">
-                                    ${escaparHTML(repuesto.nombre)}
+                                    ${escaparHTML(
+                                        repuesto.nombre
+                                    )}
                                 </div>
 
                                 <div class="modelo">
                                     Modelo:
-                                    ${escaparHTML(repuesto.modelo)}
+                                    ${escaparHTML(
+                                        repuesto.modelo
+                                    )}
                                 </div>
 
                             </div>
@@ -395,13 +444,19 @@ async function cargarDatos() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Error cargando repuestos:",
+            error
+        );
 
         document.getElementById("lista").innerHTML = `
 
             <div class="error">
 
-                ❌ ${escaparHTML(error.message)}
+                ❌ ${escaparHTML(
+                    error.message ||
+                    "No se pudieron cargar los repuestos."
+                )}
 
             </div>
 

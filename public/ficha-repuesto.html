@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ficha del Repuesto</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f3f6f8;
+            color: #263238;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0b3d4a, #126579);
+            color: white;
+            padding: 18px 20px;
+        }
+
+        .header {
+            max-width: 1000px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            background: white;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .subtitulo {
+            margin-top: 5px;
+            opacity: .9;
+            font-size: 14px;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 25px auto;
+            padding: 0 15px;
+        }
+
+        .volver {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #126579;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .tarjeta {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,.08);
+            overflow: hidden;
+        }
+
+        .titulo {
+            padding: 25px;
+            border-bottom: 1px solid #e2e8ea;
+        }
+
+        .titulo h2 {
+            margin: 0;
+            color: #0b3d4a;
+            font-size: 25px;
+        }
+
+        .titulo p {
+            margin: 8px 0 0;
+            color: #607d8b;
+        }
+
+        .contenido {
+            padding: 25px;
+        }
+
+        .fotografia {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 14px;
+            background: #f5f7f8;
+            margin-bottom: 25px;
+        }
+
+        .sin-foto {
+            width: 100%;
+            height: 220px;
+            background: #f3f6f8;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #78909c;
+            font-size: 16px;
+            margin-bottom: 25px;
+        }
+
+        .datos {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .dato {
+            background: #f7f9fa;
+            border: 1px solid #e0e7e9;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .dato-completo {
+            grid-column: 1 / -1;
+        }
+
+        .etiqueta {
+            font-size: 12px;
+            color: #78909c;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .valor {
+            font-size: 16px;
+            color: #263238;
+            word-break: break-word;
+        }
+
+        .activo-si {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .activo-no {
+            color: #c62828;
+            font-weight: bold;
+        }
+
+        .cargando,
+        .error {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .error {
+            color: #b71c1c;
+            background: #ffebee;
+        }
+
+        @media(max-width:700px) {
+
+            .datos {
+                grid-template-columns: 1fr;
+            }
+
+            .dato-completo {
+                grid-column: auto;
+            }
+
+            h1 {
+                font-size: 18px;
+            }
+
+            .titulo h2 {
+                font-size: 21px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<header>
+
+    <div class="header">
+
+        <img
+            src="/img/fondo.jfif"
+            class="logo"
+            alt="Logo"
+        >
+
+        <div>
+
+            <h1>
+                FICHA DE REPUESTO
+            </h1>
+
+            <div class="subtitulo">
+                Área de Ingeniería Biomédica
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <a
+        id="volver"
+        class="volver"
+        href="#"
+    >
+        ← Volver a repuestos
+    </a>
+
+
+    <div
+        id="contenidoPrincipal"
+        class="tarjeta"
+    >
+
+        <div class="cargando">
+            Cargando información del repuesto...
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+const parametros =
+    new URLSearchParams(window.location.search);
+
+
+const repuestoId =
+    parametros.get("repuestoId");
+
+
+const equipoId =
+    parametros.get("equipoId");
+
+
+function escaparHTML(valor) {
+
+    if (
+        valor === null ||
+        valor === undefined ||
+        valor === ""
+    ) {
+        return "No especificado";
+    }
+
+    return String(valor)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+function obtenerValor(objeto, propiedades) {
+
+    for (const propiedad of propiedades) {
+
+        if (
+            objeto[propiedad] !== undefined &&
+            objeto[propiedad] !== null &&
+            objeto[propiedad] !== ""
+        ) {
+
+            return objeto[propiedad];
+
+        }
+
+    }
+
+    return "";
+
+}
+
+
+function obtenerURLFotografia(fotografia) {
+
+    if (!fotografia) {
+        return "";
+    }
+
+
+    if (typeof fotografia === "string") {
+        return fotografia;
+    }
+
+
+    if (Array.isArray(fotografia)) {
+
+        if (fotografia.length === 0) {
+            return "";
+        }
+
+        const primera =
+            fotografia[0];
+
+        if (typeof primera === "string") {
+            return primera;
+        }
+
+        if (primera && primera.url) {
+            return primera.url;
+        }
+
+        if (primera && primera.thumbnails && primera.thumbnails.large) {
+            return primera.thumbnails.large.url;
+        }
+
+    }
+
+
+    if (fotografia.url) {
+        return fotografia.url;
+    }
+
+
+    return "";
+
+}
+
+
+if (!repuestoId) {
+
+    document.getElementById("contenidoPrincipal").innerHTML = `
+
+        <div class="error">
+            ❌ No se encontró el repuesto.
+        </div>
+
+    `;
+
+} else {
+
+    if (equipoId) {
+
+        document.getElementById("volver").href =
+            `/repuesto.html?equipoId=${encodeURIComponent(equipoId)}`;
+
+    } else {
+
+        document.getElementById("volver").href =
+            "/";
+
+    }
+
+    cargarRepuesto();
+
+}
+
+
+async function cargarRepuesto() {
+
+    try {
+
+        const respuesta =
+            await fetch(
+                `/api/repuesto/${encodeURIComponent(repuestoId)}`
+            );
+
+
+        if (!respuesta.ok) {
+
+            throw new Error(
+                "No se pudo obtener la información del repuesto."
+            );
+
+        }
+
+
+        const repuesto =
+            await respuesta.json();
+
+
+        if (!repuesto || !repuesto.id) {
+
+            throw new Error(
+                "No se encontró la información del repuesto."
+            );
+
+        }
+
+
+        const nombre =
+            obtenerValor(
+                repuesto,
+                [
+                    "nombre",
+                    "nombreRepuesto"
+                ]
+            );
+
+
+        const estado =
+            obtenerValor(
+                repuesto,
+                [
+                    "estado",
+                    "estadoRepuesto"
+                ]
+            );
+
+
+        const lugar =
+            obtenerValor(
+                repuesto,
+                [
+                    "lugar",
+                    "lugarDondeSeEncuentra"
+                ]
+            );
+
+
+        const observaciones =
+            obtenerValor(
+                repuesto,
+                [
+                    "observaciones"
+                ]
+            );
+
+
+        const numeroActivo =
+            obtenerValor(
+                repuesto,
+                [
+                    "numeroActivo",
+                    "numeroActivoFijo"
+                ]
+            );
+
+
+        const serie =
+            obtenerValor(
+                repuesto,
+                [
+                    "serie",
+                    "numeroSerie"
+                ]
+            );
+
+
+        const color =
+            obtenerValor(
+                repuesto,
+                [
+                    "color"
+                ]
+            );
+
+
+        const modelo =
+            obtenerValor(
+                repuesto,
+                [
+                    "modelo"
+                ]
+            );
+
+
+        const compatibilidad =
+            obtenerValor(
+                repuesto,
+                [
+                    "tipoCompatibilidad",
+                    "compatibilidad"
+                ]
+            );
+
+
+        const fotografia =
+            obtenerValor(
+                repuesto,
+                [
+                    "fotografia",
+                    "foto"
+                ]
+            );
+
+
+        const urlFotografia =
+            obtenerURLFotografia(fotografia);
+
+
+        let imagenHTML = "";
+
+
+        if (urlFotografia) {
+
+            imagenHTML = `
+
+                <img
+                    src="${escaparHTML(urlFotografia)}"
+                    class="fotografia"
+                    alt="Fotografía del repuesto"
+                    onerror="this.style.display='none'; document.getElementById('sinFoto').style.display='flex';"
+                >
+
+                <div
+                    id="sinFoto"
+                    class="sin-foto"
+                    style="display:none;"
+                >
+                    📷 No se pudo cargar la fotografía.
+                </div>
+
+            `;
+
+        } else {
+
+            imagenHTML = `
+
+                <div class="sin-foto">
+                    📷 Este repuesto no tiene fotografía registrada.
+                </div>
+
+            `;
+
+        }
+
+
+        let estadoHTML =
+            escaparHTML(estado);
+
+
+        const estadoNormalizado =
+            String(estado || "").toLowerCase();
+
+
+        if (
+            estadoNormalizado.includes("activo") ||
+            estadoNormalizado.includes("disponible") ||
+            estadoNormalizado.includes("operativo")
+        ) {
+
+            estadoHTML =
+                `<span class="activo-si">${estadoHTML}</span>`;
+
+        }
+
+
+        document.getElementById("contenidoPrincipal").innerHTML = `
+
+            <div class="titulo">
+
+                <h2>
+                    🔧 ${escaparHTML(
+                        nombre || "Repuesto médico"
+                    )}
+                </h2>
+
+                <p>
+                    Información del repuesto
+                </p>
+
+            </div>
+
+
+            <div class="contenido">
+
+                ${imagenHTML}
+
+
+                <div class="datos">
+
+
+                    <div class="dato">
+
+                        <div class="etiqueta">
+                            Nombre del repuesto
+                        </div>
+
+                        <div class="valor">
+                            ${escaparHTML(nombre)}
+                        </div>
+
+                    </div>
+
+
+                    <div class="dato">
+
+                        <div class="etiqueta">
+                            Estado del repuesto
+                        </div>
+
+                        <div class="valor">
+                            ${estadoHTML}
+                        </div>
+
+                    </div>
+
+
+                    <div class="dato">
+
+                        <div class="etiqueta">
+                            Número de activo fijo
+                        </div>
+
+                        <div class="valor">
+                            ${escaparHTML(numeroActivo)}
+                        </div>
+
+                    </div>
+
+
+                    <div class="dato">
+
+                        <div class="etiqueta">
+                            Número de serie
+                        </div>
+
+                        <div class="valor">
+                            ${escaparHTML(serie)}
+                        </div>
+
+                    </div>
+
+
+                    <div class="dato">
+
+                        <div class="etiqueta">
+                            Modelo
+                        </div>
+
+                        <div class="valor">
+                            ${escaparHTML(modelo)}
+                        </div>
+
+                    </div>
+
+
+                    <div class="dato">
+
+                        <div class="etiqueta">
+                            Color
+                        </div>
+
+                        <div class="valor">
+                            ${escaparHTML(color)}
+                        </div>
+
+                    </div>
+
+
+                    <div class="dato">
+
+                        <div class="etiqueta">
+                            Lugar donde se encuentra
+                        </div>
+
+                        <div class="valor">
+                            ${escaparHTML(lugar)}
+                        </div>
+
+                    </div>
+
+
+                    <div class="dato">
+
+                        <div class="etiqueta">
+                            Tipo de compatibilidad
+                        </div>
+
+                        <div class="valor">
+                            ${escaparHTML(compatibilidad)}
+                        </div>
+
+                    </div>
+
+
+                    <div class="dato dato-completo">
+
+                        <div class="etiqueta">
+                            Observaciones
+                        </div>
+
+                        <div class="valor">
+                            ${escaparHTML(observaciones)}
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        `;
+
+
+    } catch (error) {
+
+        console.error(
+            "Error cargando repuesto:",
+            error
+        );
+
+
+        document.getElementById("contenidoPrincipal").innerHTML = `
+
+            <div class="error">
+
+                ❌ ${escaparHTML(
+                    error.message ||
+                    "No se pudo cargar la información del repuesto."
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
