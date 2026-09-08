@@ -311,17 +311,44 @@ async function cargarAccesorio() {
         }
 
 
-        const datos =
+        const respuestaJSON =
             await respuesta.json();
 
 
-        if (!datos || !datos.id) {
+        /*
+         * CORRECCIÓN:
+         *
+         * server.js devuelve:
+         *
+         * {
+         *     correcto: true,
+         *     accesorio: {
+         *         id: "...",
+         *         nombre: "...",
+         *         ...
+         *     }
+         * }
+         *
+         * Por eso debemos obtener el accesorio
+         * desde respuestaJSON.accesorio.
+         */
+
+        if (
+            !respuestaJSON ||
+            !respuestaJSON.correcto ||
+            !respuestaJSON.accesorio ||
+            !respuestaJSON.accesorio.id
+        ) {
 
             throw new Error(
                 "No se encontró el accesorio."
             );
 
         }
+
+
+        const datos =
+            respuestaJSON.accesorio;
 
 
         mostrarAccesorio(datos);
