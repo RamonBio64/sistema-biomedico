@@ -139,8 +139,6 @@
             font-weight: 600;
         }
 
-        /* TARJETAS DE ACCESORIOS Y REPUESTOS */
-
         .acceso-card {
             display: flex;
             align-items: center;
@@ -285,7 +283,6 @@
     </div>
 </header>
 
-
 <main class="contenedor">
 
     <div id="contenido">
@@ -298,7 +295,6 @@
 
 </main>
 
-
 <script>
 
 const parametros = new URLSearchParams(window.location.search);
@@ -307,7 +303,7 @@ const equipoId = parametros.get("equipoId");
 
 function escaparHTML(valor) {
 
-    if (valor === null || valor === undefined) {
+    if (valor === null || valor === undefined || valor === "") {
         return "No especificado";
     }
 
@@ -346,47 +342,110 @@ async function cargarEquipo() {
 
     try {
 
-        const respuesta = await fetch(`/api/equipo/${equipoId}`);
+        const respuesta =
+            await fetch(`/api/equipo/${encodeURIComponent(equipoId)}`);
 
         if (!respuesta.ok) {
-            throw new Error("No se pudo obtener la información del equipo.");
+
+            throw new Error(
+                "No se pudo obtener la información del equipo."
+            );
+
         }
 
-        const datos = await respuesta.json();
+        const datos =
+            await respuesta.json();
 
-        if (!datos.correcto) {
+        /*
+         * IMPORTANTE:
+         *
+         * La API actual devuelve directamente:
+         *
+         * {
+         *   id: "...",
+         *   nombre: "...",
+         *   numeroActivo: "...",
+         *   ...
+         * }
+         *
+         * NO devuelve datos.correcto.
+         */
+
+        if (!datos || !datos.id) {
+
             throw new Error(
-                datos.mensaje || "No se encontró el equipo."
+                "No se encontró el equipo."
             );
+
         }
 
         mostrarEquipo(datos);
 
-        // Cargamos solamente los contadores.
+        /*
+         * Después de mostrar la ficha principal,
+         * cargamos la información secundaria.
+         */
+
         cargarCantidadAccesorios();
         cargarCantidadRepuestos();
         cargarMantenimiento();
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Error cargando equipo:",
+            error
+        );
 
-        mostrarError(error.message);
+        mostrarError(
+            error.message || "No se pudo cargar la ficha técnica."
+        );
 
     }
 
 }
 
 
+function obtenerFoto(datos) {
+
+    if (!datos.fotografia) {
+        return "";
+    }
+
+    /*
+     * Airtable devuelve los archivos adjuntos
+     * como un arreglo.
+     */
+
+    if (Array.isArray(datos.fotografia)) {
+
+        if (datos.fotografia.length === 0) {
+            return "";
+        }
+
+        return datos.fotografia[0].url || "";
+
+    }
+
+    /*
+     * Compatibilidad por si posteriormente
+     * el servidor devuelve directamente una URL.
+     */
+
+    if (typeof datos.fotografia === "string") {
+        return datos.fotografia;
+    }
+
+    return "";
+}
+
+
 function mostrarEquipo(datos) {
 
     const fotografia =
-        datos.fotografia ||
-        "";
+        obtenerFoto(datos);
 
     document.getElementById("contenido").innerHTML = `
-
-        <!-- ENCABEZADO DEL EQUIPO -->
 
         <section class="titulo-equipo">
 
@@ -400,14 +459,16 @@ function mostrarEquipo(datos) {
             </div>
 
             <div class="criticidad">
-                ${escaparHTML(datos.criticidad || "Sin especificar")}
+                ${escaparHTML(
+                    datos.criticidad || "Sin especificar"
+                )}
             </div>
 
             ${
                 fotografia
                 ?
                 `<img
-                    src="${fotografia}"
+                    src="${escaparHTML(fotografia)}"
                     class="foto-equipo"
                     alt="Fotografía del equipo"
                 >`
@@ -418,8 +479,6 @@ function mostrarEquipo(datos) {
         </section>
 
 
-        <!-- INFORMACIÓN DEL EQUIPO -->
-
         <section class="seccion">
 
             <h3>📋 Información del Equipo</h3>
@@ -428,62 +487,86 @@ function mostrarEquipo(datos) {
 
                 <div class="dato">
                     <strong>Servicio / Área</strong>
-                    <span>${escaparHTML(datos.servicio)}</span>
+                    <span>
+                        ${escaparHTML(datos.servicio)}
+                    </span>
                 </div>
 
                 <div class="dato">
                     <strong>Nombre del equipo</strong>
-                    <span>${escaparHTML(datos.nombre)}</span>
+                    <span>
+                        ${escaparHTML(datos.nombre)}
+                    </span>
                 </div>
 
                 <div class="dato">
                     <strong>Marca</strong>
-                    <span>${escaparHTML(datos.marca)}</span>
+                    <span>
+                        ${escaparHTML(datos.marca)}
+                    </span>
                 </div>
 
                 <div class="dato">
                     <strong>Modelo</strong>
-                    <span>${escaparHTML(datos.modelo)}</span>
+                    <span>
+                        ${escaparHTML(datos.modelo)}
+                    </span>
                 </div>
 
                 <div class="dato">
                     <strong>Número de serie</strong>
-                    <span>${escaparHTML(datos.serie)}</span>
+                    <span>
+                        ${escaparHTML(datos.serie)}
+                    </span>
                 </div>
 
                 <div class="dato">
                     <strong>Ubicación</strong>
-                    <span>${escaparHTML(datos.ubicacion)}</span>
+                    <span>
+                        ${escaparHTML(datos.ubicacion)}
+                    </span>
                 </div>
 
                 <div class="dato">
                     <strong>Responsable</strong>
-                    <span>${escaparHTML(datos.responsable)}</span>
+                    <span>
+                        ${escaparHTML(datos.responsable)}
+                    </span>
                 </div>
 
                 <div class="dato">
                     <strong>Estado del equipo</strong>
-                    <span>${escaparHTML(datos.estado)}</span>
+                    <span>
+                        ${escaparHTML(datos.estado)}
+                    </span>
                 </div>
 
                 <div class="dato">
                     <strong>Garantía</strong>
-                    <span>${escaparHTML(datos.garantia)}</span>
+                    <span>
+                        ${escaparHTML(datos.garantia)}
+                    </span>
                 </div>
 
                 <div class="dato">
                     <strong>Condición física</strong>
-                    <span>${escaparHTML(datos.condicion)}</span>
+                    <span>
+                        ${escaparHTML(datos.condicionFisica)}
+                    </span>
                 </div>
 
                 <div class="dato">
                     <strong>Fecha de adquisición</strong>
-                    <span>${escaparHTML(datos.fechaAdquisicion)}</span>
+                    <span>
+                        ${escaparHTML(datos.fechaAdquisicion)}
+                    </span>
                 </div>
 
                 <div class="dato">
                     <strong>Proveedor</strong>
-                    <span>${escaparHTML(datos.proveedor)}</span>
+                    <span>
+                        ${escaparHTML(datos.proveedor)}
+                    </span>
                 </div>
 
             </div>
@@ -491,15 +574,13 @@ function mostrarEquipo(datos) {
         </section>
 
 
-        <!-- ACCESORIOS -->
-
         <section class="seccion">
 
             <h3>🔌 Accesorios Médicos</h3>
 
             <a
                 class="acceso-card"
-                href="/accesorios.html?equipoId=${encodeURIComponent(equipoId)}"
+                href="/accesorio.html?equipoId=${encodeURIComponent(equipoId)}"
             >
 
                 <div class="acceso-izq">
@@ -531,15 +612,13 @@ function mostrarEquipo(datos) {
         </section>
 
 
-        <!-- REPUESTOS -->
-
         <section class="seccion">
 
             <h3>🔧 Repuestos Médicos</h3>
 
             <a
                 class="acceso-card"
-                href="/repuestos.html?equipoId=${encodeURIComponent(equipoId)}"
+                href="/repuesto.html?equipoId=${encodeURIComponent(equipoId)}"
             >
 
                 <div class="acceso-izq">
@@ -571,22 +650,20 @@ function mostrarEquipo(datos) {
         </section>
 
 
-        <!-- MANTENIMIENTO -->
-
         <section class="seccion">
 
             <h3>🛠️ Información de Mantenimiento</h3>
 
             <div id="mantenimiento-info">
+
                 <div class="cargando">
                     Cargando información...
                 </div>
+
             </div>
 
         </section>
 
-
-        <!-- HISTORIAL -->
 
         <section class="seccion">
 
@@ -602,8 +679,6 @@ function mostrarEquipo(datos) {
 
         </section>
 
-
-        <!-- ACCESO A MANTENIMIENTO -->
 
         <section class="seccion">
 
@@ -623,19 +698,26 @@ function mostrarEquipo(datos) {
 async function cargarCantidadAccesorios() {
 
     const elemento =
-        document.getElementById("cantidad-accesorios");
+        document.getElementById(
+            "cantidad-accesorios"
+        );
 
     if (!elemento) return;
 
     try {
 
         const respuesta =
-            await fetch(`/api/equipo/${equipoId}/accesorios`);
+            await fetch(
+                `/api/equipo/${encodeURIComponent(equipoId)}/accesorios`
+            );
 
         const datos =
             await respuesta.json();
 
-        if (datos.correcto && Array.isArray(datos.accesorios)) {
+        if (
+            datos.correcto &&
+            Array.isArray(datos.accesorios)
+        ) {
 
             const cantidad =
                 datos.accesorios.length;
@@ -654,6 +736,8 @@ async function cargarCantidadAccesorios() {
 
     } catch (error) {
 
+        console.error(error);
+
         elemento.textContent =
             "Ver accesorios del equipo →";
 
@@ -665,19 +749,26 @@ async function cargarCantidadAccesorios() {
 async function cargarCantidadRepuestos() {
 
     const elemento =
-        document.getElementById("cantidad-repuestos");
+        document.getElementById(
+            "cantidad-repuestos"
+        );
 
     if (!elemento) return;
 
     try {
 
         const respuesta =
-            await fetch(`/api/equipo/${equipoId}/repuestos`);
+            await fetch(
+                `/api/equipo/${encodeURIComponent(equipoId)}/repuestos`
+            );
 
         const datos =
             await respuesta.json();
 
-        if (datos.correcto && Array.isArray(datos.repuestos)) {
+        if (
+            datos.correcto &&
+            Array.isArray(datos.repuestos)
+        ) {
 
             const cantidad =
                 datos.repuestos.length;
@@ -696,6 +787,8 @@ async function cargarCantidadRepuestos() {
 
     } catch (error) {
 
+        console.error(error);
+
         elemento.textContent =
             "Ver repuestos del equipo →";
 
@@ -709,19 +802,28 @@ async function cargarMantenimiento() {
     try {
 
         const respuesta =
-            await fetch(`/api/equipo/${equipoId}/mantenimientos`);
+            await fetch(
+                `/api/equipo/${encodeURIComponent(equipoId)}/mantenimientos`
+            );
 
         const datos =
             await respuesta.json();
 
         const contenedor =
-            document.getElementById("mantenimiento-info");
+            document.getElementById(
+                "mantenimiento-info"
+            );
 
         const historial =
-            document.getElementById("historial");
+            document.getElementById(
+                "historial"
+            );
 
 
-        if (!datos.correcto || !Array.isArray(datos.mantenimientos)) {
+        if (
+            !datos.correcto ||
+            !Array.isArray(datos.mantenimientos)
+        ) {
 
             contenedor.innerHTML =
                 `<p>No hay información de mantenimiento.</p>`;
@@ -742,7 +844,8 @@ async function cargarMantenimiento() {
 
             contenedor.innerHTML = `
                 <p>
-                    No se han registrado mantenimientos para este equipo.
+                    No se han registrado mantenimientos
+                    para este equipo.
                 </p>
             `;
 
@@ -827,7 +930,9 @@ async function cargarMantenimiento() {
 
 
         historial.innerHTML =
-            mantenimientos.map((mantenimiento, indice) => `
+            mantenimientos
+                .map(
+                    (mantenimiento, indice) => `
 
                 <div class="historial-item">
 
@@ -865,21 +970,40 @@ async function cargarMantenimiento() {
 
                 </div>
 
-            `).join("");
+            `
+                )
+                .join("");
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Error cargando mantenimiento:",
+            error
+        );
 
-        document.getElementById(
-            "mantenimiento-info"
-        ).innerHTML =
-            `<p>No se pudo cargar mantenimiento.</p>`;
+        const mantenimiento =
+            document.getElementById(
+                "mantenimiento-info"
+            );
 
-        document.getElementById(
-            "historial"
-        ).innerHTML =
-            `<p>No se pudo cargar el historial.</p>`;
+        const historial =
+            document.getElementById(
+                "historial"
+            );
+
+        if (mantenimiento) {
+
+            mantenimiento.innerHTML =
+                `<p>No se pudo cargar mantenimiento.</p>`;
+
+        }
+
+        if (historial) {
+
+            historial.innerHTML =
+                `<p>No se pudo cargar el historial.</p>`;
+
+        }
 
     }
 
