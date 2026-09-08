@@ -543,7 +543,7 @@ app.get(
 
                         const equipo =
                             record.fields[
-                                "Equipo relacionado"
+                                "Equipo Médico relacionado"
                             ] || [];
 
                         return (
@@ -614,7 +614,7 @@ app.get(
                                 [],
 
                             equipo:
-                                f["Equipo relacionado"] ||
+                                f["Equipo Médico relacionado"] ||
                                 []
 
                         };
@@ -736,7 +736,7 @@ app.get(
                         [],
 
                     equipo:
-                        f["Equipo relacionado"] ||
+                        f["Equipo Médico relacionado"] ||
                         []
 
                 }
