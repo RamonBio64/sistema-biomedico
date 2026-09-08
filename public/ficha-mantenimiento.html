@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Ficha de Mantenimiento | Sistema Biomédico
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                #f3f6f8;
+
+            color:
+                #263238;
+
+        }
+
+
+        header {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0b3d4a,
+                    #126579
+                );
+
+            color:
+                white;
+
+            padding:
+                18px 20px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.15);
+
+        }
+
+
+        .header-content {
+
+            max-width:
+                1100px;
+
+            margin:
+                auto;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                15px;
+
+        }
+
+
+        .logo {
+
+            width:
+                65px;
+
+            height:
+                65px;
+
+            object-fit:
+                contain;
+
+            background:
+                white;
+
+            border-radius:
+                10px;
+
+            padding:
+                5px;
+
+        }
+
+
+        .header-text h1 {
+
+            margin:
+                0;
+
+            font-size:
+                22px;
+
+        }
+
+
+        .header-text p {
+
+            margin:
+                5px 0 0;
+
+            opacity:
+                0.9;
+
+            font-size:
+                14px;
+
+        }
+
+
+        .contenedor {
+
+            max-width:
+                1100px;
+
+            margin:
+                25px auto;
+
+            padding:
+                0 15px;
+
+        }
+
+
+        .hero {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0b3d4a,
+                    #126579
+                );
+
+            color:
+                white;
+
+            border-radius:
+                16px;
+
+            padding:
+                28px;
+
+            margin-bottom:
+                20px;
+
+            box-shadow:
+                0 6px 20px
+                rgba(0,0,0,0.12);
+
+        }
+
+
+        .hero-superior {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                flex-start;
+
+            gap:
+                20px;
+
+        }
+
+
+        .etiqueta {
+
+            font-size:
+                11px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                1px;
+
+            opacity:
+                0.75;
+
+            font-weight:
+                bold;
+
+            margin-bottom:
+                8px;
+
+        }
+
+
+        .hero h2 {
+
+            margin:
+                0 0 8px;
+
+            font-size:
+                28px;
+
+        }
+
+
+        .hero p {
+
+            margin:
+                0;
+
+            opacity:
+                0.9;
+
+            font-size:
+                14px;
+
+        }
+
+
+        .numero-mantenimiento {
+
+            background:
+                rgba(255,255,255,0.12);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.25);
+
+            border-radius:
+                12px;
+
+            padding:
+                15px;
+
+            min-width:
+                180px;
+
+        }
+
+
+        .numero-mantenimiento span {
+
+            display:
+                block;
+
+            font-size:
+                11px;
+
+            opacity:
+                0.75;
+
+            margin-bottom:
+                5px;
+
+        }
+
+
+        .numero-mantenimiento strong {
+
+            font-size:
+                20px;
+
+        }
+
+
+        .estado {
+
+            display:
+                inline-block;
+
+            margin-top:
+                18px;
+
+            padding:
+                7px 13px;
+
+            border-radius:
+                20px;
+
+            background:
+                rgba(255,255,255,0.15);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.25);
+
+            font-size:
+                13px;
+
+            font-weight:
+                bold;
+
+        }
+
+
+        .seccion {
+
+            background:
+                white;
+
+            border-radius:
+                15px;
+
+            padding:
+                22px;
+
+            margin-bottom:
+                20px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0,0,0,0.07);
+
+        }
+
+
+        .seccion h3 {
+
+            margin:
+                0 0 18px;
+
+            color:
+                #0b3d4a;
+
+            border-bottom:
+                2px solid
+                #e5ecef;
+
+            padding-bottom:
+                12px;
+
+        }
+
+
+        .grid-info {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                12px;
+
+        }
+
+
+        .dato {
+
+            background:
+                #f7f9fa;
+
+            padding:
+                15px;
+
+            border-radius:
+                9px;
+
+            border-left:
+                4px solid
+                #126579;
+
+            min-height:
+                70px;
+
+        }
+
+
+        .dato strong {
+
+            display:
+                block;
+
+            color:
+                #607d8b;
+
+            font-size:
+                11px;
+
+            margin-bottom:
+                6px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.3px;
+
+        }
+
+
+        .dato span {
+
+            font-size:
+                15px;
+
+            font-weight:
+                600;
+
+            word-break:
+                break-word;
+
+        }
+
+
+        .texto {
+
+            background:
+                #f7f9fa;
+
+            border:
+                1px solid
+                #e1e8eb;
+
+            border-radius:
+                10px;
+
+            padding:
+                18px;
+
+            white-space:
+                pre-wrap;
+
+            line-height:
+                1.6;
+
+            font-size:
+                15px;
+
+            min-height:
+                55px;
+
+        }
+
+
+        .acciones {
+
+            display:
+                flex;
+
+            gap:
+                12px;
+
+            flex-wrap:
+                wrap;
+
+        }
+
+
+        .boton {
+
+            display:
+                inline-block;
+
+            padding:
+                13px 18px;
+
+            border-radius:
+                10px;
+
+            text-decoration:
+                none;
+
+            font-weight:
+                bold;
+
+            font-size:
+                14px;
+
+            border:
+                none;
+
+            cursor:
+                pointer;
+
+        }
+
+
+        .boton-regresar {
+
+            background:
+                #e8f4f7;
+
+            color:
+                #0b3d4a;
+
+        }
+
+
+        .boton-imprimir {
+
+            background:
+                #0b3d4a;
+
+            color:
+                white;
+
+        }
+
+
+        .cargando {
+
+            background:
+                white;
+
+            border-radius:
+                15px;
+
+            padding:
+                45px 25px;
+
+            text-align:
+                center;
+
+            color:
+                #607d8b;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0,0,0,0.07);
+
+        }
+
+
+        .error {
+
+            background:
+                #ffebee;
+
+            color:
+                #b71c1c;
+
+            padding:
+                25px;
+
+            border-radius:
+                12px;
+
+            text-align:
+                center;
+
+            font-weight:
+                bold;
+
+        }
+
+
+        .footer {
+
+            text-align:
+                center;
+
+            color:
+                #78909c;
+
+            font-size:
+                11px;
+
+            padding:
+                10px;
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .hero-superior {
+
+                flex-direction:
+                    column;
+
+            }
+
+
+            .numero-mantenimiento {
+
+                width:
+                    100%;
+
+            }
+
+
+            .hero h2 {
+
+                font-size:
+                    23px;
+
+            }
+
+
+            .grid-info {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .logo {
+
+                width:
+                    55px;
+
+                height:
+                    55px;
+
+            }
+
+
+            .header-text h1 {
+
+                font-size:
+                    18px;
+
+            }
+
+        }
+
+
+        @media print {
+
+            body {
+                background:
+                    white;
+            }
+
+
+            header {
+                box-shadow:
+                    none;
+            }
+
+
+            .seccion,
+            .hero {
+
+                box-shadow:
+                    none;
+
+                break-inside:
+                    avoid;
+
+            }
+
+
+            .acciones {
+                display:
+                    none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="header-content">
+
+        <img
+            src="/img/fondo.jfif"
+            class="logo"
+            alt="Logo institucional"
+        >
+
+
+        <div class="header-text">
+
+            <h1>
+                ÁREA DE INGENIERÍA BIOMÉDICA
+            </h1>
+
+            <p>
+                GESTIÓN DE EQUIPO BIOMÉDICO
+            </p>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="contenedor">
+
+    <div id="contenido">
+
+        <div class="cargando">
+
+            🛠️
+
+            <h2>
+                Cargando mantenimiento...
+            </h2>
+
+            <p>
+                Consultando el registro de mantenimiento.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+
+        Sistema de Gestión de Equipo Biomédico
+
+    </div>
+
+</main>
+
+
+<script>
+
+
+const parametros =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const mantenimientoId =
+    parametros.get(
+        "mantenimientoId"
+    );
+
+
+const equipoId =
+    parametros.get(
+        "equipoId"
+    );
+
+
+function escaparHTML(valor) {
+
+    if (
+        valor === null ||
+        valor === undefined ||
+        valor === ""
+    ) {
+
+        return "No especificado";
+
+    }
+
+
+    return String(valor)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+function formatearFecha(valor) {
+
+    if (!valor) {
+
+        return "No especificado";
+
+    }
+
+
+    const partes =
+        String(valor).split("-");
+
+
+    if (
+        partes.length === 3
+    ) {
+
+        return `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+    }
+
+
+    return escaparHTML(
+        valor
+    );
+
+}
+
+
+function mostrarError(mensaje) {
+
+    document.getElementById(
+        "contenido"
+    ).innerHTML = `
+
+        <div class="error">
+
+            <div
+                style="
+                    font-size:40px;
+                    margin-bottom:10px;
+                "
+            >
+                ⚠️
+            </div>
+
+            ${escaparHTML(
+                mensaje
+            )}
+
+        </div>
+
+    `;
+
+}
+
+
+function dato(
+    titulo,
+    valor
+) {
+
+    return `
+
+        <div class="dato">
+
+            <strong>
+                ${titulo}
+            </strong>
+
+            <span>
+                ${escaparHTML(
+                    valor
+                )}
+            </span>
+
+        </div>
+
+    `;
+
+}
+
+
+if (!mantenimientoId) {
+
+    mostrarError(
+        "No se encontró el identificador del mantenimiento."
+    );
+
+} else {
+
+    cargarMantenimiento();
+
+}
+
+
+async function cargarMantenimiento() {
+
+    try {
+
+        const respuesta =
+            await fetch(
+                `/api/mantenimiento/${encodeURIComponent(
+                    mantenimientoId
+                )}`
+            );
+
+
+        if (!respuesta.ok) {
+
+            throw new Error(
+                "No se pudo obtener el mantenimiento."
+            );
+
+        }
+
+
+        const datos =
+            await respuesta.json();
+
+
+        if (
+            !datos.correcto ||
+            !datos.mantenimiento
+        ) {
+
+            throw new Error(
+                "No se encontró el registro de mantenimiento."
+            );
+
+        }
+
+
+        mostrarMantenimiento(
+            datos
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Error:",
+            error
+        );
+
+
+        mostrarError(
+            error.message ||
+            "No se pudo cargar el mantenimiento."
+        );
+
+    }
+
+}
+
+
+function mostrarMantenimiento(
+    datos
+) {
+
+    const m =
+        datos.mantenimiento;
+
+
+    const equipo =
+        datos.equipo;
+
+
+    const nombreEquipo =
+        equipo &&
+        equipo.nombre
+
+        ?
+
+        equipo.nombre
+
+        :
+
+        "Equipo biomédico";
+
+
+    const numeroActivo =
+        equipo &&
+        equipo.numeroActivo
+
+        ?
+
+        equipo.numeroActivo
+
+        :
+
+        m.numeroActivo;
+
+
+    const servicio =
+        equipo &&
+        equipo.servicio
+
+        ?
+
+        equipo.servicio
+
+        :
+
+        "No especificado";
+
+
+    document.getElementById(
+        "contenido"
+    ).innerHTML = `
+
+
+        <section class="hero">
+
+
+            <div class="hero-superior">
+
+
+                <div>
+
+                    <div class="etiqueta">
+
+                        REGISTRO DE MANTENIMIENTO
+
+                    </div>
+
+
+                    <h2>
+
+                        ${escaparHTML(
+                            nombreEquipo
+                        )}
+
+                    </h2>
+
+
+                    <p>
+
+                        Ficha detallada del mantenimiento
+                        realizado al equipo biomédico.
+
+                    </p>
+
+
+                    <div class="estado">
+
+                        Estado:
+
+                        ${escaparHTML(
+                            m.estado
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <div class="numero-mantenimiento">
+
+                    <span>
+                        ID DE MANTENIMIENTO
+                    </span>
+
+                    <strong>
+                        ${escaparHTML(
+                            m.idMantenimiento ||
+                            m.id
+                        )}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+        <section class="seccion">
+
+            <h3>
+                🏥 Información del equipo
+            </h3>
+
+
+            <div class="grid-info">
+
+
+                ${dato(
+                    "Número de activo fijo",
+                    numeroActivo
+                )}
+
+
+                ${dato(
+                    "Nombre del equipo",
+                    nombreEquipo
+                )}
+
+
+                ${dato(
+                    "Servicio / Área",
+                    servicio
+                )}
+
+
+                ${dato(
+                    "Marca",
+                    equipo
+                    ? equipo.marca
+                    : ""
+                )}
+
+
+                ${dato(
+                    "Modelo",
+                    equipo
+                    ? equipo.modelo
+                    : ""
+                )}
+
+
+                ${dato(
+                    "Número de serie",
+                    equipo
+                    ? equipo.serie
+                    : ""
+                )}
+
+
+                ${dato(
+                    "Ubicación",
+                    equipo
+                    ? equipo.ubicacion
+                    : ""
+                )}
+
+
+            </div>
+
+        </section>
+
+
+        <section class="seccion">
+
+            <h3>
+                🔧 Datos del mantenimiento
+            </h3>
+
+
+            <div class="grid-info">
+
+
+                ${dato(
+                    "Fecha de mantenimiento realizado",
+                    formatearFecha(
+                        m.fechaMantenimiento
+                    )
+                )}
+
+
+                ${dato(
+                    "Tipo de mantenimiento",
+                    m.tipoMantenimiento
+                )}
+
+
+                ${dato(
+                    "Técnico responsable",
+                    m.tecnico
+                )}
+
+
+                ${dato(
+                    "Estado del mantenimiento",
+                    m.estado
+                )}
+
+
+                ${dato(
+                    "Fecha de próximo mantenimiento",
+                    formatearFecha(
+                        m.proximoMantenimiento
+                    )
+                )}
+
+
+                ${dato(
+                    "ID del mantenimiento",
+                    m.idMantenimiento
+                )}
+
+
+            </div>
+
+        </section>
+
+
+        <section class="seccion">
+
+            <h3>
+                📝 Actividades realizadas
+            </h3>
+
+
+            <div class="texto">
+
+                ${escaparHTML(
+                    m.actividades
+                )}
+
+            </div>
+
+        </section>
+
+
+        <section class="seccion">
+
+            <h3>
+                🔎 Hallazgos
+            </h3>
+
+
+            <div class="texto">
+
+                ${escaparHTML(
+                    m.hallazgos
+                )}
+
+            </div>
+
+        </section>
+
+
+        <section class="seccion">
+
+            <h3>
+                🔩 Refacciones utilizadas
+            </h3>
+
+
+            <div class="texto">
+
+                ${escaparHTML(
+                    m.refacciones
+                )}
+
+            </div>
+
+        </section>
+
+
+        <section class="seccion">
+
+            <h3>
+                📋 Observaciones
+            </h3>
+
+
+            <div class="texto">
+
+                ${escaparHTML(
+                    m.observaciones
+                )}
+
+            </div>
+
+        </section>
+
+
+        <section class="seccion">
+
+            <h3>
+                ⚙️ Acciones
+            </h3>
+
+
+            <div class="acciones">
+
+
+                ${
+                    equipoId
+
+                    ?
+
+                    `
+
+                    <a
+                        class="boton boton-regresar"
+                        href="/?equipoId=${encodeURIComponent(
+                            equipoId
+                        )}"
+                    >
+
+                        ← Regresar al equipo
+
+                    </a>
+
+                    `
+
+                    :
+
+                    ""
+
+                }
+
+
+                <button
+                    class="boton boton-imprimir"
+                    onclick="window.print()"
+                >
+
+                    🖨️
+                    Imprimir ficha
+
+                </button>
+
+
+            </div>
+
+        </section>
+
+
+    `;
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

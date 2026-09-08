@@ -1,272 +1,1032 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Ficha Técnica | Equipo Biomédico</title>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Ficha Técnica | Equipo Biomédico
+    </title>
+
 
     <style>
+
         * {
             box-sizing: border-box;
         }
 
+
         body {
+
             margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f3f6f8;
-            color: #263238;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                #f3f6f8;
+
+            color:
+                #263238;
+
         }
+
 
         header {
-            background: linear-gradient(135deg, #0b3d4a, #126579);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0b3d4a,
+                    #126579
+                );
+
             color: white;
-            padding: 18px 20px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+
+            padding:
+                18px 20px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.15);
+
         }
+
 
         .header-content {
-            max-width: 1100px;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+
+            max-width:
+                1100px;
+
+            margin:
+                auto;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                15px;
+
         }
+
 
         .logo {
-            width: 65px;
-            height: 65px;
-            object-fit: contain;
-            background: white;
-            border-radius: 10px;
-            padding: 5px;
+
+            width:
+                65px;
+
+            height:
+                65px;
+
+            object-fit:
+                contain;
+
+            background:
+                white;
+
+            border-radius:
+                10px;
+
+            padding:
+                5px;
+
         }
+
 
         .header-text h1 {
-            margin: 0;
-            font-size: 22px;
+
+            margin:
+                0;
+
+            font-size:
+                22px;
+
         }
+
 
         .header-text p {
-            margin: 5px 0 0;
-            opacity: 0.9;
-            font-size: 14px;
+
+            margin:
+                5px 0 0;
+
+            opacity:
+                0.9;
+
+            font-size:
+                14px;
+
         }
+
 
         .contenedor {
-            max-width: 1100px;
-            margin: 25px auto;
-            padding: 0 15px;
+
+            max-width:
+                1100px;
+
+            margin:
+                25px auto;
+
+            padding:
+                0 15px;
+
         }
+
 
         .titulo-equipo {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            margin-bottom: 20px;
+
+            background:
+                white;
+
+            border-radius:
+                15px;
+
+            padding:
+                25px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0,0,0,0.08);
+
+            margin-bottom:
+                20px;
+
         }
+
 
         .titulo-equipo h2 {
-            margin: 0 0 8px;
-            color: #0b3d4a;
-            font-size: 28px;
+
+            margin:
+                0 0 8px;
+
+            color:
+                #0b3d4a;
+
+            font-size:
+                28px;
+
         }
+
 
         .activo {
-            font-size: 16px;
-            color: #607d8b;
-            font-weight: bold;
+
+            font-size:
+                16px;
+
+            color:
+                #607d8b;
+
+            font-weight:
+                bold;
+
         }
+
 
         .criticidad {
-            display: inline-block;
-            margin-top: 12px;
-            padding: 7px 14px;
-            border-radius: 20px;
-            background: #ffebee;
-            color: #c62828;
-            font-weight: bold;
-            font-size: 13px;
+
+            display:
+                inline-block;
+
+            margin-top:
+                12px;
+
+            padding:
+                7px 14px;
+
+            border-radius:
+                20px;
+
+            background:
+                #ffebee;
+
+            color:
+                #c62828;
+
+            font-weight:
+                bold;
+
+            font-size:
+                13px;
+
         }
+
 
         .foto-equipo {
-            width: 100%;
-            max-height: 400px;
-            object-fit: contain;
-            background: #fafafa;
-            border-radius: 12px;
-            margin-top: 20px;
+
+            width:
+                100%;
+
+            max-height:
+                400px;
+
+            object-fit:
+                contain;
+
+            background:
+                #fafafa;
+
+            border-radius:
+                12px;
+
+            margin-top:
+                20px;
+
         }
+
 
         .seccion {
-            background: white;
-            border-radius: 15px;
-            padding: 22px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+
+            background:
+                white;
+
+            border-radius:
+                15px;
+
+            padding:
+                22px;
+
+            margin-bottom:
+                20px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0,0,0,0.07);
+
         }
+
 
         .seccion h3 {
-            margin-top: 0;
-            color: #0b3d4a;
-            border-bottom: 2px solid #e5ecef;
-            padding-bottom: 12px;
+
+            margin-top:
+                0;
+
+            color:
+                #0b3d4a;
+
+            border-bottom:
+                2px solid
+                #e5ecef;
+
+            padding-bottom:
+                12px;
+
         }
+
 
         .grid-info {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                12px;
+
         }
+
 
         .dato {
-            background: #f7f9fa;
-            padding: 13px;
-            border-radius: 9px;
-            border-left: 4px solid #126579;
+
+            background:
+                #f7f9fa;
+
+            padding:
+                13px;
+
+            border-radius:
+                9px;
+
+            border-left:
+                4px solid
+                #126579;
+
         }
+
 
         .dato strong {
-            display: block;
-            color: #607d8b;
-            font-size: 12px;
-            margin-bottom: 4px;
+
+            display:
+                block;
+
+            color:
+                #607d8b;
+
+            font-size:
+                12px;
+
+            margin-bottom:
+                4px;
+
         }
+
 
         .dato span {
-            font-size: 15px;
-            font-weight: 600;
+
+            font-size:
+                15px;
+
+            font-weight:
+                600;
+
         }
+
 
         .acceso-card {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            padding: 20px;
-            border: 1px solid #dce5e8;
-            border-radius: 13px;
-            text-decoration: none;
-            color: #263238;
-            transition: 0.2s;
-            cursor: pointer;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                15px;
+
+            padding:
+                20px;
+
+            border:
+                1px solid
+                #dce5e8;
+
+            border-radius:
+                13px;
+
+            text-decoration:
+                none;
+
+            color:
+                #263238;
+
+            transition:
+                0.2s;
+
+            cursor:
+                pointer;
+
         }
+
 
         .acceso-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.10);
-            border-color: #126579;
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 5px 15px
+                rgba(0,0,0,0.10);
+
+            border-color:
+                #126579;
+
         }
+
 
         .acceso-izq {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                15px;
+
         }
+
 
         .acceso-icono {
-            width: 52px;
-            height: 52px;
-            border-radius: 12px;
-            background: #e8f4f7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            flex-shrink: 0;
+
+            width:
+                52px;
+
+            height:
+                52px;
+
+            border-radius:
+                12px;
+
+            background:
+                #e8f4f7;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            font-size:
+                26px;
+
+            flex-shrink:
+                0;
+
         }
+
 
         .acceso-info strong {
-            display: block;
-            font-size: 17px;
-            color: #0b3d4a;
-            margin-bottom: 5px;
+
+            display:
+                block;
+
+            font-size:
+                17px;
+
+            color:
+                #0b3d4a;
+
+            margin-bottom:
+                5px;
+
         }
+
 
         .acceso-info span {
-            color: #607d8b;
-            font-size: 14px;
+
+            color:
+                #607d8b;
+
+            font-size:
+                14px;
+
         }
+
 
         .flecha {
-            font-size: 25px;
-            color: #126579;
-            font-weight: bold;
+
+            font-size:
+                25px;
+
+            color:
+                #126579;
+
+            font-weight:
+                bold;
+
         }
+
 
         .mantenimiento-btn {
-            width: 100%;
-            border: none;
-            border-radius: 12px;
-            padding: 16px;
-            background: #0b3d4a;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
+
+            width:
+                100%;
+
+            border:
+                none;
+
+            border-radius:
+                12px;
+
+            padding:
+                16px;
+
+            background:
+                #0b3d4a;
+
+            color:
+                white;
+
+            font-size:
+                16px;
+
+            font-weight:
+                bold;
+
+            cursor:
+                pointer;
+
         }
+
 
         .mantenimiento-btn:hover {
-            background: #126579;
+
+            background:
+                #126579;
+
         }
+
+
+        /* =====================================================
+           AYUDA VISUAL
+        ===================================================== */
+
+        .ayuda-visual {
+
+            border:
+                2px solid
+                #e1eef1;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8fcfd,
+                    #eef7f9
+                );
+
+        }
+
+
+        .ayuda-descripcion {
+
+            margin:
+                -3px 0 18px;
+
+            color:
+                #607d8b;
+
+            font-size:
+                14px;
+
+            line-height:
+                1.5;
+
+        }
+
+
+        .videos-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                14px;
+
+        }
+
+
+        .video-card {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                14px;
+
+            width:
+                100%;
+
+            padding:
+                16px;
+
+            border:
+                1px solid
+                #d9e6e9;
+
+            border-radius:
+                13px;
+
+            background:
+                white;
+
+            text-align:
+                left;
+
+            cursor:
+                pointer;
+
+            transition:
+                0.2s;
+
+        }
+
+
+        .video-card:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 5px 15px
+                rgba(0,0,0,0.10);
+
+            border-color:
+                #126579;
+
+        }
+
+
+        .video-icono {
+
+            width:
+                50px;
+
+            height:
+                50px;
+
+            min-width:
+                50px;
+
+            border-radius:
+                50%;
+
+            background:
+                #e8f4f7;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            font-size:
+                22px;
+
+        }
+
+
+        .video-info {
+
+            flex:
+                1;
+
+            min-width:
+                0;
+
+        }
+
+
+        .video-info strong {
+
+            display:
+                block;
+
+            color:
+                #0b3d4a;
+
+            font-size:
+                15px;
+
+            line-height:
+                1.35;
+
+        }
+
+
+        .video-info span {
+
+            display:
+                block;
+
+            margin-top:
+                5px;
+
+            color:
+                #607d8b;
+
+            font-size:
+                12px;
+
+        }
+
+
+        .video-flecha {
+
+            color:
+                #126579;
+
+            font-size:
+                22px;
+
+            font-weight:
+                bold;
+
+        }
+
+
+        /* =====================================================
+           HISTORIAL
+        ===================================================== */
 
         .historial-item {
-            border-left: 4px solid #126579;
-            background: #f7f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
+
+            display:
+                block;
+
+            border:
+                1px solid
+                #dce5e8;
+
+            border-left:
+                5px solid
+                #126579;
+
+            background:
+                #f7f9fa;
+
+            padding:
+                18px;
+
+            border-radius:
+                10px;
+
+            margin-bottom:
+                12px;
+
+            text-decoration:
+                none;
+
+            color:
+                #263238;
+
+            transition:
+                0.2s;
+
+            cursor:
+                pointer;
+
         }
 
-        .historial-item strong {
-            color: #0b3d4a;
+
+        .historial-item:hover {
+
+            transform:
+                translateY(-2px);
+
+            background:
+                #ffffff;
+
+            border-color:
+                #126579;
+
+            box-shadow:
+                0 5px 15px
+                rgba(0,0,0,0.10);
+
         }
+
+
+        .historial-superior {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            gap:
+                10px;
+
+            margin-bottom:
+                12px;
+
+        }
+
+
+        .historial-titulo {
+
+            color:
+                #0b3d4a;
+
+            font-size:
+                16px;
+
+            font-weight:
+                bold;
+
+        }
+
+
+        .historial-fecha {
+
+            color:
+                #607d8b;
+
+            font-size:
+                13px;
+
+            font-weight:
+                bold;
+
+        }
+
+
+        .historial-datos {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap:
+                10px;
+
+        }
+
+
+        .historial-dato {
+
+            background:
+                white;
+
+            padding:
+                10px;
+
+            border-radius:
+                8px;
+
+        }
+
+
+        .historial-dato strong {
+
+            display:
+                block;
+
+            font-size:
+                11px;
+
+            color:
+                #607d8b;
+
+            margin-bottom:
+                4px;
+
+        }
+
+
+        .historial-dato span {
+
+            font-size:
+                14px;
+
+            font-weight:
+                600;
+
+        }
+
+
+        .historial-ver {
+
+            margin-top:
+                13px;
+
+            text-align:
+                right;
+
+            color:
+                #126579;
+
+            font-size:
+                13px;
+
+            font-weight:
+                bold;
+
+        }
+
 
         .cargando {
-            text-align: center;
-            padding: 30px;
-            color: #607d8b;
+
+            text-align:
+                center;
+
+            padding:
+                30px;
+
+            color:
+                #607d8b;
+
         }
 
+
         .error {
-            background: #ffebee;
-            color: #b71c1c;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            font-weight: bold;
+
+            background:
+                #ffebee;
+
+            color:
+                #b71c1c;
+
+            padding:
+                20px;
+
+            border-radius:
+                12px;
+
+            text-align:
+                center;
+
+            font-weight:
+                bold;
+
         }
+
 
         @media (max-width: 700px) {
 
             .grid-info {
-                grid-template-columns: 1fr;
+
+                grid-template-columns:
+                    1fr;
+
             }
+
+
+            .videos-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .historial-datos {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .historial-superior {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+
+            }
+
 
             .titulo-equipo h2 {
-                font-size: 23px;
+
+                font-size:
+                    23px;
+
             }
+
 
             .header-text h1 {
-                font-size: 18px;
+
+                font-size:
+                    18px;
+
             }
+
 
             .logo {
-                width: 55px;
-                height: 55px;
+
+                width:
+                    55px;
+
+                height:
+                    55px;
+
             }
 
+
             .acceso-card {
-                padding: 15px;
+
+                padding:
+                    15px;
+
             }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
+
 <header>
+
     <div class="header-content">
 
         <img
@@ -276,12 +1036,21 @@
         >
 
         <div class="header-text">
-            <h1>ÁREA DE INGENIERÍA BIOMÉDICA</h1>
-            <p>GESTIÓN DE EQUIPO BIOMÉDICO</p>
+
+            <h1>
+                ÁREA DE INGENIERÍA BIOMÉDICA
+            </h1>
+
+            <p>
+                GESTIÓN DE EQUIPO BIOMÉDICO
+            </p>
+
         </div>
 
     </div>
+
 </header>
+
 
 <main class="contenedor">
 
@@ -295,34 +1064,105 @@
 
 </main>
 
+
 <script>
 
-const parametros = new URLSearchParams(window.location.search);
-const equipoId = parametros.get("equipoId");
+
+const parametros =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const equipoId =
+    parametros.get(
+        "equipoId"
+    );
 
 
 function escaparHTML(valor) {
 
-    if (valor === null || valor === undefined || valor === "") {
+    if (
+        valor === null ||
+        valor === undefined ||
+        valor === ""
+    ) {
+
+        return "No especificado";
+
+    }
+
+
+    return String(valor)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+function formatearFecha(valor) {
+
+    if (!valor) {
         return "No especificado";
     }
 
-    return String(valor)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+
+    const partes =
+        String(valor).split("-");
+
+
+    if (
+        partes.length === 3
+    ) {
+
+        return `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+    }
+
+
+    return escaparHTML(valor);
+
 }
 
 
 function mostrarError(mensaje) {
 
-    document.getElementById("contenido").innerHTML = `
+    document.getElementById(
+        "contenido"
+    ).innerHTML = `
+
         <div class="error">
-            ❌ ${escaparHTML(mensaje)}
+
+            ❌
+            ${escaparHTML(mensaje)}
+
         </div>
+
     `;
+
 }
 
 
@@ -335,6 +1175,7 @@ if (!equipoId) {
 } else {
 
     cargarEquipo();
+
 }
 
 
@@ -343,7 +1184,10 @@ async function cargarEquipo() {
     try {
 
         const respuesta =
-            await fetch(`/api/equipo/${encodeURIComponent(equipoId)}`);
+            await fetch(
+                `/api/equipo/${encodeURIComponent(equipoId)}`
+            );
+
 
         if (!respuesta.ok) {
 
@@ -353,25 +1197,15 @@ async function cargarEquipo() {
 
         }
 
+
         const datos =
             await respuesta.json();
 
-        /*
-         * IMPORTANTE:
-         *
-         * La API actual devuelve directamente:
-         *
-         * {
-         *   id: "...",
-         *   nombre: "...",
-         *   numeroActivo: "...",
-         *   ...
-         * }
-         *
-         * NO devuelve datos.correcto.
-         */
 
-        if (!datos || !datos.id) {
+        if (
+            !datos ||
+            !datos.id
+        ) {
 
             throw new Error(
                 "No se encontró el equipo."
@@ -379,16 +1213,18 @@ async function cargarEquipo() {
 
         }
 
-        mostrarEquipo(datos);
 
-        /*
-         * Después de mostrar la ficha principal,
-         * cargamos la información secundaria.
-         */
+        mostrarEquipo(
+            datos
+        );
+
 
         cargarCantidadAccesorios();
+
         cargarCantidadRepuestos();
+
         cargarMantenimiento();
+
 
     } catch (error) {
 
@@ -397,8 +1233,10 @@ async function cargarEquipo() {
             error
         );
 
+
         mostrarError(
-            error.message || "No se pudo cargar la ficha técnica."
+            error.message ||
+            "No se pudo cargar la ficha técnica."
         );
 
     }
@@ -408,35 +1246,261 @@ async function cargarEquipo() {
 
 function obtenerFoto(datos) {
 
-    if (!datos.fotografia) {
+    if (
+        !datos.fotografia
+    ) {
+
         return "";
+
     }
 
-    /*
-     * Airtable devuelve los archivos adjuntos
-     * como un arreglo.
-     */
 
-    if (Array.isArray(datos.fotografia)) {
+    if (
+        Array.isArray(
+            datos.fotografia
+        )
+    ) {
 
-        if (datos.fotografia.length === 0) {
+        if (
+            datos.fotografia.length === 0
+        ) {
+
             return "";
+
         }
 
-        return datos.fotografia[0].url || "";
+
+        return (
+            datos.fotografia[0].url ||
+            ""
+        );
 
     }
 
-    /*
-     * Compatibilidad por si posteriormente
-     * el servidor devuelve directamente una URL.
-     */
 
-    if (typeof datos.fotografia === "string") {
+    if (
+        typeof datos.fotografia === "string"
+    ) {
+
         return datos.fotografia;
+
     }
+
 
     return "";
+
+}
+
+
+/* =========================================================
+   AYUDA VISUAL
+========================================================= */
+
+function obtenerVideosValidos(datos) {
+
+    if (
+        !Array.isArray(datos.videos)
+    ) {
+
+        return [];
+
+    }
+
+
+    return datos.videos.filter(video => {
+
+        return (
+            video &&
+            video.titulo &&
+            String(video.titulo).trim() &&
+            video.url &&
+            String(video.url).trim()
+        );
+
+    });
+
+}
+
+
+function esUrlYouTube(url) {
+
+    try {
+
+        const direccion =
+            new URL(url);
+
+        const dominio =
+            direccion.hostname
+                .toLowerCase()
+                .replace(
+                    "www.",
+                    ""
+                );
+
+        return (
+            dominio === "youtube.com" ||
+            dominio === "youtu.be" ||
+            dominio === "m.youtube.com"
+        );
+
+    } catch (error) {
+
+        return false;
+
+    }
+
+}
+
+
+function abrirVideo(url) {
+
+    if (!url) {
+        return;
+    }
+
+
+    if (!esUrlYouTube(url)) {
+
+        alert(
+            "La dirección del video no parece ser una URL válida de YouTube."
+        );
+
+        return;
+
+    }
+
+
+    window.open(
+        url,
+        "_blank",
+        "noopener,noreferrer"
+    );
+
+}
+
+
+function generarAyudaVisual(datos) {
+
+    const videos =
+        obtenerVideosValidos(
+            datos
+        );
+
+
+    if (
+        videos.length === 0
+    ) {
+
+        return "";
+
+    }
+
+
+    const tarjetas =
+        videos
+            .map(
+                (video, indice) => {
+
+                    return `
+
+                        <button
+                            type="button"
+                            class="video-card"
+                            onclick="abrirVideo('${escaparAtributoJS(video.url)}')"
+                        >
+
+                            <div class="video-icono">
+                                ▶️
+                            </div>
+
+
+                            <div class="video-info">
+
+                                <strong>
+                                    ${escaparHTML(
+                                        video.titulo
+                                    )}
+                                </strong>
+
+                                <span>
+                                    Ver ayuda visual en YouTube
+                                </span>
+
+                            </div>
+
+
+                            <div class="video-flecha">
+                                →
+                            </div>
+
+                        </button>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+
+    return `
+
+        <section class="seccion ayuda-visual">
+
+            <h3>
+                🆘 Ayuda visual
+            </h3>
+
+
+            <p class="ayuda-descripcion">
+
+                Selecciona el problema o situación que presenta
+                el equipo para consultar una ayuda visual.
+
+            </p>
+
+
+            <div class="videos-grid">
+
+                ${tarjetas}
+
+            </div>
+
+        </section>
+
+    `;
+
+}
+
+
+function escaparAtributoJS(valor) {
+
+    return String(valor || "")
+
+        .replace(
+            /\\/g,
+            "\\\\"
+        )
+
+        .replace(
+            /'/g,
+            "\\'"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /\r/g,
+            ""
+        )
+
+        .replace(
+            /\n/g,
+            "\\n"
+        );
+
 }
 
 
@@ -445,142 +1509,281 @@ function mostrarEquipo(datos) {
     const fotografia =
         obtenerFoto(datos);
 
-    document.getElementById("contenido").innerHTML = `
+
+    const ayudaVisual =
+        generarAyudaVisual(
+            datos
+        );
+
+
+    document.getElementById(
+        "contenido"
+    ).innerHTML = `
+
 
         <section class="titulo-equipo">
 
             <h2>
-                ${escaparHTML(datos.nombre)}
+
+                ${escaparHTML(
+                    datos.nombre
+                )}
+
             </h2>
 
+
             <div class="activo">
+
                 Número de activo fijo:
-                ${escaparHTML(datos.numeroActivo)}
+
+                ${escaparHTML(
+                    datos.numeroActivo
+                )}
+
             </div>
 
+
             <div class="criticidad">
+
                 ${escaparHTML(
-                    datos.criticidad || "Sin especificar"
+                    datos.criticidad ||
+                    "Sin especificar"
                 )}
+
             </div>
+
 
             ${
                 fotografia
                 ?
+
                 `<img
-                    src="${escaparHTML(fotografia)}"
+                    src="${escaparHTML(
+                        fotografia
+                    )}"
                     class="foto-equipo"
                     alt="Fotografía del equipo"
                 >`
+
                 :
+
                 ""
             }
+
 
         </section>
 
 
         <section class="seccion">
 
-            <h3>📋 Información del Equipo</h3>
+            <h3>
+                📋 Información del Equipo
+            </h3>
+
 
             <div class="grid-info">
 
-                <div class="dato">
-                    <strong>Servicio / Área</strong>
-                    <span>
-                        ${escaparHTML(datos.servicio)}
-                    </span>
-                </div>
 
                 <div class="dato">
-                    <strong>Nombre del equipo</strong>
+
+                    <strong>
+                        Servicio / Área
+                    </strong>
+
                     <span>
-                        ${escaparHTML(datos.nombre)}
+                        ${escaparHTML(
+                            datos.servicio
+                        )}
                     </span>
+
                 </div>
 
-                <div class="dato">
-                    <strong>Marca</strong>
-                    <span>
-                        ${escaparHTML(datos.marca)}
-                    </span>
-                </div>
 
                 <div class="dato">
-                    <strong>Modelo</strong>
+
+                    <strong>
+                        Nombre del equipo
+                    </strong>
+
                     <span>
-                        ${escaparHTML(datos.modelo)}
+                        ${escaparHTML(
+                            datos.nombre
+                        )}
                     </span>
+
                 </div>
 
-                <div class="dato">
-                    <strong>Número de serie</strong>
-                    <span>
-                        ${escaparHTML(datos.serie)}
-                    </span>
-                </div>
 
                 <div class="dato">
-                    <strong>Ubicación</strong>
+
+                    <strong>
+                        Marca
+                    </strong>
+
                     <span>
-                        ${escaparHTML(datos.ubicacion)}
+                        ${escaparHTML(
+                            datos.marca
+                        )}
                     </span>
+
                 </div>
 
-                <div class="dato">
-                    <strong>Responsable</strong>
-                    <span>
-                        ${escaparHTML(datos.responsable)}
-                    </span>
-                </div>
 
                 <div class="dato">
-                    <strong>Estado del equipo</strong>
+
+                    <strong>
+                        Modelo
+                    </strong>
+
                     <span>
-                        ${escaparHTML(datos.estado)}
+                        ${escaparHTML(
+                            datos.modelo
+                        )}
                     </span>
+
                 </div>
 
-                <div class="dato">
-                    <strong>Garantía</strong>
-                    <span>
-                        ${escaparHTML(datos.garantia)}
-                    </span>
-                </div>
 
                 <div class="dato">
-                    <strong>Condición física</strong>
+
+                    <strong>
+                        Número de serie
+                    </strong>
+
                     <span>
-                        ${escaparHTML(datos.condicionFisica)}
+                        ${escaparHTML(
+                            datos.serie
+                        )}
                     </span>
+
                 </div>
 
-                <div class="dato">
-                    <strong>Fecha de adquisición</strong>
-                    <span>
-                        ${escaparHTML(datos.fechaAdquisicion)}
-                    </span>
-                </div>
 
                 <div class="dato">
-                    <strong>Proveedor</strong>
+
+                    <strong>
+                        Ubicación
+                    </strong>
+
                     <span>
-                        ${escaparHTML(datos.proveedor)}
+                        ${escaparHTML(
+                            datos.ubicacion
+                        )}
                     </span>
+
                 </div>
+
+
+                <div class="dato">
+
+                    <strong>
+                        Responsable
+                    </strong>
+
+                    <span>
+                        ${escaparHTML(
+                            datos.responsable
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="dato">
+
+                    <strong>
+                        Estado del equipo
+                    </strong>
+
+                    <span>
+                        ${escaparHTML(
+                            datos.estado
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="dato">
+
+                    <strong>
+                        Garantía
+                    </strong>
+
+                    <span>
+                        ${escaparHTML(
+                            datos.garantia
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="dato">
+
+                    <strong>
+                        Condición física
+                    </strong>
+
+                    <span>
+                        ${escaparHTML(
+                            datos.condicionFisica
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="dato">
+
+                    <strong>
+                        Fecha de adquisición
+                    </strong>
+
+                    <span>
+                        ${formatearFecha(
+                            datos.fechaAdquisicion
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="dato">
+
+                    <strong>
+                        Proveedor
+                    </strong>
+
+                    <span>
+                        ${escaparHTML(
+                            datos.proveedor
+                        )}
+                    </span>
+
+                </div>
+
 
             </div>
 
         </section>
 
 
+        ${ayudaVisual}
+
+
         <section class="seccion">
 
-            <h3>🔌 Accesorios Médicos</h3>
+            <h3>
+                🔌 Accesorios Médicos
+            </h3>
+
 
             <a
                 class="acceso-card"
-                href="/accesorio.html?equipoId=${encodeURIComponent(equipoId)}"
+                href="/accesorio.html?equipoId=${encodeURIComponent(
+                    equipoId
+                )}"
             >
 
                 <div class="acceso-izq">
@@ -588,6 +1791,7 @@ function mostrarEquipo(datos) {
                     <div class="acceso-icono">
                         🔌
                     </div>
+
 
                     <div class="acceso-info">
 
@@ -603,6 +1807,7 @@ function mostrarEquipo(datos) {
 
                 </div>
 
+
                 <div class="flecha">
                     →
                 </div>
@@ -614,11 +1819,16 @@ function mostrarEquipo(datos) {
 
         <section class="seccion">
 
-            <h3>🔧 Repuestos Médicos</h3>
+            <h3>
+                🔧 Repuestos Médicos
+            </h3>
+
 
             <a
                 class="acceso-card"
-                href="/repuesto.html?equipoId=${encodeURIComponent(equipoId)}"
+                href="/repuesto.html?equipoId=${encodeURIComponent(
+                    equipoId
+                )}"
             >
 
                 <div class="acceso-izq">
@@ -626,6 +1836,7 @@ function mostrarEquipo(datos) {
                     <div class="acceso-icono">
                         🔧
                     </div>
+
 
                     <div class="acceso-info">
 
@@ -641,6 +1852,7 @@ function mostrarEquipo(datos) {
 
                 </div>
 
+
                 <div class="flecha">
                     →
                 </div>
@@ -652,7 +1864,10 @@ function mostrarEquipo(datos) {
 
         <section class="seccion">
 
-            <h3>🛠️ Información de Mantenimiento</h3>
+            <h3>
+                🛠️ Información de Mantenimiento
+            </h3>
+
 
             <div id="mantenimiento-info">
 
@@ -667,7 +1882,10 @@ function mostrarEquipo(datos) {
 
         <section class="seccion">
 
-            <h3>📋 Historial de Mantenimiento</h3>
+            <h3>
+                📋 Historial de Mantenimiento
+            </h3>
+
 
             <div id="historial">
 
@@ -686,12 +1904,17 @@ function mostrarEquipo(datos) {
                 class="mantenimiento-btn"
                 onclick="accederMantenimiento()"
             >
-                🔧 Acceder a Mantenimiento
+
+                🔧
+                Acceder a Mantenimiento
+
             </button>
 
         </section>
 
+
     `;
+
 }
 
 
@@ -702,30 +1925,48 @@ async function cargarCantidadAccesorios() {
             "cantidad-accesorios"
         );
 
-    if (!elemento) return;
+
+    if (!elemento) {
+        return;
+    }
+
 
     try {
 
         const respuesta =
             await fetch(
-                `/api/equipo/${encodeURIComponent(equipoId)}/accesorios`
+                `/api/equipo/${encodeURIComponent(
+                    equipoId
+                )}/accesorios`
             );
+
 
         const datos =
             await respuesta.json();
 
+
         if (
             datos.correcto &&
-            Array.isArray(datos.accesorios)
+            Array.isArray(
+                datos.accesorios
+            )
         ) {
 
             const cantidad =
                 datos.accesorios.length;
 
+
             elemento.textContent =
+
                 cantidad === 1
-                ? "1 accesorio disponible · Ver accesorios →"
-                : `${cantidad} accesorios disponibles · Ver accesorios →`;
+
+                ?
+
+                "1 accesorio disponible · Ver accesorios →"
+
+                :
+
+                `${cantidad} accesorios disponibles · Ver accesorios →`;
 
         } else {
 
@@ -733,6 +1974,7 @@ async function cargarCantidadAccesorios() {
                 "Ver accesorios del equipo →";
 
         }
+
 
     } catch (error) {
 
@@ -753,30 +1995,48 @@ async function cargarCantidadRepuestos() {
             "cantidad-repuestos"
         );
 
-    if (!elemento) return;
+
+    if (!elemento) {
+        return;
+    }
+
 
     try {
 
         const respuesta =
             await fetch(
-                `/api/equipo/${encodeURIComponent(equipoId)}/repuestos`
+                `/api/equipo/${encodeURIComponent(
+                    equipoId
+                )}/repuestos`
             );
+
 
         const datos =
             await respuesta.json();
 
+
         if (
             datos.correcto &&
-            Array.isArray(datos.repuestos)
+            Array.isArray(
+                datos.repuestos
+            )
         ) {
 
             const cantidad =
                 datos.repuestos.length;
 
+
             elemento.textContent =
+
                 cantidad === 1
-                ? "1 repuesto disponible · Ver repuestos →"
-                : `${cantidad} repuestos disponibles · Ver repuestos →`;
+
+                ?
+
+                "1 repuesto disponible · Ver repuestos →"
+
+                :
+
+                `${cantidad} repuestos disponibles · Ver repuestos →`;
 
         } else {
 
@@ -784,6 +2044,7 @@ async function cargarCantidadRepuestos() {
                 "Ver repuestos del equipo →";
 
         }
+
 
     } catch (error) {
 
@@ -803,16 +2064,21 @@ async function cargarMantenimiento() {
 
         const respuesta =
             await fetch(
-                `/api/equipo/${encodeURIComponent(equipoId)}/mantenimientos`
+                `/api/equipo/${encodeURIComponent(
+                    equipoId
+                )}/mantenimientos`
             );
+
 
         const datos =
             await respuesta.json();
+
 
         const contenedor =
             document.getElementById(
                 "mantenimiento-info"
             );
+
 
         const historial =
             document.getElementById(
@@ -822,14 +2088,18 @@ async function cargarMantenimiento() {
 
         if (
             !datos.correcto ||
-            !Array.isArray(datos.mantenimientos)
+            !Array.isArray(
+                datos.mantenimientos
+            )
         ) {
 
             contenedor.innerHTML =
                 `<p>No hay información de mantenimiento.</p>`;
 
+
             historial.innerHTML =
                 `<p>No hay historial de mantenimiento.</p>`;
+
 
             return;
 
@@ -840,20 +2110,28 @@ async function cargarMantenimiento() {
             datos.mantenimientos;
 
 
-        if (mantenimientos.length === 0) {
+        if (
+            mantenimientos.length === 0
+        ) {
 
             contenedor.innerHTML = `
+
                 <p>
                     No se han registrado mantenimientos
                     para este equipo.
                 </p>
+
             `;
 
+
             historial.innerHTML = `
+
                 <p>
                     No existe historial de mantenimiento.
                 </p>
+
             `;
+
 
             return;
 
@@ -868,6 +2146,7 @@ async function cargarMantenimiento() {
 
             <div class="grid-info">
 
+
                 <div class="dato">
 
                     <strong>
@@ -875,12 +2154,13 @@ async function cargarMantenimiento() {
                     </strong>
 
                     <span>
-                        ${escaparHTML(
+                        ${formatearFecha(
                             ultimo.fechaMantenimiento
                         )}
                     </span>
 
                 </div>
+
 
                 <div class="dato">
 
@@ -896,6 +2176,7 @@ async function cargarMantenimiento() {
 
                 </div>
 
+
                 <div class="dato">
 
                     <strong>
@@ -910,6 +2191,7 @@ async function cargarMantenimiento() {
 
                 </div>
 
+
                 <div class="dato">
 
                     <strong>
@@ -917,12 +2199,13 @@ async function cargarMantenimiento() {
                     </strong>
 
                     <span>
-                        ${escaparHTML(
+                        ${formatearFecha(
                             ultimo.proximoMantenimiento
                         )}
                     </span>
 
                 </div>
+
 
             </div>
 
@@ -930,49 +2213,123 @@ async function cargarMantenimiento() {
 
 
         historial.innerHTML =
+
             mantenimientos
+
                 .map(
-                    (mantenimiento, indice) => `
+                    (mantenimiento, indice) => {
 
-                <div class="historial-item">
+                        return `
 
-                    <strong>
-                        Mantenimiento #${indice + 1}
-                    </strong>
+                            <a
+                                class="historial-item"
+                                href="/ficha-mantenimiento.html?mantenimientoId=${encodeURIComponent(
+                                    mantenimiento.id
+                                )}&equipoId=${encodeURIComponent(
+                                    equipoId
+                                )}"
+                            >
 
-                    <br><br>
+                                <div class="historial-superior">
 
-                    <b>Fecha:</b>
-                    ${escaparHTML(
-                        mantenimiento.fechaMantenimiento
-                    )}
+                                    <div class="historial-titulo">
 
-                    <br>
+                                        🛠️
+                                        Mantenimiento #${
+                                            indice + 1
+                                        }
 
-                    <b>Tipo:</b>
-                    ${escaparHTML(
-                        mantenimiento.tipoMantenimiento
-                    )}
+                                    </div>
 
-                    <br>
 
-                    <b>Técnico:</b>
-                    ${escaparHTML(
-                        mantenimiento.tecnico
-                    )}
+                                    <div class="historial-fecha">
 
-                    <br>
+                                        📅
+                                        ${
+                                            formatearFecha(
+                                                mantenimiento.fechaMantenimiento
+                                            )
+                                        }
 
-                    <b>Estado:</b>
-                    ${escaparHTML(
-                        mantenimiento.estado
-                    )}
+                                    </div>
 
-                </div>
+                                </div>
 
-            `
+
+                                <div class="historial-datos">
+
+
+                                    <div class="historial-dato">
+
+                                        <strong>
+                                            Tipo
+                                        </strong>
+
+                                        <span>
+                                            ${
+                                                escaparHTML(
+                                                    mantenimiento.tipoMantenimiento
+                                                )
+                                            }
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="historial-dato">
+
+                                        <strong>
+                                            Técnico
+                                        </strong>
+
+                                        <span>
+                                            ${
+                                                escaparHTML(
+                                                    mantenimiento.tecnico
+                                                )
+                                            }
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="historial-dato">
+
+                                        <strong>
+                                            Estado
+                                        </strong>
+
+                                        <span>
+                                            ${
+                                                escaparHTML(
+                                                    mantenimiento.estado
+                                                )
+                                            }
+                                        </span>
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="historial-ver">
+
+                                    Ver ficha completa
+                                    →
+
+                                </div>
+
+
+                            </a>
+
+                        `;
+
+                    }
                 )
+
                 .join("");
+
 
     } catch (error) {
 
@@ -981,15 +2338,18 @@ async function cargarMantenimiento() {
             error
         );
 
+
         const mantenimiento =
             document.getElementById(
                 "mantenimiento-info"
             );
 
+
         const historial =
             document.getElementById(
                 "historial"
             );
+
 
         if (mantenimiento) {
 
@@ -997,6 +2357,7 @@ async function cargarMantenimiento() {
                 `<p>No se pudo cargar mantenimiento.</p>`;
 
         }
+
 
         if (historial) {
 
@@ -1017,21 +2378,29 @@ function accederMantenimiento() {
             "Ingresa la contraseña del Área de Ingeniería Biomédica:"
         );
 
+
     if (!password) {
         return;
     }
+
 
     sessionStorage.setItem(
         "mantenimientoPassword",
         password
     );
 
+
     window.location.href =
-        `/mantenimiento.html?equipoId=${encodeURIComponent(equipoId)}`;
+        `/mantenimiento.html?equipoId=${encodeURIComponent(
+            equipoId
+        )}`;
 
 }
 
+
 </script>
 
+
 </body>
+
 </html>
