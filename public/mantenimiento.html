@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Registrar Mantenimiento | Sistema Biomédico</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f3f6f9;
+            color: #263238;
+        }
+
+        header {
+            background: #ffffff;
+            padding: 18px 30px;
+            border-bottom: 1px solid #dfe5e9;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        header img {
+            width: 65px;
+            height: 65px;
+            object-fit: contain;
+        }
+
+        .header-text h1 {
+            font-size: 20px;
+            color: #173f5f;
+        }
+
+        .header-text p {
+            margin-top: 5px;
+            font-size: 13px;
+            color: #607d8b;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 18px;
+            color: #1769aa;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 18px rgba(0,0,0,.07);
+            margin-bottom: 22px;
+        }
+
+        .title {
+            font-size: 26px;
+            color: #173f5f;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #607d8b;
+            margin-bottom: 25px;
+        }
+
+        .equipment {
+            background: #eef5f8;
+            border-left: 5px solid #1769aa;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .equipment strong {
+            color: #173f5f;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #37474f;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #cfd8dc;
+            border-radius: 9px;
+            font-size: 14px;
+            font-family: inherit;
+            background: #fff;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #1769aa;
+            box-shadow: 0 0 0 2px rgba(23,105,170,.1);
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .required {
+            color: #d32f2f;
+        }
+
+        .actions {
+            margin-top: 28px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            border-radius: 9px;
+            padding: 13px 22px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .save {
+            background: #1769aa;
+            color: white;
+        }
+
+        .save:hover {
+            background: #125589;
+        }
+
+        .cancel {
+            background: #eceff1;
+            color: #37474f;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 9px;
+            display: none;
+            font-weight: bold;
+        }
+
+        .success {
+            display: block;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .error {
+            display: block;
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .loading {
+            color: #607d8b;
+            padding: 10px 0;
+        }
+
+        @media (max-width: 700px) {
+            header {
+                padding: 15px;
+            }
+
+            header img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .header-text h1 {
+                font-size: 16px;
+            }
+
+            .container {
+                width: 92%;
+                margin: 20px auto;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .title {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <img src="/img/fondo.jfif" alt="Hospital">
+    <div class="header-text">
+        <h1>ÁREA DE INGENIERÍA BIOMÉDICA</h1>
+        <p>Sistema de Gestión de Equipo Biomédico</p>
+    </div>
+</header>
+
+<div class="container">
+
+    <a class="back" id="volver">← Volver a la ficha del equipo</a>
+
+    <div class="card">
+
+        <h2 class="title">🔧 Registrar Mantenimiento</h2>
+
+        <p class="subtitle">
+            Registre la información correspondiente al mantenimiento realizado.
+        </p>
+
+        <div class="equipment">
+            <div>
+                <strong>Equipo:</strong>
+                <span id="nombreEquipo">Cargando...</span>
+            </div>
+
+            <div style="margin-top:8px;">
+                <strong>Número de activo fijo:</strong>
+                <span id="numeroActivo">Cargando...</span>
+            </div>
+
+            <div style="margin-top:8px;">
+                <strong>Marca / Modelo:</strong>
+                <span id="marcaModelo">Cargando...</span>
+            </div>
+        </div>
+
+        <form id="formMantenimiento">
+
+            <div class="grid">
+
+                <div class="field">
+                    <label>
+                        Fecha de mantenimiento realizado
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="date"
+                        id="fechaMantenimiento"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label>
+                        Tipo de mantenimiento
+                        <span class="required">*</span>
+                    </label>
+
+                    <select id="tipoMantenimiento" required>
+                        <option value="">Seleccione...</option>
+                        <option value="Preventivo">Preventivo</option>
+                        <option value="Correctivo">Correctivo</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>
+                        Técnico responsable
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="tecnicoResponsable"
+                        placeholder="Nombre del técnico"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label>
+                        Estado del mantenimiento
+                    </label>
+
+                    <select id="estadoMantenimiento">
+                        <option value="Realizado">Realizado</option>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="En proceso">En proceso</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                </div>
+
+                <div class="field full">
+                    <label>Actividades realizadas</label>
+
+                    <textarea
+                        id="actividadesRealizadas"
+                        placeholder="Describa las actividades realizadas durante el mantenimiento..."
+                    ></textarea>
+                </div>
+
+                <div class="field full">
+                    <label>Hallazgos</label>
+
+                    <textarea
+                        id="hallazgos"
+                        placeholder="Describa anomalías, fallas o hallazgos encontrados..."
+                    ></textarea>
+                </div>
+
+                <div class="field full">
+                    <label>Refacciones utilizadas</label>
+
+                    <textarea
+                        id="refaccionesUtilizadas"
+                        placeholder="Indique las refacciones utilizadas..."
+                    ></textarea>
+                </div>
+
+                <div class="field full">
+                    <label>Observaciones</label>
+
+                    <textarea
+                        id="observaciones"
+                        placeholder="Observaciones adicionales..."
+                    ></textarea>
+                </div>
+
+                <div class="field">
+                    <label>
+                        Fecha de próximo mantenimiento
+                    </label>
+
+                    <input
+                        type="date"
+                        id="fechaProximoMantenimiento"
+                    >
+                </div>
+
+            </div>
+
+            <div class="actions">
+
+                <button
+                    type="submit"
+                    class="save"
+                    id="btnGuardar"
+                >
+                    💾 Guardar Mantenimiento
+                </button>
+
+                <button
+                    type="button"
+                    class="cancel"
+                    id="btnCancelar"
+                >
+                    Cancelar
+                </button>
+
+            </div>
+
+            <div id="mensaje" class="message"></div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+    const params = new URLSearchParams(window.location.search);
+    const equipoId = params.get("equipoId");
+
+    const password = sessionStorage.getItem("mantenimientoPassword");
+
+    if (!equipoId) {
+        alert("No se encontró el equipo.");
+        window.location.href = "/";
+    }
+
+    if (!password) {
+        alert("Sesión de mantenimiento no válida.");
+        window.location.href = `/?equipoId=${equipoId}`;
+    }
+
+    const volver = document.getElementById("volver");
+    const cancelar = document.getElementById("btnCancelar");
+
+    volver.href = `/?equipoId=${equipoId}`;
+
+    cancelar.addEventListener("click", () => {
+        window.location.href = `/?equipoId=${equipoId}`;
+    });
+
+
+    async function cargarEquipo() {
+
+        try {
+
+            const respuesta = await fetch(`/api/equipo/${equipoId}`);
+
+            if (!respuesta.ok) {
+                throw new Error("No se pudo cargar el equipo.");
+            }
+
+            const equipo = await respuesta.json();
+
+            document.getElementById("nombreEquipo").textContent =
+                equipo.nombre || "Sin información";
+
+            document.getElementById("numeroActivo").textContent =
+                equipo.numeroActivo || "Sin información";
+
+            document.getElementById("marcaModelo").textContent =
+                `${equipo.marca || ""} / ${equipo.modelo || ""}`;
+
+        } catch (error) {
+
+            console.error(error);
+
+            document.getElementById("nombreEquipo").textContent =
+                "No se pudo cargar el equipo.";
+
+        }
+
+    }
+
+
+    document
+        .getElementById("formMantenimiento")
+        .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const btn = document.getElementById("btnGuardar");
+            const mensaje = document.getElementById("mensaje");
+
+            btn.disabled = true;
+            btn.textContent = "Guardando...";
+
+            mensaje.className = "message";
+            mensaje.style.display = "none";
+
+            const datos = {
+
+                password: password,
+
+                equipoId: equipoId,
+
+                numeroActivo:
+                    document.getElementById("numeroActivo").textContent,
+
+                fechaMantenimiento:
+                    document.getElementById("fechaMantenimiento").value,
+
+                tipoMantenimiento:
+                    document.getElementById("tipoMantenimiento").value,
+
+                tecnicoResponsable:
+                    document.getElementById("tecnicoResponsable").value,
+
+                estadoMantenimiento:
+                    document.getElementById("estadoMantenimiento").value,
+
+                actividadesRealizadas:
+                    document.getElementById("actividadesRealizadas").value,
+
+                hallazgos:
+                    document.getElementById("hallazgos").value,
+
+                refaccionesUtilizadas:
+                    document.getElementById("refaccionesUtilizadas").value,
+
+                observaciones:
+                    document.getElementById("observaciones").value,
+
+                fechaProximoMantenimiento:
+                    document.getElementById("fechaProximoMantenimiento").value
+
+            };
+
+
+            try {
+
+                const respuesta = await fetch(
+                    "/api/mantenimiento",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify(datos)
+                    }
+                );
+
+                const resultado = await respuesta.json();
+
+                if (!respuesta.ok) {
+                    throw new Error(
+                        resultado.detalle ||
+                        resultado.error ||
+                        "No se pudo guardar el mantenimiento."
+                    );
+                }
+
+                mensaje.textContent =
+                    "✅ Mantenimiento registrado correctamente.";
+
+                mensaje.className = "message success";
+
+                btn.textContent = "✓ Guardado";
+
+                setTimeout(() => {
+
+                    window.location.href =
+                        `/?equipoId=${equipoId}`;
+
+                }, 1200);
+
+            } catch (error) {
+
+                console.error(error);
+
+                mensaje.textContent =
+                    "❌ " + error.message;
+
+                mensaje.className = "message error";
+
+                btn.disabled = false;
+
+                btn.textContent =
+                    "💾 Guardar Mantenimiento";
+
+            }
+
+        });
+
+
+    cargarEquipo();
+
+</script>
+
+</body>
+</html>
