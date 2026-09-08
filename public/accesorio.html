@@ -119,6 +119,7 @@
             align-items: center;
             justify-content: center;
             font-size: 27px;
+            flex-shrink: 0;
         }
 
         .nombre {
@@ -221,6 +222,7 @@
         id="encabezado"
         class="encabezado"
     >
+
         <h2>
             🔌 Accesorios
         </h2>
@@ -260,7 +262,11 @@ const equipoId =
 
 function escaparHTML(valor) {
 
-    if (valor === null || valor === undefined) {
+    if (
+        valor === null ||
+        valor === undefined ||
+        valor === ""
+    ) {
         return "No especificado";
     }
 
@@ -298,11 +304,33 @@ async function cargarDatos() {
         const [respuestaEquipo, respuestaAccesorios] =
             await Promise.all([
 
-                fetch(`/api/equipo/${equipoId}`),
+                fetch(
+                    `/api/equipo/${encodeURIComponent(equipoId)}`
+                ),
 
-                fetch(`/api/equipo/${equipoId}/accesorios`)
+                fetch(
+                    `/api/equipo/${encodeURIComponent(equipoId)}/accesorios`
+                )
 
             ]);
+
+
+        if (!respuestaEquipo.ok) {
+
+            throw new Error(
+                "No se pudo cargar la información del equipo."
+            );
+
+        }
+
+
+        if (!respuestaAccesorios.ok) {
+
+            throw new Error(
+                "No se pudieron cargar los accesorios."
+            );
+
+        }
 
 
         const equipo =
@@ -312,28 +340,40 @@ async function cargarDatos() {
             await respuestaAccesorios.json();
 
 
-        if (equipo.correcto) {
+        /*
+         * La API actual devuelve directamente
+         * el objeto del equipo.
+         */
 
-            document.getElementById("equipo").textContent =
-                `${equipo.nombre || "Equipo"} · Activo: ${equipo.numeroActivo || "No especificado"}`;
+        if (!equipo || !equipo.id) {
+
+            throw new Error(
+                "No se encontró la información del equipo."
+            );
 
         }
 
 
-        if (
-            !accesorios.correcto ||
-            !Array.isArray(accesorios.accesorios)
-        ) {
+        document.getElementById("equipo").textContent =
+            `${equipo.nombre || "Equipo"} · Activo: ${equipo.numeroActivo || "No especificado"}`;
+
+
+        /*
+         * La API actual devuelve directamente
+         * un arreglo de accesorios.
+         */
+
+        if (!Array.isArray(accesorios)) {
 
             throw new Error(
-                "No se pudieron cargar los accesorios."
+                "La respuesta de accesorios no tiene un formato válido."
             );
 
         }
 
 
         const lista =
-            accesorios.accesorios;
+            accesorios;
 
 
         if (lista.length === 0) {
@@ -353,8 +393,14 @@ async function cargarDatos() {
 
             lista.map(accesorio => {
 
+                /*
+                 * CORREGIDO:
+                 * Ahora la lista abre la ficha individual
+                 * del accesorio.
+                 */
+
                 const url =
-                    `/accesorio.html?accesorioId=${encodeURIComponent(accesorio.id)}&equipoId=${encodeURIComponent(equipoId)}`;
+                    `/ficha-accesorio.html?accesorioId=${encodeURIComponent(accesorio.id)}&equipoId=${encodeURIComponent(equipoId)}`;
 
                 return `
 
@@ -372,12 +418,16 @@ async function cargarDatos() {
                             <div>
 
                                 <div class="nombre">
-                                    ${escaparHTML(accesorio.nombre)}
+                                    ${escaparHTML(
+                                        accesorio.nombre
+                                    )}
                                 </div>
 
                                 <div class="activo">
                                     Activo:
-                                    ${escaparHTML(accesorio.numeroActivo)}
+                                    ${escaparHTML(
+                                        accesorio.numeroActivo
+                                    )}
                                 </div>
 
                             </div>
@@ -397,13 +447,19 @@ async function cargarDatos() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Error cargando accesorios:",
+            error
+        );
 
         document.getElementById("lista").innerHTML = `
 
             <div class="error">
 
-                ❌ ${escaparHTML(error.message)}
+                ❌ ${escaparHTML(
+                    error.message ||
+                    "No se pudieron cargar los accesorios."
+                )}
 
             </div>
 
