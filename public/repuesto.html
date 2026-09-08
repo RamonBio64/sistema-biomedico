@@ -307,11 +307,13 @@
 
 <script>
 
-const parametros = new URLSearchParams(
-    window.location.search
-);
+const parametros =
+    new URLSearchParams(
+        window.location.search
+    );
 
-const equipoId = parametros.get("equipoId");
+const equipoId =
+    parametros.get("equipoId");
 
 
 function escaparHTML(valor) {
@@ -330,6 +332,7 @@ function escaparHTML(valor) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+
 }
 
 
@@ -358,18 +361,20 @@ async function cargarDatos() {
 
     try {
 
-        const [respuestaEquipo, respuestaRepuestos] =
-            await Promise.all([
+        const [
+            respuestaEquipo,
+            respuestaRepuestos
+        ] = await Promise.all([
 
-                fetch(
-                    `/api/equipo/${encodeURIComponent(equipoId)}`
-                ),
+            fetch(
+                `/api/equipo/${encodeURIComponent(equipoId)}`
+            ),
 
-                fetch(
-                    `/api/equipo/${encodeURIComponent(equipoId)}/repuestos`
-                )
+            fetch(
+                `/api/equipo/${encodeURIComponent(equipoId)}/repuestos`
+            )
 
-            ]);
+        ]);
 
 
         if (!respuestaEquipo.ok) {
@@ -393,13 +398,13 @@ async function cargarDatos() {
         const equipo =
             await respuestaEquipo.json();
 
-        const repuestos =
+        const respuestaJSON =
             await respuestaRepuestos.json();
 
 
         /*
-         * LA API DEVUELVE DIRECTAMENTE
-         * EL OBJETO DEL EQUIPO.
+         * LA API DEL EQUIPO DEVUELVE
+         * DIRECTAMENTE EL OBJETO.
          */
 
         if (
@@ -419,29 +424,28 @@ async function cargarDatos() {
 
 
         /*
-         * LA API DEVUELVE DIRECTAMENTE
-         * EL ARREGLO DE REPUESTOS.
-         *
-         * NO viene como:
+         * LA API DE REPUESTOS DEVUELVE:
          *
          * {
-         *   correcto: true,
-         *   repuestos: [...]
+         *     correcto: true,
+         *     repuestos: [...]
          * }
          *
-         * Viene como:
-         *
-         * [
-         *   {...},
-         *   {...}
-         * ]
+         * Por eso debemos obtener
+         * respuestaJSON.repuestos
          */
 
-        if (!Array.isArray(repuestos)) {
+        if (
+            !respuestaJSON ||
+            !respuestaJSON.correcto ||
+            !Array.isArray(
+                respuestaJSON.repuestos
+            )
+        ) {
 
             console.error(
                 "Respuesta recibida:",
-                repuestos
+                respuestaJSON
             );
 
             throw new Error(
@@ -451,7 +455,8 @@ async function cargarDatos() {
         }
 
 
-        const lista = repuestos;
+        const lista =
+            respuestaJSON.repuestos;
 
 
         if (lista.length === 0) {
@@ -470,11 +475,6 @@ async function cargarDatos() {
         document.getElementById("lista").innerHTML =
 
             lista.map(repuesto => {
-
-                /*
-                 * CADA REPUESTO ABRE SU
-                 * PROPIA FICHA INDIVIDUAL.
-                 */
 
                 const url =
                     `/ficha-repuesto.html?repuestoId=${encodeURIComponent(repuesto.id)}&equipoId=${encodeURIComponent(equipoId)}`;

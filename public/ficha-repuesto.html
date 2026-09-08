@@ -253,7 +253,9 @@
 <script>
 
 const parametros =
-    new URLSearchParams(window.location.search);
+    new URLSearchParams(
+        window.location.search
+    );
 
 
 const repuestoId =
@@ -284,9 +286,14 @@ function escaparHTML(valor) {
 }
 
 
-function obtenerValor(objeto, propiedades) {
+function obtenerValor(
+    objeto,
+    propiedades
+) {
 
-    for (const propiedad of propiedades) {
+    for (
+        const propiedad of propiedades
+    ) {
 
         if (
             objeto[propiedad] !== undefined &&
@@ -305,44 +312,79 @@ function obtenerValor(objeto, propiedades) {
 }
 
 
-function obtenerURLFotografia(fotografia) {
+function obtenerURLFotografia(
+    fotografia
+) {
 
     if (!fotografia) {
         return "";
     }
 
 
-    if (typeof fotografia === "string") {
+    if (
+        typeof fotografia === "string"
+    ) {
+
         return fotografia;
+
     }
 
 
-    if (Array.isArray(fotografia)) {
+    if (
+        Array.isArray(fotografia)
+    ) {
 
-        if (fotografia.length === 0) {
+        if (
+            fotografia.length === 0
+        ) {
+
             return "";
+
         }
+
 
         const primera =
             fotografia[0];
 
-        if (typeof primera === "string") {
+
+        if (
+            typeof primera === "string"
+        ) {
+
             return primera;
+
         }
 
-        if (primera && primera.url) {
+
+        if (
+            primera &&
+            primera.url
+        ) {
+
             return primera.url;
+
         }
 
-        if (primera && primera.thumbnails && primera.thumbnails.large) {
+
+        if (
+            primera &&
+            primera.thumbnails &&
+            primera.thumbnails.large
+        ) {
+
             return primera.thumbnails.large.url;
+
         }
 
     }
 
 
-    if (fotografia.url) {
+    if (
+        fotografia.url
+    ) {
+
         return fotografia.url;
+
     }
 
 
@@ -353,7 +395,9 @@ function obtenerURLFotografia(fotografia) {
 
 if (!repuestoId) {
 
-    document.getElementById("contenidoPrincipal").innerHTML = `
+    document.getElementById(
+        "contenidoPrincipal"
+    ).innerHTML = `
 
         <div class="error">
             ❌ No se encontró el repuesto.
@@ -365,12 +409,16 @@ if (!repuestoId) {
 
     if (equipoId) {
 
-        document.getElementById("volver").href =
+        document.getElementById(
+            "volver"
+        ).href =
             `/repuesto.html?equipoId=${encodeURIComponent(equipoId)}`;
 
     } else {
 
-        document.getElementById("volver").href =
+        document.getElementById(
+            "volver"
+        ).href =
             "/";
 
     }
@@ -399,17 +447,43 @@ async function cargarRepuesto() {
         }
 
 
-        const repuesto =
+        /*
+         * LA API DEVUELVE:
+         *
+         * {
+         *     correcto: true,
+         *     repuesto: {...}
+         * }
+         *
+         * Por eso primero obtenemos
+         * respuestaJSON.repuesto
+         */
+
+        const respuestaJSON =
             await respuesta.json();
 
 
-        if (!repuesto || !repuesto.id) {
+        if (
+            !respuestaJSON ||
+            !respuestaJSON.correcto ||
+            !respuestaJSON.repuesto ||
+            !respuestaJSON.repuesto.id
+        ) {
+
+            console.error(
+                "Respuesta recibida:",
+                respuestaJSON
+            );
 
             throw new Error(
                 "No se encontró la información del repuesto."
             );
 
         }
+
+
+        const repuesto =
+            respuestaJSON.repuesto;
 
 
         const nombre =
@@ -510,7 +584,9 @@ async function cargarRepuesto() {
 
 
         const urlFotografia =
-            obtenerURLFotografia(fotografia);
+            obtenerURLFotografia(
+                fotografia
+            );
 
 
         let imagenHTML = "";
@@ -551,11 +627,15 @@ async function cargarRepuesto() {
 
 
         let estadoHTML =
-            escaparHTML(estado);
+            escaparHTML(
+                estado
+            );
 
 
         const estadoNormalizado =
-            String(estado || "").toLowerCase();
+            String(
+                estado || ""
+            ).toLowerCase();
 
 
         if (
@@ -570,13 +650,16 @@ async function cargarRepuesto() {
         }
 
 
-        document.getElementById("contenidoPrincipal").innerHTML = `
+        document.getElementById(
+            "contenidoPrincipal"
+        ).innerHTML = `
 
             <div class="titulo">
 
                 <h2>
                     🔧 ${escaparHTML(
-                        nombre || "Repuesto médico"
+                        nombre ||
+                        "Repuesto médico"
                     )}
                 </h2>
 
@@ -602,7 +685,9 @@ async function cargarRepuesto() {
                         </div>
 
                         <div class="valor">
-                            ${escaparHTML(nombre)}
+                            ${escaparHTML(
+                                nombre
+                            )}
                         </div>
 
                     </div>
@@ -628,7 +713,9 @@ async function cargarRepuesto() {
                         </div>
 
                         <div class="valor">
-                            ${escaparHTML(numeroActivo)}
+                            ${escaparHTML(
+                                numeroActivo
+                            )}
                         </div>
 
                     </div>
@@ -641,7 +728,9 @@ async function cargarRepuesto() {
                         </div>
 
                         <div class="valor">
-                            ${escaparHTML(serie)}
+                            ${escaparHTML(
+                                serie
+                            )}
                         </div>
 
                     </div>
@@ -654,7 +743,9 @@ async function cargarRepuesto() {
                         </div>
 
                         <div class="valor">
-                            ${escaparHTML(modelo)}
+                            ${escaparHTML(
+                                modelo
+                            )}
                         </div>
 
                     </div>
@@ -667,7 +758,9 @@ async function cargarRepuesto() {
                         </div>
 
                         <div class="valor">
-                            ${escaparHTML(color)}
+                            ${escaparHTML(
+                                color
+                            )}
                         </div>
 
                     </div>
@@ -680,7 +773,9 @@ async function cargarRepuesto() {
                         </div>
 
                         <div class="valor">
-                            ${escaparHTML(lugar)}
+                            ${escaparHTML(
+                                lugar
+                            )}
                         </div>
 
                     </div>
@@ -693,7 +788,9 @@ async function cargarRepuesto() {
                         </div>
 
                         <div class="valor">
-                            ${escaparHTML(compatibilidad)}
+                            ${escaparHTML(
+                                compatibilidad
+                            )}
                         </div>
 
                     </div>
@@ -706,7 +803,9 @@ async function cargarRepuesto() {
                         </div>
 
                         <div class="valor">
-                            ${escaparHTML(observaciones)}
+                            ${escaparHTML(
+                                observaciones
+                            )}
                         </div>
 
                     </div>
@@ -727,7 +826,9 @@ async function cargarRepuesto() {
         );
 
 
-        document.getElementById("contenidoPrincipal").innerHTML = `
+        document.getElementById(
+            "contenidoPrincipal"
+        ).innerHTML = `
 
             <div class="error">
 
