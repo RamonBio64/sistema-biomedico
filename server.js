@@ -1,10 +1,10 @@
-
 require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const Airtable = require("airtable");
+const multer = require("multer");
 
 const app = express();
 
@@ -56,6 +56,22 @@ const TABLA_REPUESTOS =
 const TABLA_MANTENIMIENTO =
     "Mantenimientos";
 
+const TABLA_FALLAS =
+    "Fallas y Alarmas";
+
+
+/* =========================================================
+   CONFIGURACIÓN PARA RECIBIR FOTOGRAFÍAS
+========================================================= */
+
+const upload =
+    multer({
+        storage: multer.memoryStorage(),
+        limits: {
+            fileSize: 10 * 1024 * 1024
+        }
+    });
+
 
 /* =========================================================
    ARCHIVOS PÚBLICOS
@@ -73,6 +89,7 @@ app.use(
 ========================================================= */
 
 app.get("/", (req, res) => {
+
     res.sendFile(
         path.join(
             __dirname,
@@ -80,6 +97,7 @@ app.get("/", (req, res) => {
             "index.html"
         )
     );
+
 });
 
 
@@ -1296,6 +1314,259 @@ app.post(
 
 
 /* =========================================================
+   CREAR REPORTE DE FALLA / ALARMA
+========================================================= */
+
+app.post(
+    "/api/falla",
+    upload.single("fotografia"),
+    async (req, res) => {
+
+        try {
+
+            const {
+
+                equipoId,
+                tipoFalla,
+                descripcionFalla,
+                reportadoPor,
+                observaciones
+
+            } = req.body;
+
+
+            if (!equipoId) {
+
+                return res.status(400).json({
+
+                    correcto: false,
+
+                    error:
+                        "Falta el equipo relacionado"
+
+                });
+
+            }
+
+
+            if (!tipoFalla) {
+
+                return res.status(400).json({
+
+                    correcto: false,
+
+                    error:
+                        "Falta indicar el tipo de falla"
+
+                });
+
+            }
+
+
+            if (!descripcionFalla) {
+
+                return res.status(400).json({
+
+                    correcto: false,
+
+                    error:
+                        "Falta describir la falla"
+
+                });
+
+            }
+
+
+            /* =================================================
+               OBTENER INFORMACIÓN DEL EQUIPO
+            ================================================= */
+
+            const equipoRecord =
+                await base(
+                    TABLA_EQUIPOS
+                ).find(
+                    equipoId
+                );
+
+
+            const equipo =
+                equipoRecord.fields;
+
+
+            const numeroActivo =
+                equipo[
+                    "Numero de activo fijo"
+                ] ||
+                "";
+
+
+            /* =================================================
+               CREAR REGISTRO DE FALLA
+            ================================================= */
+
+            const camposFalla = {
+
+                "Equipo relacionado":
+                    [equipoId],
+
+                "Número de activo fijo":
+                    numeroActivo,
+
+                "Fecha y hora del reporte":
+                    new Date().toISOString(),
+
+                "Tipo de falla":
+                    tipoFalla,
+
+                "Descripción de la falla":
+                    descripcionFalla,
+
+                "Estado":
+                    "Reportada",
+
+                "Reportado por":
+                    reportadoPor ||
+                    "",
+
+                "Observaciones":
+                    observaciones ||
+                    ""
+
+            };
+
+
+            const nuevo =
+                await base(
+                    TABLA_FALLAS
+                ).create(
+                    camposFalla
+                );
+
+
+            /* =================================================
+               GUARDAR FOTOGRAFÍA EN AIRTABLE
+            ================================================= */
+
+            if (
+                req.file
+            ) {
+
+                try {
+
+                    const base64 =
+                        req.file.buffer.toString(
+                            "base64"
+                        );
+
+
+                    const url =
+                        `https://content.airtable.com/v0.0/${AIRTABLE_BASE_ID}/${nuevo.id}/Fotografía%20del%20error/uploadAttachment`;
+
+
+                    const respuesta =
+                        await fetch(
+                            url,
+                            {
+
+                                method:
+                                    "POST",
+
+                                headers: {
+
+                                    "Authorization":
+                                        `Bearer ${AIRTABLE_TOKEN}`,
+
+                                    "Content-Type":
+                                        "application/json"
+
+                                },
+
+                                body:
+                                    JSON.stringify({
+
+                                        contentType:
+                                            req.file.mimetype,
+
+                                        filename:
+                                            req.file.originalname,
+
+                                        file:
+                                            base64
+
+                                    })
+
+                            }
+                        );
+
+
+                    if (
+                        !respuesta.ok
+                    ) {
+
+                        const texto =
+                            await respuesta.text();
+
+                        console.error(
+                            "Error subiendo fotografía a Airtable:",
+                            texto
+                        );
+
+                    }
+
+                } catch (errorFoto) {
+
+                    console.error(
+                        "Error procesando fotografía:",
+                        errorFoto
+                    );
+
+                }
+
+            }
+
+
+            /* =================================================
+               RESPUESTA
+            ================================================= */
+
+            res.json({
+
+                correcto: true,
+
+                mensaje:
+                    "Falla registrada correctamente",
+
+                id:
+                    nuevo.id
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error creando reporte de falla:",
+                error
+            );
+
+            res.status(500).json({
+
+                correcto: false,
+
+                error:
+                    "No se pudo registrar la falla",
+
+                detalle:
+                    error.message
+
+            });
+
+        }
+
+    }
+);
+
+
+/* =========================================================
    INICIAR SERVIDOR
 ========================================================= */
 
@@ -1309,4 +1580,3 @@ app.listen(
 
     }
 );
-

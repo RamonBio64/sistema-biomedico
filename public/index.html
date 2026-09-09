@@ -21,714 +21,826 @@
 }
 
 body {
-
     margin: 0;
-
     font-family:
         Arial,
         Helvetica,
         sans-serif;
-
     background:
         #f3f6f8;
-
     color:
         #263238;
 }
 
 header {
-
     background:
         linear-gradient(
             135deg,
             #0b3d4a,
             #126579
         );
-
     color: white;
-
     padding:
         18px 20px;
-
     box-shadow:
         0 3px 12px
         rgba(0,0,0,0.15);
 }
 
 .header-content {
-
     max-width:
         1100px;
-
     margin:
         auto;
-
     display:
         flex;
-
     align-items:
         center;
-
     gap:
         15px;
 }
 
 .logo {
-
     width:
         65px;
-
     height:
         65px;
-
     object-fit:
         contain;
-
     background:
         white;
-
     border-radius:
         10px;
-
     padding:
         5px;
 }
 
 .header-text h1 {
-
     margin:
         0;
-
     font-size:
         22px;
 }
 
 .header-text p {
-
     margin:
         5px 0 0;
-
     opacity:
         0.9;
-
     font-size:
         14px;
 }
 
 .contenedor {
-
     max-width:
         1100px;
-
     margin:
         25px auto;
-
     padding:
         0 15px;
 }
 
 .titulo-equipo {
-
     background:
         white;
-
     border-radius:
         15px;
-
     padding:
         25px;
-
     box-shadow:
         0 4px 15px
         rgba(0,0,0,0.08);
-
     margin-bottom:
         20px;
 }
-
 
 /* =====================================================
    CRITICIDAD
 ===================================================== */
 
 .criticidad {
-
     display:
         inline-block;
-
     margin-top:
         12px;
-
     padding:
         8px 16px;
-
     border-radius:
         20px;
-
     font-weight:
         bold;
-
     font-size:
         13px;
-
     letter-spacing:
         0.3px;
 }
 
 .criticidad-alta {
-
     background:
         #ffebee;
-
     color:
         #c62828;
-
     border:
         2px solid #ef5350;
 }
 
 .criticidad-media {
-
     background:
         #fff8e1;
-
     color:
         #f57f17;
-
     border:
         2px solid #fbc02d;
 }
 
 .criticidad-baja {
-
     background:
         #e8f5e9;
-
     color:
         #2e7d32;
-
     border:
         2px solid #66bb6a;
 }
 
 .criticidad-otra {
-
     background:
         #eceff1;
-
     color:
         #455a64;
-
     border:
         2px solid #90a4ae;
 }
-
 
 /* =====================================================
    FOTOGRAFÍA SEGÚN CRITICIDAD
 ===================================================== */
 
 .foto-contenedor {
-
     width:
         100%;
-
     margin-top:
         20px;
-
     padding:
         8px;
-
     border-radius:
         16px;
-
     transition:
         0.2s;
 }
 
 .foto-contenedor.alta {
-
     background:
         #ef5350;
-
     box-shadow:
         0 4px 15px
         rgba(198,40,40,0.25);
 }
 
 .foto-contenedor.media {
-
     background:
         #fbc02d;
-
     box-shadow:
         0 4px 15px
         rgba(245,192,23,0.25);
 }
 
 .foto-contenedor.baja {
-
     background:
         #66bb6a;
-
     box-shadow:
         0 4px 15px
         rgba(46,125,50,0.20);
 }
 
 .foto-contenedor.otra {
-
     background:
         #90a4ae;
 }
 
 .foto-equipo {
-
     display:
         block;
-
     width:
         100%;
-
     max-height:
         400px;
-
     object-fit:
         contain;
-
     background:
         #fafafa;
-
     border-radius:
         10px;
 }
-
 
 /* =====================================================
    SECCIONES
 ===================================================== */
 
 .seccion {
-
     background:
         white;
-
     border-radius:
         15px;
-
     padding:
         22px;
-
     margin-bottom:
         20px;
-
     box-shadow:
         0 4px 15px
         rgba(0,0,0,0.07);
 }
 
 .seccion h3 {
-
     margin-top:
         0;
-
     color:
         #0b3d4a;
-
     border-bottom:
         2px solid
         #e5ecef;
-
     padding-bottom:
         12px;
 }
 
 .grid-info {
-
     display:
         grid;
-
     grid-template-columns:
         repeat(2, 1fr);
-
     gap:
         12px;
 }
 
 .dato {
-
     background:
         #f7f9fa;
-
     padding:
         13px;
-
     border-radius:
         9px;
-
     border-left:
         4px solid
         #126579;
 }
 
 .dato strong {
-
     display:
         block;
-
     color:
         #607d8b;
-
     font-size:
         12px;
-
     margin-bottom:
         4px;
 }
 
 .dato span {
-
     font-size:
         15px;
-
     font-weight:
         600;
 }
-
 
 /* =====================================================
    ACCESOS
 ===================================================== */
 
 .acceso-card {
-
     display:
         flex;
-
     align-items:
         center;
-
     justify-content:
         space-between;
-
     gap:
         15px;
-
     padding:
         20px;
-
     border:
         1px solid
         #dce5e8;
-
     border-radius:
         13px;
-
     text-decoration:
         none;
-
     color:
         #263238;
-
     transition:
         0.2s;
-
     cursor:
         pointer;
 }
 
 .acceso-card:hover {
-
     transform:
         translateY(-2px);
-
     box-shadow:
         0 5px 15px
         rgba(0,0,0,0.10);
-
     border-color:
         #126579;
 }
 
 .acceso-izq {
-
     display:
         flex;
-
     align-items:
         center;
-
     gap:
         15px;
 }
 
 .acceso-icono {
-
     width:
         52px;
-
     height:
         52px;
-
     border-radius:
         12px;
-
     background:
         #e8f4f7;
-
     display:
         flex;
-
     align-items:
         center;
-
     justify-content:
         center;
-
     font-size:
         26px;
-
     flex-shrink:
         0;
 }
 
 .acceso-info strong {
-
     display:
         block;
-
     font-size:
         17px;
-
     color:
         #0b3d4a;
-
     margin-bottom:
         5px;
 }
 
 .acceso-info span {
-
     color:
         #607d8b;
-
     font-size:
         14px;
 }
 
 .flecha {
-
     font-size:
         25px;
-
     color:
         #126579;
-
     font-weight:
         bold;
 }
-
 
 /* =====================================================
    MANTENIMIENTO
 ===================================================== */
 
 .mantenimiento-btn {
-
     width:
         100%;
-
     border:
         none;
-
     border-radius:
         12px;
-
     padding:
         16px;
-
     background:
         #0b3d4a;
-
     color:
         white;
-
     font-size:
         16px;
-
     font-weight:
         bold;
-
     cursor:
         pointer;
 }
 
 .mantenimiento-btn:hover {
-
     background:
         #126579;
 }
 
+/* =====================================================
+   REPORTAR FALLA / ALARMA
+   NUEVO
+===================================================== */
+
+.falla-btn {
+    width:
+        100%;
+    border:
+        none;
+    border-radius:
+        12px;
+    padding:
+        16px;
+    background:
+        #c62828;
+    color:
+        white;
+    font-size:
+        16px;
+    font-weight:
+        bold;
+    cursor:
+        pointer;
+    margin-bottom:
+        12px;
+}
+
+.falla-btn:hover {
+    background:
+        #b71c1c;
+}
+
+.falla-modal {
+    display:
+        none;
+    position:
+        fixed;
+    inset:
+        0;
+    z-index:
+        9999;
+    background:
+        rgba(0,0,0,0.60);
+    padding:
+        20px;
+    overflow-y:
+        auto;
+}
+
+.falla-modal.activo {
+    display:
+        flex;
+    align-items:
+        center;
+    justify-content:
+        center;
+}
+
+.falla-contenido {
+    width:
+        100%;
+    max-width:
+        600px;
+    background:
+        white;
+    border-radius:
+        15px;
+    padding:
+        24px;
+    box-shadow:
+        0 10px 35px
+        rgba(0,0,0,0.25);
+}
+
+.falla-titulo {
+    display:
+        flex;
+    align-items:
+        center;
+    justify-content:
+        space-between;
+    gap:
+        15px;
+    margin-bottom:
+        20px;
+}
+
+.falla-titulo h3 {
+    margin:
+        0;
+    color:
+        #c62828;
+    border:
+        none;
+    padding:
+        0;
+}
+
+.falla-cerrar {
+    border:
+        none;
+    background:
+        #eceff1;
+    color:
+        #455a64;
+    width:
+        38px;
+    height:
+        38px;
+    border-radius:
+        50%;
+    font-size:
+        20px;
+    cursor:
+        pointer;
+}
+
+.falla-campo {
+    margin-bottom:
+        16px;
+}
+
+.falla-campo label {
+    display:
+        block;
+    font-weight:
+        bold;
+    font-size:
+        13px;
+    color:
+        #455a64;
+    margin-bottom:
+        6px;
+}
+
+.falla-campo input,
+.falla-campo select,
+.falla-campo textarea {
+    width:
+        100%;
+    border:
+        1px solid
+        #cfd8dc;
+    border-radius:
+        9px;
+    padding:
+        12px;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+    font-size:
+        14px;
+    color:
+        #263238;
+}
+
+.falla-campo input:focus,
+.falla-campo select:focus,
+.falla-campo textarea:focus {
+    outline:
+        none;
+    border-color:
+        #126579;
+    box-shadow:
+        0 0 0 2px
+        rgba(18,101,121,0.10);
+}
+
+.falla-campo textarea {
+    min-height:
+        110px;
+    resize:
+        vertical;
+}
+
+.falla-equipo {
+    background:
+        #f7f9fa;
+    border-left:
+        4px solid
+        #c62828;
+    border-radius:
+        9px;
+    padding:
+        12px;
+    margin-bottom:
+        18px;
+}
+
+.falla-equipo strong {
+    display:
+        block;
+    color:
+        #0b3d4a;
+    margin-bottom:
+        4px;
+}
+
+.falla-equipo span {
+    display:
+        block;
+    color:
+        #607d8b;
+    font-size:
+        13px;
+}
+
+.falla-acciones {
+    display:
+        grid;
+    grid-template-columns:
+        1fr 1fr;
+    gap:
+        10px;
+    margin-top:
+        20px;
+}
+
+.falla-cancelar,
+.falla-guardar {
+    border:
+        none;
+    border-radius:
+        10px;
+    padding:
+        14px;
+    font-size:
+        15px;
+    font-weight:
+        bold;
+    cursor:
+        pointer;
+}
+
+.falla-cancelar {
+    background:
+        #eceff1;
+    color:
+        #455a64;
+}
+
+.falla-guardar {
+    background:
+        #c62828;
+    color:
+        white;
+}
+
+.falla-guardar:hover {
+    background:
+        #b71c1c;
+}
+
+.falla-guardar:disabled {
+    opacity:
+        0.65;
+    cursor:
+        wait;
+}
+
+.falla-mensaje {
+    display:
+        none;
+    padding:
+        12px;
+    border-radius:
+        9px;
+    margin-bottom:
+        15px;
+    font-size:
+        14px;
+    font-weight:
+        bold;
+}
+
+.falla-mensaje.error {
+    display:
+        block;
+    background:
+        #ffebee;
+    color:
+        #b71c1c;
+}
+
+.falla-mensaje.exito {
+    display:
+        block;
+    background:
+        #e8f5e9;
+    color:
+        #2e7d32;
+}
 
 /* =====================================================
    ALERTAS DE MANTENIMIENTO
 ===================================================== */
 
 .alerta-mantenimiento {
-
     display:
         flex;
-
     flex-direction:
         column;
-
     gap:
         5px;
-
     padding:
         15px 18px;
-
     border-radius:
         12px;
-
     margin-bottom:
         15px;
-
     border:
         2px solid;
-
     line-height:
         1.45;
-
     box-shadow:
         0 3px 10px
         rgba(0,0,0,0.05);
 }
 
 .alerta-mantenimiento strong {
-
     display:
         block;
-
     font-size:
         15px;
 }
 
 .alerta-mantenimiento span {
-
     display:
         block;
-
     font-weight:
         normal;
-
     font-size:
         13px;
 }
 
 .alerta-mantenimiento.verde {
-
     background:
         #e8f5e9;
-
     color:
         #2e7d32;
-
     border-color:
         #66bb6a;
 }
 
 .alerta-mantenimiento.amarillo {
-
     background:
         #fff8e1;
-
     color:
         #f57f17;
-
     border-color:
         #fbc02d;
 }
 
 .alerta-mantenimiento.naranja {
-
     background:
         #fff3e0;
-
     color:
         #e65100;
-
     border-color:
         #ff9800;
 }
 
 .alerta-mantenimiento.rojo {
-
     background:
         #ffebee;
-
     color:
         #c62828;
-
     border-color:
         #ef5350;
 }
-
 
 /* =====================================================
    BOTÓN IMPRIMIR
 ===================================================== */
 
 .imprimir-btn {
-
     width:
         100%;
-
     border:
         none;
-
     border-radius:
         12px;
-
     padding:
         16px;
-
     background:
         #126579;
-
     color:
         white;
-
     font-size:
         16px;
-
     font-weight:
         bold;
-
     cursor:
         pointer;
-
     margin-bottom:
         20px;
 }
 
 .imprimir-btn:hover {
-
     background:
         #0b3d4a;
 }
-
 
 /* =====================================================
    AYUDA VISUAL
 ===================================================== */
 
 .ayuda-visual {
-
     border:
         2px solid
         #e1eef1;
-
     background:
         linear-gradient(
             135deg,
@@ -738,363 +850,266 @@ header {
 }
 
 .ayuda-descripcion {
-
     margin:
         -3px 0 18px;
-
     color:
         #607d8b;
-
     font-size:
         14px;
-
     line-height:
         1.5;
 }
 
 .videos-grid {
-
     display:
         grid;
-
     grid-template-columns:
         repeat(2, 1fr);
-
     gap:
         14px;
 }
 
 .video-card {
-
     display:
         flex;
-
     align-items:
         center;
-
     gap:
         14px;
-
     width:
         100%;
-
     padding:
         16px;
-
     border:
         1px solid
         #d9e6e9;
-
     border-radius:
         13px;
-
     background:
         white;
-
     text-align:
         left;
-
     cursor:
         pointer;
-
     transition:
         0.2s;
 }
 
 .video-card:hover {
-
     transform:
         translateY(-2px);
-
     box-shadow:
         0 5px 15px
         rgba(0,0,0,0.10);
-
     border-color:
         #126579;
 }
 
 .video-icono {
-
     width:
         50px;
-
     height:
         50px;
-
     min-width:
         50px;
-
     border-radius:
         50%;
-
     background:
         #e8f4f7;
-
     display:
         flex;
-
     align-items:
         center;
-
     justify-content:
         center;
-
     font-size:
         22px;
 }
 
 .video-info {
-
     flex:
         1;
-
     min-width:
         0;
 }
 
 .video-info strong {
-
     display:
         block;
-
     color:
         #0b3d4a;
-
     font-size:
         15px;
-
     line-height:
         1.35;
 }
 
 .video-info span {
-
     display:
         block;
-
     margin-top:
         5px;
-
     color:
         #607d8b;
-
     font-size:
         12px;
 }
 
 .video-flecha {
-
     color:
         #126579;
-
     font-size:
         22px;
-
     font-weight:
         bold;
 }
-
 
 /* =====================================================
    HISTORIAL
 ===================================================== */
 
 .historial-item {
-
     display:
         block;
-
     border:
         1px solid
         #dce5e8;
-
     border-left:
         5px solid
         #126579;
-
     background:
         #f7f9fa;
-
     padding:
         18px;
-
     border-radius:
         10px;
-
     margin-bottom:
         12px;
-
     text-decoration:
         none;
-
     color:
         #263238;
-
     transition:
         0.2s;
-
     cursor:
         pointer;
 }
 
 .historial-item:hover {
-
     transform:
         translateY(-2px);
-
     background:
         #ffffff;
-
     border-color:
         #126579;
-
     box-shadow:
         0 5px 15px
         rgba(0,0,0,0.10);
 }
 
 .historial-superior {
-
     display:
         flex;
-
     justify-content:
         space-between;
-
     align-items:
         center;
-
     gap:
         10px;
-
     margin-bottom:
         12px;
 }
 
 .historial-titulo {
-
     color:
         #0b3d4a;
-
     font-size:
         16px;
-
     font-weight:
         bold;
 }
 
 .historial-fecha {
-
     color:
         #607d8b;
-
     font-size:
         13px;
-
     font-weight:
         bold;
 }
 
 .historial-datos {
-
     display:
         grid;
-
     grid-template-columns:
         repeat(3, 1fr);
-
     gap:
         10px;
 }
 
 .historial-dato {
-
     background:
         white;
-
     padding:
         10px;
-
     border-radius:
         8px;
 }
 
 .historial-dato strong {
-
     display:
         block;
-
     font-size:
         11px;
-
     color:
         #607d8b;
-
     margin-bottom:
         4px;
 }
 
 .historial-dato span {
-
     font-size:
         14px;
-
     font-weight:
         600;
 }
 
 .historial-ver {
-
     margin-top:
         13px;
-
     text-align:
         right;
-
     color:
         #126579;
-
     font-size:
         13px;
-
     font-weight:
         bold;
 }
 
 .cargando {
-
     text-align:
         center;
-
     padding:
         30px;
-
     color:
         #607d8b;
 }
 
 .error {
-
     background:
         #ffebee;
-
     color:
         #b71c1c;
-
     padding:
         20px;
-
     border-radius:
         12px;
-
     text-align:
         center;
-
     font-weight:
         bold;
 }
-
 
 /* =====================================================
    IMPRESIÓN
@@ -1104,601 +1119,451 @@ header {
 @media print {
 
     @page {
-
         size:
             Letter;
-
         margin:
             10mm 11mm;
     }
 
     * {
-
         -webkit-print-color-adjust:
             exact !important;
-
         print-color-adjust:
             exact !important;
     }
 
     body {
-
         background:
             white !important;
-
         color:
             #263238;
-
         font-family:
             Arial,
             Helvetica,
             sans-serif;
-
         font-size:
             10px;
     }
 
     header {
-
         background:
             #0b3d4a !important;
-
         box-shadow:
             none !important;
-
         padding:
             9px 12px;
-
         margin:
             0 0 10px;
     }
 
     .header-content {
-
         max-width:
             100%;
-
         gap:
             10px;
     }
 
     .logo {
-
         width:
             42px;
-
         height:
             42px;
-
         padding:
             3px;
-
         border-radius:
             7px;
     }
 
     .header-text h1 {
-
         font-size:
             15px;
     }
 
     .header-text p {
-
         font-size:
             9px;
-
         margin-top:
             2px;
     }
 
     .contenedor {
-
         max-width:
             100%;
-
         margin:
             0;
-
         padding:
             0;
     }
 
     .imprimir-btn,
-    .mantenimiento-btn {
-
+    .mantenimiento-btn,
+    .falla-btn {
         display:
             none !important;
     }
 
     .titulo-equipo {
-
         position:
             relative;
-
         display:
             grid;
-
         grid-template-columns:
             minmax(0, 1fr) 260px;
-
         column-gap:
             18px;
-
         align-items:
             start;
-
         box-shadow:
             none !important;
-
         border:
             1px solid #d5e0e4;
-
         border-radius:
             9px;
-
         padding:
             12px;
-
         margin-bottom:
             10px;
-
         min-height:
             150px;
-
         break-inside:
             avoid;
-
         page-break-inside:
             avoid;
     }
 
     .titulo-equipo h2 {
-
         font-size:
             20px;
-
         line-height:
             1.2;
-
         margin:
             2px 0 5px;
     }
 
     .activo {
-
         font-size:
             10px;
     }
 
     .criticidad {
-
         margin-top:
             7px;
-
         padding:
             4px 9px;
-
         font-size:
             9px;
-
         border-width:
             1.5px;
     }
 
     .foto-contenedor {
-
         grid-column:
             2;
-
         grid-row:
             1 / span 3;
-
         width:
             100%;
-
         height:
             145px;
-
         margin:
             0;
-
         padding:
             5px;
-
         border-radius:
             8px;
-
         box-shadow:
             none !important;
-
         display:
             flex;
-
         align-items:
             center;
-
         justify-content:
             center;
-
         break-inside:
             avoid;
-
         page-break-inside:
             avoid;
     }
 
     .foto-equipo {
-
         width:
             100%;
-
         height:
             135px;
-
         max-height:
             135px;
-
         object-fit:
             contain;
-
         border-radius:
             5px;
     }
 
     .seccion {
-
         box-shadow:
             none !important;
-
         border:
             1px solid #d5e0e4;
-
         border-radius:
             8px;
-
         padding:
             11px;
-
         margin-bottom:
             9px;
-
         break-inside:
             auto;
-
         page-break-inside:
             auto;
     }
 
     .seccion h3 {
-
         font-size:
             12px;
-
         margin:
             0 0 7px;
-
         padding-bottom:
             5px;
-
         border-bottom-width:
             1px;
     }
 
     .grid-info {
-
         grid-template-columns:
             repeat(2, 1fr);
-
         gap:
             5px;
     }
 
     .dato {
-
         padding:
             6px 7px;
-
         border-left-width:
             3px;
-
         border-radius:
             4px;
-
         min-height:
             38px;
-
         break-inside:
             avoid;
-
         page-break-inside:
             avoid;
     }
 
     .dato strong {
-
         font-size:
             8px;
-
         margin-bottom:
             2px;
     }
 
     .dato span {
-
         font-size:
             10px;
-
         line-height:
             1.25;
     }
 
     .alerta-mantenimiento {
-
         padding:
             7px 9px;
-
         margin-bottom:
             7px;
-
         border-radius:
             6px;
-
         font-size:
             9px;
-
         line-height:
             1.35;
-
         break-inside:
             avoid;
-
         page-break-inside:
             avoid;
     }
 
     .alerta-mantenimiento strong {
-
         font-size:
             9px;
     }
 
     .alerta-mantenimiento span {
-
         font-size:
             8px;
     }
 
     .acceso-card {
-
         padding:
             8px 10px;
-
         min-height:
             50px;
-
         border-radius:
             6px;
-
         box-shadow:
             none !important;
-
         break-inside:
             avoid;
-
         page-break-inside:
             avoid;
     }
 
     .acceso-izq {
-
         gap:
             9px;
     }
 
     .acceso-icono {
-
         width:
             34px;
-
         height:
             34px;
-
         font-size:
             17px;
-
         border-radius:
             7px;
     }
 
     .acceso-info strong {
-
         font-size:
             10px;
-
         margin-bottom:
             2px;
     }
 
     .acceso-info span {
-
         font-size:
             8px;
     }
 
     .flecha {
-
         font-size:
             16px;
     }
 
     .ayuda-visual {
-
         background:
             white !important;
-
         border:
             1px solid #d5e0e4;
     }
 
     .ayuda-descripcion {
-
         font-size:
             8px;
-
         margin:
             -1px 0 7px;
-
         line-height:
             1.35;
     }
 
     .videos-grid {
-
         grid-template-columns:
             repeat(2, 1fr);
-
         gap:
             5px;
     }
 
     .video-card {
-
         padding:
             7px;
-
         gap:
             7px;
-
         min-height:
             42px;
-
         border-radius:
             6px;
-
         box-shadow:
             none !important;
-
         break-inside:
             avoid;
-
         page-break-inside:
             avoid;
     }
 
     .video-icono {
-
         width:
             28px;
-
         height:
             28px;
-
         min-width:
             28px;
-
         font-size:
             12px;
     }
 
     .video-info strong {
-
         font-size:
             8px;
-
         line-height:
             1.2;
     }
 
     .video-info span {
-
         font-size:
             7px;
-
         margin-top:
             2px;
     }
 
     .video-flecha {
-
         font-size:
             13px;
     }
 
     .historial-item {
-
         padding:
             7px 9px;
-
         border-radius:
             6px;
-
         margin-bottom:
             5px;
-
         box-shadow:
             none !important;
-
         break-inside:
             avoid;
-
         page-break-inside:
             avoid;
     }
 
     .historial-superior {
-
         margin-bottom:
             5px;
     }
 
     .historial-titulo {
-
         font-size:
             9px;
     }
 
     .historial-fecha {
-
         font-size:
             8px;
     }
 
     .historial-datos {
-
         grid-template-columns:
             repeat(3, 1fr);
-
         gap:
             5px;
     }
 
     .historial-dato {
-
         padding:
             5px;
     }
 
     .historial-dato strong {
-
         font-size:
             7px;
-
         margin-bottom:
             2px;
     }
 
     .historial-dato span {
-
         font-size:
             8px;
     }
 
     .historial-ver {
-
         margin-top:
             5px;
-
         font-size:
             7px;
     }
@@ -1706,19 +1571,15 @@ header {
     .acceso-card:hover,
     .video-card:hover,
     .historial-item:hover {
-
         transform:
             none !important;
-
         box-shadow:
             none !important;
     }
 
     a {
-
         color:
             inherit !important;
-
         text-decoration:
             none !important;
     }
@@ -1730,15 +1591,12 @@ header {
     .video-card,
     .historial-item,
     .alerta-mantenimiento {
-
         break-inside:
             avoid;
-
         page-break-inside:
             avoid;
     }
 }
-
 
 /* =====================================================
    RESPONSIVE
@@ -1747,57 +1605,62 @@ header {
 @media (max-width: 700px) {
 
     .grid-info {
-
         grid-template-columns:
             1fr;
     }
 
     .videos-grid {
-
         grid-template-columns:
             1fr;
     }
 
     .historial-datos {
-
         grid-template-columns:
             1fr;
     }
 
     .historial-superior {
-
         align-items:
             flex-start;
-
         flex-direction:
             column;
     }
 
     .titulo-equipo h2 {
-
         font-size:
             23px;
     }
 
     .header-text h1 {
-
         font-size:
             18px;
     }
 
     .logo {
-
         width:
             55px;
-
         height:
             55px;
     }
 
     .acceso-card {
-
         padding:
             15px;
+    }
+
+    .falla-modal {
+        padding:
+            10px;
+    }
+
+    .falla-contenido {
+        padding:
+            18px;
+    }
+
+    .falla-acciones {
+        grid-template-columns:
+            1fr;
     }
 }
 
@@ -1847,6 +1710,213 @@ header {
 </main>
 
 
+<!-- =====================================================
+     MODAL REPORTAR FALLA / ALARMA
+     NUEVO
+===================================================== -->
+
+<div
+    id="falla-modal"
+    class="falla-modal"
+    onclick="cerrarFallaDesdeFondo(event)"
+>
+
+    <div
+        class="falla-contenido"
+        onclick="event.stopPropagation()"
+    >
+
+        <div class="falla-titulo">
+
+            <h3>
+                🔴 Reportar falla / alarma
+            </h3>
+
+            <button
+                type="button"
+                class="falla-cerrar"
+                onclick="cerrarFormularioFalla()"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div
+            id="falla-mensaje"
+            class="falla-mensaje"
+        ></div>
+
+        <div
+            id="falla-equipo-info"
+            class="falla-equipo"
+        >
+            <strong>
+                Equipo
+            </strong>
+
+            <span id="falla-equipo-nombre">
+                Cargando...
+            </span>
+
+            <span id="falla-equipo-activo">
+                Activo fijo: Cargando...
+            </span>
+        </div>
+
+        <form
+            id="formulario-falla"
+            enctype="multipart/form-data"
+        >
+
+            <div class="falla-campo">
+
+                <label for="tipo-falla">
+                    Tipo de falla *
+                </label>
+
+                <select
+                    id="tipo-falla"
+                    name="tipoFalla"
+                    required
+                >
+
+                    <option value="">
+                        Selecciona una opción
+                    </option>
+
+                    <option value="Falla técnica">
+                        Falla técnica
+                    </option>
+
+                    <option value="Alarma del equipo">
+                        Alarma del equipo
+                    </option>
+
+                    <option value="Error en pantalla">
+                        Error en pantalla
+                    </option>
+
+                    <option value="Falla eléctrica">
+                        Falla eléctrica
+                    </option>
+
+                    <option value="Falla mecánica">
+                        Falla mecánica
+                    </option>
+
+                    <option value="Falla de software">
+                        Falla de software
+                    </option>
+
+                    <option value="Daño físico">
+                        Daño físico
+                    </option>
+
+                    <option value="No enciende">
+                        No enciende
+                    </option>
+
+                    <option value="Otro">
+                        Otro
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="falla-campo">
+
+                <label for="descripcion-falla">
+                    Descripción de la falla *
+                </label>
+
+                <textarea
+                    id="descripcion-falla"
+                    name="descripcionFalla"
+                    placeholder="Describe qué ocurrió, qué alarma apareció o qué problema presenta el equipo..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <div class="falla-campo">
+
+                <label for="fotografia-falla">
+                    Fotografía del error
+                </label>
+
+                <input
+                    type="file"
+                    id="fotografia-falla"
+                    name="fotografia"
+                    accept="image/*"
+                    capture="environment"
+                >
+
+            </div>
+
+
+            <div class="falla-campo">
+
+                <label for="reportado-por">
+                    Reportado por
+                </label>
+
+                <input
+                    type="text"
+                    id="reportado-por"
+                    name="reportadoPor"
+                    placeholder="Nombre de quien reporta"
+                >
+
+            </div>
+
+
+            <div class="falla-campo">
+
+                <label for="observaciones-falla">
+                    Observaciones
+                </label>
+
+                <textarea
+                    id="observaciones-falla"
+                    name="observaciones"
+                    placeholder="Agrega alguna observación adicional..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="falla-acciones">
+
+                <button
+                    type="button"
+                    class="falla-cancelar"
+                    onclick="cerrarFormularioFalla()"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    type="submit"
+                    id="falla-guardar"
+                    class="falla-guardar"
+                >
+                    🔴 Registrar falla
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
 <script>
 
 const parametros =
@@ -1865,46 +1935,38 @@ function escaparHTML(valor) {
         valor === undefined ||
         valor === ""
     ) {
-
         return "No especificado";
-
     }
 
     return String(valor)
-
         .replace(
             /&/g,
             "&amp;"
         )
-
         .replace(
             /</g,
             "&lt;"
         )
-
         .replace(
             />/g,
             "&gt;"
         )
-
         .replace(
             /"/g,
             "&quot;"
         )
-
         .replace(
             /'/g,
             "&#039;"
         );
+
 }
 
 
 function formatearFecha(valor) {
 
     if (!valor) {
-
         return "No especificado";
-
     }
 
     const partes =
@@ -1919,6 +1981,7 @@ function formatearFecha(valor) {
     }
 
     return escaparHTML(valor);
+
 }
 
 
@@ -1935,6 +1998,7 @@ function mostrarError(mensaje) {
         </div>
 
     `;
+
 }
 
 
@@ -2020,9 +2084,7 @@ async function cargarEquipo() {
 function obtenerFoto(datos) {
 
     if (!datos.fotografia) {
-
         return "";
-
     }
 
     if (
@@ -2034,9 +2096,7 @@ function obtenerFoto(datos) {
         if (
             datos.fotografia.length === 0
         ) {
-
             return "";
-
         }
 
         return (
@@ -2075,9 +2135,7 @@ function obtenerNivelCriticidad(valor) {
         criticidad.includes("alto") ||
         criticidad.includes("rojo")
     ) {
-
         return "alta";
-
     }
 
     if (
@@ -2085,9 +2143,7 @@ function obtenerNivelCriticidad(valor) {
         criticidad.includes("medio") ||
         criticidad.includes("amarillo")
     ) {
-
         return "media";
-
     }
 
     if (
@@ -2095,9 +2151,7 @@ function obtenerNivelCriticidad(valor) {
         criticidad.includes("bajo") ||
         criticidad.includes("verde")
     ) {
-
         return "baja";
-
     }
 
     return "otra";
@@ -2113,21 +2167,15 @@ function obtenerTextoCriticidad(valor) {
         );
 
     if (nivel === "alta") {
-
         return "CRITICIDAD ALTA";
-
     }
 
     if (nivel === "media") {
-
         return "CRITICIDAD MEDIA";
-
     }
 
     if (nivel === "baja") {
-
         return "CRITICIDAD BAJA";
-
     }
 
     return String(
@@ -2149,9 +2197,7 @@ function obtenerVideosValidos(datos) {
             datos.videos
         )
     ) {
-
         return [];
-
     }
 
     return datos.videos.filter(
@@ -2208,9 +2254,7 @@ function esUrlYouTube(url) {
 function abrirVideo(url) {
 
     if (!url) {
-
         return;
-
     }
 
     if (
@@ -2244,9 +2288,7 @@ function generarAyudaVisual(datos) {
     if (
         videos.length === 0
     ) {
-
         return "";
-
     }
 
     const tarjetas =
@@ -2301,9 +2343,7 @@ function generarAyudaVisual(datos) {
             </h3>
 
             <p class="ayuda-descripcion">
-
                 Selecciona el problema o situación que presenta el equipo para consultar una ayuda visual.
-
             </p>
 
             <div class="videos-grid">
@@ -2322,27 +2362,22 @@ function generarAyudaVisual(datos) {
 function escaparAtributoJS(valor) {
 
     return String(valor || "")
-
         .replace(
             /\\/g,
             "\\\\"
         )
-
         .replace(
             /'/g,
             "\\'"
         )
-
         .replace(
             /"/g,
             "&quot;"
         )
-
         .replace(
             /\r/g,
             ""
         )
-
         .replace(
             /\n/g,
             "\\n"
@@ -2368,9 +2403,7 @@ function generarAlertaMantenimiento(fecha) {
                 </strong>
 
                 <span>
-
                     No hay una fecha de próximo mantenimiento registrada para este equipo.
-
                 </span>
 
             </div>
@@ -2378,7 +2411,6 @@ function generarAlertaMantenimiento(fecha) {
         `;
 
     }
-
 
     const hoy =
         new Date();
@@ -2389,7 +2421,6 @@ function generarAlertaMantenimiento(fecha) {
         0,
         0
     );
-
 
     const fechaMantenimiento =
         new Date(
@@ -2404,11 +2435,9 @@ function generarAlertaMantenimiento(fecha) {
         0
     );
 
-
     const diferencia =
         fechaMantenimiento.getTime() -
         hoy.getTime();
-
 
     const dias =
         Math.round(
@@ -2420,7 +2449,6 @@ function generarAlertaMantenimiento(fecha) {
                 24
             )
         );
-
 
     /* MANTENIMIENTO VENCIDO */
 
@@ -2438,17 +2466,11 @@ function generarAlertaMantenimiento(fecha) {
                 </strong>
 
                 <span>
-
                     El mantenimiento debió realizarse el
-
                     ${formatearFecha(fecha)}
-
                     y presenta un atraso de
-
                     ${diasVencido}
-
                     día${diasVencido === 1 ? "" : "s"}.
-
                 </span>
 
             </div>
@@ -2456,7 +2478,6 @@ function generarAlertaMantenimiento(fecha) {
         `;
 
     }
-
 
     /* MANTENIMIENTO PARA HOY */
 
@@ -2471,11 +2492,8 @@ function generarAlertaMantenimiento(fecha) {
                 </strong>
 
                 <span>
-
                     Fecha programada:
-
                     ${formatearFecha(fecha)}
-
                 </span>
 
             </div>
@@ -2483,7 +2501,6 @@ function generarAlertaMantenimiento(fecha) {
         `;
 
     }
-
 
     /* PRÓXIMOS 7 DÍAS */
 
@@ -2498,19 +2515,12 @@ function generarAlertaMantenimiento(fecha) {
                 </strong>
 
                 <span>
-
                     Faltan
-
                     ${dias}
-
                     día${dias === 1 ? "" : "s"}
-
                     para el mantenimiento.
-
                     Fecha:
-
                     ${formatearFecha(fecha)}
-
                 </span>
 
             </div>
@@ -2518,7 +2528,6 @@ function generarAlertaMantenimiento(fecha) {
         `;
 
     }
-
 
     /* PRÓXIMOS 30 DÍAS */
 
@@ -2533,17 +2542,11 @@ function generarAlertaMantenimiento(fecha) {
                 </strong>
 
                 <span>
-
                     Faltan
-
                     ${dias}
-
                     días para el mantenimiento.
-
                     Fecha:
-
                     ${formatearFecha(fecha)}
-
                 </span>
 
             </div>
@@ -2551,7 +2554,6 @@ function generarAlertaMantenimiento(fecha) {
         `;
 
     }
-
 
     /* MÁS DE 30 DÍAS */
 
@@ -2564,11 +2566,8 @@ function generarAlertaMantenimiento(fecha) {
             </strong>
 
             <span>
-
                 Próximo mantenimiento:
-
                 ${formatearFecha(fecha)}
-
             </span>
 
         </div>
@@ -2620,27 +2619,22 @@ function mostrarEquipo(datos) {
             class="imprimir-btn"
             onclick="imprimirFicha()"
         >
-
             🖨️ Imprimir ficha técnica
-
         </button>
 
 
         <section class="titulo-equipo">
 
             <h2>
-
                 ${escaparHTML(
                     datos.nombre
                 )}
-
             </h2>
 
 
             <div class="activo">
 
                 Número de activo fijo:
-
                 ${escaparHTML(
                     datos.numeroActivo
                 )}
@@ -2662,7 +2656,6 @@ function mostrarEquipo(datos) {
             ${
                 fotografia
                 ?
-
                 `
 
                     <div
@@ -2680,11 +2673,8 @@ function mostrarEquipo(datos) {
                     </div>
 
                 `
-
                 :
-
                 ""
-
             }
 
         </section>
@@ -2706,11 +2696,9 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
-
                         ${escaparHTML(
                             datos.servicio
                         )}
-
                     </span>
 
                 </div>
@@ -2723,11 +2711,9 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
-
                         ${escaparHTML(
                             datos.nombre
                         )}
-
                     </span>
 
                 </div>
@@ -2740,11 +2726,9 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
-
                         ${escaparHTML(
                             datos.marca
                         )}
-
                     </span>
 
                 </div>
@@ -2757,11 +2741,9 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
-
                         ${escaparHTML(
                             datos.modelo
                         )}
-
                     </span>
 
                 </div>
@@ -2774,11 +2756,9 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
-
                         ${escaparHTML(
                             datos.serie
                         )}
-
                     </span>
 
                 </div>
@@ -2791,11 +2771,9 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
-
                         ${escaparHTML(
                             datos.ubicacion
                         )}
-
                     </span>
 
                 </div>
@@ -2808,11 +2786,9 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
-
                         ${escaparHTML(
                             datos.responsable
                         )}
-
                     </span>
 
                 </div>
@@ -2825,11 +2801,9 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
-
                         ${escaparHTML(
                             datos.estado
                         )}
-
                     </span>
 
                 </div>
@@ -2842,11 +2816,9 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
-
                         ${escaparHTML(
                             datos.garantia
                         )}
-
                     </span>
 
                 </div>
@@ -2859,11 +2831,9 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
-
                         ${escaparHTML(
                             datos.condicionFisica
                         )}
-
                     </span>
 
                 </div>
@@ -2876,11 +2846,9 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
-
                         ${formatearFecha(
                             datos.fechaAdquisicion
                         )}
-
                     </span>
 
                 </div>
@@ -2893,11 +2861,9 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
-
                         ${escaparHTML(
                             datos.proveedor
                         )}
-
                     </span>
 
                 </div>
@@ -2937,9 +2903,7 @@ function mostrarEquipo(datos) {
                         </strong>
 
                         <span id="cantidad-accesorios">
-
                             Consultando accesorios...
-
                         </span>
 
                     </div>
@@ -2981,9 +2945,7 @@ function mostrarEquipo(datos) {
                         </strong>
 
                         <span id="cantidad-repuestos">
-
                             Consultando repuestos...
-
                         </span>
 
                     </div>
@@ -3033,15 +2995,26 @@ function mostrarEquipo(datos) {
         </section>
 
 
+        <!-- =================================================
+             NUEVO: REPORTAR FALLA / ALARMA
+        ================================================== -->
+
         <section class="seccion">
 
             <button
+                type="button"
+                class="falla-btn"
+                onclick="abrirFormularioFalla()"
+            >
+                🔴 Reportar falla / alarma
+            </button>
+
+            <button
+                type="button"
                 class="mantenimiento-btn"
                 onclick="accederMantenimiento()"
             >
-
                 🔧 Acceder a Mantenimiento
-
             </button>
 
         </section>
@@ -3051,6 +3024,10 @@ function mostrarEquipo(datos) {
 }
 
 
+/* =========================================================
+   CANTIDAD DE ACCESORIOS
+========================================================= */
+
 async function cargarCantidadAccesorios() {
 
     const elemento =
@@ -3059,9 +3036,7 @@ async function cargarCantidadAccesorios() {
         );
 
     if (!elemento) {
-
         return;
-
     }
 
     try {
@@ -3088,13 +3063,9 @@ async function cargarCantidadAccesorios() {
 
             elemento.textContent =
                 cantidad === 1
-
                 ?
-
                 "1 accesorio disponible · Ver accesorios →"
-
                 :
-
                 `${cantidad} accesorios disponibles · Ver accesorios →`;
 
         } else {
@@ -3116,6 +3087,10 @@ async function cargarCantidadAccesorios() {
 }
 
 
+/* =========================================================
+   CANTIDAD DE REPUESTOS
+========================================================= */
+
 async function cargarCantidadRepuestos() {
 
     const elemento =
@@ -3124,9 +3099,7 @@ async function cargarCantidadRepuestos() {
         );
 
     if (!elemento) {
-
         return;
-
     }
 
     try {
@@ -3153,13 +3126,9 @@ async function cargarCantidadRepuestos() {
 
             elemento.textContent =
                 cantidad === 1
-
                 ?
-
                 "1 repuesto disponible · Ver repuestos →"
-
                 :
-
                 `${cantidad} repuestos disponibles · Ver repuestos →`;
 
         } else {
@@ -3251,11 +3220,9 @@ async function cargarMantenimiento(
                         </strong>
 
                         <span>
-
                             ${formatearFecha(
                                 fechaUltimoEquipo
                             )}
-
                         </span>
 
                     </div>
@@ -3268,11 +3235,9 @@ async function cargarMantenimiento(
                         </strong>
 
                         <span>
-
                             ${formatearFecha(
                                 fechaProximoEquipo
                             )}
-
                         </span>
 
                     </div>
@@ -3322,11 +3287,9 @@ async function cargarMantenimiento(
                         </strong>
 
                         <span>
-
                             ${formatearFecha(
                                 fechaUltimoEquipo
                             )}
-
                         </span>
 
                     </div>
@@ -3339,11 +3302,9 @@ async function cargarMantenimiento(
                         </strong>
 
                         <span>
-
                             ${formatearFecha(
                                 fechaProximoEquipo
                             )}
-
                         </span>
 
                     </div>
@@ -3389,12 +3350,10 @@ async function cargarMantenimiento(
                     </strong>
 
                     <span>
-
                         ${formatearFecha(
                             fechaUltimoEquipo ||
                             ultimo.fechaMantenimiento
                         )}
-
                     </span>
 
                 </div>
@@ -3407,11 +3366,9 @@ async function cargarMantenimiento(
                     </strong>
 
                     <span>
-
                         ${escaparHTML(
                             ultimo.tipoMantenimiento
                         )}
-
                     </span>
 
                 </div>
@@ -3424,11 +3381,9 @@ async function cargarMantenimiento(
                     </strong>
 
                     <span>
-
                         ${escaparHTML(
                             ultimo.tecnico
                         )}
-
                     </span>
 
                 </div>
@@ -3441,12 +3396,10 @@ async function cargarMantenimiento(
                     </strong>
 
                     <span>
-
                         ${formatearFecha(
                             fechaProximoEquipo ||
                             ultimo.proximoMantenimiento
                         )}
-
                     </span>
 
                 </div>
@@ -3513,11 +3466,9 @@ async function cargarMantenimiento(
                                         </strong>
 
                                         <span>
-
                                             ${escaparHTML(
                                                 mantenimiento.tipoMantenimiento
                                             )}
-
                                         </span>
 
                                     </div>
@@ -3530,11 +3481,9 @@ async function cargarMantenimiento(
                                         </strong>
 
                                         <span>
-
                                             ${escaparHTML(
                                                 mantenimiento.tecnico
                                             )}
-
                                         </span>
 
                                     </div>
@@ -3547,11 +3496,9 @@ async function cargarMantenimiento(
                                         </strong>
 
                                         <span>
-
                                             ${escaparHTML(
                                                 mantenimiento.estado
                                             )}
-
                                         </span>
 
                                     </div>
@@ -3574,6 +3521,7 @@ async function cargarMantenimiento(
                     }
                 )
                 .join("");
+
 
     } catch (error) {
 
@@ -3634,6 +3582,398 @@ async function cargarMantenimiento(
 
 
 /* =========================================================
+   REPORTAR FALLA / ALARMA
+   NUEVO
+========================================================= */
+
+function abrirFormularioFalla() {
+
+    const modal =
+        document.getElementById(
+            "falla-modal"
+        );
+
+    const mensaje =
+        document.getElementById(
+            "falla-mensaje"
+        );
+
+    const formulario =
+        document.getElementById(
+            "formulario-falla"
+        );
+
+    const nombreEquipo =
+        document.getElementById(
+            "falla-equipo-nombre"
+        );
+
+    const activoEquipo =
+        document.getElementById(
+            "falla-equipo-activo"
+        );
+
+
+    if (!modal) {
+        return;
+    }
+
+
+    mensaje.className =
+        "falla-mensaje";
+
+    mensaje.textContent =
+        "";
+
+
+    if (formulario) {
+        formulario.reset();
+    }
+
+
+    /*
+     * Volvemos a cargar el equipo para mostrar
+     * su nombre y activo fijo automáticamente.
+     */
+
+    fetch(
+        `/api/equipo/${encodeURIComponent(equipoId)}`
+    )
+        .then(
+            respuesta => {
+
+                if (!respuesta.ok) {
+                    throw new Error(
+                        "No se pudo cargar el equipo."
+                    );
+                }
+
+                return respuesta.json();
+
+            }
+        )
+        .then(
+            datos => {
+
+                if (nombreEquipo) {
+
+                    nombreEquipo.textContent =
+                        datos.nombre ||
+                        "No especificado";
+
+                }
+
+                if (activoEquipo) {
+
+                    activoEquipo.textContent =
+                        `Activo fijo: ${
+                            datos.numeroActivo ||
+                            "No especificado"
+                        }`;
+
+                }
+
+            }
+        )
+        .catch(
+            error => {
+
+                console.error(
+                    "Error cargando información del equipo:",
+                    error
+                );
+
+                if (nombreEquipo) {
+
+                    nombreEquipo.textContent =
+                        "No se pudo cargar el nombre del equipo.";
+
+                }
+
+                if (activoEquipo) {
+
+                    activoEquipo.textContent =
+                        "Activo fijo: No disponible";
+
+                }
+
+            }
+        );
+
+
+    modal.classList.add(
+        "activo"
+    );
+
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+function cerrarFormularioFalla() {
+
+    const modal =
+        document.getElementById(
+            "falla-modal"
+        );
+
+    if (!modal) {
+        return;
+    }
+
+    modal.classList.remove(
+        "activo"
+    );
+
+    document.body.style.overflow =
+        "";
+
+}
+
+
+function cerrarFallaDesdeFondo(event) {
+
+    if (
+        event.target &&
+        event.target.id ===
+            "falla-modal"
+    ) {
+
+        cerrarFormularioFalla();
+
+    }
+
+}
+
+
+async function registrarFalla(event) {
+
+    event.preventDefault();
+
+
+    const formulario =
+        document.getElementById(
+            "formulario-falla"
+        );
+
+    const boton =
+        document.getElementById(
+            "falla-guardar"
+        );
+
+    const mensaje =
+        document.getElementById(
+            "falla-mensaje"
+        );
+
+
+    if (!formulario || !boton || !mensaje) {
+        return;
+    }
+
+
+    const tipoFalla =
+        document.getElementById(
+            "tipo-falla"
+        ).value.trim();
+
+
+    const descripcionFalla =
+        document.getElementById(
+            "descripcion-falla"
+        ).value.trim();
+
+
+    if (!tipoFalla) {
+
+        mostrarMensajeFalla(
+            "Selecciona el tipo de falla.",
+            true
+        );
+
+        return;
+
+    }
+
+
+    if (!descripcionFalla) {
+
+        mostrarMensajeFalla(
+            "Escribe una descripción de la falla.",
+            true
+        );
+
+        return;
+
+    }
+
+
+    const datosFormulario =
+        new FormData(
+            formulario
+        );
+
+
+    /*
+     * El equipo se toma directamente
+     * de la URL de la ficha.
+     */
+
+    datosFormulario.append(
+        "equipoId",
+        equipoId
+    );
+
+
+    boton.disabled =
+        true;
+
+    boton.textContent =
+        "⏳ Registrando...";
+
+
+    mensaje.className =
+        "falla-mensaje";
+
+    mensaje.textContent =
+        "";
+
+
+    try {
+
+        const respuesta =
+            await fetch(
+                "/api/falla",
+                {
+                    method:
+                        "POST",
+                    body:
+                        datosFormulario
+                }
+            );
+
+
+        const datos =
+            await respuesta.json();
+
+
+        if (!respuesta.ok || !datos.correcto) {
+
+            throw new Error(
+                datos.mensaje ||
+                "No se pudo registrar la falla."
+            );
+
+        }
+
+
+        mostrarMensajeFalla(
+            datos.mensaje ||
+            "Falla registrada correctamente.",
+            false
+        );
+
+
+        /*
+         * Esperamos un momento para que el usuario
+         * vea la confirmación y después cerramos.
+         */
+
+        setTimeout(
+            () => {
+
+                cerrarFormularioFalla();
+
+            },
+            1200
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Error registrando falla:",
+            error
+        );
+
+
+        mostrarMensajeFalla(
+            error.message ||
+            "No se pudo registrar la falla.",
+            true
+        );
+
+
+        boton.disabled =
+            false;
+
+        boton.textContent =
+            "🔴 Registrar falla";
+
+    }
+
+}
+
+
+function mostrarMensajeFalla(
+    texto,
+    esError
+) {
+
+    const mensaje =
+        document.getElementById(
+            "falla-mensaje"
+        );
+
+    if (!mensaje) {
+        return;
+    }
+
+
+    mensaje.textContent =
+        texto;
+
+
+    mensaje.className =
+        esError
+        ?
+        "falla-mensaje error"
+        :
+        "falla-mensaje exito";
+
+}
+
+
+/*
+ * Activar el formulario cuando la página
+ * ya está cargada.
+ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        const formulario =
+            document.getElementById(
+                "formulario-falla"
+            );
+
+        if (formulario) {
+
+            formulario.addEventListener(
+                "submit",
+                registrarFalla
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
    IMPRIMIR FICHA
 ========================================================= */
 
@@ -3655,16 +3995,17 @@ function accederMantenimiento() {
             "Ingresa la contraseña del Área de Ingeniería Biomédica:"
         );
 
+
     if (!password) {
-
         return;
-
     }
+
 
     sessionStorage.setItem(
         "mantenimientoPassword",
         password
     );
+
 
     window.location.href =
         `/mantenimiento.html?equipoId=${encodeURIComponent(
