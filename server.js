@@ -1,3 +1,4 @@
+
 require("dotenv").config();
 
 const express = require("express");
@@ -68,7 +69,7 @@ const upload =
     multer({
         storage: multer.memoryStorage(),
         limits: {
-            fileSize: 10 * 1024 * 1024
+            fileSize: 5 * 1024 * 1024
         }
     });
 
@@ -1460,7 +1461,7 @@ app.post(
 
 
                     const url =
-                        `https://content.airtable.com/v0.0/${AIRTABLE_BASE_ID}/${nuevo.id}/Fotografía%20del%20error/uploadAttachment`;
+                        `https://content.airtable.com/v0/${AIRTABLE_BASE_ID}/${nuevo.id}/Fotografía%20del%20error/uploadAttachment`;
 
 
                     const respuesta =
@@ -1580,3 +1581,6 @@ app.listen(
 
     }
 );
+
+
+
