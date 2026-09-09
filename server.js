@@ -1,3 +1,4 @@
+
 require("dotenv").config();
 
 const express = require("express");
@@ -1185,7 +1186,7 @@ app.post(
                 "Tipo de mantenimiento":
                     tipoMantenimiento,
 
-                "Técnico responsable ":
+                "Técnico responsable":
                     tecnicoResponsable,
 
                 "Estado del mantenimiento":
@@ -1308,3 +1309,4 @@ app.listen(
 
     }
 );
+
