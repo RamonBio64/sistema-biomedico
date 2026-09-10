@@ -172,6 +172,39 @@ header {
 }
 
 /* =====================================================
+   CRITICIDAD + REPORTAR FALLA
+===================================================== */
+
+.criticidad-falla {
+    display:
+        flex;
+    align-items:
+        center;
+    gap:
+        10px;
+    margin-top:
+        12px;
+    flex-wrap:
+        wrap;
+}
+
+.criticidad-falla .criticidad {
+    margin-top:
+        0;
+}
+
+.criticidad-falla .falla-btn {
+    width:
+        auto;
+    margin-bottom:
+        0;
+    padding:
+        8px 14px;
+    font-size:
+        13px;
+}
+
+/* =====================================================
    FOTOGRAFÍA SEGÚN CRITICIDAD
 ===================================================== */
 
@@ -430,7 +463,6 @@ header {
 
 /* =====================================================
    REPORTAR FALLA / ALARMA
-   NUEVO
 ===================================================== */
 
 .falla-btn {
@@ -1113,7 +1145,6 @@ header {
 
 /* =====================================================
    IMPRESIÓN
-   SOLO MODIFICA LA PRESENTACIÓN AL IMPRIMIR
 ===================================================== */
 
 @media print {
@@ -1245,9 +1276,16 @@ header {
             10px;
     }
 
-    .criticidad {
+    .criticidad-falla {
         margin-top:
             7px;
+        gap:
+            6px;
+    }
+
+    .criticidad {
+        margin-top:
+            0;
         padding:
             4px 9px;
         font-size:
@@ -1662,6 +1700,18 @@ header {
         grid-template-columns:
             1fr;
     }
+
+    .criticidad-falla {
+        gap:
+            8px;
+    }
+
+    .criticidad-falla .falla-btn {
+        padding:
+            8px 12px;
+        font-size:
+            12px;
+    }
 }
 
 </style>
@@ -1712,7 +1762,6 @@ header {
 
 <!-- =====================================================
      MODAL REPORTAR FALLA / ALARMA
-     NUEVO
 ===================================================== -->
 
 <div
@@ -2051,13 +2100,6 @@ async function cargarEquipo() {
         cargarCantidadAccesorios();
 
         cargarCantidadRepuestos();
-
-        /*
-         * IMPORTANTE:
-         *
-         * Se mandan las fechas que vienen
-         * directamente de Equipos Médicos.
-         */
 
         cargarMantenimiento(
             datos.fechaProximoMantenimiento,
@@ -2450,8 +2492,6 @@ function generarAlertaMantenimiento(fecha) {
             )
         );
 
-    /* MANTENIMIENTO VENCIDO */
-
     if (dias < 0) {
 
         const diasVencido =
@@ -2479,8 +2519,6 @@ function generarAlertaMantenimiento(fecha) {
 
     }
 
-    /* MANTENIMIENTO PARA HOY */
-
     if (dias === 0) {
 
         return `
@@ -2501,8 +2539,6 @@ function generarAlertaMantenimiento(fecha) {
         `;
 
     }
-
-    /* PRÓXIMOS 7 DÍAS */
 
     if (dias <= 7) {
 
@@ -2529,8 +2565,6 @@ function generarAlertaMantenimiento(fecha) {
 
     }
 
-    /* PRÓXIMOS 30 DÍAS */
-
     if (dias <= 30) {
 
         return `
@@ -2554,8 +2588,6 @@ function generarAlertaMantenimiento(fecha) {
         `;
 
     }
-
-    /* MÁS DE 30 DÍAS */
 
     return `
 
@@ -2612,8 +2644,6 @@ function mostrarEquipo(datos) {
         "contenido"
     ).innerHTML = `
 
-        <!-- BOTÓN NUEVO: IMPRIMIR -->
-
         <button
             type="button"
             class="imprimir-btn"
@@ -2642,13 +2672,28 @@ function mostrarEquipo(datos) {
             </div>
 
 
-            <div
-                class="criticidad ${claseCriticidad}"
-            >
+            <!-- CRITICIDAD Y REPORTE DE FALLA -->
 
-                ${escaparHTML(
-                    textoCriticidad
-                )}
+            <div class="criticidad-falla">
+
+                <div
+                    class="criticidad ${claseCriticidad}"
+                >
+
+                    ${escaparHTML(
+                        textoCriticidad
+                    )}
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="falla-btn"
+                    onclick="abrirFormularioFalla()"
+                >
+                    🔴 Reportar falla / alarma
+                </button>
 
             </div>
 
@@ -2995,19 +3040,9 @@ function mostrarEquipo(datos) {
         </section>
 
 
-        <!-- =================================================
-             NUEVO: REPORTAR FALLA / ALARMA
-        ================================================== -->
+        <!-- ACCESO A MANTENIMIENTO -->
 
         <section class="seccion">
-
-            <button
-                type="button"
-                class="falla-btn"
-                onclick="abrirFormularioFalla()"
-            >
-                🔴 Reportar falla / alarma
-            </button>
 
             <button
                 type="button"
@@ -3172,11 +3207,6 @@ async function cargarMantenimiento(
             );
 
 
-        /*
-         * La alerta utiliza directamente
-         * la fecha guardada en Equipos Médicos.
-         */
-
         const alertaMantenimiento =
             generarAlertaMantenimiento(
                 fechaProximoEquipo
@@ -3194,11 +3224,6 @@ async function cargarMantenimiento(
         const datos =
             await respuesta.json();
 
-
-        /*
-         * Si falla el historial,
-         * la alerta todavía se muestra.
-         */
 
         if (
             !datos.correcto ||
@@ -3264,12 +3289,6 @@ async function cargarMantenimiento(
             datos.mantenimientos;
 
 
-        /*
-         * NO HAY HISTORIAL
-         *
-         * La alerta sigue apareciendo.
-         */
-
         if (
             mantenimientos.length === 0
         ) {
@@ -3326,10 +3345,6 @@ async function cargarMantenimiento(
 
         }
 
-
-        /*
-         * EXISTE HISTORIAL
-         */
 
         const ultimo =
             mantenimientos[0];
@@ -3409,10 +3424,6 @@ async function cargarMantenimiento(
 
         `;
 
-
-        /*
-         * HISTORIAL
-         */
 
         historial.innerHTML =
             mantenimientos
@@ -3544,11 +3555,6 @@ async function cargarMantenimiento(
 
         if (mantenimiento) {
 
-            /*
-             * Incluso si falla la consulta del historial,
-             * intentamos mostrar la alerta.
-             */
-
             mantenimiento.innerHTML = `
 
                 ${generarAlertaMantenimiento(
@@ -3583,7 +3589,6 @@ async function cargarMantenimiento(
 
 /* =========================================================
    REPORTAR FALLA / ALARMA
-   NUEVO
 ========================================================= */
 
 function abrirFormularioFalla() {
@@ -3630,11 +3635,6 @@ function abrirFormularioFalla() {
         formulario.reset();
     }
 
-
-    /*
-     * Volvemos a cargar el equipo para mostrar
-     * su nombre y activo fijo automáticamente.
-     */
 
     fetch(
         `/api/equipo/${encodeURIComponent(equipoId)}`
@@ -3816,11 +3816,6 @@ async function registrarFalla(event) {
         );
 
 
-    /*
-     * El equipo se toma directamente
-     * de la URL de la ficha.
-     */
-
     datosFormulario.append(
         "equipoId",
         equipoId
@@ -3875,11 +3870,6 @@ async function registrarFalla(event) {
             false
         );
 
-
-        /*
-         * Esperamos un momento para que el usuario
-         * vea la confirmación y después cerramos.
-         */
 
         setTimeout(
             () => {
