@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -261,6 +262,7 @@
             .acceso-card {
                 padding: 15px;
             }
+
         }
 
     </style>
@@ -269,6 +271,7 @@
 <body>
 
 <header>
+
     <div class="header-content">
 
         <img
@@ -286,24 +289,30 @@
         </div>
 
     </div>
+
 </header>
+
 
 <main class="contenedor">
 
     <div id="contenido">
 
         <div class="cargando">
+
             Cargando ficha técnica...
+
         </div>
 
     </div>
 
 </main>
 
+
 <script>
 
 const parametros =
     new URLSearchParams(window.location.search);
+
 
 const equipoId =
     parametros.get("equipoId");
@@ -316,21 +325,32 @@ function escaparHTML(valor) {
         valor === undefined ||
         valor === ""
     ) {
+
         return "No especificado";
+
     }
 
+
     return String(valor)
+
         .replace(/&/g, "&amp;")
+
         .replace(/</g, "&lt;")
+
         .replace(/>/g, "&gt;")
+
         .replace(/"/g, "&quot;")
+
         .replace(/'/g, "&#039;");
+
 }
 
 
 function mostrarError(mensaje) {
 
-    document.getElementById("contenido").innerHTML = `
+    document.getElementById(
+        "contenido"
+    ).innerHTML = `
 
         <div class="error">
 
@@ -357,7 +377,7 @@ if (!equipoId) {
 
 
 /* =====================================================
-   CORRECCIÓN PRINCIPAL
+   CARGAR EQUIPO
    ===================================================== */
 
 async function cargarEquipo() {
@@ -384,26 +404,26 @@ async function cargarEquipo() {
 
 
         /*
-         * El servidor devuelve:
+         * IMPORTANTE:
+         *
+         * La API actual devuelve directamente
+         * la información del equipo.
+         *
+         * Ejemplo:
          *
          * {
-         *     correcto: true,
-         *     equipo: {
-         *         id: "...",
-         *         nombre: "...",
-         *         numeroActivo: "...",
-         *         ...
-         *     }
+         *     id: "...",
+         *     numeroActivo: "...",
+         *     nombre: "...",
+         *     marca: "...",
+         *     modelo: "..."
          * }
-         *
-         * Por eso debemos utilizar datos.equipo.
          */
 
 
         if (
             !datos ||
-            !datos.correcto ||
-            !datos.equipo
+            !datos.id
         ) {
 
             throw new Error(
@@ -414,7 +434,7 @@ async function cargarEquipo() {
 
 
         mostrarEquipo(
-            datos.equipo
+            datos
         );
 
 
@@ -496,7 +516,11 @@ function mostrarEquipo(datos) {
         <section class="titulo-equipo">
 
             <h2>
-                ${escaparHTML(datos.nombre)}
+
+                ${escaparHTML(
+                    datos.nombre
+                )}
+
             </h2>
 
 
@@ -504,7 +528,9 @@ function mostrarEquipo(datos) {
 
                 Número de activo fijo:
 
-                ${escaparHTML(datos.numeroActivo)}
+                ${escaparHTML(
+                    datos.numeroActivo
+                )}
 
             </div>
 
@@ -533,13 +559,16 @@ function mostrarEquipo(datos) {
                 ""
             }
 
+
         </section>
 
 
         <section class="seccion">
 
             <h3>
+
                 📋 Información del Equipo
+
             </h3>
 
 
@@ -553,9 +582,11 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
+
                         ${escaparHTML(
                             datos.servicio
                         )}
+
                     </span>
 
                 </div>
@@ -568,9 +599,11 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
+
                         ${escaparHTML(
                             datos.nombre
                         )}
+
                     </span>
 
                 </div>
@@ -583,9 +616,11 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
+
                         ${escaparHTML(
                             datos.marca
                         )}
+
                     </span>
 
                 </div>
@@ -598,9 +633,11 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
+
                         ${escaparHTML(
                             datos.modelo
                         )}
+
                     </span>
 
                 </div>
@@ -613,9 +650,11 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
+
                         ${escaparHTML(
                             datos.serie
                         )}
+
                     </span>
 
                 </div>
@@ -628,9 +667,11 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
+
                         ${escaparHTML(
                             datos.ubicacion
                         )}
+
                     </span>
 
                 </div>
@@ -643,9 +684,11 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
+
                         ${escaparHTML(
                             datos.responsable
                         )}
+
                     </span>
 
                 </div>
@@ -658,9 +701,11 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
+
                         ${escaparHTML(
                             datos.estado
                         )}
+
                     </span>
 
                 </div>
@@ -673,9 +718,11 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
+
                         ${escaparHTML(
                             datos.garantia
                         )}
+
                     </span>
 
                 </div>
@@ -688,9 +735,11 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
+
                         ${escaparHTML(
                             datos.condicionFisica
                         )}
+
                     </span>
 
                 </div>
@@ -703,9 +752,11 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
+
                         ${escaparHTML(
                             datos.fechaAdquisicion
                         )}
+
                     </span>
 
                 </div>
@@ -718,9 +769,11 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
+
                         ${escaparHTML(
                             datos.proveedor
                         )}
+
                     </span>
 
                 </div>
@@ -734,7 +787,9 @@ function mostrarEquipo(datos) {
         <section class="seccion">
 
             <h3>
+
                 🔌 Accesorios Médicos
+
             </h3>
 
 
@@ -746,14 +801,18 @@ function mostrarEquipo(datos) {
                 <div class="acceso-izq">
 
                     <div class="acceso-icono">
+
                         🔌
+
                     </div>
 
 
                     <div class="acceso-info">
 
                         <strong>
+
                             Accesorios del equipo
+
                         </strong>
 
 
@@ -769,7 +828,9 @@ function mostrarEquipo(datos) {
 
 
                 <div class="flecha">
+
                     →
+
                 </div>
 
             </a>
@@ -780,7 +841,9 @@ function mostrarEquipo(datos) {
         <section class="seccion">
 
             <h3>
+
                 🔧 Repuestos Médicos
+
             </h3>
 
 
@@ -792,14 +855,18 @@ function mostrarEquipo(datos) {
                 <div class="acceso-izq">
 
                     <div class="acceso-icono">
+
                         🔧
+
                     </div>
 
 
                     <div class="acceso-info">
 
                         <strong>
+
                             Repuestos del equipo
+
                         </strong>
 
 
@@ -815,7 +882,9 @@ function mostrarEquipo(datos) {
 
 
                 <div class="flecha">
+
                     →
+
                 </div>
 
             </a>
@@ -826,7 +895,9 @@ function mostrarEquipo(datos) {
         <section class="seccion">
 
             <h3>
+
                 🛠️ Información de Mantenimiento
+
             </h3>
 
 
@@ -846,7 +917,9 @@ function mostrarEquipo(datos) {
         <section class="seccion">
 
             <h3>
+
                 📋 Historial de Mantenimiento
+
             </h3>
 
 
@@ -907,7 +980,9 @@ async function cargarCantidadAccesorios() {
 
         if (
             datos.correcto &&
-            Array.isArray(datos.accesorios)
+            Array.isArray(
+                datos.accesorios
+            )
         ) {
 
             const cantidad =
@@ -915,10 +990,15 @@ async function cargarCantidadAccesorios() {
 
 
             elemento.textContent =
+
                 cantidad === 1
+
                 ?
+
                 "1 accesorio disponible · Ver accesorios →"
+
                 :
+
                 `${cantidad} accesorios disponibles · Ver accesorios →`;
 
         } else {
@@ -967,7 +1047,9 @@ async function cargarCantidadRepuestos() {
 
         if (
             datos.correcto &&
-            Array.isArray(datos.repuestos)
+            Array.isArray(
+                datos.repuestos
+            )
         ) {
 
             const cantidad =
@@ -975,10 +1057,15 @@ async function cargarCantidadRepuestos() {
 
 
             elemento.textContent =
+
                 cantidad === 1
+
                 ?
+
                 "1 repuesto disponible · Ver repuestos →"
+
                 :
+
                 `${cantidad} repuestos disponibles · Ver repuestos →`;
 
         } else {
@@ -1301,3 +1388,4 @@ function accederMantenimiento() {
 
 </body>
 </html>
+```
