@@ -393,12 +393,6 @@ app.get(
                 f["Equipo Médico relacionado"] || [];
 
 
-            // Airtable normalmente devuelve un arreglo
-            // de IDs de registros.
-            //
-            // Si por alguna razón llega un solo valor,
-            // también lo convertimos en arreglo.
-
             const equiposIds =
                 Array.isArray(equiposRaw)
 
@@ -408,9 +402,6 @@ app.get(
                         ? [equiposRaw]
                         : [];
 
-
-            // Aquí guardaremos la información completa
-            // de los equipos relacionados.
 
             const equiposRelacionados = [];
 
@@ -551,16 +542,8 @@ app.get(
                         f["Fotografia"] ||
                         [],
 
-
-                    // Se conserva la relación original
-                    // con Airtable.
-
                     equipo:
                         equiposIds,
-
-
-                    // NUEVO:
-                    // Información completa de los equipos.
 
                     equiposRelacionados:
                         equiposRelacionados
@@ -1521,8 +1504,13 @@ app.post(
 // INICIAR SERVIDOR
 // ======================================================
 
+// ÚNICO CAMBIO PARA RENDER:
+// Se especifica 0.0.0.0 para que Render pueda
+// detectar y recibir conexiones en el puerto.
+
 app.listen(
     PORT,
+    "0.0.0.0",
     () => {
 
         console.log(
