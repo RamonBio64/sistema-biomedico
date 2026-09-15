@@ -78,138 +78,159 @@ app.use(express.static(path.join(__dirname, "public")));
 // ======================================================
 
 app.get("/", (req, res) => {
+
     res.sendFile(
         path.join(__dirname, "public", "index.html")
     );
+
 });
 
 
 // ======================================================
 // OBTENER EQUIPO POR ID
 // ======================================================
+//
+// IMPORTANTE:
+// Esta ruta devuelve directamente el objeto del equipo.
+//
+// NO debe devolver:
+//
+// {
+//     correcto: true,
+//     equipo: {...}
+// }
+//
+// porque las páginas actuales del sistema esperan:
+//
+// {
+//     id: "...",
+//     nombre: "...",
+//     numeroActivo: "...",
+//     ...
+// }
+//
+// ======================================================
 
 app.get("/api/equipo/:id", async (req, res) => {
 
     try {
 
-        const record = await base(TABLA_EQUIPOS)
-            .find(req.params.id);
+        const record =
+            await base(TABLA_EQUIPOS)
+                .find(req.params.id);
 
         const f = record.fields;
 
+
         res.json({
 
-            correcto: true,
+            id:
+                record.id,
 
-            equipo: {
+            numeroActivo:
+                f["Numero de activo fijo"] || "",
 
-                id: record.id,
+            servicio:
+                f["servicio o área"] || "",
 
-                numeroActivo:
-                    f["Numero de activo fijo"] || "",
+            nombre:
+                f["nombre del equipo"] || "",
 
-                servicio:
-                    f["servicio o área"] || "",
+            marca:
+                f["marca"] || "",
 
-                nombre:
-                    f["nombre del equipo"] || "",
+            modelo:
+                f["modelo"] || "",
 
-                marca:
-                    f["marca"] || "",
+            serie:
+                f["número de serie"] || "",
 
-                modelo:
-                    f["modelo"] || "",
+            ubicacion:
+                f["ubicación"] || "",
 
-                serie:
-                    f["número de serie"] || "",
+            responsable:
+                f["responsable"] || "",
 
-                ubicacion:
-                    f["ubicación"] || "",
+            estado:
+                f["estado del equipo"] || "",
 
-                responsable:
-                    f["responsable"] || "",
+            criticidad:
+                f["Criticidad"] || "",
 
-                estado:
-                    f["estado del equipo"] || "",
+            garantia:
+                f["Garantía "] || "",
 
-                criticidad:
-                    f["Criticidad"] || "",
+            condicionFisica:
+                f["Condición Física "] || "",
 
-                garantia:
-                    f["Garantía "] || "",
+            fechaAdquisicion:
+                f["Fecha de adquisición"] || "",
 
-                condicionFisica:
-                    f["Condición Física "] || "",
+            proveedor:
+                f["Proveedor"] || "",
 
-                fechaAdquisicion:
-                    f["Fecha de adquisición"] || "",
+            fechaUltimoMantenimiento:
+                f["Fecha de ultimo mantenimiento"] || "",
 
-                proveedor:
-                    f["Proveedor"] || "",
+            fechaProximoMantenimiento:
+                f["Fecha de próximo mantenimiento"] || "",
 
-                fechaUltimoMantenimiento:
-                    f["Fecha de ultimo mantenimiento"] || "",
+            alertaMantenimiento:
+                f["alerta mantenimiento próximo"] || "",
 
-                fechaProximoMantenimiento:
-                    f["Fecha de próximo mantenimiento"] || "",
+            fotografia:
+                f["fotografía del equipo"] || [],
 
-                alertaMantenimiento:
-                    f["alerta mantenimiento próximo"] || "",
+            accesorios:
+                f["Accesorios Médicos"] || [],
 
-                fotografia:
-                    f["fotografía del equipo"] || [],
+            repuestos:
+                f["Repuestos Médicos"] || [],
 
-                accesorios:
-                    f["Accesorios Médicos"] || [],
+            correoMantenimientos:
+                f["Correo mantenimientos"] || "",
 
-                repuestos:
-                    f["Repuestos Médicos"] || [],
+            urlFicha:
+                f["URL ficha"] || "",
 
-                correoMantenimientos:
-                    f["Correo mantenimientos"] || "",
+            videos: [
 
-                urlFicha:
-                    f["URL ficha"] || "",
+                {
+                    titulo:
+                        f["Título del video 1"] || "",
 
-                videos: [
+                    url:
+                        f["URL del video 1 (YouTube)"] || ""
+                },
 
-                    {
-                        titulo:
-                            f["Título del video 1"] || "",
+                {
+                    titulo:
+                        f["Título del video 2"] || "",
 
-                        url:
-                            f["URL del video 1 (YouTube)"] || ""
-                    },
+                    url:
+                        f["URL del video 2 (YouTube)"] || ""
+                },
 
-                    {
-                        titulo:
-                            f["Título del video 2"] || "",
+                {
+                    titulo:
+                        f["Título del video 3"] || "",
 
-                        url:
-                            f["URL del video 2 (YouTube)"] || ""
-                    },
+                    url:
+                        f["URL del video 3 (YouTube)"] || ""
+                },
 
-                    {
-                        titulo:
-                            f["Título del video 3"] || "",
+                {
+                    titulo:
+                        f["Título del video 4"] || "",
 
-                        url:
-                            f["URL del video 3 (YouTube)"] || ""
-                    },
+                    url:
+                        f["URL del video 4 (YouTube)"] || ""
+                }
 
-                    {
-                        titulo:
-                            f["Título del video 4"] || "",
-
-                        url:
-                            f["URL del video 4 (YouTube)"] || ""
-                    }
-
-                ]
-
-            }
+            ]
 
         });
+
 
     } catch (error) {
 
@@ -242,12 +263,15 @@ app.get(
 
         try {
 
-            const equipoId = req.params.id;
+            const equipoId =
+                req.params.id;
+
 
             const records =
                 await base(TABLA_ACCESORIOS)
                     .select()
                     .all();
+
 
             const accesorios =
                 records
@@ -259,18 +283,24 @@ app.get(
                                 "Equipo Médico relacionado"
                             ] || [];
 
+
                         return Array.isArray(relacionados)
-                            && relacionados.includes(equipoId);
+                            &&
+                            relacionados.includes(equipoId);
 
                     })
 
+
                     .map(record => {
 
-                        const f = record.fields;
+                        const f =
+                            record.fields;
+
 
                         return {
 
-                            id: record.id,
+                            id:
+                                record.id,
 
                             nombre:
                                 f["Nombre del accesorio"] ||
@@ -327,6 +357,7 @@ app.get(
 
                     });
 
+
             res.json({
 
                 correcto: true,
@@ -335,12 +366,14 @@ app.get(
 
             });
 
+
         } catch (error) {
 
             console.error(
                 "Error al obtener accesorios:",
                 error
             );
+
 
             res.status(500).json({
 
@@ -361,15 +394,11 @@ app.get(
 // OBTENER UN ACCESORIO POR ID
 // ======================================================
 //
-// IMPORTANTE:
-// Aquí está la modificación.
-// El campo de Airtable se llama exactamente:
+// SE CONSERVA EL CAMBIO SOLICITADO:
 //
-// "Equipo Médico relacionado"
+// Mostrar los equipos médicos relacionados
+// con el accesorio.
 //
-// Además de devolver los IDs originales,
-// ahora obtenemos la información completa
-// de cada equipo relacionado.
 // ======================================================
 
 app.get(
@@ -382,7 +411,8 @@ app.get(
                 await base(TABLA_ACCESORIOS)
                     .find(req.params.id);
 
-            const f = record.fields;
+            const f =
+                record.fields;
 
 
             // --------------------------------------------------
@@ -483,7 +513,7 @@ app.get(
 
 
             // --------------------------------------------------
-            // RESPUESTA
+            // RESPUESTA DEL ACCESORIO
             // --------------------------------------------------
 
             res.json({
@@ -560,6 +590,7 @@ app.get(
                 error
             );
 
+
             res.status(500).json({
 
                 correcto: false,
@@ -585,12 +616,15 @@ app.get(
 
         try {
 
-            const equipoId = req.params.id;
+            const equipoId =
+                req.params.id;
+
 
             const records =
                 await base(TABLA_REPUESTOS)
                     .select()
                     .all();
+
 
             const repuestos =
                 records
@@ -602,14 +636,19 @@ app.get(
                                 "Equipo Médico relacionado"
                             ] || [];
 
+
                         return Array.isArray(relacionados)
-                            && relacionados.includes(equipoId);
+                            &&
+                            relacionados.includes(equipoId);
 
                     })
 
+
                     .map(record => {
 
-                        const f = record.fields;
+                        const f =
+                            record.fields;
+
 
                         return {
 
@@ -687,6 +726,7 @@ app.get(
                 "Error al obtener repuestos:",
                 error
             );
+
 
             res.status(500).json({
 
@@ -793,6 +833,7 @@ app.get(
                 error
             );
 
+
             res.status(500).json({
 
                 correcto: false,
@@ -821,6 +862,7 @@ app.get(
             const equipoId =
                 req.params.id;
 
+
             const records =
                 await base(TABLA_MANTENIMIENTOS)
                     .select()
@@ -837,15 +879,19 @@ app.get(
                                 "Equipo relacionado"
                             ] || [];
 
+
                         return Array.isArray(relacionados)
-                            && relacionados.includes(equipoId);
+                            &&
+                            relacionados.includes(equipoId);
 
                     })
+
 
                     .map(record => {
 
                         const f =
                             record.fields;
+
 
                         return {
 
@@ -923,6 +969,7 @@ app.get(
                 "Error al obtener mantenimientos:",
                 error
             );
+
 
             res.status(500).json({
 
@@ -1015,6 +1062,7 @@ app.get(
 
                     };
 
+
                 } catch (errorEquipo) {
 
                     console.error(
@@ -1086,6 +1134,7 @@ app.get(
                 "Error al obtener mantenimiento:",
                 error
             );
+
 
             res.status(500).json({
 
@@ -1274,6 +1323,7 @@ app.post(
                 error
             );
 
+
             res.status(500).json({
 
                 correcto: false,
@@ -1453,6 +1503,7 @@ app.post(
 
                     }
 
+
                 } catch (errorFoto) {
 
                     console.error(
@@ -1485,6 +1536,7 @@ app.post(
                 error
             );
 
+
             res.status(500).json({
 
                 correcto: false,
@@ -1503,10 +1555,6 @@ app.post(
 // ======================================================
 // INICIAR SERVIDOR
 // ======================================================
-
-// ÚNICO CAMBIO PARA RENDER:
-// Se especifica 0.0.0.0 para que Render pueda
-// detectar y recibir conexiones en el puerto.
 
 app.listen(
     PORT,
