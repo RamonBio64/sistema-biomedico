@@ -1,1977 +1,309 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
-<title>
-    Ficha Técnica | Equipo Biomédico
-</title>
-
-<style>
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-    background:
-        #f3f6f8;
-    color:
-        #263238;
-}
-
-header {
-    background:
-        linear-gradient(
-            135deg,
-            #0b3d4a,
-            #126579
-        );
-    color: white;
-    padding:
-        18px 20px;
-    box-shadow:
-        0 3px 12px
-        rgba(0,0,0,0.15);
-}
-
-.header-content {
-    max-width:
-        1100px;
-    margin:
-        auto;
-    display:
-        flex;
-    align-items:
-        center;
-    gap:
-        15px;
-}
-
-.logo {
-    width:
-        65px;
-    height:
-        65px;
-    object-fit:
-        contain;
-    background:
-        white;
-    border-radius:
-        10px;
-    padding:
-        5px;
-}
-
-.header-text h1 {
-    margin:
-        0;
-    font-size:
-        22px;
-}
-
-.header-text p {
-    margin:
-        5px 0 0;
-    opacity:
-        0.9;
-    font-size:
-        14px;
-}
-
-.contenedor {
-    max-width:
-        1100px;
-    margin:
-        25px auto;
-    padding:
-        0 15px;
-}
-
-.titulo-equipo {
-    background:
-        white;
-    border-radius:
-        15px;
-    padding:
-        25px;
-    box-shadow:
-        0 4px 15px
-        rgba(0,0,0,0.08);
-    margin-bottom:
-        20px;
-}
-
-/* =====================================================
-   CRITICIDAD
-===================================================== */
-
-.criticidad {
-    display:
-        inline-block;
-    margin-top:
-        12px;
-    padding:
-        8px 16px;
-    border-radius:
-        20px;
-    font-weight:
-        bold;
-    font-size:
-        13px;
-    letter-spacing:
-        0.3px;
-}
-
-.criticidad-alta {
-    background:
-        #ffebee;
-    color:
-        #c62828;
-    border:
-        2px solid #ef5350;
-}
-
-.criticidad-media {
-    background:
-        #fff8e1;
-    color:
-        #f57f17;
-    border:
-        2px solid #fbc02d;
-}
-
-.criticidad-baja {
-    background:
-        #e8f5e9;
-    color:
-        #2e7d32;
-    border:
-        2px solid #66bb6a;
-}
-
-.criticidad-otra {
-    background:
-        #eceff1;
-    color:
-        #455a64;
-    border:
-        2px solid #90a4ae;
-}
-
-/* =====================================================
-   CRITICIDAD + REPORTAR FALLA
-===================================================== */
-
-.criticidad-falla {
-    display:
-        flex;
-    align-items:
-        center;
-    gap:
-        10px;
-    margin-top:
-        12px;
-    flex-wrap:
-        wrap;
-}
-
-.criticidad-falla .criticidad {
-    margin-top:
-        0;
-}
-
-.criticidad-falla .falla-btn {
-    width:
-        auto;
-    margin-bottom:
-        0;
-    padding:
-        8px 14px;
-    font-size:
-        13px;
-}
-
-/* =====================================================
-   FOTOGRAFÍA SEGÚN CRITICIDAD
-===================================================== */
-
-.foto-contenedor {
-    width:
-        100%;
-    margin-top:
-        20px;
-    padding:
-        8px;
-    border-radius:
-        16px;
-    transition:
-        0.2s;
-}
-
-.foto-contenedor.alta {
-    background:
-        #ef5350;
-    box-shadow:
-        0 4px 15px
-        rgba(198,40,40,0.25);
-}
-
-.foto-contenedor.media {
-    background:
-        #fbc02d;
-    box-shadow:
-        0 4px 15px
-        rgba(245,192,23,0.25);
-}
-
-.foto-contenedor.baja {
-    background:
-        #66bb6a;
-    box-shadow:
-        0 4px 15px
-        rgba(46,125,50,0.20);
-}
-
-.foto-contenedor.otra {
-    background:
-        #90a4ae;
-}
-
-.foto-equipo {
-    display:
-        block;
-    width:
-        100%;
-    max-height:
-        400px;
-    object-fit:
-        contain;
-    background:
-        #fafafa;
-    border-radius:
-        10px;
-}
-
-/* =====================================================
-   SECCIONES
-===================================================== */
-
-.seccion {
-    background:
-        white;
-    border-radius:
-        15px;
-    padding:
-        22px;
-    margin-bottom:
-        20px;
-    box-shadow:
-        0 4px 15px
-        rgba(0,0,0,0.07);
-}
-
-.seccion h3 {
-    margin-top:
-        0;
-    color:
-        #0b3d4a;
-    border-bottom:
-        2px solid
-        #e5ecef;
-    padding-bottom:
-        12px;
-}
-
-.grid-info {
-    display:
-        grid;
-    grid-template-columns:
-        repeat(2, 1fr);
-    gap:
-        12px;
-}
-
-.dato {
-    background:
-        #f7f9fa;
-    padding:
-        13px;
-    border-radius:
-        9px;
-    border-left:
-        4px solid
-        #126579;
-}
-
-.dato strong {
-    display:
-        block;
-    color:
-        #607d8b;
-    font-size:
-        12px;
-    margin-bottom:
-        4px;
-}
-
-.dato span {
-    font-size:
-        15px;
-    font-weight:
-        600;
-}
-
-/* =====================================================
-   ACCESOS
-===================================================== */
-
-.acceso-card {
-    display:
-        flex;
-    align-items:
-        center;
-    justify-content:
-        space-between;
-    gap:
-        15px;
-    padding:
-        20px;
-    border:
-        1px solid
-        #dce5e8;
-    border-radius:
-        13px;
-    text-decoration:
-        none;
-    color:
-        #263238;
-    transition:
-        0.2s;
-    cursor:
-        pointer;
-}
-
-.acceso-card:hover {
-    transform:
-        translateY(-2px);
-    box-shadow:
-        0 5px 15px
-        rgba(0,0,0,0.10);
-    border-color:
-        #126579;
-}
-
-.acceso-izq {
-    display:
-        flex;
-    align-items:
-        center;
-    gap:
-        15px;
-}
-
-.acceso-icono {
-    width:
-        52px;
-    height:
-        52px;
-    border-radius:
-        12px;
-    background:
-        #e8f4f7;
-    display:
-        flex;
-    align-items:
-        center;
-    justify-content:
-        center;
-    font-size:
-        26px;
-    flex-shrink:
-        0;
-}
-
-.acceso-info strong {
-    display:
-        block;
-    font-size:
-        17px;
-    color:
-        #0b3d4a;
-    margin-bottom:
-        5px;
-}
-
-.acceso-info span {
-    color:
-        #607d8b;
-    font-size:
-        14px;
-}
-
-.flecha {
-    font-size:
-        25px;
-    color:
-        #126579;
-    font-weight:
-        bold;
-}
-
-/* =====================================================
-   MANTENIMIENTO
-===================================================== */
-
-.mantenimiento-btn {
-    width:
-        100%;
-    border:
-        none;
-    border-radius:
-        12px;
-    padding:
-        16px;
-    background:
-        #0b3d4a;
-    color:
-        white;
-    font-size:
-        16px;
-    font-weight:
-        bold;
-    cursor:
-        pointer;
-}
-
-.mantenimiento-btn:hover {
-    background:
-        #126579;
-}
-
-/* =====================================================
-   REPORTAR FALLA / ALARMA
-===================================================== */
-
-.falla-btn {
-    width:
-        100%;
-    border:
-        none;
-    border-radius:
-        12px;
-    padding:
-        16px;
-    background:
-        #c62828;
-    color:
-        white;
-    font-size:
-        16px;
-    font-weight:
-        bold;
-    cursor:
-        pointer;
-    margin-bottom:
-        12px;
-}
-
-.falla-btn:hover {
-    background:
-        #b71c1c;
-}
-
-.falla-modal {
-    display:
-        none;
-    position:
-        fixed;
-    inset:
-        0;
-    z-index:
-        9999;
-    background:
-        rgba(0,0,0,0.60);
-    padding:
-        20px;
-    overflow-y:
-        auto;
-}
-
-.falla-modal.activo {
-    display:
-        flex;
-    align-items:
-        center;
-    justify-content:
-        center;
-}
-
-.falla-contenido {
-    width:
-        100%;
-    max-width:
-        600px;
-    background:
-        white;
-    border-radius:
-        15px;
-    padding:
-        24px;
-    box-shadow:
-        0 10px 35px
-        rgba(0,0,0,0.25);
-}
-
-.falla-titulo {
-    display:
-        flex;
-    align-items:
-        center;
-    justify-content:
-        space-between;
-    gap:
-        15px;
-    margin-bottom:
-        20px;
-}
-
-.falla-titulo h3 {
-    margin:
-        0;
-    color:
-        #c62828;
-    border:
-        none;
-    padding:
-        0;
-}
-
-.falla-cerrar {
-    border:
-        none;
-    background:
-        #eceff1;
-    color:
-        #455a64;
-    width:
-        38px;
-    height:
-        38px;
-    border-radius:
-        50%;
-    font-size:
-        20px;
-    cursor:
-        pointer;
-}
-
-.falla-campo {
-    margin-bottom:
-        16px;
-}
-
-.falla-campo label {
-    display:
-        block;
-    font-weight:
-        bold;
-    font-size:
-        13px;
-    color:
-        #455a64;
-    margin-bottom:
-        6px;
-}
-
-.falla-campo input,
-.falla-campo select,
-.falla-campo textarea {
-    width:
-        100%;
-    border:
-        1px solid
-        #cfd8dc;
-    border-radius:
-        9px;
-    padding:
-        12px;
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-    font-size:
-        14px;
-    color:
-        #263238;
-}
-
-.falla-campo input:focus,
-.falla-campo select:focus,
-.falla-campo textarea:focus {
-    outline:
-        none;
-    border-color:
-        #126579;
-    box-shadow:
-        0 0 0 2px
-        rgba(18,101,121,0.10);
-}
-
-.falla-campo textarea {
-    min-height:
-        110px;
-    resize:
-        vertical;
-}
-
-.falla-equipo {
-    background:
-        #f7f9fa;
-    border-left:
-        4px solid
-        #c62828;
-    border-radius:
-        9px;
-    padding:
-        12px;
-    margin-bottom:
-        18px;
-}
-
-.falla-equipo strong {
-    display:
-        block;
-    color:
-        #0b3d4a;
-    margin-bottom:
-        4px;
-}
-
-.falla-equipo span {
-    display:
-        block;
-    color:
-        #607d8b;
-    font-size:
-        13px;
-}
-
-.falla-acciones {
-    display:
-        grid;
-    grid-template-columns:
-        1fr 1fr;
-    gap:
-        10px;
-    margin-top:
-        20px;
-}
-
-.falla-cancelar,
-.falla-guardar {
-    border:
-        none;
-    border-radius:
-        10px;
-    padding:
-        14px;
-    font-size:
-        15px;
-    font-weight:
-        bold;
-    cursor:
-        pointer;
-}
-
-.falla-cancelar {
-    background:
-        #eceff1;
-    color:
-        #455a64;
-}
-
-.falla-guardar {
-    background:
-        #c62828;
-    color:
-        white;
-}
-
-.falla-guardar:hover {
-    background:
-        #b71c1c;
-}
-
-.falla-guardar:disabled {
-    opacity:
-        0.65;
-    cursor:
-        wait;
-}
-
-.falla-mensaje {
-    display:
-        none;
-    padding:
-        12px;
-    border-radius:
-        9px;
-    margin-bottom:
-        15px;
-    font-size:
-        14px;
-    font-weight:
-        bold;
-}
-
-.falla-mensaje.error {
-    display:
-        block;
-    background:
-        #ffebee;
-    color:
-        #b71c1c;
-}
-
-.falla-mensaje.exito {
-    display:
-        block;
-    background:
-        #e8f5e9;
-    color:
-        #2e7d32;
-}
-
-/* =====================================================
-   ALERTAS DE MANTENIMIENTO
-===================================================== */
-
-.alerta-mantenimiento {
-    display:
-        flex;
-    flex-direction:
-        column;
-    gap:
-        5px;
-    padding:
-        15px 18px;
-    border-radius:
-        12px;
-    margin-bottom:
-        15px;
-    border:
-        2px solid;
-    line-height:
-        1.45;
-    box-shadow:
-        0 3px 10px
-        rgba(0,0,0,0.05);
-}
-
-.alerta-mantenimiento strong {
-    display:
-        block;
-    font-size:
-        15px;
-}
-
-.alerta-mantenimiento span {
-    display:
-        block;
-    font-weight:
-        normal;
-    font-size:
-        13px;
-}
-
-.alerta-mantenimiento.verde {
-    background:
-        #e8f5e9;
-    color:
-        #2e7d32;
-    border-color:
-        #66bb6a;
-}
-
-.alerta-mantenimiento.amarillo {
-    background:
-        #fff8e1;
-    color:
-        #f57f17;
-    border-color:
-        #fbc02d;
-}
-
-.alerta-mantenimiento.naranja {
-    background:
-        #fff3e0;
-    color:
-        #e65100;
-    border-color:
-        #ff9800;
-}
-
-.alerta-mantenimiento.rojo {
-    background:
-        #ffebee;
-    color:
-        #c62828;
-    border-color:
-        #ef5350;
-}
-
-/* =====================================================
-   BOTÓN IMPRIMIR
-===================================================== */
-
-.imprimir-btn {
-    width:
-        100%;
-    border:
-        none;
-    border-radius:
-        12px;
-    padding:
-        16px;
-    background:
-        #126579;
-    color:
-        white;
-    font-size:
-        16px;
-    font-weight:
-        bold;
-    cursor:
-        pointer;
-    margin-bottom:
-        20px;
-}
-
-.imprimir-btn:hover {
-    background:
-        #0b3d4a;
-}
-
-/* =====================================================
-   AYUDA VISUAL
-===================================================== */
-
-.ayuda-visual {
-    border:
-        2px solid
-        #e1eef1;
-    background:
-        linear-gradient(
-            135deg,
-            #f8fcfd,
-            #eef7f9
-        );
-}
-
-.ayuda-descripcion {
-    margin:
-        -3px 0 18px;
-    color:
-        #607d8b;
-    font-size:
-        14px;
-    line-height:
-        1.5;
-}
-
-.videos-grid {
-    display:
-        grid;
-    grid-template-columns:
-        repeat(2, 1fr);
-    gap:
-        14px;
-}
-
-.video-card {
-    display:
-        flex;
-    align-items:
-        center;
-    gap:
-        14px;
-    width:
-        100%;
-    padding:
-        16px;
-    border:
-        1px solid
-        #d9e6e9;
-    border-radius:
-        13px;
-    background:
-        white;
-    text-align:
-        left;
-    cursor:
-        pointer;
-    transition:
-        0.2s;
-}
-
-.video-card:hover {
-    transform:
-        translateY(-2px);
-    box-shadow:
-        0 5px 15px
-        rgba(0,0,0,0.10);
-    border-color:
-        #126579;
-}
-
-.video-icono {
-    width:
-        50px;
-    height:
-        50px;
-    min-width:
-        50px;
-    border-radius:
-        50%;
-    background:
-        #e8f4f7;
-    display:
-        flex;
-    align-items:
-        center;
-    justify-content:
-        center;
-    font-size:
-        22px;
-}
-
-.video-info {
-    flex:
-        1;
-    min-width:
-        0;
-}
-
-.video-info strong {
-    display:
-        block;
-    color:
-        #0b3d4a;
-    font-size:
-        15px;
-    line-height:
-        1.35;
-}
-
-.video-info span {
-    display:
-        block;
-    margin-top:
-        5px;
-    color:
-        #607d8b;
-    font-size:
-        12px;
-}
-
-.video-flecha {
-    color:
-        #126579;
-    font-size:
-        22px;
-    font-weight:
-        bold;
-}
-
-/* =====================================================
-   HISTORIAL
-===================================================== */
-
-.historial-item {
-    display:
-        block;
-    border:
-        1px solid
-        #dce5e8;
-    border-left:
-        5px solid
-        #126579;
-    background:
-        #f7f9fa;
-    padding:
-        18px;
-    border-radius:
-        10px;
-    margin-bottom:
-        12px;
-    text-decoration:
-        none;
-    color:
-        #263238;
-    transition:
-        0.2s;
-    cursor:
-        pointer;
-}
-
-.historial-item:hover {
-    transform:
-        translateY(-2px);
-    background:
-        #ffffff;
-    border-color:
-        #126579;
-    box-shadow:
-        0 5px 15px
-        rgba(0,0,0,0.10);
-}
-
-.historial-superior {
-    display:
-        flex;
-    justify-content:
-        space-between;
-    align-items:
-        center;
-    gap:
-        10px;
-    margin-bottom:
-        12px;
-}
-
-.historial-titulo {
-    color:
-        #0b3d4a;
-    font-size:
-        16px;
-    font-weight:
-        bold;
-}
-
-.historial-fecha {
-    color:
-        #607d8b;
-    font-size:
-        13px;
-    font-weight:
-        bold;
-}
-
-.historial-datos {
-    display:
-        grid;
-    grid-template-columns:
-        repeat(3, 1fr);
-    gap:
-        10px;
-}
-
-.historial-dato {
-    background:
-        white;
-    padding:
-        10px;
-    border-radius:
-        8px;
-}
-
-.historial-dato strong {
-    display:
-        block;
-    font-size:
-        11px;
-    color:
-        #607d8b;
-    margin-bottom:
-        4px;
-}
-
-.historial-dato span {
-    font-size:
-        14px;
-    font-weight:
-        600;
-}
-
-.historial-ver {
-    margin-top:
-        13px;
-    text-align:
-        right;
-    color:
-        #126579;
-    font-size:
-        13px;
-    font-weight:
-        bold;
-}
-
-.cargando {
-    text-align:
-        center;
-    padding:
-        30px;
-    color:
-        #607d8b;
-}
-
-.error {
-    background:
-        #ffebee;
-    color:
-        #b71c1c;
-    padding:
-        20px;
-    border-radius:
-        12px;
-    text-align:
-        center;
-    font-weight:
-        bold;
-}
-
-/* =====================================================
-   IMPRESIÓN
-===================================================== */
-
-@media print {
-
-    @page {
-        size:
-            Letter;
-        margin:
-            10mm 11mm;
-    }
-
-    * {
-        -webkit-print-color-adjust:
-            exact !important;
-        print-color-adjust:
-            exact !important;
-    }
-
-    body {
-        background:
-            white !important;
-        color:
-            #263238;
-        font-family:
-            Arial,
-            Helvetica,
-            sans-serif;
-        font-size:
-            10px;
-    }
-
-    header {
-        background:
-            #0b3d4a !important;
-        box-shadow:
-            none !important;
-        padding:
-            9px 12px;
-        margin:
-            0 0 10px;
-    }
-
-    .header-content {
-        max-width:
-            100%;
-        gap:
-            10px;
-    }
-
-    .logo {
-        width:
-            42px;
-        height:
-            42px;
-        padding:
-            3px;
-        border-radius:
-            7px;
-    }
-
-    .header-text h1 {
-        font-size:
-            15px;
-    }
-
-    .header-text p {
-        font-size:
-            9px;
-        margin-top:
-            2px;
-    }
-
-    .contenedor {
-        max-width:
-            100%;
-        margin:
-            0;
-        padding:
-            0;
-    }
-
-    .imprimir-btn,
-    .mantenimiento-btn,
-    .falla-btn {
-        display:
-            none !important;
-    }
-
-    .titulo-equipo {
-        position:
-            relative;
-        display:
-            grid;
-        grid-template-columns:
-            minmax(0, 1fr) 260px;
-        column-gap:
-            18px;
-        align-items:
-            start;
-        box-shadow:
-            none !important;
-        border:
-            1px solid #d5e0e4;
-        border-radius:
-            9px;
-        padding:
-            12px;
-        margin-bottom:
-            10px;
-        min-height:
-            150px;
-        break-inside:
-            avoid;
-        page-break-inside:
-            avoid;
-    }
-
-    .titulo-equipo h2 {
-        font-size:
-            20px;
-        line-height:
-            1.2;
-        margin:
-            2px 0 5px;
-    }
-
-    .activo {
-        font-size:
-            10px;
-    }
-
-    .criticidad-falla {
-        margin-top:
-            7px;
-        gap:
-            6px;
-    }
-
-    .criticidad {
-        margin-top:
-            0;
-        padding:
-            4px 9px;
-        font-size:
-            9px;
-        border-width:
-            1.5px;
-    }
-
-    .foto-contenedor {
-        grid-column:
-            2;
-        grid-row:
-            1 / span 3;
-        width:
-            100%;
-        height:
-            145px;
-        margin:
-            0;
-        padding:
-            5px;
-        border-radius:
-            8px;
-        box-shadow:
-            none !important;
-        display:
-            flex;
-        align-items:
-            center;
-        justify-content:
-            center;
-        break-inside:
-            avoid;
-        page-break-inside:
-            avoid;
-    }
-
-    .foto-equipo {
-        width:
-            100%;
-        height:
-            135px;
-        max-height:
-            135px;
-        object-fit:
-            contain;
-        border-radius:
-            5px;
-    }
-
-    .seccion {
-        box-shadow:
-            none !important;
-        border:
-            1px solid #d5e0e4;
-        border-radius:
-            8px;
-        padding:
-            11px;
-        margin-bottom:
-            9px;
-        break-inside:
-            auto;
-        page-break-inside:
-            auto;
-    }
-
-    .seccion h3 {
-        font-size:
-            12px;
-        margin:
-            0 0 7px;
-        padding-bottom:
-            5px;
-        border-bottom-width:
-            1px;
-    }
-
-    .grid-info {
-        grid-template-columns:
-            repeat(2, 1fr);
-        gap:
-            5px;
-    }
-
-    .dato {
-        padding:
-            6px 7px;
-        border-left-width:
-            3px;
-        border-radius:
-            4px;
-        min-height:
-            38px;
-        break-inside:
-            avoid;
-        page-break-inside:
-            avoid;
-    }
-
-    .dato strong {
-        font-size:
-            8px;
-        margin-bottom:
-            2px;
-    }
-
-    .dato span {
-        font-size:
-            10px;
-        line-height:
-            1.25;
-    }
-
-    .alerta-mantenimiento {
-        padding:
-            7px 9px;
-        margin-bottom:
-            7px;
-        border-radius:
-            6px;
-        font-size:
-            9px;
-        line-height:
-            1.35;
-        break-inside:
-            avoid;
-        page-break-inside:
-            avoid;
-    }
-
-    .alerta-mantenimiento strong {
-        font-size:
-            9px;
-    }
-
-    .alerta-mantenimiento span {
-        font-size:
-            8px;
-    }
-
-    .acceso-card {
-        padding:
-            8px 10px;
-        min-height:
-            50px;
-        border-radius:
-            6px;
-        box-shadow:
-            none !important;
-        break-inside:
-            avoid;
-        page-break-inside:
-            avoid;
-    }
-
-    .acceso-izq {
-        gap:
-            9px;
-    }
-
-    .acceso-icono {
-        width:
-            34px;
-        height:
-            34px;
-        font-size:
-            17px;
-        border-radius:
-            7px;
-    }
-
-    .acceso-info strong {
-        font-size:
-            10px;
-        margin-bottom:
-            2px;
-    }
-
-    .acceso-info span {
-        font-size:
-            8px;
-    }
-
-    .flecha {
-        font-size:
-            16px;
-    }
-
-    .ayuda-visual {
-        background:
-            white !important;
-        border:
-            1px solid #d5e0e4;
-    }
-
-    .ayuda-descripcion {
-        font-size:
-            8px;
-        margin:
-            -1px 0 7px;
-        line-height:
-            1.35;
-    }
-
-    .videos-grid {
-        grid-template-columns:
-            repeat(2, 1fr);
-        gap:
-            5px;
-    }
-
-    .video-card {
-        padding:
-            7px;
-        gap:
-            7px;
-        min-height:
-            42px;
-        border-radius:
-            6px;
-        box-shadow:
-            none !important;
-        break-inside:
-            avoid;
-        page-break-inside:
-            avoid;
-    }
-
-    .video-icono {
-        width:
-            28px;
-        height:
-            28px;
-        min-width:
-            28px;
-        font-size:
-            12px;
-    }
-
-    .video-info strong {
-        font-size:
-            8px;
-        line-height:
-            1.2;
-    }
-
-    .video-info span {
-        font-size:
-            7px;
-        margin-top:
-            2px;
-    }
-
-    .video-flecha {
-        font-size:
-            13px;
-    }
-
-    .historial-item {
-        padding:
-            7px 9px;
-        border-radius:
-            6px;
-        margin-bottom:
-            5px;
-        box-shadow:
-            none !important;
-        break-inside:
-            avoid;
-        page-break-inside:
-            avoid;
-    }
-
-    .historial-superior {
-        margin-bottom:
-            5px;
-    }
-
-    .historial-titulo {
-        font-size:
-            9px;
-    }
-
-    .historial-fecha {
-        font-size:
-            8px;
-    }
-
-    .historial-datos {
-        grid-template-columns:
-            repeat(3, 1fr);
-        gap:
-            5px;
-    }
-
-    .historial-dato {
-        padding:
-            5px;
-    }
-
-    .historial-dato strong {
-        font-size:
-            7px;
-        margin-bottom:
-            2px;
-    }
-
-    .historial-dato span {
-        font-size:
-            8px;
-    }
-
-    .historial-ver {
-        margin-top:
-            5px;
-        font-size:
-            7px;
-    }
-
-    .acceso-card:hover,
-    .video-card:hover,
-    .historial-item:hover {
-        transform:
-            none !important;
-        box-shadow:
-            none !important;
-    }
-
-    a {
-        color:
-            inherit !important;
-        text-decoration:
-            none !important;
-    }
-
-    .titulo-equipo,
-    .foto-contenedor,
-    .dato,
-    .acceso-card,
-    .video-card,
-    .historial-item,
-    .alerta-mantenimiento {
-        break-inside:
-            avoid;
-        page-break-inside:
-            avoid;
-    }
-}
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media (max-width: 700px) {
-
-    .grid-info {
-        grid-template-columns:
-            1fr;
-    }
-
-    .videos-grid {
-        grid-template-columns:
-            1fr;
-    }
-
-    .historial-datos {
-        grid-template-columns:
-            1fr;
-    }
-
-    .historial-superior {
-        align-items:
-            flex-start;
-        flex-direction:
-            column;
-    }
-
-    .titulo-equipo h2 {
-        font-size:
-            23px;
-    }
-
-    .header-text h1 {
-        font-size:
-            18px;
-    }
-
-    .logo {
-        width:
-            55px;
-        height:
-            55px;
-    }
-
-    .acceso-card {
-        padding:
-            15px;
-    }
-
-    .falla-modal {
-        padding:
-            10px;
-    }
-
-    .falla-contenido {
-        padding:
-            18px;
-    }
-
-    .falla-acciones {
-        grid-template-columns:
-            1fr;
-    }
-
-    .criticidad-falla {
-        gap:
-            8px;
-    }
-
-    .criticidad-falla .falla-btn {
-        padding:
-            8px 12px;
-        font-size:
-            12px;
-    }
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ficha Técnica | Equipo Biomédico</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f3f6f8;
+            color: #263238;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0b3d4a, #126579);
+            color: white;
+            padding: 18px 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+        }
+
+        .header-content {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 65px;
+            height: 65px;
+            object-fit: contain;
+            background: white;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .header-text h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .header-text p {
+            margin: 5px 0 0;
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .contenedor {
+            max-width: 1100px;
+            margin: 25px auto;
+            padding: 0 15px;
+        }
+
+        .titulo-equipo {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .titulo-equipo h2 {
+            margin: 0 0 8px;
+            color: #0b3d4a;
+            font-size: 28px;
+        }
+
+        .activo {
+            font-size: 16px;
+            color: #607d8b;
+            font-weight: bold;
+        }
+
+        .criticidad {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 7px 14px;
+            border-radius: 20px;
+            background: #ffebee;
+            color: #c62828;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .foto-equipo {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            background: #fafafa;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .seccion {
+            background: white;
+            border-radius: 15px;
+            padding: 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        }
+
+        .seccion h3 {
+            margin-top: 0;
+            color: #0b3d4a;
+            border-bottom: 2px solid #e5ecef;
+            padding-bottom: 12px;
+        }
+
+        .grid-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .dato {
+            background: #f7f9fa;
+            padding: 13px;
+            border-radius: 9px;
+            border-left: 4px solid #126579;
+        }
+
+        .dato strong {
+            display: block;
+            color: #607d8b;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .dato span {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .acceso-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 20px;
+            border: 1px solid #dce5e8;
+            border-radius: 13px;
+            text-decoration: none;
+            color: #263238;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .acceso-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.10);
+            border-color: #126579;
+        }
+
+        .acceso-izq {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .acceso-icono {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            background: #e8f4f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            flex-shrink: 0;
+        }
+
+        .acceso-info strong {
+            display: block;
+            font-size: 17px;
+            color: #0b3d4a;
+            margin-bottom: 5px;
+        }
+
+        .acceso-info span {
+            color: #607d8b;
+            font-size: 14px;
+        }
+
+        .flecha {
+            font-size: 25px;
+            color: #126579;
+            font-weight: bold;
+        }
+
+        .mantenimiento-btn {
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            background: #0b3d4a;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .mantenimiento-btn:hover {
+            background: #126579;
+        }
+
+        .historial-item {
+            border-left: 4px solid #126579;
+            background: #f7f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .historial-item strong {
+            color: #0b3d4a;
+        }
+
+        .cargando {
+            text-align: center;
+            padding: 30px;
+            color: #607d8b;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #b71c1c;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        @media (max-width: 700px) {
+
+            .grid-info {
+                grid-template-columns: 1fr;
+            }
+
+            .titulo-equipo h2 {
+                font-size: 23px;
+            }
+
+            .header-text h1 {
+                font-size: 18px;
+            }
+
+            .logo {
+                width: 55px;
+                height: 55px;
+            }
+
+            .acceso-card {
+                padding: 15px;
+            }
+        }
+
+    </style>
 </head>
 
 <body>
 
 <header>
+    <div class="header-content">
 
-<div class="header-content">
+        <img
+            src="/img/fondo.jfif"
+            class="logo"
+            alt="Logo institucional"
+        >
 
-<img
-    src="/img/fondo.jfif"
-    class="logo"
-    alt="Logo institucional"
->
+        <div class="header-text">
 
-<div class="header-text">
+            <h1>ÁREA DE INGENIERÍA BIOMÉDICA</h1>
 
-    <h1>
-        ÁREA DE INGENIERÍA BIOMÉDICA
-    </h1>
+            <p>GESTIÓN DE EQUIPO BIOMÉDICO</p>
 
-    <p>
-        GESTIÓN DE EQUIPO BIOMÉDICO
-    </p>
+        </div>
 
-</div>
-
-</div>
-
+    </div>
 </header>
-
 
 <main class="contenedor">
 
-<div id="contenido">
+    <div id="contenido">
 
-<div class="cargando">
-    Cargando ficha técnica...
-</div>
-
-</div>
-
-</main>
-
-
-<!-- =====================================================
-     MODAL REPORTAR FALLA / ALARMA
-===================================================== -->
-
-<div
-    id="falla-modal"
-    class="falla-modal"
-    onclick="cerrarFallaDesdeFondo(event)"
->
-
-    <div
-        class="falla-contenido"
-        onclick="event.stopPropagation()"
-    >
-
-        <div class="falla-titulo">
-
-            <h3>
-                🔴 Reportar falla / alarma
-            </h3>
-
-            <button
-                type="button"
-                class="falla-cerrar"
-                onclick="cerrarFormularioFalla()"
-            >
-                ×
-            </button>
-
+        <div class="cargando">
+            Cargando ficha técnica...
         </div>
-
-        <div
-            id="falla-mensaje"
-            class="falla-mensaje"
-        ></div>
-
-        <div
-            id="falla-equipo-info"
-            class="falla-equipo"
-        >
-            <strong>
-                Equipo
-            </strong>
-
-            <span id="falla-equipo-nombre">
-                Cargando...
-            </span>
-
-            <span id="falla-equipo-activo">
-                Activo fijo: Cargando...
-            </span>
-        </div>
-
-        <form
-            id="formulario-falla"
-            enctype="multipart/form-data"
-        >
-
-            <div class="falla-campo">
-
-                <label for="tipo-falla">
-                    Tipo de falla *
-                </label>
-
-                <select
-                    id="tipo-falla"
-                    name="tipoFalla"
-                    required
-                >
-
-                    <option value="">
-                        Selecciona una opción
-                    </option>
-
-                    <option value="Falla técnica">
-                        Falla técnica
-                    </option>
-
-                    <option value="Alarma del equipo">
-                        Alarma del equipo
-                    </option>
-
-                    <option value="Error en pantalla">
-                        Error en pantalla
-                    </option>
-
-                    <option value="Falla eléctrica">
-                        Falla eléctrica
-                    </option>
-
-                    <option value="Falla mecánica">
-                        Falla mecánica
-                    </option>
-
-                    <option value="Falla de software">
-                        Falla de software
-                    </option>
-
-                    <option value="Daño físico">
-                        Daño físico
-                    </option>
-
-                    <option value="No enciende">
-                        No enciende
-                    </option>
-
-                    <option value="Otro">
-                        Otro
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="falla-campo">
-
-                <label for="descripcion-falla">
-                    Descripción de la falla *
-                </label>
-
-                <textarea
-                    id="descripcion-falla"
-                    name="descripcionFalla"
-                    placeholder="Describe qué ocurrió, qué alarma apareció o qué problema presenta el equipo..."
-                    required
-                ></textarea>
-
-            </div>
-
-
-            <div class="falla-campo">
-
-                <label for="fotografia-falla">
-                    Fotografía del error
-                </label>
-
-                <input
-                    type="file"
-                    id="fotografia-falla"
-                    name="fotografia"
-                    accept="image/*"
-                    capture="environment"
-                >
-
-            </div>
-
-
-            <div class="falla-campo">
-
-                <label for="reportado-por">
-                    Reportado por
-                </label>
-
-                <input
-                    type="text"
-                    id="reportado-por"
-                    name="reportadoPor"
-                    placeholder="Nombre de quien reporta"
-                >
-
-            </div>
-
-
-            <div class="falla-campo">
-
-                <label for="observaciones-falla">
-                    Observaciones
-                </label>
-
-                <textarea
-                    id="observaciones-falla"
-                    name="observaciones"
-                    placeholder="Agrega alguna observación adicional..."
-                ></textarea>
-
-            </div>
-
-
-            <div class="falla-acciones">
-
-                <button
-                    type="button"
-                    class="falla-cancelar"
-                    onclick="cerrarFormularioFalla()"
-                >
-                    Cancelar
-                </button>
-
-                <button
-                    type="submit"
-                    id="falla-guardar"
-                    class="falla-guardar"
-                >
-                    🔴 Registrar falla
-                </button>
-
-            </div>
-
-        </form>
 
     </div>
 
-</div>
-
+</main>
 
 <script>
 
 const parametros =
-    new URLSearchParams(
-        window.location.search
-    );
+    new URLSearchParams(window.location.search);
 
 const equipoId =
     parametros.get("equipoId");
@@ -1988,57 +320,17 @@ function escaparHTML(valor) {
     }
 
     return String(valor)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-
-function formatearFecha(valor) {
-
-    if (!valor) {
-        return "No especificado";
-    }
-
-    const partes =
-        String(valor).split("-");
-
-    if (
-        partes.length === 3
-    ) {
-
-        return `${partes[2]}/${partes[1]}/${partes[0]}`;
-
-    }
-
-    return escaparHTML(valor);
-
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
 
 function mostrarError(mensaje) {
 
-    document.getElementById(
-        "contenido"
-    ).innerHTML = `
+    document.getElementById("contenido").innerHTML = `
 
         <div class="error">
 
@@ -2064,6 +356,10 @@ if (!equipoId) {
 }
 
 
+/* =====================================================
+   CORRECCIÓN PRINCIPAL
+   ===================================================== */
+
 async function cargarEquipo() {
 
     try {
@@ -2073,6 +369,7 @@ async function cargarEquipo() {
                 `/api/equipo/${encodeURIComponent(equipoId)}`
             );
 
+
         if (!respuesta.ok) {
 
             throw new Error(
@@ -2081,12 +378,32 @@ async function cargarEquipo() {
 
         }
 
+
         const datos =
             await respuesta.json();
 
+
+        /*
+         * El servidor devuelve:
+         *
+         * {
+         *     correcto: true,
+         *     equipo: {
+         *         id: "...",
+         *         nombre: "...",
+         *         numeroActivo: "...",
+         *         ...
+         *     }
+         * }
+         *
+         * Por eso debemos utilizar datos.equipo.
+         */
+
+
         if (
             !datos ||
-            !datos.id
+            !datos.correcto ||
+            !datos.equipo
         ) {
 
             throw new Error(
@@ -2095,16 +412,18 @@ async function cargarEquipo() {
 
         }
 
-        mostrarEquipo(datos);
+
+        mostrarEquipo(
+            datos.equipo
+        );
+
 
         cargarCantidadAccesorios();
 
         cargarCantidadRepuestos();
 
-        cargarMantenimiento(
-            datos.fechaProximoMantenimiento,
-            datos.fechaUltimoMantenimiento
-        );
+        cargarMantenimiento();
+
 
     } catch (error) {
 
@@ -2112,6 +431,7 @@ async function cargarEquipo() {
             "Error cargando equipo:",
             error
         );
+
 
         mostrarError(
             error.message ||
@@ -2126,27 +446,27 @@ async function cargarEquipo() {
 function obtenerFoto(datos) {
 
     if (!datos.fotografia) {
+
         return "";
+
     }
 
-    if (
-        Array.isArray(
-            datos.fotografia
-        )
-    ) {
+
+    if (Array.isArray(datos.fotografia)) {
 
         if (
             datos.fotografia.length === 0
         ) {
+
             return "";
+
         }
 
-        return (
-            datos.fotografia[0].url ||
-            ""
-        );
+
+        return datos.fotografia[0].url || "";
 
     }
+
 
     if (
         typeof datos.fotografia === "string"
@@ -2156,544 +476,45 @@ function obtenerFoto(datos) {
 
     }
 
+
     return "";
 
 }
 
-
-/* =========================================================
-   CRITICIDAD
-========================================================= */
-
-function obtenerNivelCriticidad(valor) {
-
-    const criticidad =
-        String(valor || "")
-            .trim()
-            .toLowerCase();
-
-    if (
-        criticidad.includes("alta") ||
-        criticidad.includes("alto") ||
-        criticidad.includes("rojo")
-    ) {
-        return "alta";
-    }
-
-    if (
-        criticidad.includes("media") ||
-        criticidad.includes("medio") ||
-        criticidad.includes("amarillo")
-    ) {
-        return "media";
-    }
-
-    if (
-        criticidad.includes("baja") ||
-        criticidad.includes("bajo") ||
-        criticidad.includes("verde")
-    ) {
-        return "baja";
-    }
-
-    return "otra";
-
-}
-
-
-function obtenerTextoCriticidad(valor) {
-
-    const nivel =
-        obtenerNivelCriticidad(
-            valor
-        );
-
-    if (nivel === "alta") {
-        return "CRITICIDAD ALTA";
-    }
-
-    if (nivel === "media") {
-        return "CRITICIDAD MEDIA";
-    }
-
-    if (nivel === "baja") {
-        return "CRITICIDAD BAJA";
-    }
-
-    return String(
-        valor ||
-        "CRITICIDAD NO ESPECIFICADA"
-    ).toUpperCase();
-
-}
-
-
-/* =========================================================
-   AYUDA VISUAL
-========================================================= */
-
-function obtenerVideosValidos(datos) {
-
-    if (
-        !Array.isArray(
-            datos.videos
-        )
-    ) {
-        return [];
-    }
-
-    return datos.videos.filter(
-        video => {
-
-            return (
-                video &&
-                video.titulo &&
-                String(
-                    video.titulo
-                ).trim() &&
-                video.url &&
-                String(
-                    video.url
-                ).trim()
-            );
-
-        }
-    );
-
-}
-
-
-function esUrlYouTube(url) {
-
-    try {
-
-        const direccion =
-            new URL(url);
-
-        const dominio =
-            direccion.hostname
-                .toLowerCase()
-                .replace(
-                    "www.",
-                    ""
-                );
-
-        return (
-            dominio === "youtube.com" ||
-            dominio === "youtu.be" ||
-            dominio === "m.youtube.com"
-        );
-
-    } catch (error) {
-
-        return false;
-
-    }
-
-}
-
-
-function abrirVideo(url) {
-
-    if (!url) {
-        return;
-    }
-
-    if (
-        !esUrlYouTube(url)
-    ) {
-
-        alert(
-            "La dirección del video no parece ser una URL válida de YouTube."
-        );
-
-        return;
-
-    }
-
-    window.open(
-        url,
-        "_blank",
-        "noopener,noreferrer"
-    );
-
-}
-
-
-function generarAyudaVisual(datos) {
-
-    const videos =
-        obtenerVideosValidos(
-            datos
-        );
-
-    if (
-        videos.length === 0
-    ) {
-        return "";
-    }
-
-    const tarjetas =
-        videos
-            .map(
-                (video) => {
-
-                    return `
-
-                        <button
-                            type="button"
-                            class="video-card"
-                            onclick="abrirVideo('${escaparAtributoJS(video.url)}')"
-                        >
-
-                            <div class="video-icono">
-                                ▶️
-                            </div>
-
-                            <div class="video-info">
-
-                                <strong>
-                                    ${escaparHTML(
-                                        video.titulo
-                                    )}
-                                </strong>
-
-                                <span>
-                                    Ver ayuda visual en YouTube
-                                </span>
-
-                            </div>
-
-                            <div class="video-flecha">
-                                →
-                            </div>
-
-                        </button>
-
-                    `;
-
-                }
-            )
-            .join("");
-
-    return `
-
-        <section class="seccion ayuda-visual">
-
-            <h3>
-                🆘 Ayuda visual
-            </h3>
-
-            <p class="ayuda-descripcion">
-                Selecciona el problema o situación que presenta el equipo para consultar una ayuda visual.
-            </p>
-
-            <div class="videos-grid">
-
-                ${tarjetas}
-
-            </div>
-
-        </section>
-
-    `;
-
-}
-
-
-function escaparAtributoJS(valor) {
-
-    return String(valor || "")
-        .replace(
-            /\\/g,
-            "\\\\"
-        )
-        .replace(
-            /'/g,
-            "\\'"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /\r/g,
-            ""
-        )
-        .replace(
-            /\n/g,
-            "\\n"
-        );
-
-}
-
-
-/* =========================================================
-   ALERTA DE MANTENIMIENTO
-========================================================= */
-
-function generarAlertaMantenimiento(fecha) {
-
-    if (!fecha) {
-
-        return `
-
-            <div class="alerta-mantenimiento amarillo">
-
-                <strong>
-                    ⚠️ Mantenimiento sin programar
-                </strong>
-
-                <span>
-                    No hay una fecha de próximo mantenimiento registrada para este equipo.
-                </span>
-
-            </div>
-
-        `;
-
-    }
-
-    const hoy =
-        new Date();
-
-    hoy.setHours(
-        0,
-        0,
-        0,
-        0
-    );
-
-    const fechaMantenimiento =
-        new Date(
-            String(fecha) +
-            "T00:00:00"
-        );
-
-    fechaMantenimiento.setHours(
-        0,
-        0,
-        0,
-        0
-    );
-
-    const diferencia =
-        fechaMantenimiento.getTime() -
-        hoy.getTime();
-
-    const dias =
-        Math.round(
-            diferencia /
-            (
-                1000 *
-                60 *
-                60 *
-                24
-            )
-        );
-
-    if (dias < 0) {
-
-        const diasVencido =
-            Math.abs(dias);
-
-        return `
-
-            <div class="alerta-mantenimiento rojo">
-
-                <strong>
-                    🔴 Mantenimiento vencido
-                </strong>
-
-                <span>
-                    El mantenimiento debió realizarse el
-                    ${formatearFecha(fecha)}
-                    y presenta un atraso de
-                    ${diasVencido}
-                    día${diasVencido === 1 ? "" : "s"}.
-                </span>
-
-            </div>
-
-        `;
-
-    }
-
-    if (dias === 0) {
-
-        return `
-
-            <div class="alerta-mantenimiento rojo">
-
-                <strong>
-                    🔴 Mantenimiento programado para HOY
-                </strong>
-
-                <span>
-                    Fecha programada:
-                    ${formatearFecha(fecha)}
-                </span>
-
-            </div>
-
-        `;
-
-    }
-
-    if (dias <= 7) {
-
-        return `
-
-            <div class="alerta-mantenimiento naranja">
-
-                <strong>
-                    🟠 Mantenimiento próximo
-                </strong>
-
-                <span>
-                    Faltan
-                    ${dias}
-                    día${dias === 1 ? "" : "s"}
-                    para el mantenimiento.
-                    Fecha:
-                    ${formatearFecha(fecha)}
-                </span>
-
-            </div>
-
-        `;
-
-    }
-
-    if (dias <= 30) {
-
-        return `
-
-            <div class="alerta-mantenimiento amarillo">
-
-                <strong>
-                    🟡 Mantenimiento próximo
-                </strong>
-
-                <span>
-                    Faltan
-                    ${dias}
-                    días para el mantenimiento.
-                    Fecha:
-                    ${formatearFecha(fecha)}
-                </span>
-
-            </div>
-
-        `;
-
-    }
-
-    return `
-
-        <div class="alerta-mantenimiento verde">
-
-            <strong>
-                🟢 Mantenimiento al corriente
-            </strong>
-
-            <span>
-                Próximo mantenimiento:
-                ${formatearFecha(fecha)}
-            </span>
-
-        </div>
-
-    `;
-
-}
-
-
-/* =========================================================
-   MOSTRAR EQUIPO
-========================================================= */
 
 function mostrarEquipo(datos) {
 
     const fotografia =
         obtenerFoto(datos);
 
-    const nivelCriticidad =
-        obtenerNivelCriticidad(
-            datos.criticidad
-        );
-
-    const textoCriticidad =
-        obtenerTextoCriticidad(
-            datos.criticidad
-        );
-
-    const ayudaVisual =
-        generarAyudaVisual(
-            datos
-        );
-
-    const claseCriticidad =
-        `criticidad-${nivelCriticidad}`;
-
-    const claseFoto =
-        nivelCriticidad;
-
 
     document.getElementById(
         "contenido"
     ).innerHTML = `
 
-        <button
-            type="button"
-            class="imprimir-btn"
-            onclick="imprimirFicha()"
-        >
-            🖨️ Imprimir ficha técnica
-        </button>
-
 
         <section class="titulo-equipo">
 
             <h2>
-                ${escaparHTML(
-                    datos.nombre
-                )}
+                ${escaparHTML(datos.nombre)}
             </h2>
 
 
             <div class="activo">
 
                 Número de activo fijo:
-                ${escaparHTML(
-                    datos.numeroActivo
-                )}
+
+                ${escaparHTML(datos.numeroActivo)}
 
             </div>
 
 
-            <!-- CRITICIDAD Y REPORTE DE FALLA -->
+            <div class="criticidad">
 
-            <div class="criticidad-falla">
-
-                <div
-                    class="criticidad ${claseCriticidad}"
-                >
-
-                    ${escaparHTML(
-                        textoCriticidad
-                    )}
-
-                </div>
-
-
-                <button
-                    type="button"
-                    class="falla-btn"
-                    onclick="abrirFormularioFalla()"
-                >
-                    🔴 Reportar falla / alarma
-                </button>
+                ${escaparHTML(
+                    datos.criticidad ||
+                    "Sin especificar"
+                )}
 
             </div>
 
@@ -2702,21 +523,11 @@ function mostrarEquipo(datos) {
                 fotografia
                 ?
                 `
-
-                    <div
-                        class="foto-contenedor ${claseFoto}"
-                    >
-
-                        <img
-                            src="${escaparHTML(
-                                fotografia
-                            )}"
-                            class="foto-equipo"
-                            alt="Fotografía del equipo"
-                        >
-
-                    </div>
-
+                <img
+                    src="${escaparHTML(fotografia)}"
+                    class="foto-equipo"
+                    alt="Fotografía del equipo"
+                >
                 `
                 :
                 ""
@@ -2730,6 +541,7 @@ function mostrarEquipo(datos) {
             <h3>
                 📋 Información del Equipo
             </h3>
+
 
             <div class="grid-info">
 
@@ -2891,7 +703,7 @@ function mostrarEquipo(datos) {
                     </strong>
 
                     <span>
-                        ${formatearFecha(
+                        ${escaparHTML(
                             datos.fechaAdquisicion
                         )}
                     </span>
@@ -2919,20 +731,16 @@ function mostrarEquipo(datos) {
         </section>
 
 
-        ${ayudaVisual}
-
-
         <section class="seccion">
 
             <h3>
                 🔌 Accesorios Médicos
             </h3>
 
+
             <a
                 class="acceso-card"
-                href="/accesorio.html?equipoId=${encodeURIComponent(
-                    equipoId
-                )}"
+                href="/accesorio.html?equipoId=${encodeURIComponent(equipoId)}"
             >
 
                 <div class="acceso-izq">
@@ -2941,19 +749,24 @@ function mostrarEquipo(datos) {
                         🔌
                     </div>
 
+
                     <div class="acceso-info">
 
                         <strong>
                             Accesorios del equipo
                         </strong>
 
+
                         <span id="cantidad-accesorios">
+
                             Consultando accesorios...
+
                         </span>
 
                     </div>
 
                 </div>
+
 
                 <div class="flecha">
                     →
@@ -2970,11 +783,10 @@ function mostrarEquipo(datos) {
                 🔧 Repuestos Médicos
             </h3>
 
+
             <a
                 class="acceso-card"
-                href="/repuesto.html?equipoId=${encodeURIComponent(
-                    equipoId
-                )}"
+                href="/repuesto.html?equipoId=${encodeURIComponent(equipoId)}"
             >
 
                 <div class="acceso-izq">
@@ -2983,19 +795,24 @@ function mostrarEquipo(datos) {
                         🔧
                     </div>
 
+
                     <div class="acceso-info">
 
                         <strong>
                             Repuestos del equipo
                         </strong>
 
+
                         <span id="cantidad-repuestos">
+
                             Consultando repuestos...
+
                         </span>
 
                     </div>
 
                 </div>
+
 
                 <div class="flecha">
                     →
@@ -3012,10 +829,13 @@ function mostrarEquipo(datos) {
                 🛠️ Información de Mantenimiento
             </h3>
 
+
             <div id="mantenimiento-info">
 
                 <div class="cargando">
+
                     Cargando información...
+
                 </div>
 
             </div>
@@ -3029,10 +849,13 @@ function mostrarEquipo(datos) {
                 📋 Historial de Mantenimiento
             </h3>
 
+
             <div id="historial">
 
                 <div class="cargando">
+
                     Cargando historial...
+
                 </div>
 
             </div>
@@ -3040,28 +863,24 @@ function mostrarEquipo(datos) {
         </section>
 
 
-        <!-- ACCESO A MANTENIMIENTO -->
-
         <section class="seccion">
 
             <button
-                type="button"
                 class="mantenimiento-btn"
                 onclick="accederMantenimiento()"
             >
+
                 🔧 Acceder a Mantenimiento
+
             </button>
 
         </section>
+
 
     `;
 
 }
 
-
-/* =========================================================
-   CANTIDAD DE ACCESORIOS
-========================================================= */
 
 async function cargarCantidadAccesorios() {
 
@@ -3070,31 +889,30 @@ async function cargarCantidadAccesorios() {
             "cantidad-accesorios"
         );
 
-    if (!elemento) {
-        return;
-    }
+
+    if (!elemento) return;
+
 
     try {
 
         const respuesta =
             await fetch(
-                `/api/equipo/${encodeURIComponent(
-                    equipoId
-                )}/accesorios`
+                `/api/equipo/${encodeURIComponent(equipoId)}/accesorios`
             );
+
 
         const datos =
             await respuesta.json();
 
+
         if (
             datos.correcto &&
-            Array.isArray(
-                datos.accesorios
-            )
+            Array.isArray(datos.accesorios)
         ) {
 
             const cantidad =
                 datos.accesorios.length;
+
 
             elemento.textContent =
                 cantidad === 1
@@ -3110,9 +928,11 @@ async function cargarCantidadAccesorios() {
 
         }
 
+
     } catch (error) {
 
         console.error(error);
+
 
         elemento.textContent =
             "Ver accesorios del equipo →";
@@ -3122,10 +942,6 @@ async function cargarCantidadAccesorios() {
 }
 
 
-/* =========================================================
-   CANTIDAD DE REPUESTOS
-========================================================= */
-
 async function cargarCantidadRepuestos() {
 
     const elemento =
@@ -3133,31 +949,30 @@ async function cargarCantidadRepuestos() {
             "cantidad-repuestos"
         );
 
-    if (!elemento) {
-        return;
-    }
+
+    if (!elemento) return;
+
 
     try {
 
         const respuesta =
             await fetch(
-                `/api/equipo/${encodeURIComponent(
-                    equipoId
-                )}/repuestos`
+                `/api/equipo/${encodeURIComponent(equipoId)}/repuestos`
             );
+
 
         const datos =
             await respuesta.json();
 
+
         if (
             datos.correcto &&
-            Array.isArray(
-                datos.repuestos
-            )
+            Array.isArray(datos.repuestos)
         ) {
 
             const cantidad =
                 datos.repuestos.length;
+
 
             elemento.textContent =
                 cantidad === 1
@@ -3173,9 +988,11 @@ async function cargarCantidadRepuestos() {
 
         }
 
+
     } catch (error) {
 
         console.error(error);
+
 
         elemento.textContent =
             "Ver repuestos del equipo →";
@@ -3185,44 +1002,30 @@ async function cargarCantidadRepuestos() {
 }
 
 
-/* =========================================================
-   MANTENIMIENTO
-========================================================= */
-
-async function cargarMantenimiento(
-    fechaProximoEquipo,
-    fechaUltimoEquipo
-) {
+async function cargarMantenimiento() {
 
     try {
+
+        const respuesta =
+            await fetch(
+                `/api/equipo/${encodeURIComponent(equipoId)}/mantenimientos`
+            );
+
+
+        const datos =
+            await respuesta.json();
+
 
         const contenedor =
             document.getElementById(
                 "mantenimiento-info"
             );
 
+
         const historial =
             document.getElementById(
                 "historial"
             );
-
-
-        const alertaMantenimiento =
-            generarAlertaMantenimiento(
-                fechaProximoEquipo
-            );
-
-
-        const respuesta =
-            await fetch(
-                `/api/equipo/${encodeURIComponent(
-                    equipoId
-                )}/mantenimientos`
-            );
-
-
-        const datos =
-            await respuesta.json();
 
 
         if (
@@ -3232,53 +1035,13 @@ async function cargarMantenimiento(
             )
         ) {
 
-            contenedor.innerHTML = `
-
-                ${alertaMantenimiento}
-
-                <div class="grid-info">
-
-                    <div class="dato">
-
-                        <strong>
-                            Último mantenimiento
-                        </strong>
-
-                        <span>
-                            ${formatearFecha(
-                                fechaUltimoEquipo
-                            )}
-                        </span>
-
-                    </div>
+            contenedor.innerHTML =
+                `<p>No hay información de mantenimiento.</p>`;
 
 
-                    <div class="dato">
+            historial.innerHTML =
+                `<p>No hay historial de mantenimiento.</p>`;
 
-                        <strong>
-                            Próximo mantenimiento
-                        </strong>
-
-                        <span>
-                            ${formatearFecha(
-                                fechaProximoEquipo
-                            )}
-                        </span>
-
-                    </div>
-
-                </div>
-
-            `;
-
-
-            historial.innerHTML = `
-
-                <p>
-                    No hay historial de mantenimiento.
-                </p>
-
-            `;
 
             return;
 
@@ -3295,40 +1058,12 @@ async function cargarMantenimiento(
 
             contenedor.innerHTML = `
 
-                ${alertaMantenimiento}
+                <p>
 
-                <div class="grid-info">
+                    No se han registrado mantenimientos
+                    para este equipo.
 
-                    <div class="dato">
-
-                        <strong>
-                            Último mantenimiento
-                        </strong>
-
-                        <span>
-                            ${formatearFecha(
-                                fechaUltimoEquipo
-                            )}
-                        </span>
-
-                    </div>
-
-
-                    <div class="dato">
-
-                        <strong>
-                            Próximo mantenimiento
-                        </strong>
-
-                        <span>
-                            ${formatearFecha(
-                                fechaProximoEquipo
-                            )}
-                        </span>
-
-                    </div>
-
-                </div>
+                </p>
 
             `;
 
@@ -3336,10 +1071,13 @@ async function cargarMantenimiento(
             historial.innerHTML = `
 
                 <p>
+
                     No existe historial de mantenimiento.
+
                 </p>
 
             `;
+
 
             return;
 
@@ -3352,9 +1090,6 @@ async function cargarMantenimiento(
 
         contenedor.innerHTML = `
 
-            ${alertaMantenimiento}
-
-
             <div class="grid-info">
 
 
@@ -3365,10 +1100,11 @@ async function cargarMantenimiento(
                     </strong>
 
                     <span>
-                        ${formatearFecha(
-                            fechaUltimoEquipo ||
+
+                        ${escaparHTML(
                             ultimo.fechaMantenimiento
                         )}
+
                     </span>
 
                 </div>
@@ -3381,9 +1117,11 @@ async function cargarMantenimiento(
                     </strong>
 
                     <span>
+
                         ${escaparHTML(
                             ultimo.tipoMantenimiento
                         )}
+
                     </span>
 
                 </div>
@@ -3396,9 +1134,11 @@ async function cargarMantenimiento(
                     </strong>
 
                     <span>
+
                         ${escaparHTML(
                             ultimo.tecnico
                         )}
+
                     </span>
 
                 </div>
@@ -3411,10 +1151,11 @@ async function cargarMantenimiento(
                     </strong>
 
                     <span>
-                        ${formatearFecha(
-                            fechaProximoEquipo ||
+
+                        ${escaparHTML(
                             ultimo.proximoMantenimiento
                         )}
+
                     </span>
 
                 </div>
@@ -3426,111 +1167,67 @@ async function cargarMantenimiento(
 
 
         historial.innerHTML =
+
             mantenimientos
+
                 .map(
-                    (
-                        mantenimiento,
-                        indice
-                    ) => {
 
-                        return `
+                    (mantenimiento, indice) => `
 
-                            <a
-                                class="historial-item"
-                                href="/ficha-mantenimiento.html?mantenimientoId=${encodeURIComponent(
-                                    mantenimiento.id
-                                )}&equipoId=${encodeURIComponent(
-                                    equipoId
-                                )}"
-                            >
+                        <div class="historial-item">
 
-                                <div class="historial-superior">
+                            <strong>
 
-                                    <div class="historial-titulo">
+                                Mantenimiento #${indice + 1}
 
-                                        🛠️ Mantenimiento #${
-                                            indice + 1
-                                        }
-
-                                    </div>
-
-                                    <div class="historial-fecha">
-
-                                        📅 ${
-                                            formatearFecha(
-                                                mantenimiento.fechaMantenimiento
-                                            )
-                                        }
-
-                                    </div>
-
-                                </div>
+                            </strong>
 
 
-                                <div class="historial-datos">
+                            <br><br>
 
 
-                                    <div class="historial-dato">
+                            <b>Fecha:</b>
 
-                                        <strong>
-                                            Tipo
-                                        </strong>
-
-                                        <span>
-                                            ${escaparHTML(
-                                                mantenimiento.tipoMantenimiento
-                                            )}
-                                        </span>
-
-                                    </div>
+                            ${escaparHTML(
+                                mantenimiento.fechaMantenimiento
+                            )}
 
 
-                                    <div class="historial-dato">
-
-                                        <strong>
-                                            Técnico
-                                        </strong>
-
-                                        <span>
-                                            ${escaparHTML(
-                                                mantenimiento.tecnico
-                                            )}
-                                        </span>
-
-                                    </div>
+                            <br>
 
 
-                                    <div class="historial-dato">
+                            <b>Tipo:</b>
 
-                                        <strong>
-                                            Estado
-                                        </strong>
-
-                                        <span>
-                                            ${escaparHTML(
-                                                mantenimiento.estado
-                                            )}
-                                        </span>
-
-                                    </div>
+                            ${escaparHTML(
+                                mantenimiento.tipoMantenimiento
+                            )}
 
 
-                                </div>
+                            <br>
 
 
-                                <div class="historial-ver">
+                            <b>Técnico:</b>
 
-                                    Ver ficha completa →
+                            ${escaparHTML(
+                                mantenimiento.tecnico
+                            )}
 
-                                </div>
+
+                            <br>
 
 
-                            </a>
+                            <b>Estado:</b>
 
-                        `;
+                            ${escaparHTML(
+                                mantenimiento.estado
+                            )}
 
-                    }
+                        </div>
+
+                    `
+
                 )
+
                 .join("");
 
 
@@ -3547,6 +1244,7 @@ async function cargarMantenimiento(
                 "mantenimiento-info"
             );
 
+
         const historial =
             document.getElementById(
                 "historial"
@@ -3555,30 +1253,16 @@ async function cargarMantenimiento(
 
         if (mantenimiento) {
 
-            mantenimiento.innerHTML = `
-
-                ${generarAlertaMantenimiento(
-                    fechaProximoEquipo
-                )}
-
-                <p>
-                    No se pudo cargar el historial de mantenimiento.
-                </p>
-
-            `;
+            mantenimiento.innerHTML =
+                `<p>No se pudo cargar mantenimiento.</p>`;
 
         }
 
 
         if (historial) {
 
-            historial.innerHTML = `
-
-                <p>
-                    No se pudo cargar el historial.
-                </p>
-
-            `;
+            historial.innerHTML =
+                `<p>No se pudo cargar el historial.</p>`;
 
         }
 
@@ -3586,397 +1270,6 @@ async function cargarMantenimiento(
 
 }
 
-
-/* =========================================================
-   REPORTAR FALLA / ALARMA
-========================================================= */
-
-function abrirFormularioFalla() {
-
-    const modal =
-        document.getElementById(
-            "falla-modal"
-        );
-
-    const mensaje =
-        document.getElementById(
-            "falla-mensaje"
-        );
-
-    const formulario =
-        document.getElementById(
-            "formulario-falla"
-        );
-
-    const nombreEquipo =
-        document.getElementById(
-            "falla-equipo-nombre"
-        );
-
-    const activoEquipo =
-        document.getElementById(
-            "falla-equipo-activo"
-        );
-
-
-    if (!modal) {
-        return;
-    }
-
-
-    mensaje.className =
-        "falla-mensaje";
-
-    mensaje.textContent =
-        "";
-
-
-    if (formulario) {
-        formulario.reset();
-    }
-
-
-    fetch(
-        `/api/equipo/${encodeURIComponent(equipoId)}`
-    )
-        .then(
-            respuesta => {
-
-                if (!respuesta.ok) {
-                    throw new Error(
-                        "No se pudo cargar el equipo."
-                    );
-                }
-
-                return respuesta.json();
-
-            }
-        )
-        .then(
-            datos => {
-
-                if (nombreEquipo) {
-
-                    nombreEquipo.textContent =
-                        datos.nombre ||
-                        "No especificado";
-
-                }
-
-                if (activoEquipo) {
-
-                    activoEquipo.textContent =
-                        `Activo fijo: ${
-                            datos.numeroActivo ||
-                            "No especificado"
-                        }`;
-
-                }
-
-            }
-        )
-        .catch(
-            error => {
-
-                console.error(
-                    "Error cargando información del equipo:",
-                    error
-                );
-
-                if (nombreEquipo) {
-
-                    nombreEquipo.textContent =
-                        "No se pudo cargar el nombre del equipo.";
-
-                }
-
-                if (activoEquipo) {
-
-                    activoEquipo.textContent =
-                        "Activo fijo: No disponible";
-
-                }
-
-            }
-        );
-
-
-    modal.classList.add(
-        "activo"
-    );
-
-
-    document.body.style.overflow =
-        "hidden";
-
-}
-
-
-function cerrarFormularioFalla() {
-
-    const modal =
-        document.getElementById(
-            "falla-modal"
-        );
-
-    if (!modal) {
-        return;
-    }
-
-    modal.classList.remove(
-        "activo"
-    );
-
-    document.body.style.overflow =
-        "";
-
-}
-
-
-function cerrarFallaDesdeFondo(event) {
-
-    if (
-        event.target &&
-        event.target.id ===
-            "falla-modal"
-    ) {
-
-        cerrarFormularioFalla();
-
-    }
-
-}
-
-
-async function registrarFalla(event) {
-
-    event.preventDefault();
-
-
-    const formulario =
-        document.getElementById(
-            "formulario-falla"
-        );
-
-    const boton =
-        document.getElementById(
-            "falla-guardar"
-        );
-
-    const mensaje =
-        document.getElementById(
-            "falla-mensaje"
-        );
-
-
-    if (!formulario || !boton || !mensaje) {
-        return;
-    }
-
-
-    const tipoFalla =
-        document.getElementById(
-            "tipo-falla"
-        ).value.trim();
-
-
-    const descripcionFalla =
-        document.getElementById(
-            "descripcion-falla"
-        ).value.trim();
-
-
-    if (!tipoFalla) {
-
-        mostrarMensajeFalla(
-            "Selecciona el tipo de falla.",
-            true
-        );
-
-        return;
-
-    }
-
-
-    if (!descripcionFalla) {
-
-        mostrarMensajeFalla(
-            "Escribe una descripción de la falla.",
-            true
-        );
-
-        return;
-
-    }
-
-
-    const datosFormulario =
-        new FormData(
-            formulario
-        );
-
-
-    datosFormulario.append(
-        "equipoId",
-        equipoId
-    );
-
-
-    boton.disabled =
-        true;
-
-    boton.textContent =
-        "⏳ Registrando...";
-
-
-    mensaje.className =
-        "falla-mensaje";
-
-    mensaje.textContent =
-        "";
-
-
-    try {
-
-        const respuesta =
-            await fetch(
-                "/api/falla",
-                {
-                    method:
-                        "POST",
-                    body:
-                        datosFormulario
-                }
-            );
-
-
-        const datos =
-            await respuesta.json();
-
-
-        if (!respuesta.ok || !datos.correcto) {
-
-            throw new Error(
-                datos.mensaje ||
-                "No se pudo registrar la falla."
-            );
-
-        }
-
-
-        mostrarMensajeFalla(
-            datos.mensaje ||
-            "Falla registrada correctamente.",
-            false
-        );
-
-
-        setTimeout(
-            () => {
-
-                cerrarFormularioFalla();
-
-            },
-            1200
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "Error registrando falla:",
-            error
-        );
-
-
-        mostrarMensajeFalla(
-            error.message ||
-            "No se pudo registrar la falla.",
-            true
-        );
-
-
-        boton.disabled =
-            false;
-
-        boton.textContent =
-            "🔴 Registrar falla";
-
-    }
-
-}
-
-
-function mostrarMensajeFalla(
-    texto,
-    esError
-) {
-
-    const mensaje =
-        document.getElementById(
-            "falla-mensaje"
-        );
-
-    if (!mensaje) {
-        return;
-    }
-
-
-    mensaje.textContent =
-        texto;
-
-
-    mensaje.className =
-        esError
-        ?
-        "falla-mensaje error"
-        :
-        "falla-mensaje exito";
-
-}
-
-
-/*
- * Activar el formulario cuando la página
- * ya está cargada.
- */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        const formulario =
-            document.getElementById(
-                "formulario-falla"
-            );
-
-        if (formulario) {
-
-            formulario.addEventListener(
-                "submit",
-                registrarFalla
-            );
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   IMPRIMIR FICHA
-========================================================= */
-
-function imprimirFicha() {
-
-    window.print();
-
-}
-
-
-/* =========================================================
-   ACCESO A MANTENIMIENTO
-========================================================= */
 
 function accederMantenimiento() {
 
@@ -3987,7 +1280,9 @@ function accederMantenimiento() {
 
 
     if (!password) {
+
         return;
+
     }
 
 
@@ -3998,14 +1293,11 @@ function accederMantenimiento() {
 
 
     window.location.href =
-        `/mantenimiento.html?equipoId=${encodeURIComponent(
-            equipoId
-        )}`;
+        `/mantenimiento.html?equipoId=${encodeURIComponent(equipoId)}`;
 
 }
 
 </script>
 
 </body>
-
 </html>
