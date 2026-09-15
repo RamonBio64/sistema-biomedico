@@ -17,573 +17,333 @@
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
             background: #f3f6f8;
-            color: #263238;
+            color: #222;
         }
+
+        /* =====================================================
+           ENCABEZADO
+        ===================================================== */
 
         header {
-            background: linear-gradient(135deg, #0b3d4a, #126579);
+            background: #0f4c5c;
             color: white;
-            padding: 18px 20px;
-            box-shadow: 0 3px 12px rgba(0,0,0,.15);
+            padding: 18px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .header {
-            max-width: 1000px;
-            margin: auto;
+        .header-left {
             display: flex;
             align-items: center;
             gap: 15px;
         }
 
         .logo {
-            width: 60px;
-            height: 60px;
+            width: 65px;
+            height: 65px;
             object-fit: contain;
+            border-radius: 8px;
             background: white;
-            border-radius: 10px;
-            padding: 5px;
         }
 
-        h1 {
+        .header-text h1 {
             margin: 0;
-            font-size: 22px;
+            font-size: 21px;
         }
 
-        .subtitulo {
-            margin-top: 5px;
-            opacity: .9;
-            font-size: 14px;
+        .header-text p {
+            margin: 5px 0 0;
+            font-size: 13px;
+            opacity: 0.9;
         }
 
-        main {
-            max-width: 1000px;
-            margin: 25px auto;
-            padding: 0 15px;
+
+        /* =====================================================
+           CONTENEDOR PRINCIPAL
+        ===================================================== */
+
+        .contenedor {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
         }
 
-        /* ==============================
-           ACCIONES
-           ============================== */
+
+        /* =====================================================
+           BOTONES SUPERIORES
+        ===================================================== */
 
         .acciones {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .volver {
-            display: inline-block;
-            color: #126579;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        .boton-imprimir {
-            border: none;
-            background: #0b3d4a;
-            color: white;
-            padding: 11px 18px;
-            border-radius: 9px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: .2s ease;
-        }
-
-        .boton-imprimir:hover {
-            background: #126579;
-            transform: translateY(-1px);
-        }
-
-
-        /* ==============================
-           TÍTULO
-           ============================== */
-
-        .titulo {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,.08);
-            margin-bottom: 20px;
-        }
-
-        .titulo h2 {
-            margin: 0 0 8px;
-            color: #0b3d4a;
-            font-size: 28px;
-        }
-
-        .activo {
-            color: #607d8b;
-            font-weight: bold;
-        }
-
-
-        /* ==============================
-           FOTOGRAFÍA
-           ============================== */
-
-        .foto {
-            width: 100%;
-            max-height: 400px;
-            object-fit: contain;
-            margin-top: 20px;
-            border-radius: 12px;
-            background: #fafafa;
-        }
-
-        .sin-foto {
-            width: 100%;
-            height: 220px;
-            margin-top: 20px;
-            background: #f3f6f8;
-            border: 1px dashed #b8c4c8;
-            border-radius: 12px;
-
-            display: flex;
             align-items: center;
-            justify-content: center;
-
-            color: #78909c;
-            font-size: 16px;
-        }
-
-
-        /* ==============================
-           SECCIONES
-           ============================== */
-
-        .seccion {
-            background: white;
-            padding: 22px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,.07);
             margin-bottom: 20px;
+            gap: 10px;
         }
 
-        .seccion h3 {
-            margin-top: 0;
-            color: #0b3d4a;
-            border-bottom: 2px solid #e5ecef;
-            padding-bottom: 12px;
+        .btn {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-volver {
+            background: #0f4c5c;
+            color: white;
+        }
+
+        .btn-imprimir {
+            background: #555;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
         }
 
 
-        /* ==============================
-           GRID
-           ============================== */
+        /* =====================================================
+           FICHA PRINCIPAL
+        ===================================================== */
 
-        .grid {
+        .ficha {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .titulo-ficha {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .titulo-ficha h2 {
+            margin: 0;
+            color: #0f4c5c;
+            font-size: 26px;
+        }
+
+        .titulo-ficha p {
+            margin: 8px 0 0;
+            color: #666;
+        }
+
+
+        /* =====================================================
+           FOTO
+        ===================================================== */
+
+        .foto-contenedor {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .foto-accesorio {
+            width: 280px;
+            height: 280px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #f3f6f8;
+            border: 1px solid #ddd;
+        }
+
+
+        /* =====================================================
+           SECCIONES
+        ===================================================== */
+
+        .info-section {
+            margin-top: 25px;
+        }
+
+        .info-section h2 {
+            color: #0f4c5c;
+            border-bottom: 2px solid #0f4c5c;
+            padding-bottom: 8px;
+            margin-bottom: 18px;
+            font-size: 20px;
+        }
+
+
+        /* =====================================================
+           INFORMACIÓN
+        ===================================================== */
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .info-item {
+            background: #f7f9fa;
+            border-radius: 8px;
+            padding: 14px;
+            border: 1px solid #e2e6e8;
+        }
+
+        .info-item strong {
+            display: block;
+            color: #0f4c5c;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .info-item span {
+            color: #333;
+            word-break: break-word;
+        }
+
+
+        /* =====================================================
+           EQUIPO(S) RELACIONADO(S)
+        ===================================================== */
+
+        .equipos-relacionados {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .equipo-relacionado {
+            background: #f7f9fa;
+            border: 1px solid #dfe5e8;
+            border-radius: 10px;
+            padding: 18px;
+        }
+
+        .equipo-relacionado h3 {
+            margin: 0 0 15px;
+            color: #0f4c5c;
+            font-size: 18px;
+        }
+
+        .equipo-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
         }
 
-        .dato {
-            background: #f7f9fa;
-            padding: 14px;
-            border-radius: 9px;
-            border-left: 4px solid #126579;
+        .equipo-dato {
+            padding: 10px;
+            background: white;
+            border-radius: 7px;
+            border: 1px solid #e5e5e5;
         }
 
-        .dato strong {
+        .equipo-dato strong {
             display: block;
-            color: #607d8b;
+            color: #0f4c5c;
             font-size: 12px;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
-        .dato span {
-            font-size: 15px;
-            font-weight: 600;
+        .equipo-dato span {
+            font-size: 14px;
+            color: #333;
             word-break: break-word;
         }
 
+        .sin-equipo {
+            background: #f7f9fa;
+            border: 1px solid #e2e6e8;
+            border-radius: 8px;
+            padding: 15px;
+            color: #666;
+        }
 
-        /* ==============================
-           CARGANDO / ERROR
-           ============================== */
 
-        .cargando {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
+        /* =====================================================
+           MENSAJES
+        ===================================================== */
+
+        .mensaje {
             text-align: center;
-            color: #607d8b;
+            padding: 40px 20px;
+            color: #666;
         }
 
         .error {
-            background: #ffebee;
-            color: #b71c1c;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            font-weight: bold;
+            color: #b00020;
         }
 
 
-        /* =========================================================
-           IMPRESIÓN PROFESIONAL
-           ========================================================= */
+        /* =====================================================
+           PIE DE PÁGINA
+        ===================================================== */
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #777;
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           IMPRESIÓN
+        ===================================================== */
 
         @media print {
 
-            @page {
-                size: letter;
-                margin: 10mm;
-            }
-
-            * {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            html,
             body {
-                width: 100%;
-                min-height: 0;
-                margin: 0;
-                padding: 0;
-
-                background: white !important;
-
-                color: #263238 !important;
-
-                font-family: Arial, Helvetica, sans-serif;
+                background: white;
             }
-
-
-            /* =====================================================
-               OCULTAR NAVEGACIÓN
-               ===================================================== */
-
-            .acciones {
-                display: none !important;
-            }
-
-
-            /* =====================================================
-               ENCABEZADO INSTITUCIONAL
-               ===================================================== */
 
             header {
-                background: white !important;
-                color: #0b3d4a !important;
-
-                padding: 0 0 8px 0 !important;
-
-                margin: 0 0 10px 0;
-
-                border-bottom: 2px solid #0b3d4a;
-
-                box-shadow: none !important;
+                background: white;
+                color: black;
+                border-bottom: 1px solid #ccc;
             }
 
-            .header {
-                max-width: none;
-
-                margin: 0;
-
-                display: flex;
-
-                align-items: center;
-
-                gap: 12px;
+            .acciones {
+                display: none;
             }
 
-            .logo {
-                width: 50px;
-                height: 50px;
-
-                padding: 3px;
-
-                background: white !important;
-
-                border: 1px solid #cbd5d8;
-
-                border-radius: 5px;
-            }
-
-            h1 {
-                margin: 0;
-
-                font-size: 16pt;
-
-                color: #0b3d4a !important;
-
-                letter-spacing: .3px;
-            }
-
-            .subtitulo {
-                margin-top: 2px;
-
-                font-size: 9pt;
-
-                color: #607d8b !important;
-
-                opacity: 1;
-            }
-
-
-            /* =====================================================
-               CONTENEDOR PRINCIPAL
-               ===================================================== */
-
-            main {
-                max-width: none;
-
-                width: 100%;
-
-                margin: 0;
-
+            .ficha {
+                box-shadow: none;
                 padding: 0;
             }
 
-
-            /* =====================================================
-               TÍTULO DE LA FICHA
-               ===================================================== */
-
-            .titulo {
-                padding: 9px 12px;
-
-                background: #f1f5f6 !important;
-
-                border: 1px solid #aebbc0;
-
-                border-radius: 0;
-
-                box-shadow: none !important;
-
-                margin: 0 0 10px 0;
-            }
-
-            .titulo h2 {
-                margin: 0;
-
-                font-size: 15pt;
-
-                color: #0b3d4a !important;
-            }
-
-            .activo {
-                margin-top: 3px;
-
-                font-size: 8.5pt;
-
-                color: #607d8b !important;
-            }
-
-
-            /* =====================================================
-               FOTOGRAFÍA
-               ===================================================== */
-
-            .foto {
-                display: block;
-
-                width: 100%;
-
-                height: 145px;
-
-                max-height: 145px;
-
-                object-fit: contain;
-
-                object-position: center;
-
-                margin: 0 0 12px 0;
-
-                padding: 5px;
-
-                background: white !important;
-
-                border: 1px solid #cbd5d8;
-
-                border-radius: 5px;
-
-                page-break-inside: avoid;
-            }
-
-            .sin-foto {
-                width: 100%;
-
-                height: 70px;
-
-                margin: 0 0 12px 0;
-
-                background: white !important;
-
-                border: 1px dashed #b8c4c8;
-
-                border-radius: 5px;
-
-                color: #78909c !important;
-
-                font-size: 9pt;
-
-                page-break-inside: avoid;
-            }
-
-
-            /* =====================================================
-               SECCIÓN DE INFORMACIÓN
-               ===================================================== */
-
-            .seccion {
-                width: 100%;
-
-                background: white !important;
-
-                padding: 0;
-
-                margin: 0;
-
-                border: none;
-
-                border-radius: 0;
-
-                box-shadow: none !important;
-
-                page-break-inside: avoid;
-            }
-
-            .seccion h3 {
-                margin: 0;
-
-                padding: 8px 10px;
-
-                color: #0b3d4a !important;
-
-                background: #f1f5f6 !important;
-
-                border: 1px solid #aebbc0;
-
-                font-size: 11pt;
-            }
-
-
-            /* =====================================================
-               INFORMACIÓN COMO TABLA
-               ===================================================== */
-
-            .grid {
-                display: grid;
-
-                grid-template-columns: 1fr 1fr;
-
-                gap: 0;
-
-                width: 100%;
-
-                border-left: 1px solid #aebbc0;
-
-                border-top: 1px solid #aebbc0;
-            }
-
-            .dato {
-                min-height: 58px;
-
-                padding: 8px 10px;
-
-                background: white !important;
-
-                border: none;
-
-                border-right: 1px solid #aebbc0;
-
-                border-bottom: 1px solid #aebbc0;
-
-                border-left: none;
-
-                border-radius: 0;
-
-                page-break-inside: avoid;
-            }
-
-
-            /* =====================================================
-               ETIQUETAS
-               ===================================================== */
-
-            .dato strong {
-                display: block;
-
-                margin-bottom: 4px;
-
-                font-size: 7.5pt;
-
-                color: #607d8b !important;
-
-                text-transform: uppercase;
-
-                font-weight: bold;
-
-                letter-spacing: .2px;
-            }
-
-
-            /* =====================================================
-               VALORES
-               ===================================================== */
-
-            .dato span {
-                display: block;
-
-                font-size: 10pt;
-
-                line-height: 1.3;
-
-                color: #263238 !important;
-
-                word-break: break-word;
-            }
-
-
-            /* =====================================================
-               EVITAR CORTES
-               ===================================================== */
-
-            .titulo,
-            .foto,
-            .sin-foto,
-            .seccion,
-            .grid,
-            .dato {
-                page-break-inside: avoid;
+            footer {
+                display: none;
             }
 
         }
 
 
-        /* ==============================
-           CELULAR
-           ============================== */
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
 
-        @media(max-width:700px) {
+        @media (max-width: 700px) {
 
-            .acciones {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .boton-imprimir {
-                width: 100%;
-            }
-
-            .grid {
+            .info-grid,
+            .equipo-grid {
                 grid-template-columns: 1fr;
             }
 
-            .titulo h2 {
-                font-size: 23px;
+            header {
+                padding: 15px;
             }
 
-            h1 {
-                font-size: 18px;
+            .header-text h1 {
+                font-size: 17px;
+            }
+
+            .contenedor {
+                margin: 20px auto;
+            }
+
+            .ficha {
+                padding: 20px;
             }
 
         }
@@ -592,622 +352,697 @@
 
 </head>
 
+
 <body>
 
 
-<header>
+    <!-- =====================================================
+         ENCABEZADO
+    ===================================================== -->
 
-    <div class="header">
+    <header>
 
-        <img
-            src="/img/fondo.jfif"
-            class="logo"
-            alt="Logo institucional"
-        >
+        <div class="header-left">
 
-        <div>
+            <img
+                src="/img/fondo.jfif"
+                alt="Logo"
+                class="logo"
+            >
 
-            <h1>
-                ÁREA DE INGENIERÍA BIOMÉDICA
-            </h1>
+            <div class="header-text">
 
-            <div class="subtitulo">
-                GESTIÓN DE ACCESORIOS MÉDICOS
+                <h1>
+                    ÁREA DE INGENIERÍA BIOMÉDICA
+                </h1>
+
+                <p>
+                    GESTIÓN DE ACCESORIOS MÉDICOS
+                </p>
+
             </div>
 
         </div>
 
-    </div>
-
-</header>
+    </header>
 
 
-<main>
+    <!-- =====================================================
+         CONTENIDO
+    ===================================================== -->
+
+    <main class="contenedor">
 
 
-    <div class="acciones">
+        <!-- =================================================
+             BOTONES
+        ================================================= -->
 
-        <a
-            id="volver"
-            class="volver"
-            href="#"
-        >
-            ← Volver a accesorios
-        </a>
+        <div class="acciones">
 
-
-        <button
-            type="button"
-            class="boton-imprimir"
-            onclick="window.print()"
-        >
-            🖨️ Imprimir ficha
-        </button>
-
-    </div>
+            <a
+                href="#"
+                id="btnVolver"
+                class="btn btn-volver"
+            >
+                ← Volver
+            </a>
 
 
-    <div id="contenido">
-
-        <div class="cargando">
-            Cargando ficha del accesorio...
-        </div>
-
-    </div>
-
-
-</main>
-
-
-<script>
-
-
-const parametros =
-    new URLSearchParams(
-        window.location.search
-    );
-
-
-const accesorioId =
-    parametros.get("accesorioId");
-
-
-const equipoId =
-    parametros.get("equipoId");
-
-
-
-/* =========================================================
-   ESCAPAR HTML
-   ========================================================= */
-
-function escaparHTML(valor) {
-
-    if (
-        valor === null ||
-        valor === undefined ||
-        valor === ""
-    ) {
-
-        return "No especificado";
-
-    }
-
-
-    return String(valor)
-
-        .replace(/&/g, "&amp;")
-
-        .replace(/</g, "&lt;")
-
-        .replace(/>/g, "&gt;")
-
-        .replace(/"/g, "&quot;")
-
-        .replace(/'/g, "&#039;");
-
-}
-
-
-
-/* =========================================================
-   MOSTRAR ERROR
-   ========================================================= */
-
-function mostrarError(mensaje) {
-
-    document.getElementById(
-        "contenido"
-    ).innerHTML = `
-
-        <div class="error">
-
-            ❌ ${escaparHTML(mensaje)}
+            <button
+                onclick="window.print()"
+                class="btn btn-imprimir"
+            >
+                🖨️ Imprimir
+            </button>
 
         </div>
 
-    `;
 
-}
+        <!-- =================================================
+             FICHA
+        ================================================= -->
 
+        <div class="ficha" id="ficha">
 
+            <div class="mensaje" id="cargando">
 
-/* =========================================================
-   VALIDAR ID
-   ========================================================= */
-
-if (!accesorioId) {
-
-    mostrarError(
-        "No se encontró el identificador del accesorio."
-    );
-
-} else {
-
-
-    if (equipoId) {
-
-        document.getElementById(
-            "volver"
-        ).href =
-            `/accesorio.html?equipoId=${encodeURIComponent(equipoId)}`;
-
-    } else {
-
-        document.getElementById(
-            "volver"
-        ).href =
-            "/accesorio.html";
-
-    }
-
-
-    cargarAccesorio();
-
-}
-
-
-
-/* =========================================================
-   CARGAR ACCESORIO
-   ========================================================= */
-
-async function cargarAccesorio() {
-
-    try {
-
-
-        const respuesta =
-            await fetch(
-                `/api/accesorio/${encodeURIComponent(accesorioId)}`
-            );
-
-
-        if (!respuesta.ok) {
-
-            throw new Error(
-                "No se pudo obtener la información del accesorio."
-            );
-
-        }
-
-
-        const respuestaJSON =
-            await respuesta.json();
-
-
-        /*
-         * server.js devuelve:
-         *
-         * {
-         *     correcto: true,
-         *     accesorio: {
-         *         id: "...",
-         *         nombre: "...",
-         *         ...
-         *     }
-         * }
-         */
-
-
-        if (
-            !respuestaJSON ||
-            !respuestaJSON.correcto ||
-            !respuestaJSON.accesorio ||
-            !respuestaJSON.accesorio.id
-        ) {
-
-            throw new Error(
-                "No se encontró el accesorio."
-            );
-
-        }
-
-
-        const datos =
-            respuestaJSON.accesorio;
-
-
-        mostrarAccesorio(datos);
-
-
-    } catch (error) {
-
-        console.error(
-            "Error cargando accesorio:",
-            error
-        );
-
-
-        mostrarError(
-            error.message ||
-            "No se pudo cargar la ficha del accesorio."
-        );
-
-    }
-
-}
-
-
-
-/* =========================================================
-   OBTENER FOTOGRAFÍA
-   ========================================================= */
-
-function obtenerFoto(datos) {
-
-    if (!datos.fotografia) {
-
-        return "";
-
-    }
-
-
-    if (
-        Array.isArray(datos.fotografia)
-    ) {
-
-        if (
-            datos.fotografia.length === 0
-        ) {
-
-            return "";
-
-        }
-
-
-        return (
-            datos.fotografia[0].url ||
-            ""
-        );
-
-    }
-
-
-    if (
-        typeof datos.fotografia === "string"
-    ) {
-
-        return datos.fotografia;
-
-    }
-
-
-    return "";
-
-}
-
-
-
-/* =========================================================
-   MOSTRAR ACCESORIO
-   ========================================================= */
-
-function mostrarAccesorio(datos) {
-
-
-    const fotografia =
-        obtenerFoto(datos);
-
-
-
-    document.getElementById(
-        "contenido"
-    ).innerHTML = `
-
-
-        <!-- ==============================================
-             TÍTULO
-             ============================================== -->
-
-
-        <section class="titulo">
-
-
-            <h2>
-
-                ${escaparHTML(
-                    datos.nombre
-                )}
-
-            </h2>
-
-
-            <div class="activo">
-
-                Número de activo fijo:
-
-                ${escaparHTML(
-                    datos.numeroActivo
-                )}
+                Cargando información del accesorio...
 
             </div>
 
+        </div>
 
 
-            ${
-                fotografia
-
-                ?
-
-                `
-
-                <img
-
-                    src="${escaparHTML(
-                        fotografia
-                    )}"
-
-                    class="foto"
-
-                    alt="Fotografía del accesorio"
-
-                    onerror="
-                        this.style.display='none';
-                        document.getElementById('sinFoto').style.display='flex';
-                    "
-
-                >
+    </main>
 
 
-                <div
-                    id="sinFoto"
-                    class="sin-foto"
-                    style="display:none;"
-                >
+    <!-- =====================================================
+         PIE
+    ===================================================== -->
 
-                    📷 No se pudo cargar la fotografía.
+    <footer>
 
-                </div>
+        Sistema de Gestión de Equipo Biomédico
 
-                `
+    </footer>
 
-                :
 
-                `
+    <script>
 
-                <div class="sin-foto">
+        // =====================================================
+        // OBTENER ID DEL ACCESORIO
+        // =====================================================
 
-                    📷 Este accesorio no tiene fotografía registrada.
+        const parametros =
+            new URLSearchParams(
+                window.location.search
+            );
 
-                </div>
 
-                `
+        const accesorioId =
+            parametros.get("accesorioId");
+
+
+        // =====================================================
+        // CONFIGURAR BOTÓN VOLVER
+        // =====================================================
+
+        const equipoId =
+            parametros.get("equipoId");
+
+
+        const btnVolver =
+            document.getElementById("btnVolver");
+
+
+        if (equipoId) {
+
+            btnVolver.href =
+                `/accesorio.html?equipoId=${encodeURIComponent(equipoId)}`;
+
+        } else {
+
+            btnVolver.href =
+                "/accesorio.html";
+
+        }
+
+
+        // =====================================================
+        // CARGAR ACCESORIO
+        // =====================================================
+
+        async function cargarAccesorio() {
+
+            const ficha =
+                document.getElementById("ficha");
+
+
+            if (!accesorioId) {
+
+                ficha.innerHTML = `
+
+                    <div class="mensaje error">
+
+                        <h2>
+                            Accesorio no especificado
+                        </h2>
+
+                        <p>
+                            Esta ficha requiere el identificador del accesorio.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
 
             }
 
 
-        </section>
+            try {
+
+                const respuesta =
+                    await fetch(
+                        `/api/accesorio/${encodeURIComponent(accesorioId)}`
+                    );
 
 
+                if (!respuesta.ok) {
 
-        <!-- ==============================================
-             INFORMACIÓN DEL ACCESORIO
-             ============================================== -->
+                    throw new Error(
+                        "No se pudo obtener el accesorio."
+                    );
 
-
-        <section class="seccion">
-
-
-            <h3>
-
-                📋 Información del Accesorio
-
-            </h3>
+                }
 
 
+                const datos =
+                    await respuesta.json();
 
-            <div class="grid">
+
+                if (!datos.correcto) {
+
+                    throw new Error(
+                        datos.error ||
+                        "No se pudo obtener la información."
+                    );
+
+                }
 
 
-                <!-- NOMBRE -->
+                mostrarAccesorio(
+                    datos.accesorio
+                );
 
-                <div class="dato">
 
-                    <strong>
+            } catch (error) {
 
-                        Nombre del accesorio
+                console.error(
+                    "Error:",
+                    error
+                );
 
-                    </strong>
 
-                    <span>
+                ficha.innerHTML = `
 
-                        ${escaparHTML(
-                            datos.nombre
+                    <div class="mensaje error">
+
+                        <h2>
+                            Error al cargar el accesorio
+                        </h2>
+
+                        <p>
+                            ${error.message}
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        // =====================================================
+        // MOSTRAR INFORMACIÓN DEL ACCESORIO
+        // =====================================================
+
+        function mostrarAccesorio(datos) {
+
+            const ficha =
+                document.getElementById("ficha");
+
+
+            // -------------------------------------------------
+            // FOTOGRAFÍA
+            // -------------------------------------------------
+
+            let fotografia = "";
+
+
+            if (
+                Array.isArray(datos.fotografia)
+                &&
+                datos.fotografia.length > 0
+            ) {
+
+                fotografia =
+                    datos.fotografia[0].url;
+
+            }
+
+
+            // -------------------------------------------------
+            // FOTO HTML
+            // -------------------------------------------------
+
+            const fotoHTML =
+                fotografia
+
+                    ? `
+
+                        <div class="foto-contenedor">
+
+                            <img
+                                src="${fotografia}"
+                                alt="${escapeHTML(datos.nombre || "Accesorio biomédico")}"
+                                class="foto-accesorio"
+                            >
+
+                        </div>
+
+                    `
+
+                    : "";
+
+
+            // -------------------------------------------------
+            // EQUIPOS RELACIONADOS
+            // -------------------------------------------------
+
+            const equipos =
+                Array.isArray(
+                    datos.equiposRelacionados
+                )
+                    ? datos.equiposRelacionados
+                    : [];
+
+
+            let equiposHTML = "";
+
+
+            if (equipos.length === 0) {
+
+                equiposHTML = `
+
+                    <div class="sin-equipo">
+
+                        No hay equipos relacionados registrados.
+
+                    </div>
+
+                `;
+
+            } else {
+
+                equiposHTML = `
+
+                    <div class="equipos-relacionados">
+
+                        ${equipos.map(
+                            equipo => `
+
+                                <div class="equipo-relacionado">
+
+                                    <h3>
+                                        ${escapeHTML(
+                                            equipo.nombre ||
+                                            "Equipo sin nombre"
+                                        )}
+                                    </h3>
+
+
+                                    <div class="equipo-grid">
+
+
+                                        <div class="equipo-dato">
+
+                                            <strong>
+                                                Número de activo fijo
+                                            </strong>
+
+                                            <span>
+                                                ${escapeHTML(
+                                                    equipo.numeroActivo ||
+                                                    "No registrado"
+                                                )}
+                                            </span>
+
+                                        </div>
+
+
+                                        <div class="equipo-dato">
+
+                                            <strong>
+                                                Área / Servicio
+                                            </strong>
+
+                                            <span>
+                                                ${escapeHTML(
+                                                    equipo.servicio ||
+                                                    "No registrado"
+                                                )}
+                                            </span>
+
+                                        </div>
+
+
+                                        <div class="equipo-dato">
+
+                                            <strong>
+                                                Marca
+                                            </strong>
+
+                                            <span>
+                                                ${escapeHTML(
+                                                    equipo.marca ||
+                                                    "No registrada"
+                                                )}
+                                            </span>
+
+                                        </div>
+
+
+                                        <div class="equipo-dato">
+
+                                            <strong>
+                                                Modelo
+                                            </strong>
+
+                                            <span>
+                                                ${escapeHTML(
+                                                    equipo.modelo ||
+                                                    "No registrado"
+                                                )}
+                                            </span>
+
+                                        </div>
+
+
+                                        <div class="equipo-dato">
+
+                                            <strong>
+                                                Número de serie
+                                            </strong>
+
+                                            <span>
+                                                ${escapeHTML(
+                                                    equipo.serie ||
+                                                    "No registrado"
+                                                )}
+                                            </span>
+
+                                        </div>
+
+
+                                        <div class="equipo-dato">
+
+                                            <strong>
+                                                Ubicación
+                                            </strong>
+
+                                            <span>
+                                                ${escapeHTML(
+                                                    equipo.ubicacion ||
+                                                    "No registrada"
+                                                )}
+                                            </span>
+
+                                        </div>
+
+
+                                        <div class="equipo-dato">
+
+                                            <strong>
+                                                Estado
+                                            </strong>
+
+                                            <span>
+                                                ${escapeHTML(
+                                                    equipo.estado ||
+                                                    "No registrado"
+                                                )}
+                                            </span>
+
+                                        </div>
+
+
+                                        <div class="equipo-dato">
+
+                                            <strong>
+                                                Criticidad
+                                            </strong>
+
+                                            <span>
+                                                ${escapeHTML(
+                                                    equipo.criticidad ||
+                                                    "No registrada"
+                                                )}
+                                            </span>
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+                            `
+                        ).join("")}
+
+                    </div>
+
+                `;
+
+            }
+
+
+            // -------------------------------------------------
+            // CONSTRUIR FICHA COMPLETA
+            // -------------------------------------------------
+
+            ficha.innerHTML = `
+
+                <div class="titulo-ficha">
+
+                    <h2>
+                        ${escapeHTML(
+                            datos.nombre ||
+                            "Accesorio Biomédico"
                         )}
+                    </h2>
 
-                    </span>
-
-                </div>
-
-
-
-                <!-- ACTIVO FIJO -->
-
-                <div class="dato">
-
-                    <strong>
-
-                        Número de activo fijo
-
-                    </strong>
-
-                    <span>
-
-                        ${escaparHTML(
-                            datos.numeroActivo
-                        )}
-
-                    </span>
+                    <p>
+                        Ficha Técnica del Accesorio
+                    </p>
 
                 </div>
 
 
+                ${fotoHTML}
 
-                <!-- SERIE -->
 
-                <div class="dato">
+                <!-- =========================================
+                     INFORMACIÓN DEL ACCESORIO
+                ========================================== -->
 
-                    <strong>
+                <div class="info-section">
 
-                        Número de serie
+                    <h2>
+                        📋 Información del Accesorio
+                    </h2>
 
-                    </strong>
 
-                    <span>
+                    <div class="info-grid">
 
-                        ${escaparHTML(
-                            datos.serie
-                        )}
 
-                    </span>
+                        <div class="info-item">
+
+                            <strong>
+                                Nombre del accesorio
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    datos.nombre ||
+                                    "No registrado"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <strong>
+                                Número de activo fijo
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    datos.numeroActivo ||
+                                    "No registrado"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <strong>
+                                Número de serie
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    datos.serie ||
+                                    "No registrado"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <strong>
+                                Modelo
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    datos.modelo ||
+                                    "No registrado"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <strong>
+                                Estado del accesorio
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    datos.estado ||
+                                    "No registrado"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <strong>
+                                Color
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    datos.color ||
+                                    "No registrado"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <strong>
+                                Activo
+                            </strong>
+
+                            <span>
+                                ${datos.activo ? "Sí" : "No"}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <strong>
+                                Observaciones
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    datos.observaciones ||
+                                    "Sin observaciones"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                    </div>
 
                 </div>
 
 
+                <!-- =========================================
+                     EQUIPO(S) RELACIONADO(S)
+                ========================================== -->
 
-                <!-- MODELO -->
+                <div class="info-section">
 
-                <div class="dato">
+                    <h2>
+                        🔗 Equipo(s) relacionado(s)
+                    </h2>
 
-                    <strong>
-
-                        Modelo
-
-                    </strong>
-
-                    <span>
-
-                        ${escaparHTML(
-                            datos.modelo
-                        )}
-
-                    </span>
+                    ${equiposHTML}
 
                 </div>
 
+            `;
+
+        }
 
 
-                <!-- ESTADO -->
+        // =====================================================
+        // PROTEGER TEXTO HTML
+        // =====================================================
 
-                <div class="dato">
+        function escapeHTML(valor) {
 
-                    <strong>
+            const div =
+                document.createElement("div");
 
-                        Estado del accesorio
+            div.textContent =
+                valor ?? "";
 
-                    </strong>
+            return div.innerHTML;
 
-                    <span>
-
-                        ${escaparHTML(
-                            datos.estado
-                        )}
-
-                    </span>
-
-                </div>
+        }
 
 
+        // =====================================================
+        // INICIAR
+        // =====================================================
 
-                <!-- COLOR -->
+        cargarAccesorio();
 
-                <div class="dato">
-
-                    <strong>
-
-                        Color
-
-                    </strong>
-
-                    <span>
-
-                        ${escaparHTML(
-                            datos.color
-                        )}
-
-                    </span>
-
-                </div>
-
-
-
-                <!-- ACTIVO -->
-
-                <div class="dato">
-
-                    <strong>
-
-                        Activo
-
-                    </strong>
-
-                    <span>
-
-                        ${
-                            datos.activo
-                            ? "Sí"
-                            : "No"
-                        }
-
-                    </span>
-
-                </div>
-
-
-
-                <!-- OBSERVACIONES -->
-
-                <div class="dato">
-
-                    <strong>
-
-                        Observaciones
-
-                    </strong>
-
-                    <span>
-
-                        ${escaparHTML(
-                            datos.observaciones
-                        )}
-
-                    </span>
-
-                </div>
-
-
-            </div>
-
-
-        </section>
-
-
-    `;
-
-}
-
-</script>
+    </script>
 
 
 </body>
