@@ -81,15 +81,30 @@
             font-weight: bold;
         }
 
+        /* BARRA DE CRITICIDAD */
+
         .criticidad {
             display: inline-block;
             margin-top: 12px;
             padding: 7px 14px;
             border-radius: 20px;
-            background: #ffebee;
-            color: #c62828;
+            background: #f5f5f5;
+            color: #263238;
             font-weight: bold;
             font-size: 13px;
+            border-left: 6px solid #607d8b;
+        }
+
+        .criticidad-baja {
+            border-left-color: #2e7d32;
+        }
+
+        .criticidad-media {
+            border-left-color: #f9a825;
+        }
+
+        .criticidad-alta {
+            border-left-color: #c62828;
         }
 
         .foto-equipo {
@@ -403,24 +418,6 @@ async function cargarEquipo() {
             await respuesta.json();
 
 
-        /*
-         * IMPORTANTE:
-         *
-         * La API actual devuelve directamente
-         * la información del equipo.
-         *
-         * Ejemplo:
-         *
-         * {
-         *     id: "...",
-         *     numeroActivo: "...",
-         *     nombre: "...",
-         *     marca: "...",
-         *     modelo: "..."
-         * }
-         */
-
-
         if (
             !datos ||
             !datos.id
@@ -508,6 +505,42 @@ function mostrarEquipo(datos) {
         obtenerFoto(datos);
 
 
+    /*
+     * Determinar color de criticidad
+     */
+
+    let claseCriticidad =
+        "criticidad-media";
+
+
+    if (datos.criticidad) {
+
+        const criticidad =
+            String(datos.criticidad)
+            .toLowerCase()
+            .trim();
+
+
+        if (criticidad === "baja") {
+
+            claseCriticidad =
+                "criticidad-baja";
+
+        } else if (criticidad === "media") {
+
+            claseCriticidad =
+                "criticidad-media";
+
+        } else if (criticidad === "alta") {
+
+            claseCriticidad =
+                "criticidad-alta";
+
+        }
+
+    }
+
+
     document.getElementById(
         "contenido"
     ).innerHTML = `
@@ -535,7 +568,7 @@ function mostrarEquipo(datos) {
             </div>
 
 
-            <div class="criticidad">
+            <div class="criticidad ${claseCriticidad}">
 
                 ${escaparHTML(
                     datos.criticidad ||
