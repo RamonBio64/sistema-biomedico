@@ -84,27 +84,37 @@
         /* BARRA DE CRITICIDAD */
 
         .criticidad {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
             margin-top: 12px;
-            padding: 7px 14px;
+            padding: 7px 14px 7px 10px;
             border-radius: 20px;
             background: #f5f5f5;
             color: #263238;
             font-weight: bold;
             font-size: 13px;
-            border-left: 6px solid #607d8b;
         }
 
-        .criticidad-baja {
-            border-left-color: #2e7d32;
+        .criticidad::before {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 24px;
+            margin-right: 9px;
+            border-radius: 3px;
+            background: #607d8b;
         }
 
-        .criticidad-media {
-            border-left-color: #f9a825;
+        .criticidad-baja::before {
+            background: #2e7d32;
         }
 
-        .criticidad-alta {
-            border-left-color: #c62828;
+        .criticidad-media::before {
+            background: #f9a825;
+        }
+
+        .criticidad-alta::before {
+            background: #c62828;
         }
 
         .foto-equipo {
@@ -344,7 +354,6 @@ function escaparHTML(valor) {
         return "No especificado";
 
     }
-
 
     return String(valor)
 
