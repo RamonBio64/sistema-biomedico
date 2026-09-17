@@ -944,7 +944,7 @@ app.post(
 
 
 /* =========================================================
-   GENERAR NÚMERO DE REPORTE
+   GENERAR ID DE FALLA
 ========================================================= */
 
 async function generarNumeroReporte() {
@@ -953,7 +953,7 @@ async function generarNumeroReporte() {
         await base(TABLA_FALLAS)
             .select({
                 fields: [
-                    "Número de reporte"
+                    "ID Falla"
                 ]
             })
             .all();
@@ -963,9 +963,7 @@ async function generarNumeroReporte() {
     registros.forEach(record => {
 
         const numero =
-            record.fields[
-                "Número de reporte"
-            ];
+            record.fields["ID Falla"];
 
         if (!numero) {
             return;
@@ -1022,13 +1020,11 @@ app.post(
         try {
 
             const {
-
                 equipoId,
                 tipoFalla,
                 descripcionFalla,
                 reportadoPor,
                 observaciones
-
             } = req.body;
 
             if (!equipoId) {
@@ -1083,19 +1079,21 @@ app.post(
             const numeroReporte =
                 await generarNumeroReporte();
 
+            /*
+             * "Nombre del equipo relacionado"
+             * NO se envía porque es un campo
+             * calculado en Airtable.
+             */
+
             const fallaRecord =
                 await base(TABLA_FALLAS)
                     .create({
 
-                        "Número de reporte":
+                        "ID Falla":
                             numeroReporte,
 
                         "Equipo relacionado":
                             [equipoId],
-
-                        "Nombre del equipo":
-                            ef["nombre del equipo"] ||
-                            "",
 
                         "Número de activo fijo":
                             ef["Numero de activo fijo"] ||
@@ -1111,13 +1109,16 @@ app.post(
                         "Reportado por":
                             reportadoPor || "",
 
-                        "Estado de la falla":
-                            "Pendiente",
+                        /*
+                         * Estado inicial de una falla nueva
+                         */
+                        "Estado":
+                            "Reportada",
 
                         "Observaciones":
                             observaciones || "",
 
-                        "Fecha y hora":
+                        "Fecha y hora del reporte":
                             new Date().toISOString()
 
                     });
@@ -1241,12 +1242,6 @@ app.get(
             const equipoId =
                 req.params.id;
 
-            /*
-             * Se obtienen los registros sin utilizar
-             * sort de Airtable para evitar errores de
-             * consulta.
-             */
-
             const registros =
                 await base(TABLA_FALLAS)
                     .select()
@@ -1265,11 +1260,6 @@ app.get(
                 const relacionados =
                     f["Equipo relacionado"] ||
                     [];
-
-                /*
-                 * Verificar que el reporte pertenezca
-                 * al equipo consultado.
-                 */
 
                 if (
                     !Array.isArray(relacionados) ||
@@ -1290,15 +1280,15 @@ app.get(
                         record.id,
 
                     numeroReporte:
-                        f["Número de reporte"] ||
+                        f["ID Falla"] ||
                         "Sin número",
 
                     fechaHora:
-                        f["Fecha y hora"] ||
+                        f["Fecha y hora del reporte"] ||
                         "",
 
                     nombreEquipo:
-                        f["Nombre del equipo"] ||
+                        f["Nombre del equipo relacionado"] ||
                         "",
 
                     numeroActivo:
@@ -1318,8 +1308,8 @@ app.get(
                         "",
 
                     estadoFalla:
-                        f["Estado de la falla"] ||
-                        "Pendiente",
+                        f["Estado"] ||
+                        "Reportada",
 
                     observaciones:
                         f["Observaciones"] ||
@@ -1336,12 +1326,6 @@ app.get(
                 });
 
             }
-
-
-            /*
-             * Ordenar del reporte más reciente
-             * al más antiguo.
-             */
 
             resultado.sort(
                 (a, b) => {
@@ -1360,7 +1344,6 @@ app.get(
 
                 }
             );
-
 
             res.json({
 
@@ -1501,11 +1484,19 @@ app.get(
                     record.id,
 
                 numeroReporte:
-                    f["Número de reporte"] ||
+                    f["ID Falla"] ||
                     "Sin número",
 
                 fechaHora:
-                    f["Fecha y hora"] ||
+                    f["Fecha y hora del reporte"] ||
+                    "",
+
+                nombreEquipo:
+                    f["Nombre del equipo relacionado"] ||
+                    "",
+
+                numeroActivo:
+                    f["Número de activo fijo"] ||
                     "",
 
                 tipoFalla:
@@ -1521,17 +1512,20 @@ app.get(
                     "",
 
                 estadoFalla:
-                    f["Estado de la falla"] ||
-                    "Pendiente",
+                    f["Estado"] ||
+                    "Reportada",
 
                 observaciones:
                     f["Observaciones"] ||
                     "",
 
                 fotografia:
+                    Array.isArray(fotografia) &&
                     fotografia.length > 0
-                        ? fotografia[0].url
-                        : "",
+                    ?
+                    fotografia[0].url
+                    :
+                    "",
 
                 equipo
 
