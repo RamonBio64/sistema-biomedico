@@ -510,11 +510,31 @@ app.get(
 
         try {
 
+            /* =================================================
+               OBTENER EL EQUIPO
+            ================================================= */
+
+            const equipoRecord =
+                await base(TABLA_EQUIPOS)
+                    .find(req.params.id);
+
+            const ef =
+                equipoRecord.fields;
+
+            const numeroActivo =
+                ef["Numero de activo fijo"] ||
+                ef["Número de activo fijo"] ||
+                "";
+
+            /* =================================================
+               BUSCAR MANTENIMIENTOS POR NÚMERO DE ACTIVO FIJO
+            ================================================= */
+
             const registros =
                 await base(TABLA_MANTENIMIENTOS)
                     .select({
                         filterByFormula:
-                            `FIND("${req.params.id}", ARRAYJOIN({Equipo relacionado})) > 0`
+                            `AND({Número de activo fijo}="${numeroActivo}")`
                     })
                     .all();
 
@@ -576,6 +596,10 @@ app.get(
                     };
 
                 });
+
+            /* =================================================
+               ORDENAR DEL MÁS RECIENTE AL MÁS ANTIGUO
+            ================================================= */
 
             resultado.sort(
                 (a, b) => {
