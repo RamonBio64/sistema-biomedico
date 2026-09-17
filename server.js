@@ -1109,9 +1109,6 @@ app.post(
                         "Reportado por":
                             reportadoPor || "",
 
-                        /*
-                         * Estado inicial de una falla nueva
-                         */
                         "Estado":
                             "Reportada",
 
@@ -1123,9 +1120,21 @@ app.post(
 
                     });
 
+
+            /* =================================================
+               SUBIR FOTOGRAFÍA A AIRTABLE
+            ================================================= */
+
             if (req.file) {
 
                 try {
+
+                    console.log(
+                        "Fotografía recibida:",
+                        req.file.originalname,
+                        req.file.mimetype,
+                        req.file.size
+                    );
 
                     const base64 =
                         req.file.buffer
@@ -1166,16 +1175,41 @@ app.post(
                             }
                         );
 
+                    const respuestaTexto =
+                        await attachmentResponse.text();
+
+                    console.log(
+                        "Respuesta de Airtable al subir fotografía:",
+                        respuestaTexto
+                    );
+
                     if (
                         !attachmentResponse.ok
                     ) {
 
                         console.error(
-                            "No se pudo subir la fotografía:",
-                            await attachmentResponse.text()
+                            "Airtable rechazó la fotografía:",
+                            respuestaTexto
                         );
 
+                        return res.status(500).json({
+
+                            correcto:
+                                false,
+
+                            error:
+                                "La falla se registró, pero Airtable no pudo guardar la fotografía.",
+
+                            detalle:
+                                respuestaTexto
+
+                        });
+
                     }
+
+                    console.log(
+                        "Fotografía guardada correctamente en Airtable."
+                    );
 
                 } catch (errorFoto) {
 
@@ -1184,9 +1218,23 @@ app.post(
                         errorFoto
                     );
 
+                    return res.status(500).json({
+
+                        correcto:
+                            false,
+
+                        error:
+                            "La falla se registró, pero ocurrió un error al guardar la fotografía.",
+
+                        detalle:
+                            errorFoto.message
+
+                    });
+
                 }
 
             }
+
 
             res.json({
 
