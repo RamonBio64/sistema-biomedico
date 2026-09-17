@@ -16,122 +16,171 @@
 
 <style>
 
+/* =========================================================
+   BASE
+========================================================= */
+
 * {
-    box-sizing:
-        border-box;
+    box-sizing: border-box;
 }
 
 body {
-    margin:
-        0;
+    margin: 0;
     font-family:
         Arial,
         Helvetica,
         sans-serif;
     background:
-        #f3f6f8;
+        #eef2f5;
     color:
         #263238;
 }
+
+button,
+a {
+    font-family:
+        inherit;
+}
+
+
+/* =========================================================
+   ENCABEZADO
+========================================================= */
 
 header {
     background:
         linear-gradient(
             135deg,
-            #0b3d4a,
-            #126579
+            #0b3d4a 0%,
+            #10596a 55%,
+            #126579 100%
         );
-    color:
-        white;
-    padding:
-        18px 20px;
+    color: white;
+    padding: 18px 25px;
     box-shadow:
-        0 3px 12px
-        rgba(0,0,0,0.15);
+        0 3px 14px
+        rgba(0,0,0,0.16);
 }
 
 .header-content {
-    max-width:
-        1100px;
-    margin:
-        auto;
-    display:
-        flex;
-    align-items:
-        center;
-    gap:
-        15px;
+    max-width: 1120px;
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+
+    gap: 17px;
 }
 
 .logo {
-    width:
-        65px;
-    height:
-        65px;
-    object-fit:
-        contain;
-    background:
-        white;
-    border-radius:
-        10px;
-    padding:
-        5px;
+    width: 62px;
+    height: 62px;
+
+    object-fit: contain;
+
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 5px;
+
+    box-shadow:
+        0 2px 7px
+        rgba(0,0,0,0.18);
 }
 
 .header-text h1 {
-    margin:
-        0;
-    font-size:
-        22px;
+    margin: 0;
+
+    font-size: 21px;
+
+    letter-spacing: 0.3px;
 }
 
 .header-text p {
-    margin:
-        5px 0 0;
-    opacity:
-        0.9;
-    font-size:
-        14px;
+    margin: 5px 0 0;
+
+    font-size: 13px;
+
+    letter-spacing: 1px;
+
+    opacity: 0.88;
 }
+
+
+/* =========================================================
+   CONTENEDOR
+========================================================= */
 
 .contenedor {
-    max-width:
-        1000px;
-    margin:
-        25px auto;
+    max-width: 1050px;
+
+    margin: 28px auto 45px;
+
     padding:
-        0 15px;
+        0 18px;
 }
 
+
+/* =========================================================
+   BOTONES
+========================================================= */
+
 .acciones {
-    display:
-        flex;
-    gap:
-        10px;
-    margin-bottom:
-        20px;
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 18px;
 }
 
 .boton {
-    border:
-        none;
-    border-radius:
-        10px;
+    border: none;
+
+    border-radius: 9px;
+
     padding:
-        12px 18px;
-    font-size:
-        14px;
-    font-weight:
-        bold;
-    cursor:
-        pointer;
-    text-decoration:
-        none;
+        11px 17px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease;
+}
+
+.boton:hover {
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 4px 10px
+        rgba(0,0,0,0.12);
 }
 
 .boton-regresar {
     background:
         #0b3d4a;
+
     color:
         white;
 }
@@ -143,168 +192,375 @@ header {
 
 .boton-imprimir {
     background:
-        #126579;
-    color:
         white;
+
+    color:
+        #0b3d4a;
+
+    border:
+        1px solid #d4dfe4;
 }
 
 .boton-imprimir:hover {
     background:
-        #0b3d4a;
+        #f5f8f9;
 }
 
+
+/* =========================================================
+   ENCABEZADO DEL REPORTE
+========================================================= */
+
 .reporte-header {
+    position: relative;
+
     background:
         white;
+
     border-radius:
-        15px;
+        14px;
+
     padding:
-        25px;
-    box-shadow:
-        0 4px 15px
-        rgba(0,0,0,0.08);
-    border-top:
-        5px solid
-        #c62828;
+        24px 27px;
+
     margin-bottom:
-        20px;
+        18px;
+
+    box-shadow:
+        0 3px 13px
+        rgba(20,45,55,0.08);
+
+    border:
+        1px solid #e1e8eb;
+
+    border-left:
+        5px solid #c62828;
+
+    overflow: hidden;
+}
+
+.reporte-header::after {
+    content: "";
+
+    position: absolute;
+
+    right: -45px;
+    top: -55px;
+
+    width: 150px;
+    height: 150px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(198,40,40,0.045);
+}
+
+.reporte-titulo {
+    position: relative;
+
+    z-index: 1;
+}
+
+.reporte-etiqueta {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 8px;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    color:
+        #c62828;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        1.1px;
 }
 
 .reporte-header h2 {
+    position: relative;
+
+    z-index: 1;
+
     margin:
-        0 0 10px;
+        0 0 11px;
+
     color:
-        #c62828;
+        #173f4a;
+
     font-size:
         25px;
+
+    letter-spacing:
+        -0.3px;
+}
+
+.reporte-meta {
+    position: relative;
+
+    z-index: 1;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+
+    gap: 10px 25px;
 }
 
 .numero-reporte {
     font-size:
-        17px;
+        15px;
+
     font-weight:
-        bold;
+        800;
+
     color:
         #0b3d4a;
 }
 
 .fecha-reporte {
-    margin-top:
-        7px;
     color:
         #607d8b;
+
     font-size:
-        14px;
+        13px;
 }
+
+
+/* =========================================================
+   SECCIONES
+========================================================= */
 
 .seccion {
     background:
         white;
+
     border-radius:
-        15px;
+        14px;
+
     padding:
         22px;
+
     margin-bottom:
-        20px;
+        18px;
+
     box-shadow:
-        0 4px 15px
-        rgba(0,0,0,0.07);
+        0 3px 13px
+        rgba(20,45,55,0.07);
+
+    border:
+        1px solid #e2e9ec;
 }
 
 .seccion h3 {
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        9px;
+
     margin:
-        0 0 15px;
+        0 0 18px;
+
     color:
         #0b3d4a;
-    border-bottom:
-        2px solid
-        #e5ecef;
+
+    font-size:
+        15px;
+
+    font-weight:
+        800;
+
     padding-bottom:
-        10px;
+        12px;
+
+    border-bottom:
+        1px solid #e3eaed;
 }
+
+.seccion h3 .linea {
+    width:
+        4px;
+
+    height:
+        20px;
+
+    background:
+        #126579;
+
+    border-radius:
+        3px;
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
 
 .grid {
     display:
         grid;
+
     grid-template-columns:
-        repeat(2, 1fr);
+        repeat(2, minmax(0, 1fr));
+
     gap:
-        12px;
+        11px;
 }
 
+
+/* =========================================================
+   DATOS
+========================================================= */
+
 .dato {
+    min-width:
+        0;
+
     background:
         #f7f9fa;
+
     padding:
-        13px;
+        13px 15px;
+
     border-radius:
         9px;
+
+    border:
+        1px solid #e8edef;
+
     border-left:
-        4px solid
-        #126579;
+        3px solid #126579;
+
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease;
+}
+
+.dato:hover {
+    background:
+        #f4f7f8;
+
+    border-left-color:
+        #0b3d4a;
 }
 
 .dato strong {
     display:
         block;
+
     color:
-        #607d8b;
+        #71838c;
+
     font-size:
-        12px;
+        10px;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.65px;
+
     margin-bottom:
-        5px;
+        6px;
 }
 
 .dato span {
+    display:
+        block;
+
     font-size:
-        15px;
+        14px;
+
     font-weight:
         600;
+
+    color:
+        #263f48;
+
     white-space:
         pre-wrap;
+
     word-break:
         break-word;
+
+    line-height:
+        1.4;
 }
 
-.descripcion {
-    background:
-        #f7f9fa;
-    border-left:
-        4px solid
-        #c62828;
-    border-radius:
-        9px;
-    padding:
-        16px;
-    line-height:
-        1.6;
-    white-space:
-        pre-wrap;
-}
+
+/* =========================================================
+   ESTADO
+========================================================= */
 
 .estado {
     display:
-        inline-block;
+        inline-flex !important;
+
+    align-items:
+        center;
+
+    gap:
+        6px;
+
     padding:
-        7px 12px;
+        6px 11px;
+
     border-radius:
         20px;
+
     font-size:
-        12px;
+        11px !important;
+
     font-weight:
-        bold;
+        800 !important;
+
+    white-space:
+        nowrap !important;
+}
+
+.estado::before {
+    content:
+        "";
+
+    width:
+        7px;
+
+    height:
+        7px;
+
+    border-radius:
+        50%;
+
+    background:
+        currentColor;
 }
 
 .estado-pendiente {
     background:
         #fff8e1;
+
     color:
-        #f57f17;
+        #ef8f00;
 }
 
 .estado-en-proceso {
     background:
-        #e3f2fd;
+        #e8f2fb;
+
     color:
         #1565c0;
 }
@@ -314,6 +570,7 @@ header {
 .estado-cerrado {
     background:
         #e8f5e9;
+
     color:
         #2e7d32;
 }
@@ -321,75 +578,293 @@ header {
 .estado-cancelado {
     background:
         #eceff1;
+
     color:
         #455a64;
 }
 
+
+/* =========================================================
+   DESCRIPCIÓN
+========================================================= */
+
+.descripcion {
+    background:
+        #f8fafb;
+
+    border:
+        1px solid #e5ebee;
+
+    border-left:
+        4px solid #c62828;
+
+    border-radius:
+        9px;
+
+    padding:
+        17px 18px;
+
+    line-height:
+        1.65;
+
+    color:
+        #37474f;
+
+    font-size:
+        14px;
+
+    white-space:
+        pre-wrap;
+
+    word-break:
+        break-word;
+}
+
+.descripcion.vacia {
+    color:
+        #78909c;
+
+    font-style:
+        italic;
+}
+
+
+/* =========================================================
+   FOTOGRAFÍA
+========================================================= */
+
 .fotografia-contenedor {
+    min-height:
+        180px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
     text-align:
         center;
+
     background:
-        #f7f9fa;
+        #f5f8f9;
+
+    border:
+        1px solid #e0e7ea;
+
     border-radius:
-        12px;
+        11px;
+
     padding:
-        15px;
+        20px;
+
+    overflow:
+        hidden;
 }
 
 .fotografia-contenedor img {
+    display:
+        block;
+
     max-width:
         100%;
+
     max-height:
-        500px;
+        470px;
+
+    width:
+        auto;
+
+    height:
+        auto;
+
     object-fit:
         contain;
+
     border-radius:
         8px;
+
+    box-shadow:
+        0 3px 12px
+        rgba(0,0,0,0.12);
+
+    background:
+        white;
 }
 
 .sin-fotografia {
     color:
-        #607d8b;
+        #78909c;
+
     padding:
-        30px;
+        35px;
+
+    font-size:
+        13px;
 }
 
+
+/* =========================================================
+   CARGANDO
+========================================================= */
+
 .cargando {
+    background:
+        white;
+
+    border-radius:
+        14px;
+
+    padding:
+        55px 30px;
+
     text-align:
         center;
-    padding:
-        40px;
+
     color:
         #607d8b;
+
+    box-shadow:
+        0 3px 13px
+        rgba(20,45,55,0.07);
 }
+
+
+/* =========================================================
+   ERROR
+========================================================= */
 
 .error {
     background:
-        #ffebee;
+        #fff5f5;
+
     color:
         #b71c1c;
+
+    border:
+        1px solid #ffcdd2;
+
+    border-left:
+        5px solid #c62828;
+
     padding:
         20px;
+
     border-radius:
         12px;
+
     text-align:
         center;
+
     font-weight:
         bold;
 }
 
+
+/* =========================================================
+   PIE VISUAL
+========================================================= */
+
+.reporte-footer {
+    text-align:
+        center;
+
+    color:
+        #90a4ae;
+
+    font-size:
+        11px;
+
+    padding:
+        5px 0 15px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
 @media (max-width: 700px) {
 
-    .header-text h1 {
-        font-size:
-            18px;
+    header {
+        padding:
+            15px;
+    }
+
+    .header-content {
+        gap:
+            12px;
     }
 
     .logo {
         width:
-            55px;
+            54px;
+
         height:
-            55px;
+            54px;
+    }
+
+    .header-text h1 {
+        font-size:
+            17px;
+    }
+
+    .header-text p {
+        font-size:
+            10px;
+
+        letter-spacing:
+            0.7px;
+    }
+
+    .contenedor {
+        margin-top:
+            18px;
+
+        padding:
+            0 12px;
+    }
+
+    .acciones {
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+    }
+
+    .boton {
+        width:
+            100%;
+    }
+
+    .reporte-header {
+        padding:
+            20px;
+    }
+
+    .reporte-header h2 {
+        font-size:
+            21px;
+    }
+
+    .reporte-meta {
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+
+        gap:
+            7px;
+    }
+
+    .seccion {
+        padding:
+            17px;
     }
 
     .grid {
@@ -397,32 +872,30 @@ header {
             1fr;
     }
 
-    .acciones {
-        flex-direction:
-            column;
-    }
-
-    .boton {
-        width:
-            100%;
-        text-align:
-            center;
-    }
-
 }
+
+
+/* =========================================================
+   IMPRESIÓN
+========================================================= */
 
 @media print {
 
     @page {
         size:
             Letter;
+
         margin:
-            12mm;
+            11mm;
     }
 
     body {
         background:
             white;
+
+        color:
+            #263238;
+
         font-size:
             10px;
     }
@@ -430,25 +903,32 @@ header {
     header {
         box-shadow:
             none;
+
         padding:
-            9px 12px;
+            8px 10px;
+    }
+
+    .header-content {
+        max-width:
+            100%;
     }
 
     .logo {
         width:
             42px;
+
         height:
             42px;
     }
 
     .header-text h1 {
         font-size:
-            15px;
+            14px;
     }
 
     .header-text p {
         font-size:
-            9px;
+            8px;
     }
 
     .acciones {
@@ -459,8 +939,10 @@ header {
     .contenedor {
         max-width:
             100%;
+
         margin:
-            10px 0;
+            8px 0;
+
         padding:
             0;
     }
@@ -469,74 +951,141 @@ header {
     .seccion {
         box-shadow:
             none !important;
+
         break-inside:
             avoid;
+
         page-break-inside:
             avoid;
     }
 
     .reporte-header {
         padding:
-            14px;
+            12px 14px;
+
         margin-bottom:
-            10px;
+            8px;
     }
 
     .reporte-header h2 {
         font-size:
-            18px;
+            17px;
+    }
+
+    .reporte-etiqueta {
+        font-size:
+            8px;
+    }
+
+    .numero-reporte {
+        font-size:
+            11px;
+    }
+
+    .fecha-reporte {
+        font-size:
+            9px;
     }
 
     .seccion {
         padding:
-            12px;
+            11px 13px;
+
         margin-bottom:
-            10px;
+            8px;
     }
 
     .seccion h3 {
         font-size:
-            12px;
+            11px;
+
         margin-bottom:
-            8px;
+            9px;
+
         padding-bottom:
-            5px;
+            6px;
     }
 
     .grid {
         gap:
-            6px;
+            5px;
     }
 
     .dato {
         padding:
-            7px;
+            7px 9px;
+
         border-left-width:
-            3px;
+            2px;
     }
 
     .dato strong {
         font-size:
-            8px;
+            7px;
+
         margin-bottom:
-            3px;
+            2px;
     }
 
     .dato span {
         font-size:
-            10px;
+            9px;
+    }
+
+    .estado {
+        font-size:
+            8px !important;
+
+        padding:
+            4px 8px;
+    }
+
+    .estado::before {
+        width:
+            5px;
+
+        height:
+            5px;
     }
 
     .descripcion {
         padding:
-            9px;
+            8px 10px;
+
         font-size:
+            9px;
+
+        line-height:
+            1.45;
+    }
+
+    .fotografia-contenedor {
+        padding:
             10px;
+
+        min-height:
+            80px;
     }
 
     .fotografia-contenedor img {
         max-height:
-            300px;
+            270px;
+
+        box-shadow:
+            none;
+    }
+
+    .sin-fotografia {
+        padding:
+            15px;
+
+        font-size:
+            9px;
+    }
+
+    .reporte-footer {
+        font-size:
+            8px;
     }
 
 }
@@ -735,33 +1284,27 @@ function claseEstado(estado) {
             );
 
     if (
-        texto.includes("pendiente")
+        texto.includes("pendiente") ||
+        texto.includes("reportada")
     ) {
         return "estado-pendiente";
     }
 
     if (
-        texto.includes("proceso")
+        texto.includes("proceso") ||
+        texto.includes("revisión") ||
+        texto.includes("revision")
     ) {
         return "estado-en-proceso";
     }
 
     if (
-        texto.includes("atendido")
-    ) {
-        return "estado-atendido";
-    }
-
-    if (
-        texto.includes("resuelto")
+        texto.includes("atendido") ||
+        texto.includes("resuelto") ||
+        texto.includes("cerrado") ||
+        texto.includes("solucionada")
     ) {
         return "estado-resuelto";
-    }
-
-    if (
-        texto.includes("cerrado")
-    ) {
-        return "estado-cerrado";
     }
 
     if (
@@ -918,7 +1461,7 @@ async function cargarReporte() {
                 "estadoFalla",
                 "Estado de la falla"
             ) ||
-            "Pendiente";
+            "Reportada";
 
 
         const observaciones =
@@ -1020,37 +1563,55 @@ async function cargarReporte() {
         ).innerHTML = `
 
 
+            <!-- ENCABEZADO DEL REPORTE -->
+
             <section class="reporte-header">
 
-                <h2>
-                    REPORTE DE FALLA / ALARMA
-                </h2>
+                <div class="reporte-titulo">
 
-                <div class="numero-reporte">
+                    <div class="reporte-etiqueta">
+                        🔴 Registro de incidencia
+                    </div>
 
-                    Número de reporte:
-                    ${escaparHTML(
-                        numeroReporte
-                    )}
+                    <h2>
+                        REPORTE DE FALLA / ALARMA
+                    </h2>
 
-                </div>
+                    <div class="reporte-meta">
 
-                <div class="fecha-reporte">
+                        <div class="numero-reporte">
 
-                    Fecha del reporte:
-                    ${formatearFecha(
-                        fechaHora
-                    )}
+                            Número de reporte:
+                            ${escaparHTML(
+                                numeroReporte
+                            )}
+
+                        </div>
+
+                        <div class="fecha-reporte">
+
+                            Fecha del reporte:
+                            ${formatearFecha(
+                                fechaHora
+                            )}
+
+                        </div>
+
+                    </div>
 
                 </div>
 
             </section>
 
 
+            <!-- INFORMACIÓN DEL REPORTE -->
+
             <section class="seccion">
 
                 <h3>
-                    👤 Información del reporte
+                    👤
+                    <span class="linea"></span>
+                    Información del reporte
                 </h3>
 
                 <div class="grid">
@@ -1099,10 +1660,14 @@ async function cargarReporte() {
             </section>
 
 
+            <!-- INFORMACIÓN DEL EQUIPO -->
+
             <section class="seccion">
 
                 <h3>
-                    🏥 Información del equipo
+                    🏥
+                    <span class="linea"></span>
+                    Información del equipo
                 </h3>
 
                 <div class="grid">
@@ -1248,10 +1813,14 @@ async function cargarReporte() {
             </section>
 
 
+            <!-- FALLA -->
+
             <section class="seccion">
 
                 <h3>
-                    🔴 Descripción de la falla
+                    🔴
+                    <span class="linea"></span>
+                    Descripción de la falla
                 </h3>
 
 
@@ -1278,7 +1847,7 @@ async function cargarReporte() {
 
                 <div
                     class="descripcion"
-                    style="margin-top:12px;"
+                    style="margin-top:11px;"
                 >
 
                     ${escaparHTML(
@@ -1290,10 +1859,14 @@ async function cargarReporte() {
             </section>
 
 
+            <!-- FOTOGRAFÍA -->
+
             <section class="seccion">
 
                 <h3>
-                    📷 Fotografía del error
+                    📷
+                    <span class="linea"></span>
+                    Fotografía del error
                 </h3>
 
                 <div class="fotografia-contenedor">
@@ -1328,10 +1901,14 @@ async function cargarReporte() {
             </section>
 
 
+            <!-- OBSERVACIONES -->
+
             <section class="seccion">
 
                 <h3>
-                    📝 Observaciones
+                    📝
+                    <span class="linea"></span>
+                    Observaciones
                 </h3>
 
                 <div class="descripcion">
@@ -1343,6 +1920,13 @@ async function cargarReporte() {
                 </div>
 
             </section>
+
+
+            <div class="reporte-footer">
+
+                Sistema Biomédico · Área de Ingeniería Biomédica
+
+            </div>
 
         `;
 
