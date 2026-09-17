@@ -1079,12 +1079,6 @@ app.post(
             const numeroReporte =
                 await generarNumeroReporte();
 
-            /*
-             * "Nombre del equipo relacionado"
-             * NO se envía porque es un campo
-             * calculado en Airtable.
-             */
-
             const fallaRecord =
                 await base(TABLA_FALLAS)
                     .create({
@@ -1142,7 +1136,7 @@ app.post(
 
                     const attachmentResponse =
                         await fetch(
-                            `https://content.airtable.com/v0/${AIRTABLE_BASE_ID}/${fallaRecord.id}/fldFotografiaError/uploadAttachment`,
+                            `https://content.airtable.com/v0/${AIRTABLE_BASE_ID}/${fallaRecord.id}/fldOUKCZoD8IDLkPe/uploadAttachment`,
                             {
 
                                 method:
