@@ -8,11 +8,6 @@ const multer = require("multer");
 
 const app = express();
 
-
-// ======================================================
-// CONFIGURACIÓN GENERAL
-// ======================================================
-
 const PORT = process.env.PORT || 3000;
 
 const AIRTABLE_TOKEN =
@@ -25,11 +20,6 @@ const AIRTABLE_BASE_ID =
 const MANTENIMIENTO_PASSWORD =
     process.env.MANTENIMIENTO_PASSWORD || "1234";
 
-
-// ======================================================
-// CONFIGURACIÓN DE AIRTABLE
-// ======================================================
-
 Airtable.configure({
     apiKey: AIRTABLE_TOKEN
 });
@@ -37,94 +27,43 @@ Airtable.configure({
 const base =
     Airtable.base(AIRTABLE_BASE_ID);
 
-
-// ======================================================
-// NOMBRES DE LAS TABLAS
-// ======================================================
-
-const TABLA_EQUIPOS =
-    "Equipos Médicos";
-
-const TABLA_ACCESORIOS =
-    "Accesorios Médicos";
-
-const TABLA_REPUESTOS =
-    "Repuestos Médicos";
-
-const TABLA_MANTENIMIENTOS =
-    "Mantenimientos";
-
-const TABLA_FALLAS =
-    "Fallas y Alarmas";
-
-
-// ======================================================
-// CONFIGURACIÓN GENERAL DEL SERVIDOR
-// ======================================================
+const TABLA_EQUIPOS = "Equipos Médicos";
+const TABLA_ACCESORIOS = "Accesorios Médicos";
+const TABLA_REPUESTOS = "Repuestos Médicos";
+const TABLA_MANTENIMIENTOS = "Mantenimientos";
+const TABLA_FALLAS = "Fallas y Alarmas";
 
 app.use(cors());
-
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(
-    express.urlencoded({
-        extended: true
-    })
-);
-
-
-// ======================================================
-// CONFIGURACIÓN PARA FOTOGRAFÍAS
-// ======================================================
-
-const upload =
-    multer({
-        storage: multer.memoryStorage(),
-
-        limits: {
-            fileSize:
-                5 * 1024 * 1024
-        }
-    });
-
-
-// ======================================================
-// ARCHIVOS PÚBLICOS
-// ======================================================
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+        fileSize: 5 * 1024 * 1024
+    }
+});
 
 app.use(
     express.static(
-        path.join(
-            __dirname,
-            "public"
-        )
+        path.join(__dirname, "public")
     )
 );
 
-
-// ======================================================
-// PÁGINA PRINCIPAL
-// ======================================================
-
-app.get(
-    "/",
-    (req, res) => {
-
-        res.sendFile(
-            path.join(
-                __dirname,
-                "public",
-                "index.html"
-            )
-        );
-
-    }
-);
+app.get("/", (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            "public",
+            "index.html"
+        )
+    );
+});
 
 
-// ======================================================
-// OBTENER EQUIPO POR ID
-// ======================================================
+/* =========================================================
+   EQUIPO
+========================================================= */
 
 app.get(
     "/api/equipo/:id",
@@ -133,19 +72,33 @@ app.get(
         try {
 
             const record =
-                await base(
-                    TABLA_EQUIPOS
-                ).find(
-                    req.params.id
-                );
+                await base(TABLA_EQUIPOS)
+                    .find(req.params.id);
 
-            const f =
-                record.fields;
+            const f = record.fields;
+
+            const videos = [];
+
+            for (let i = 1; i <= 4; i++) {
+
+                const titulo =
+                    f[`Título del video ${i}`];
+
+                const url =
+                    f[`URL del video ${i}`];
+
+                if (titulo || url) {
+
+                    videos.push({
+                        titulo: titulo || "",
+                        url: url || ""
+                    });
+                }
+            }
 
             res.json({
 
-                id:
-                    record.id,
+                id: record.id,
 
                 numeroActivo:
                     f["Numero de activo fijo"] ||
@@ -153,40 +106,31 @@ app.get(
                     "",
 
                 servicio:
-                    f["servicio o área"] ||
-                    "",
+                    f["servicio o área"] || "",
 
                 nombre:
-                    f["nombre del equipo"] ||
-                    "",
+                    f["nombre del equipo"] || "",
 
                 marca:
-                    f["marca"] ||
-                    "",
+                    f["marca"] || "",
 
                 modelo:
-                    f["modelo"] ||
-                    "",
+                    f["modelo"] || "",
 
                 serie:
-                    f["número de serie"] ||
-                    "",
+                    f["número de serie"] || "",
 
                 ubicacion:
-                    f["ubicación"] ||
-                    "",
+                    f["ubicación"] || "",
 
                 responsable:
-                    f["responsable"] ||
-                    "",
+                    f["responsable"] || "",
 
                 estado:
-                    f["estado del equipo"] ||
-                    "",
+                    f["estado del equipo"] || "",
 
                 criticidad:
-                    f["Criticidad"] ||
-                    "",
+                    f["Criticidad"] || "",
 
                 garantia:
                     f["Garantía "] ||
@@ -199,88 +143,36 @@ app.get(
                     "",
 
                 fechaAdquisicion:
-                    f["Fecha de adquisición"] ||
-                    "",
+                    f["Fecha de adquisición"] || "",
 
                 proveedor:
-                    f["Proveedor"] ||
-                    "",
+                    f["Proveedor"] || "",
 
                 fechaUltimoMantenimiento:
-                    f["Fecha de ultimo mantenimiento"] ||
-                    "",
+                    f["Fecha de ultimo mantenimiento"] || "",
 
                 fechaProximoMantenimiento:
-                    f["Fecha de próximo mantenimiento"] ||
-                    "",
+                    f["Fecha de próximo mantenimiento"] || "",
 
                 alertaMantenimiento:
-                    f["alerta mantenimiento próximo"] ||
-                    "",
+                    f["alerta mantenimiento próximo"] || "",
 
                 fotografia:
-                    f["fotografía del equipo"] ||
-                    [],
+                    f["fotografía del equipo"] || [],
 
                 accesorios:
-                    f["Accesorios Médicos"] ||
-                    [],
+                    f["Accesorios Médicos"] || [],
 
                 repuestos:
-                    f["Repuestos Médicos"] ||
-                    [],
+                    f["Repuestos Médicos"] || [],
 
                 correoMantenimientos:
-                    f["Correo mantenimientos"] ||
-                    "",
+                    f["Correo mantenimientos"] || "",
 
                 urlFicha:
-                    f["URL ficha"] ||
-                    "",
+                    f["URL ficha"] || "",
 
-                videos: [
-
-                    {
-                        titulo:
-                            f["Título del video 1"] ||
-                            "",
-
-                        url:
-                            f["URL del video 1 (YouTube)"] ||
-                            ""
-                    },
-
-                    {
-                        titulo:
-                            f["Título del video 2"] ||
-                            "",
-
-                        url:
-                            f["URL del video 2 (YouTube)"] ||
-                            ""
-                    },
-
-                    {
-                        titulo:
-                            f["Título del video 3"] ||
-                            "",
-
-                        url:
-                            f["URL del video 3 (YouTube)"] ||
-                            ""
-                    },
-
-                    {
-                        titulo:
-                            f["Título del video 4"] ||
-                            "",
-
-                        url:
-                            f["URL del video 4 (YouTube)"] ||
-                            ""
-                    }
-
-                ]
+                videos
 
             });
 
@@ -292,26 +184,17 @@ app.get(
             );
 
             res.status(500).json({
-
-                correcto: false,
-
                 error:
-                    "No se pudo obtener la información del equipo.",
-
-                detalle:
-                    error.message
-
+                    "No se pudo obtener el equipo."
             });
-
         }
-
     }
 );
 
 
-// ======================================================
-// OBTENER ACCESORIOS DE UN EQUIPO
-// ======================================================
+/* =========================================================
+   ACCESORIOS
+========================================================= */
 
 app.get(
     "/api/equipo/:id/accesorios",
@@ -319,141 +202,77 @@ app.get(
 
         try {
 
-            const equipoId =
-                req.params.id;
-
-            const records =
-                await base(
-                    TABLA_ACCESORIOS
-                )
-                .select({
-                    maxRecords: 1000
-                })
-                .all();
-
-            const accesorios =
-                records
-                    .filter(record => {
-
-                        const relacionados =
-                            record.fields[
-                                "Equipo Médico relacionado"
-                            ] || [];
-
-                        return (
-                            Array.isArray(
-                                relacionados
-                            ) &&
-                            relacionados.includes(
-                                equipoId
-                            )
-                        );
-
+            const registros =
+                await base(TABLA_ACCESORIOS)
+                    .select({
+                        filterByFormula:
+                            `FIND("${req.params.id}", ARRAYJOIN({Equipo Médico relacionado})) > 0`
                     })
-                    .map(record => {
+                    .all();
 
-                        const f =
-                            record.fields;
+            const resultado =
+                registros.map(record => {
 
-                        return {
+                    const f =
+                        record.fields;
 
-                            id:
-                                record.id,
+                    return {
 
-                            nombre:
-                                f["Nombre del accesorio"] ||
-                                f["nombre del accesorio"] ||
-                                f["Nombre"] ||
-                                "",
+                        id:
+                            record.id,
 
-                            numeroActivo:
-                                f["Número de activo fijo"] ||
-                                f["Numero de activo fijo"] ||
-                                "",
+                        nombre:
+                            f["nombre"] || "",
 
-                            serie:
-                                f["Número de serie"] ||
-                                f["número de serie"] ||
-                                "",
+                        activoFijo:
+                            f["activo fijo"] || "",
 
-                            modelo:
-                                f["Modelo"] ||
-                                f["modelo"] ||
-                                "",
+                        serie:
+                            f["serie"] || "",
 
-                            estado:
-                                f["Estado del accesorio"] ||
-                                f["estado del accesorio"] ||
-                                "",
+                        modelo:
+                            f["modelo"] || "",
 
-                            color:
-                                f["Color"] ||
-                                f["color"] ||
-                                "",
+                        estado:
+                            f["estado"] || "",
 
-                            activo:
-                                f["Activo"] ||
-                                f["activo"] ||
-                                false,
+                        color:
+                            f["color"] || "",
 
-                            observaciones:
-                                f["Observaciones"] ||
-                                f["observaciones"] ||
-                                "",
+                        activo:
+                            f["activo"] || false,
 
-                            fotografia:
-                                f["Fotografía"] ||
-                                f["fotografía"] ||
-                                f["Fotografia"] ||
-                                [],
+                        observaciones:
+                            f["observaciones"] || "",
 
-                            equipo:
-                                f[
-                                    "Equipo Médico relacionado"
-                                ] ||
-                                []
+                        fotografia:
+                            f["fotografía"] || []
 
-                        };
+                    };
 
-                    });
+                });
 
-            res.json({
-
-                correcto: true,
-
-                accesorios:
-                    accesorios
-
-            });
+            res.json(resultado);
 
         } catch (error) {
 
             console.error(
-                "Error al obtener accesorios:",
+                "Error accesorios:",
                 error
             );
 
             res.status(500).json({
-
-                correcto: false,
-
                 error:
-                    "No se pudieron obtener los accesorios.",
-
-                detalle:
-                    error.message
-
+                    "No se pudieron obtener los accesorios."
             });
-
         }
-
     }
 );
 
 
-// ======================================================
-// OBTENER UN ACCESORIO POR ID
-// ======================================================
+/* =========================================================
+   ACCESORIO INDIVIDUAL
+========================================================= */
 
 app.get(
     "/api/accesorio/:id",
@@ -462,221 +281,67 @@ app.get(
         try {
 
             const record =
-                await base(
-                    TABLA_ACCESORIOS
-                ).find(
-                    req.params.id
-                );
+                await base(TABLA_ACCESORIOS)
+                    .find(req.params.id);
 
             const f =
                 record.fields;
 
-            const equiposRaw =
-                f[
-                    "Equipo Médico relacionado"
-                ] || [];
-
-            const equiposIds =
-                Array.isArray(equiposRaw)
-                    ? equiposRaw
-                    : equiposRaw
-                        ? [equiposRaw]
-                        : [];
-
-            const equiposRelacionados = [];
-
-            for (
-                const equipoId
-                of equiposIds
-            ) {
-
-                try {
-
-                    const equipoRecord =
-                        await base(
-                            TABLA_EQUIPOS
-                        ).find(
-                            equipoId
-                        );
-
-                    const ef =
-                        equipoRecord.fields;
-
-                    equiposRelacionados.push({
-
-                        id:
-                            equipoRecord.id,
-
-                        numeroActivo:
-                            ef[
-                                "Numero de activo fijo"
-                            ] ||
-                            ef[
-                                "Número de activo fijo"
-                            ] ||
-                            "",
-
-                        servicio:
-                            ef[
-                                "servicio o área"
-                            ] ||
-                            "",
-
-                        nombre:
-                            ef[
-                                "nombre del equipo"
-                            ] ||
-                            "",
-
-                        marca:
-                            ef["marca"] ||
-                            "",
-
-                        modelo:
-                            ef["modelo"] ||
-                            "",
-
-                        serie:
-                            ef["número de serie"] ||
-                            "",
-
-                        ubicacion:
-                            ef["ubicación"] ||
-                            "",
-
-                        estado:
-                            ef[
-                                "estado del equipo"
-                            ] ||
-                            "",
-
-                        criticidad:
-                            ef["Criticidad"] ||
-                            ""
-
-                    });
-
-                } catch (errorEquipo) {
-
-                    console.error(
-                        `No se pudo obtener el equipo relacionado ${equipoId}:`,
-                        errorEquipo.message
-                    );
-
-                }
-
-            }
-
             res.json({
 
-                correcto: true,
+                id: record.id,
 
-                accesorio: {
+                nombre:
+                    f["nombre"] || "",
 
-                    id:
-                        record.id,
+                activoFijo:
+                    f["activo fijo"] || "",
 
-                    nombre:
-                        f[
-                            "Nombre del accesorio"
-                        ] ||
-                        f[
-                            "nombre del accesorio"
-                        ] ||
-                        f["Nombre"] ||
-                        "",
+                serie:
+                    f["serie"] || "",
 
-                    numeroActivo:
-                        f[
-                            "Número de activo fijo"
-                        ] ||
-                        f[
-                            "Numero de activo fijo"
-                        ] ||
-                        "",
+                modelo:
+                    f["modelo"] || "",
 
-                    serie:
-                        f[
-                            "Número de serie"
-                        ] ||
-                        f[
-                            "número de serie"
-                        ] ||
-                        "",
+                estado:
+                    f["estado"] || "",
 
-                    modelo:
-                        f["Modelo"] ||
-                        f["modelo"] ||
-                        "",
+                color:
+                    f["color"] || "",
 
-                    estado:
-                        f[
-                            "Estado del accesorio"
-                        ] ||
-                        f[
-                            "estado del accesorio"
-                        ] ||
-                        "",
+                activo:
+                    f["activo"] || false,
 
-                    color:
-                        f["Color"] ||
-                        f["color"] ||
-                        "",
+                observaciones:
+                    f["observaciones"] || "",
 
-                    activo:
-                        f["Activo"] ||
-                        f["activo"] ||
-                        false,
+                fotografia:
+                    f["fotografía"] || [],
 
-                    observaciones:
-                        f["Observaciones"] ||
-                        f["observaciones"] ||
-                        "",
-
-                    fotografia:
-                        f["Fotografía"] ||
-                        f["fotografía"] ||
-                        f["Fotografia"] ||
-                        [],
-
-                    equipo:
-                        equiposIds,
-
-                    equiposRelacionados:
-                        equiposRelacionados
-
-                }
+                equipoRelacionado:
+                    f["Equipo Médico relacionado"] || []
 
             });
 
         } catch (error) {
 
             console.error(
-                "Error al obtener accesorio:",
+                "Error accesorio:",
                 error
             );
 
             res.status(500).json({
-
-                correcto: false,
-
                 error:
-                    "No se pudo obtener la información del accesorio.",
-
-                detalle:
-                    error.message
-
+                    "No se pudo obtener el accesorio."
             });
-
         }
-
     }
 );
 
 
-// ======================================================
-// OBTENER REPUESTOS DE UN EQUIPO
-// ======================================================
+/* =========================================================
+   REPUESTOS
+========================================================= */
 
 app.get(
     "/api/equipo/:id/repuestos",
@@ -684,141 +349,77 @@ app.get(
 
         try {
 
-            const equipoId =
-                req.params.id;
-
-            const records =
-                await base(
-                    TABLA_REPUESTOS
-                )
-                .select({
-                    maxRecords: 1000
-                })
-                .all();
-
-            const repuestos =
-                records
-                    .filter(record => {
-
-                        const relacionados =
-                            record.fields[
-                                "Equipo Médico relacionado"
-                            ] || [];
-
-                        return (
-                            Array.isArray(
-                                relacionados
-                            ) &&
-                            relacionados.includes(
-                                equipoId
-                            )
-                        );
-
+            const registros =
+                await base(TABLA_REPUESTOS)
+                    .select({
+                        filterByFormula:
+                            `FIND("${req.params.id}", ARRAYJOIN({Equipo Médico relacionado})) > 0`
                     })
-                    .map(record => {
+                    .all();
 
-                        const f =
-                            record.fields;
+            const resultado =
+                registros.map(record => {
 
-                        return {
+                    const f =
+                        record.fields;
 
-                            id:
-                                record.id,
+                    return {
 
-                            nombre:
-                                f["Nombre"] ||
-                                f["nombre"] ||
-                                "",
+                        id:
+                            record.id,
 
-                            estado:
-                                f["Estado"] ||
-                                f["estado"] ||
-                                "",
+                        nombre:
+                            f["nombre"] || "",
 
-                            lugar:
-                                f["Lugar"] ||
-                                f["lugar"] ||
-                                "",
+                        estado:
+                            f["estado"] || "",
 
-                            observaciones:
-                                f["Observaciones"] ||
-                                f["observaciones"] ||
-                                "",
+                        lugar:
+                            f["lugar"] || "",
 
-                            numeroActivo:
-                                f["Activo fijo"] ||
-                                f["Número de activo fijo"] ||
-                                f["Numero de activo fijo"] ||
-                                "",
+                        observaciones:
+                            f["observaciones"] || "",
 
-                            serie:
-                                f["Serie"] ||
-                                f["Número de serie"] ||
-                                f["número de serie"] ||
-                                "",
+                        activoFijo:
+                            f["activo fijo"] || "",
 
-                            color:
-                                f["Color"] ||
-                                f["color"] ||
-                                "",
+                        serie:
+                            f["serie"] || "",
 
-                            equipo:
-                                f[
-                                    "Equipo Médico relacionado"
-                                ] ||
-                                [],
+                        color:
+                            f["color"] || "",
 
-                            modelo:
-                                f["Modelo"] ||
-                                f["modelo"] ||
-                                "",
+                        modelo:
+                            f["modelo"] || "",
 
-                            compatibilidad:
-                                f["Compatibilidad"] ||
-                                f["compatibilidad"] ||
-                                ""
+                        compatibilidad:
+                            f["compatibilidad"] || ""
 
-                        };
+                    };
 
-                    });
+                });
 
-            res.json({
-
-                correcto: true,
-
-                repuestos:
-                    repuestos
-
-            });
+            res.json(resultado);
 
         } catch (error) {
 
             console.error(
-                "Error al obtener repuestos:",
+                "Error repuestos:",
                 error
             );
 
             res.status(500).json({
-
-                correcto: false,
-
                 error:
-                    "No se pudieron obtener los repuestos.",
-
-                detalle:
-                    error.message
-
+                    "No se pudieron obtener los repuestos."
             });
-
         }
-
     }
 );
 
 
-// ======================================================
-// OBTENER UN REPUESTO POR ID
-// ======================================================
+/* =========================================================
+   REPUESTO INDIVIDUAL
+========================================================= */
 
 app.get(
     "/api/repuesto/:id",
@@ -827,109 +428,67 @@ app.get(
         try {
 
             const record =
-                await base(
-                    TABLA_REPUESTOS
-                ).find(
-                    req.params.id
-                );
+                await base(TABLA_REPUESTOS)
+                    .find(req.params.id);
 
             const f =
                 record.fields;
 
             res.json({
 
-                correcto: true,
+                id: record.id,
 
-                repuesto: {
+                nombre:
+                    f["nombre"] || "",
 
-                    id:
-                        record.id,
+                estado:
+                    f["estado"] || "",
 
-                    nombre:
-                        f["Nombre"] ||
-                        f["nombre"] ||
-                        "",
+                lugar:
+                    f["lugar"] || "",
 
-                    estado:
-                        f["Estado"] ||
-                        f["estado"] ||
-                        "",
+                observaciones:
+                    f["observaciones"] || "",
 
-                    lugar:
-                        f["Lugar"] ||
-                        f["lugar"] ||
-                        "",
+                activoFijo:
+                    f["activo fijo"] || "",
 
-                    observaciones:
-                        f["Observaciones"] ||
-                        f["observaciones"] ||
-                        "",
+                serie:
+                    f["serie"] || "",
 
-                    numeroActivo:
-                        f["Activo fijo"] ||
-                        f["Número de activo fijo"] ||
-                        f["Numero de activo fijo"] ||
-                        "",
+                color:
+                    f["color"] || "",
 
-                    serie:
-                        f["Serie"] ||
-                        f["Número de serie"] ||
-                        f["número de serie"] ||
-                        "",
+                modelo:
+                    f["modelo"] || "",
 
-                    color:
-                        f["Color"] ||
-                        f["color"] ||
-                        "",
+                compatibilidad:
+                    f["compatibilidad"] || "",
 
-                    equipo:
-                        f[
-                            "Equipo Médico relacionado"
-                        ] ||
-                        [],
-
-                    modelo:
-                        f["Modelo"] ||
-                        f["modelo"] ||
-                        "",
-
-                    compatibilidad:
-                        f["Compatibilidad"] ||
-                        f["compatibilidad"] ||
-                        ""
-
-                }
+                equipoRelacionado:
+                    f["Equipo Médico relacionado"] || []
 
             });
 
         } catch (error) {
 
             console.error(
-                "Error al obtener repuesto:",
+                "Error repuesto:",
                 error
             );
 
             res.status(500).json({
-
-                correcto: false,
-
                 error:
-                    "No se pudo obtener la información del repuesto.",
-
-                detalle:
-                    error.message
-
+                    "No se pudo obtener el repuesto."
             });
-
         }
-
     }
 );
 
 
-// ======================================================
-// HISTORIAL DE MANTENIMIENTOS DE UN EQUIPO
-// ======================================================
+/* =========================================================
+   MANTENIMIENTOS
+========================================================= */
 
 app.get(
     "/api/equipo/:id/mantenimientos",
@@ -937,179 +496,111 @@ app.get(
 
         try {
 
-            const equipoId =
-                req.params.id;
-
-            const records =
-                await base(
-                    TABLA_MANTENIMIENTOS
-                )
-                .select({
-                    maxRecords: 1000
-                })
-                .all();
-
-            const mantenimientos =
-                records
-                    .filter(record => {
-
-                        const relacionados =
-                            record.fields[
-                                "Equipo relacionado"
-                            ] || [];
-
-                        const ids =
-                            Array.isArray(
-                                relacionados
-                            )
-                                ? relacionados
-                                : relacionados
-                                    ? [relacionados]
-                                    : [];
-
-                        return ids.includes(
-                            equipoId
-                        );
-
+            const registros =
+                await base(TABLA_MANTENIMIENTOS)
+                    .select({
+                        filterByFormula:
+                            `FIND("${req.params.id}", ARRAYJOIN({Equipo relacionado})) > 0`
                     })
-                    .map(record => {
+                    .all();
 
-                        const f =
-                            record.fields;
+            const resultado =
+                registros.map(record => {
 
-                        return {
+                    const f =
+                        record.fields;
 
-                            id:
-                                record.id,
+                    return {
 
-                            numeroActivo:
-                                f[
-                                    "Número de activo fijo"
-                                ] ||
-                                f[
-                                    "Numero de activo fijo"
-                                ] ||
-                                "",
+                        id:
+                            record.id,
 
-                            fechaMantenimiento:
-                                f[
-                                    "Fecha de mantenimiento realizado"
-                                ] ||
-                                "",
+                        numeroActivo:
+                            f["Número de activo fijo"] ||
+                            "",
 
-                            tipoMantenimiento:
-                                f[
-                                    "Tipo de mantenimiento"
-                                ] ||
-                                "",
+                        fechaMantenimiento:
+                            f["Fecha de mantenimiento realizado"] ||
+                            "",
 
-                            tecnico:
-                                f[
-                                    "Técnico responsable"
-                                ] ||
-                                f[
-                                    "Técnico responsable "
-                                ] ||
-                                "",
+                        tipoMantenimiento:
+                            f["Tipo de mantenimiento"] ||
+                            "",
 
-                            estado:
-                                f[
-                                    "Estado del mantenimiento"
-                                ] ||
-                                "",
+                        tecnico:
+                            f["Técnico responsable"] ||
+                            "",
 
-                            actividades:
-                                f[
-                                    "Actividades realizadas"
-                                ] ||
-                                "",
+                        estado:
+                            f["Estado del mantenimiento"] ||
+                            "",
 
-                            hallazgos:
-                                f[
-                                    "Hallazgos"
-                                ] ||
-                                "",
+                        actividades:
+                            f["Actividades realizadas"] ||
+                            "",
 
-                            refacciones:
-                                f[
-                                    "Refacciones utilizadas"
-                                ] ||
-                                "",
+                        hallazgos:
+                            f["Hallazgos"] ||
+                            "",
 
-                            observaciones:
-                                f[
-                                    "Observaciones"
-                                ] ||
-                                "",
+                        refacciones:
+                            f["Refacciones utilizadas"] ||
+                            "",
 
-                            proximoMantenimiento:
-                                f[
-                                    "Fecha de próximo mantenimiento"
-                                ] ||
-                                "",
+                        observaciones:
+                            f["Observaciones"] ||
+                            "",
 
-                            idMantenimiento:
-                                f[
-                                    "ID Mantenimiento por Equipo"
-                                ] ||
-                                ""
+                        proximoMantenimiento:
+                            f["Fecha de próximo mantenimiento"] ||
+                            "",
 
-                        };
+                        idMantenimiento:
+                            f["ID Mantenimiento por Equipo"] ||
+                            ""
 
-                    });
+                    };
 
-            mantenimientos.sort(
+                });
+
+            resultado.sort(
                 (a, b) => {
 
-                    return (
+                    const fechaA =
                         new Date(
-                            b.fechaMantenimiento
-                        ) -
-                        new Date(
-                            a.fechaMantenimiento
-                        )
-                    );
+                            a.fechaMantenimiento || 0
+                        );
 
+                    const fechaB =
+                        new Date(
+                            b.fechaMantenimiento || 0
+                        );
+
+                    return fechaB - fechaA;
                 }
             );
 
-            res.json({
-
-                correcto: true,
-
-                mantenimientos:
-                    mantenimientos
-
-            });
+            res.json(resultado);
 
         } catch (error) {
 
             console.error(
-                "Error al obtener mantenimientos:",
+                "Error mantenimientos:",
                 error
             );
 
             res.status(500).json({
-
-                correcto: false,
-
                 error:
-                    "No se pudo obtener el historial de mantenimientos.",
-
-                detalle:
-                    error.message
-
+                    "No se pudieron obtener los mantenimientos."
             });
-
         }
-
     }
 );
 
 
-// ======================================================
-// OBTENER MANTENIMIENTO POR ID
-// ======================================================
+/* =========================================================
+   MANTENIMIENTO INDIVIDUAL
+========================================================= */
 
 app.get(
     "/api/mantenimiento/:id",
@@ -1117,53 +608,30 @@ app.get(
 
         try {
 
-            const mantenimientoId =
-                req.params.id;
-
             const record =
-                await base(
-                    TABLA_MANTENIMIENTOS
-                ).find(
-                    mantenimientoId
-                );
+                await base(TABLA_MANTENIMIENTOS)
+                    .find(req.params.id);
 
             const f =
                 record.fields;
 
-
-            // ==================================================
-            // OBTENER EQUIPO RELACIONADO
-            // ==================================================
-
-            const relacionadosRaw =
-                f[
-                    "Equipo relacionado"
-                ] || [];
-
-            const equipoIds =
-                Array.isArray(
-                    relacionadosRaw
-                )
-                    ? relacionadosRaw
-                    : relacionadosRaw
-                        ? [relacionadosRaw]
-                        : [];
-
             let equipo = null;
 
+            const equipoRelacionado =
+                f["Equipo relacionado"];
 
             if (
-                equipoIds.length > 0
+                equipoRelacionado &&
+                equipoRelacionado.length > 0
             ) {
 
                 try {
 
                     const equipoRecord =
-                        await base(
-                            TABLA_EQUIPOS
-                        ).find(
-                            equipoIds[0]
-                        );
+                        await base(TABLA_EQUIPOS)
+                            .find(
+                                equipoRelacionado[0]
+                            );
 
                     const ef =
                         equipoRecord.fields;
@@ -1173,45 +641,35 @@ app.get(
                         id:
                             equipoRecord.id,
 
-                        numeroActivo:
-                            ef[
-                                "Numero de activo fijo"
-                            ] ||
-                            ef[
-                                "Número de activo fijo"
-                            ] ||
-                            "",
-
                         nombre:
-                            ef[
-                                "nombre del equipo"
-                            ] ||
+                            ef["nombre del equipo"] ||
                             "",
 
-                        servicio:
-                            ef[
-                                "servicio o área"
-                            ] ||
+                        numeroActivo:
+                            ef["Numero de activo fijo"] ||
+                            ef["Número de activo fijo"] ||
                             "",
 
                         marca:
-                            ef["marca"] ||
-                            "",
+                            ef["marca"] || "",
 
                         modelo:
-                            ef["modelo"] ||
-                            "",
+                            ef["modelo"] || "",
 
                         serie:
-                            ef[
-                                "número de serie"
-                            ] ||
+                            ef["número de serie"] ||
+                            "",
+
+                        servicio:
+                            ef["servicio o área"] ||
                             "",
 
                         ubicacion:
-                            ef[
-                                "ubicación"
-                            ] ||
+                            ef["ubicación"] ||
+                            "",
+
+                        criticidad:
+                            ef["Criticidad"] ||
                             ""
 
                     };
@@ -1219,150 +677,80 @@ app.get(
                 } catch (errorEquipo) {
 
                     console.error(
-                        "Error al obtener equipo relacionado:",
-                        errorEquipo.message
+                        "No se pudo obtener equipo:",
+                        errorEquipo
                     );
-
                 }
-
             }
 
-
-            // ==================================================
-            // INFORMACIÓN DEL MANTENIMIENTO
-            // ==================================================
-
-            const mantenimiento = {
+            res.json({
 
                 id:
                     record.id,
 
-                numeroActivo:
-                    f[
-                        "Número de activo fijo"
-                    ] ||
-                    f[
-                        "Numero de activo fijo"
-                    ] ||
-                    (
-                        equipo
-                            ? equipo.numeroActivo
-                            : ""
-                    ),
+                idMantenimiento:
+                    f["ID Mantenimiento por Equipo"] ||
+                    "",
 
                 fechaMantenimiento:
-                    f[
-                        "Fecha de mantenimiento realizado"
-                    ] ||
+                    f["Fecha de mantenimiento realizado"] ||
                     "",
 
                 tipoMantenimiento:
-                    f[
-                        "Tipo de mantenimiento"
-                    ] ||
+                    f["Tipo de mantenimiento"] ||
                     "",
 
                 tecnico:
-                    f[
-                        "Técnico responsable"
-                    ] ||
-                    f[
-                        "Técnico responsable "
-                    ] ||
+                    f["Técnico responsable"] ||
                     "",
 
                 estado:
-                    f[
-                        "Estado del mantenimiento"
-                    ] ||
+                    f["Estado del mantenimiento"] ||
                     "",
 
                 actividades:
-                    f[
-                        "Actividades realizadas"
-                    ] ||
+                    f["Actividades realizadas"] ||
                     "",
 
                 hallazgos:
-                    f[
-                        "Hallazgos"
-                    ] ||
+                    f["Hallazgos"] ||
                     "",
 
                 refacciones:
-                    f[
-                        "Refacciones utilizadas"
-                    ] ||
+                    f["Refacciones utilizadas"] ||
                     "",
 
                 observaciones:
-                    f[
-                        "Observaciones"
-                    ] ||
+                    f["Observaciones"] ||
                     "",
 
                 proximoMantenimiento:
-                    f[
-                        "Fecha de próximo mantenimiento"
-                    ] ||
+                    f["Fecha de próximo mantenimiento"] ||
                     "",
 
-                idMantenimiento:
-                    f[
-                        "ID Mantenimiento por Equipo"
-                    ] ||
-                    "",
-
-                equipoRelacionado:
-                    equipoIds
-
-            };
-
-
-            // ==================================================
-            // RESPUESTA
-            // ==================================================
-
-            res.json({
-
-                correcto: true,
-
-                mantenimiento:
-                    mantenimiento,
-
-                equipo:
-                    equipo
+                equipo
 
             });
 
         } catch (error) {
 
             console.error(
-                "Error al obtener mantenimiento:",
+                "Error mantenimiento:",
                 error
             );
 
             res.status(500).json({
-
-                correcto: false,
-
                 error:
-                    "No se pudo obtener el mantenimiento.",
-
-                detalle:
-                    error.message
-
+                    "No se pudo obtener el mantenimiento."
             });
-
         }
-
     }
 );
 
 
-// ======================================================
-// CREAR MANTENIMIENTO
-// ======================================================
+/* =========================================================
+   CREAR MANTENIMIENTO
+========================================================= */
 
 app.post(
     "/api/mantenimiento",
@@ -1370,14 +758,8 @@ app.post(
 
         try {
 
-            // ==================================================
-            // COMPROBAR CONTRASEÑA
-            // ==================================================
-
             const password =
-                req.headers[
-                    "x-mantenimiento-password"
-                ];
+                req.headers["x-mantenimiento-password"];
 
             if (
                 password !==
@@ -1385,241 +767,132 @@ app.post(
             ) {
 
                 return res.status(401).json({
-
                     correcto: false,
-
                     error:
-                        "Contraseña de mantenimiento incorrecta."
-
+                        "Contraseña incorrecta."
                 });
-
             }
-
-
-            // ==================================================
-            // RECIBIR DATOS
-            // ==================================================
 
             const {
 
                 equipoId,
-
-                numeroActivo,
-
                 fechaMantenimiento,
-
                 tipoMantenimiento,
-
                 tecnicoResponsable,
-
                 estadoMantenimiento,
-
                 actividadesRealizadas,
-
                 hallazgos,
-
                 refaccionesUtilizadas,
-
                 observaciones,
-
                 fechaProximoMantenimiento
 
             } = req.body;
 
-
-            // ==================================================
-            // COMPROBAR EQUIPO
-            // ==================================================
-
             if (!equipoId) {
 
                 return res.status(400).json({
-
                     correcto: false,
-
                     error:
                         "No se recibió el equipo."
-
                 });
-
             }
 
+            const equipoRecord =
+                await base(TABLA_EQUIPOS)
+                    .find(equipoId);
 
-            // ==================================================
-            // COMPROBAR FECHA
-            // ==================================================
+            const ef =
+                equipoRecord.fields;
 
-            if (!fechaMantenimiento) {
+            const numeroActivo =
+                ef["Numero de activo fijo"] ||
+                ef["Número de activo fijo"] ||
+                "";
 
-                return res.status(400).json({
-
-                    correcto: false,
-
-                    error:
-                        "Debe indicar la fecha del mantenimiento."
-
-                });
-
-            }
-
-
-            // ==================================================
-            // COMPROBAR TIPO
-            // ==================================================
-
-            if (!tipoMantenimiento) {
-
-                return res.status(400).json({
-
-                    correcto: false,
-
-                    error:
-                        "Debe indicar el tipo de mantenimiento."
-
-                });
-
-            }
-
-
-            // ==================================================
-            // COMPROBAR TÉCNICO
-            // ==================================================
-
-            if (!tecnicoResponsable) {
-
-                return res.status(400).json({
-
-                    correcto: false,
-
-                    error:
-                        "Debe indicar el técnico responsable."
-
-                });
-
-            }
-
-
-            // ==================================================
-            // CREAR REGISTRO EN AIRTABLE
-            // ==================================================
-
-            const campos = {
-
-                "Equipo relacionado":
-                    [equipoId],
-
-                "Fecha de mantenimiento realizado":
-                    fechaMantenimiento,
-
-                "Tipo de mantenimiento":
-                    tipoMantenimiento,
-
-                "Técnico responsable":
-                    tecnicoResponsable,
-
-                "Estado del mantenimiento":
-                    estadoMantenimiento ||
-                    "Realizado",
-
-                "Actividades realizadas":
-                    actividadesRealizadas ||
-                    "",
-
-                "Hallazgos":
-                    hallazgos ||
-                    "",
-
-                "Refacciones utilizadas":
-                    refaccionesUtilizadas ||
-                    "",
-
-                "Observaciones":
-                    observaciones ||
-                    ""
-
-            };
-
-
-            // ==================================================
-            // FECHA DE PRÓXIMO MANTENIMIENTO
-            // ==================================================
-
-            if (
-                fechaProximoMantenimiento
-            ) {
-
-                campos[
-                    "Fecha de próximo mantenimiento"
-                ] =
-                    fechaProximoMantenimiento;
-
-            }
-
-
-            // ==================================================
-            // CREAR MANTENIMIENTO
-            // ==================================================
-
-            const nuevoMantenimiento =
+            const mantenimiento =
                 await base(
                     TABLA_MANTENIMIENTOS
-                ).create(
-                    campos
-                );
+                ).create({
 
+                    "Equipo relacionado":
+                        [equipoId],
 
-            // ==================================================
-            // ACTUALIZAR FECHAS DEL EQUIPO
-            // ==================================================
+                    "Número de activo fijo":
+                        numeroActivo,
 
-            const camposEquipo = {
+                    "Fecha de mantenimiento realizado":
+                        fechaMantenimiento || "",
 
-                "Fecha de ultimo mantenimiento":
-                    fechaMantenimiento
+                    "Tipo de mantenimiento":
+                        tipoMantenimiento || "",
 
-            };
+                    "Técnico responsable":
+                        tecnicoResponsable || "",
 
+                    "Estado del mantenimiento":
+                        estadoMantenimiento || "",
 
-            if (
-                fechaProximoMantenimiento
-            ) {
+                    "Actividades realizadas":
+                        actividadesRealizadas || "",
 
-                camposEquipo[
+                    "Hallazgos":
+                        hallazgos || "",
+
+                    "Refacciones utilizadas":
+                        refaccionesUtilizadas || "",
+
+                    "Observaciones":
+                        observaciones || "",
+
+                    "Fecha de próximo mantenimiento":
+                        fechaProximoMantenimiento || ""
+
+                });
+
+            const actualizacion = {};
+
+            if (fechaMantenimiento) {
+
+                actualizacion[
+                    "Fecha de ultimo mantenimiento"
+                ] = fechaMantenimiento;
+            }
+
+            if (fechaProximoMantenimiento) {
+
+                actualizacion[
                     "Fecha de próximo mantenimiento"
                 ] =
                     fechaProximoMantenimiento;
-
             }
 
+            if (
+                Object.keys(actualizacion).length > 0
+            ) {
 
-            await base(
-                TABLA_EQUIPOS
-            ).update(
-                equipoId,
-                camposEquipo
-            );
-
-
-            // ==================================================
-            // RESPUESTA
-            // ==================================================
+                await base(TABLA_EQUIPOS)
+                    .update(
+                        equipoId,
+                        actualizacion
+                    );
+            }
 
             res.json({
 
                 correcto: true,
 
                 id:
-                    nuevoMantenimiento.id,
+                    mantenimiento.id,
 
                 mensaje:
-                    "Mantenimiento guardado correctamente."
+                    "Mantenimiento registrado correctamente."
 
             });
 
         } catch (error) {
 
             console.error(
-                "Error al crear mantenimiento:",
+                "Error al registrar mantenimiento:",
                 error
             );
 
@@ -1628,22 +901,81 @@ app.post(
                 correcto: false,
 
                 error:
-                    "No se pudo guardar el mantenimiento.",
+                    "No se pudo registrar el mantenimiento.",
 
                 detalle:
                     error.message
 
             });
-
         }
-
     }
 );
 
 
-// ======================================================
-// REPORTAR FALLA / ALARMA
-// ======================================================
+/* =========================================================
+   FUNCION PARA GENERAR NUMERO DE REPORTE
+========================================================= */
+
+async function generarNumeroReporte() {
+
+    const registros =
+        await base(TABLA_FALLAS)
+            .select({
+                fields: [
+                    "Número de reporte"
+                ]
+            })
+            .all();
+
+    let mayor = 0;
+
+    registros.forEach(record => {
+
+        const numero =
+            record.fields[
+                "Número de reporte"
+            ];
+
+        if (!numero) {
+            return;
+        }
+
+        const coincidencia =
+            String(numero)
+                .match(/FALLA-(\d+)/i);
+
+        if (!coincidencia) {
+            return;
+        }
+
+        const valor =
+            parseInt(
+                coincidencia[1],
+                10
+            );
+
+        if (
+            !isNaN(valor) &&
+            valor > mayor
+        ) {
+            mayor = valor;
+        }
+    });
+
+    const siguiente =
+        mayor + 1;
+
+    return (
+        "FALLA-" +
+        String(siguiente)
+            .padStart(4, "0")
+    );
+}
+
+
+/* =========================================================
+   REGISTRAR FALLA / ALARMA
+========================================================= */
 
 app.post(
     "/api/falla",
@@ -1655,13 +987,12 @@ app.post(
             const {
 
                 equipoId,
-
                 tipoFalla,
-
-                descripcionFalla
+                descripcionFalla,
+                reportadoPor,
+                observaciones
 
             } = req.body;
-
 
             if (!equipoId) {
 
@@ -1673,9 +1004,7 @@ app.post(
                         "No se recibió el equipo."
 
                 });
-
             }
-
 
             if (!tipoFalla) {
 
@@ -1687,9 +1016,7 @@ app.post(
                         "No se indicó el tipo de falla."
 
                 });
-
             }
-
 
             if (!descripcionFalla) {
 
@@ -1701,82 +1028,68 @@ app.post(
                         "No se describió la falla."
 
                 });
-
             }
 
-
-            // ==================================================
-            // OBTENER EQUIPO
-            // ==================================================
-
             const equipoRecord =
-                await base(
-                    TABLA_EQUIPOS
-                ).find(
-                    equipoId
-                );
+                await base(TABLA_EQUIPOS)
+                    .find(equipoId);
 
             const ef =
                 equipoRecord.fields;
 
-
-            // ==================================================
-            // CREAR FALLA
-            // ==================================================
+            const numeroReporte =
+                await generarNumeroReporte();
 
             const fallaRecord =
-                await base(
-                    TABLA_FALLAS
-                ).create({
+                await base(TABLA_FALLAS)
+                    .create({
 
-                    "Equipo relacionado":
-                        [equipoId],
+                        "Número de reporte":
+                            numeroReporte,
 
-                    "Nombre del equipo":
-                        ef[
-                            "nombre del equipo"
-                        ] ||
-                        "",
+                        "Equipo relacionado":
+                            [equipoId],
 
-                    "Número de activo fijo":
-                        ef[
-                            "Numero de activo fijo"
-                        ] ||
-                        ef[
-                            "Número de activo fijo"
-                        ] ||
-                        "",
+                        "Nombre del equipo":
+                            ef["nombre del equipo"] ||
+                            "",
 
-                    "Tipo de falla":
-                        tipoFalla,
+                        "Número de activo fijo":
+                            ef["Numero de activo fijo"] ||
+                            ef["Número de activo fijo"] ||
+                            "",
 
-                    "Descripción de la falla":
-                        descripcionFalla,
+                        "Tipo de falla":
+                            tipoFalla,
 
-                    "Fecha y hora":
-                        new Date().toISOString()
+                        "Descripción de la falla":
+                            descripcionFalla,
 
-                });
+                        "Reportado por":
+                            reportadoPor || "",
 
+                        "Estado de la falla":
+                            "Pendiente",
 
-            // ==================================================
-            // SUBIR FOTOGRAFÍA
-            // ==================================================
+                        "Observaciones":
+                            observaciones || "",
+
+                        "Fecha y hora":
+                            new Date().toISOString()
+
+                    });
 
             if (req.file) {
 
                 try {
 
                     const base64 =
-                        req.file.buffer.toString(
-                            "base64"
-                        );
+                        req.file.buffer
+                            .toString("base64");
 
                     const attachmentResponse =
                         await fetch(
-
                             `https://content.airtable.com/v0/${AIRTABLE_BASE_ID}/${fallaRecord.id}/fldFotografiaError/uploadAttachment`,
-
                             {
 
                                 method:
@@ -1807,36 +1120,32 @@ app.post(
                                     })
 
                             }
-
                         );
-
 
                     if (
                         !attachmentResponse.ok
                     ) {
 
                         console.error(
-                            "No se pudo subir la fotografía:",
-                            await attachmentResponse.text()
-                        );
 
+                            "No se pudo subir la fotografía:",
+
+                            await attachmentResponse.text()
+
+                        );
                     }
 
                 } catch (errorFoto) {
 
                     console.error(
+
                         "Error al subir fotografía:",
+
                         errorFoto
+
                     );
-
                 }
-
             }
-
-
-            // ==================================================
-            // RESPUESTA
-            // ==================================================
 
             res.json({
 
@@ -1844,6 +1153,8 @@ app.post(
 
                 id:
                     fallaRecord.id,
+
+                numeroReporte,
 
                 mensaje:
                     "Falla reportada correctamente."
@@ -1868,16 +1179,294 @@ app.post(
                     error.message
 
             });
-
         }
-
     }
 );
 
 
-// ======================================================
-// INICIAR SERVIDOR
-// ======================================================
+/* =========================================================
+   OBTENER REPORTES DE UN EQUIPO
+========================================================= */
+
+app.get(
+    "/api/equipo/:id/fallas",
+    async (req, res) => {
+
+        try {
+
+            const equipoId =
+                req.params.id;
+
+            const registros =
+                await base(TABLA_FALLAS)
+                    .select({
+                        sort: [
+                            {
+                                field:
+                                    "Fecha y hora",
+                                direction:
+                                    "desc"
+                            }
+                        ]
+                    })
+                    .all();
+
+            const resultado = [];
+
+            for (
+                const record
+                of registros
+            ) {
+
+                const f =
+                    record.fields;
+
+                const relacionados =
+                    f["Equipo relacionado"] ||
+                    [];
+
+                if (
+                    !relacionados.includes(
+                        equipoId
+                    )
+                ) {
+                    continue;
+                }
+
+                const fotografia =
+                    f["Fotografía del error"] ||
+                    [];
+
+                resultado.push({
+
+                    id:
+                        record.id,
+
+                    numeroReporte:
+                        f["Número de reporte"] ||
+                        "Sin número",
+
+                    fechaHora:
+                        f["Fecha y hora"] ||
+                        "",
+
+                    nombreEquipo:
+                        f["Nombre del equipo"] ||
+                        "",
+
+                    numeroActivo:
+                        f["Número de activo fijo"] ||
+                        "",
+
+                    tipoFalla:
+                        f["Tipo de falla"] ||
+                        "",
+
+                    descripcion:
+                        f["Descripción de la falla"] ||
+                        "",
+
+                    reportadoPor:
+                        f["Reportado por"] ||
+                        "",
+
+                    estado:
+                        f["Estado de la falla"] ||
+                        "Pendiente",
+
+                    observaciones:
+                        f["Observaciones"] ||
+                        "",
+
+                    fotografia:
+                        fotografia.length > 0
+                            ? fotografia[0].url
+                            : ""
+
+                });
+            }
+
+            res.json(resultado);
+
+        } catch (error) {
+
+            console.error(
+                "Error al obtener fallas:",
+                error
+            );
+
+            res.status(500).json({
+
+                error:
+                    "No se pudieron obtener los reportes."
+
+            });
+        }
+    }
+);
+
+
+/* =========================================================
+   OBTENER UN REPORTE INDIVIDUAL
+========================================================= */
+
+app.get(
+    "/api/falla/:id",
+    async (req, res) => {
+
+        try {
+
+            const record =
+                await base(TABLA_FALLAS)
+                    .find(req.params.id);
+
+            const f =
+                record.fields;
+
+            let equipo = null;
+
+            const equipoRelacionado =
+                f["Equipo relacionado"] ||
+                [];
+
+            if (
+                equipoRelacionado.length > 0
+            ) {
+
+                try {
+
+                    const equipoRecord =
+                        await base(TABLA_EQUIPOS)
+                            .find(
+                                equipoRelacionado[0]
+                            );
+
+                    const ef =
+                        equipoRecord.fields;
+
+                    equipo = {
+
+                        id:
+                            equipoRecord.id,
+
+                        nombre:
+                            ef["nombre del equipo"] ||
+                            "",
+
+                        numeroActivo:
+                            ef["Numero de activo fijo"] ||
+                            ef["Número de activo fijo"] ||
+                            "",
+
+                        marca:
+                            ef["marca"] ||
+                            "",
+
+                        modelo:
+                            ef["modelo"] ||
+                            "",
+
+                        serie:
+                            ef["número de serie"] ||
+                            "",
+
+                        servicio:
+                            ef["servicio o área"] ||
+                            "",
+
+                        ubicacion:
+                            ef["ubicación"] ||
+                            "",
+
+                        estado:
+                            ef["estado del equipo"] ||
+                            "",
+
+                        criticidad:
+                            ef["Criticidad"] ||
+                            ""
+
+                    };
+
+                } catch (errorEquipo) {
+
+                    console.error(
+                        "Error obteniendo equipo del reporte:",
+                        errorEquipo
+                    );
+                }
+            }
+
+            const fotografia =
+                f["Fotografía del error"] ||
+                [];
+
+            res.json({
+
+                id:
+                    record.id,
+
+                numeroReporte:
+                    f["Número de reporte"] ||
+                    "Sin número",
+
+                fechaHora:
+                    f["Fecha y hora"] ||
+                    "",
+
+                tipoFalla:
+                    f["Tipo de falla"] ||
+                    "",
+
+                descripcion:
+                    f["Descripción de la falla"] ||
+                    "",
+
+                reportadoPor:
+                    f["Reportado por"] ||
+                    "",
+
+                estado:
+                    f["Estado de la falla"] ||
+                    "Pendiente",
+
+                observaciones:
+                    f["Observaciones"] ||
+                    "",
+
+                fotografia:
+                    fotografia.length > 0
+                        ? fotografia[0].url
+                        : "",
+
+                equipo
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error al obtener reporte:",
+                error
+            );
+
+            res.status(500).json({
+
+                error:
+                    "No se pudo obtener el reporte.",
+
+                detalle:
+                    error.message
+
+            });
+        }
+    }
+);
+
+
+/* =========================================================
+   SERVIDOR
+========================================================= */
 
 app.listen(
     PORT,

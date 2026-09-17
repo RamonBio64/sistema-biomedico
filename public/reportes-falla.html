@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    Reportes de Falla | Sistema Biomédico
+</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+    background:
+        #f3f6f8;
+    color:
+        #263238;
+}
+
+header {
+    background:
+        linear-gradient(
+            135deg,
+            #0b3d4a,
+            #126579
+        );
+    color: white;
+    padding:
+        18px 20px;
+    box-shadow:
+        0 3px 12px
+        rgba(0,0,0,0.15);
+}
+
+.header-content {
+    max-width:
+        1100px;
+    margin:
+        auto;
+    display:
+        flex;
+    align-items:
+        center;
+    gap:
+        15px;
+}
+
+.logo {
+    width:
+        65px;
+    height:
+        65px;
+    object-fit:
+        contain;
+    background:
+        white;
+    border-radius:
+        10px;
+    padding:
+        5px;
+}
+
+.header-text h1 {
+    margin:
+        0;
+    font-size:
+        22px;
+}
+
+.header-text p {
+    margin:
+        5px 0 0;
+    opacity:
+        0.9;
+    font-size:
+        14px;
+}
+
+.contenedor {
+    max-width:
+        1100px;
+    margin:
+        25px auto;
+    padding:
+        0 15px;
+}
+
+.encabezado {
+    background:
+        white;
+    border-radius:
+        15px;
+    padding:
+        25px;
+    margin-bottom:
+        20px;
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,0.08);
+}
+
+.encabezado h2 {
+    margin:
+        0 0 8px;
+    color:
+        #0b3d4a;
+}
+
+.encabezado p {
+    margin:
+        0;
+    color:
+        #607d8b;
+    font-size:
+        14px;
+}
+
+.equipo-info {
+    margin-top:
+        18px;
+    padding:
+        14px;
+    border-left:
+        4px solid
+        #126579;
+    background:
+        #f7f9fa;
+    border-radius:
+        8px;
+}
+
+.equipo-info strong {
+    display:
+        block;
+    color:
+        #0b3d4a;
+    font-size:
+        16px;
+    margin-bottom:
+        5px;
+}
+
+.equipo-info span {
+    color:
+        #607d8b;
+    font-size:
+        14px;
+}
+
+.boton-regresar {
+    display:
+        inline-block;
+    border:
+        none;
+    border-radius:
+        10px;
+    padding:
+        12px 18px;
+    background:
+        #0b3d4a;
+    color:
+        white;
+    font-size:
+        14px;
+    font-weight:
+        bold;
+    cursor:
+        pointer;
+    text-decoration:
+        none;
+    margin-bottom:
+        20px;
+}
+
+.boton-regresar:hover {
+    background:
+        #126579;
+}
+
+.reporte {
+    background:
+        white;
+    border:
+        1px solid
+        #dce5e8;
+    border-left:
+        5px solid
+        #c62828;
+    border-radius:
+        12px;
+    padding:
+        20px;
+    margin-bottom:
+        14px;
+    cursor:
+        pointer;
+    transition:
+        0.2s;
+}
+
+.reporte:hover {
+    transform:
+        translateY(-2px);
+    box-shadow:
+        0 5px 15px
+        rgba(0,0,0,0.10);
+    border-color:
+        #c62828;
+}
+
+.reporte-superior {
+    display:
+        flex;
+    justify-content:
+        space-between;
+    align-items:
+        center;
+    gap:
+        15px;
+    margin-bottom:
+        12px;
+}
+
+.reporte-numero {
+    color:
+        #c62828;
+    font-size:
+        17px;
+    font-weight:
+        bold;
+}
+
+.reporte-fecha {
+    color:
+        #607d8b;
+    font-size:
+        13px;
+    font-weight:
+        bold;
+}
+
+.reporte-datos {
+    display:
+        grid;
+    grid-template-columns:
+        repeat(3, 1fr);
+    gap:
+        10px;
+}
+
+.reporte-dato {
+    background:
+        #f7f9fa;
+    padding:
+        10px;
+    border-radius:
+        8px;
+}
+
+.reporte-dato strong {
+    display:
+        block;
+    color:
+        #607d8b;
+    font-size:
+        11px;
+    margin-bottom:
+        4px;
+}
+
+.reporte-dato span {
+    font-size:
+        14px;
+    font-weight:
+        600;
+}
+
+.estado {
+    display:
+        inline-block;
+    padding:
+        5px 10px;
+    border-radius:
+        15px;
+    font-size:
+        11px;
+    font-weight:
+        bold;
+}
+
+.estado-pendiente {
+    background:
+        #fff8e1;
+    color:
+        #f57f17;
+}
+
+.estado-en-proceso {
+    background:
+        #e3f2fd;
+    color:
+        #1565c0;
+}
+
+.estado-atendido,
+.estado-resuelto,
+.estado-cerrado {
+    background:
+        #e8f5e9;
+    color:
+        #2e7d32;
+}
+
+.estado-cancelado {
+    background:
+        #eceff1;
+    color:
+        #455a64;
+}
+
+.ver-reporte {
+    margin-top:
+        14px;
+    text-align:
+        right;
+    color:
+        #126579;
+    font-size:
+        13px;
+    font-weight:
+        bold;
+}
+
+.cargando {
+    text-align:
+        center;
+    padding:
+        40px;
+    color:
+        #607d8b;
+}
+
+.error {
+    background:
+        #ffebee;
+    color:
+        #b71c1c;
+    padding:
+        20px;
+    border-radius:
+        12px;
+    text-align:
+        center;
+    font-weight:
+        bold;
+}
+
+.sin-reportes {
+    background:
+        white;
+    padding:
+        35px;
+    border-radius:
+        15px;
+    text-align:
+        center;
+    color:
+        #607d8b;
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,0.07);
+}
+
+.sin-reportes strong {
+    display:
+        block;
+    color:
+        #0b3d4a;
+    font-size:
+        18px;
+    margin-bottom:
+        8px;
+}
+
+@media (max-width: 700px) {
+
+    .header-text h1 {
+        font-size:
+            18px;
+    }
+
+    .logo {
+        width:
+            55px;
+        height:
+            55px;
+    }
+
+    .reporte-superior {
+        align-items:
+            flex-start;
+        flex-direction:
+            column;
+    }
+
+    .reporte-datos {
+        grid-template-columns:
+            1fr;
+    }
+
+}
+
+@media print {
+
+    @page {
+        size:
+            Letter;
+        margin:
+            10mm;
+    }
+
+    body {
+        background:
+            white;
+    }
+
+    header {
+        box-shadow:
+            none;
+    }
+
+    .boton-regresar {
+        display:
+            none;
+    }
+
+    .reporte {
+        box-shadow:
+            none !important;
+        break-inside:
+            avoid;
+        page-break-inside:
+            avoid;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-content">
+
+        <img
+            src="/img/fondo.jfif"
+            class="logo"
+            alt="Logo institucional"
+        >
+
+        <div class="header-text">
+
+            <h1>
+                ÁREA DE INGENIERÍA BIOMÉDICA
+            </h1>
+
+            <p>
+                GESTIÓN DE EQUIPO BIOMÉDICO
+            </p>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="contenedor">
+
+    <a
+        href="#"
+        id="regresar"
+        class="boton-regresar"
+    >
+        ← Regresar a ficha del equipo
+    </a>
+
+
+    <section class="encabezado">
+
+        <h2>
+            📋 Reportes de falla / alarma
+        </h2>
+
+        <p>
+            Historial de fallas y alarmas registradas para este equipo.
+        </p>
+
+        <div
+            id="equipo-info"
+            class="equipo-info"
+        >
+
+            <strong>
+                Cargando equipo...
+            </strong>
+
+            <span>
+                Consultando información...
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <div id="contenido">
+
+        <div class="cargando">
+            Cargando reportes...
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+const parametros =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const equipoId =
+    parametros.get("equipoId");
+
+
+function escaparHTML(valor) {
+
+    if (
+        valor === null ||
+        valor === undefined ||
+        valor === ""
+    ) {
+        return "No especificado";
+    }
+
+    return String(valor)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+function formatearFecha(valor) {
+
+    if (!valor) {
+        return "No especificado";
+    }
+
+    const fecha =
+        new Date(valor);
+
+    if (
+        !isNaN(
+            fecha.getTime()
+        )
+    ) {
+
+        return fecha.toLocaleString(
+            "es-MX",
+            {
+                day:
+                    "2-digit",
+                month:
+                    "2-digit",
+                year:
+                    "numeric",
+                hour:
+                    "2-digit",
+                minute:
+                    "2-digit"
+            }
+        );
+
+    }
+
+    return escaparHTML(valor);
+
+}
+
+
+function obtenerDato(
+    objeto,
+    ...nombres
+) {
+
+    for (
+        const nombre of nombres
+    ) {
+
+        if (
+            objeto &&
+            objeto[nombre] !== undefined &&
+            objeto[nombre] !== null &&
+            objeto[nombre] !== ""
+        ) {
+
+            return objeto[nombre];
+
+        }
+
+    }
+
+    return "";
+
+}
+
+
+function claseEstado(estado) {
+
+    const texto =
+        String(
+            estado || ""
+        )
+            .toLowerCase()
+            .replace(
+                /\s+/g,
+                "-"
+            );
+
+    if (
+        texto.includes("pendiente")
+    ) {
+        return "estado-pendiente";
+    }
+
+    if (
+        texto.includes("proceso")
+    ) {
+        return "estado-en-proceso";
+    }
+
+    if (
+        texto.includes("atendido")
+    ) {
+        return "estado-atendido";
+    }
+
+    if (
+        texto.includes("resuelto")
+    ) {
+        return "estado-resuelto";
+    }
+
+    if (
+        texto.includes("cerrado")
+    ) {
+        return "estado-cerrado";
+    }
+
+    if (
+        texto.includes("cancelado")
+    ) {
+        return "estado-cancelado";
+    }
+
+    return "estado-pendiente";
+
+}
+
+
+function mostrarError(mensaje) {
+
+    document.getElementById(
+        "contenido"
+    ).innerHTML = `
+
+        <div class="error">
+            ❌ ${escaparHTML(mensaje)}
+        </div>
+
+    `;
+
+}
+
+
+async function cargarEquipo() {
+
+    try {
+
+        const respuesta =
+            await fetch(
+                `/api/equipo/${encodeURIComponent(
+                    equipoId
+                )}`
+            );
+
+        if (!respuesta.ok) {
+            throw new Error(
+                "No se pudo cargar la información del equipo."
+            );
+        }
+
+        const datos =
+            await respuesta.json();
+
+        document.getElementById(
+            "equipo-info"
+        ).innerHTML = `
+
+            <strong>
+                ${escaparHTML(
+                    datos.nombre
+                )}
+            </strong>
+
+            <span>
+                Número de activo fijo:
+                ${escaparHTML(
+                    datos.numeroActivo
+                )}
+            </span>
+
+        `;
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "equipo-info"
+        ).innerHTML = `
+
+            <strong>
+                Equipo
+            </strong>
+
+            <span>
+                No se pudo cargar la información.
+            </span>
+
+        `;
+
+    }
+
+}
+
+
+async function cargarReportes() {
+
+    try {
+
+        const respuesta =
+            await fetch(
+                `/api/equipo/${encodeURIComponent(
+                    equipoId
+                )}/fallas`
+            );
+
+        const datos =
+            await respuesta.json();
+
+        if (
+            !respuesta.ok
+        ) {
+
+            throw new Error(
+                datos.error ||
+                datos.mensaje ||
+                "No se pudieron cargar los reportes."
+            );
+
+        }
+
+
+        const reportes =
+            Array.isArray(
+                datos.fallas
+            )
+            ?
+            datos.fallas
+            :
+            Array.isArray(
+                datos.reportes
+            )
+            ?
+            datos.reportes
+            :
+            [];
+
+
+        if (
+            reportes.length === 0
+        ) {
+
+            document.getElementById(
+                "contenido"
+            ).innerHTML = `
+
+                <div class="sin-reportes">
+
+                    <strong>
+                        📋 No hay reportes registrados
+                    </strong>
+
+                    Este equipo todavía no tiene fallas o alarmas registradas.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "contenido"
+        ).innerHTML =
+
+            reportes
+                .map(
+                    reporte => {
+
+                        const id =
+                            obtenerDato(
+                                reporte,
+                                "id",
+                                "recordId"
+                            );
+
+                        const numero =
+                            obtenerDato(
+                                reporte,
+                                "numeroReporte",
+                                "Número de reporte"
+                            ) ||
+                            "Reporte de falla";
+
+                        const fecha =
+                            obtenerDato(
+                                reporte,
+                                "fechaHora",
+                                "Fecha y hora"
+                            );
+
+                        const tipo =
+                            obtenerDato(
+                                reporte,
+                                "tipoFalla",
+                                "Tipo de falla"
+                            );
+
+                        const descripcion =
+                            obtenerDato(
+                                reporte,
+                                "descripcionFalla",
+                                "Descripción de la falla"
+                            );
+
+                        const reportado =
+                            obtenerDato(
+                                reporte,
+                                "reportadoPor",
+                                "Reportado por"
+                            );
+
+                        const estado =
+                            obtenerDato(
+                                reporte,
+                                "estadoFalla",
+                                "Estado de la falla"
+                            ) ||
+                            "Pendiente";
+
+
+                        return `
+
+                            <div
+                                class="reporte"
+                                onclick="abrirReporte('${escaparAtributo(id)}')"
+                            >
+
+                                <div class="reporte-superior">
+
+                                    <div class="reporte-numero">
+
+                                        🔴
+                                        ${escaparHTML(
+                                            numero
+                                        )}
+
+                                    </div>
+
+                                    <div class="reporte-fecha">
+
+                                        📅
+                                        ${formatearFecha(
+                                            fecha
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="reporte-datos">
+
+
+                                    <div class="reporte-dato">
+
+                                        <strong>
+                                            Tipo de falla
+                                        </strong>
+
+                                        <span>
+                                            ${escaparHTML(
+                                                tipo
+                                            )}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="reporte-dato">
+
+                                        <strong>
+                                            Reportado por
+                                        </strong>
+
+                                        <span>
+                                            ${escaparHTML(
+                                                reportado
+                                            )}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="reporte-dato">
+
+                                        <strong>
+                                            Estado
+                                        </strong>
+
+                                        <span>
+
+                                            <span
+                                                class="estado ${claseEstado(
+                                                    estado
+                                                )}"
+                                            >
+                                                ${escaparHTML(
+                                                    estado
+                                                )}
+                                            </span>
+
+                                        </span>
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="reporte-dato" style="margin-top:10px;">
+
+                                    <strong>
+                                        Descripción
+                                    </strong>
+
+                                    <span>
+                                        ${escaparHTML(
+                                            descripcion
+                                        )}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="ver-reporte">
+
+                                    Ver reporte completo →
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+    } catch (error) {
+
+        console.error(
+            "Error cargando reportes:",
+            error
+        );
+
+        mostrarError(
+            error.message ||
+            "No se pudieron cargar los reportes."
+        );
+
+    }
+
+}
+
+
+function escaparAtributo(valor) {
+
+    return String(
+        valor || ""
+    )
+        .replace(
+            /\\/g,
+            "\\\\"
+        )
+        .replace(
+            /'/g,
+            "\\'"
+        );
+
+}
+
+
+function abrirReporte(id) {
+
+    if (!id) {
+
+        alert(
+            "No se encontró el identificador del reporte."
+        );
+
+        return;
+
+    }
+
+    window.location.href =
+        `/ficha-falla.html?fallaId=${encodeURIComponent(
+            id
+        )}&equipoId=${encodeURIComponent(
+            equipoId
+        )}`;
+
+}
+
+
+if (!equipoId) {
+
+    mostrarError(
+        "No se encontró el identificador del equipo."
+    );
+
+} else {
+
+    document.getElementById(
+        "regresar"
+    ).href =
+        `/index.html?equipoId=${encodeURIComponent(
+            equipoId
+        )}`;
+
+    cargarEquipo();
+
+    cargarReportes();
+
+}
+
+</script>
+
+</body>
+
+</html>

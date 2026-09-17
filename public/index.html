@@ -172,7 +172,7 @@ header {
 }
 
 /* =====================================================
-   CRITICIDAD + REPORTAR FALLA
+   CRITICIDAD + REPORTAR FALLA + VER REPORTES
 ===================================================== */
 
 .criticidad-falla {
@@ -202,6 +202,40 @@ header {
         8px 14px;
     font-size:
         13px;
+}
+
+/* =====================================================
+   BOTÓN VER REPORTES
+===================================================== */
+
+.reportes-falla-btn {
+    width:
+        auto;
+    margin-left:
+        auto;
+    margin-bottom:
+        0;
+    border:
+        none;
+    border-radius:
+        12px;
+    padding:
+        8px 14px;
+    background:
+        #0b3d4a;
+    color:
+        white;
+    font-size:
+        13px;
+    font-weight:
+        bold;
+    cursor:
+        pointer;
+}
+
+.reportes-falla-btn:hover {
+    background:
+        #126579;
 }
 
 /* =====================================================
@@ -1228,7 +1262,8 @@ header {
 
     .imprimir-btn,
     .mantenimiento-btn,
-    .falla-btn {
+    .falla-btn,
+    .reportes-falla-btn {
         display:
             none !important;
     }
@@ -1712,6 +1747,16 @@ header {
         font-size:
             12px;
     }
+
+    .reportes-falla-btn {
+        margin-left:
+            0;
+        padding:
+            8px 12px;
+        font-size:
+            12px;
+    }
+
 }
 
 </style>
@@ -2695,6 +2740,15 @@ function mostrarEquipo(datos) {
                     🔴 Reportar falla / alarma
                 </button>
 
+
+                <button
+                    type="button"
+                    class="reportes-falla-btn"
+                    onclick="verReportesFalla()"
+                >
+                    📋 Ver reportes
+                </button>
+
             </div>
 
 
@@ -3055,6 +3109,30 @@ function mostrarEquipo(datos) {
         </section>
 
     `;
+
+}
+
+
+/* =========================================================
+   VER REPORTES DE FALLA
+========================================================= */
+
+function verReportesFalla() {
+
+    if (!equipoId) {
+
+        alert(
+            "No se encontró el identificador del equipo."
+        );
+
+        return;
+
+    }
+
+    window.location.href =
+        `/reportes-falla.html?equipoId=${encodeURIComponent(
+            equipoId
+        )}`;
 
 }
 
