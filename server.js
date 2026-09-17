@@ -93,7 +93,9 @@ app.get(
                         titulo: titulo || "",
                         url: url || ""
                     });
+
                 }
+
             }
 
             res.json({
@@ -187,7 +189,9 @@ app.get(
                 error:
                     "No se pudo obtener el equipo."
             });
+
         }
+
     }
 );
 
@@ -265,7 +269,9 @@ app.get(
                 error:
                     "No se pudieron obtener los accesorios."
             });
+
         }
+
     }
 );
 
@@ -289,7 +295,8 @@ app.get(
 
             res.json({
 
-                id: record.id,
+                id:
+                    record.id,
 
                 nombre:
                     f["nombre"] || "",
@@ -334,7 +341,9 @@ app.get(
                 error:
                     "No se pudo obtener el accesorio."
             });
+
         }
+
     }
 );
 
@@ -412,7 +421,9 @@ app.get(
                 error:
                     "No se pudieron obtener los repuestos."
             });
+
         }
+
     }
 );
 
@@ -436,7 +447,8 @@ app.get(
 
             res.json({
 
-                id: record.id,
+                id:
+                    record.id,
 
                 nombre:
                     f["nombre"] || "",
@@ -481,7 +493,9 @@ app.get(
                 error:
                     "No se pudo obtener el repuesto."
             });
+
         }
+
     }
 );
 
@@ -577,6 +591,7 @@ app.get(
                         );
 
                     return fechaB - fechaA;
+
                 }
             );
 
@@ -593,7 +608,9 @@ app.get(
                 error:
                     "No se pudieron obtener los mantenimientos."
             });
+
         }
+
     }
 );
 
@@ -680,7 +697,9 @@ app.get(
                         "No se pudo obtener equipo:",
                         errorEquipo
                     );
+
                 }
+
             }
 
             res.json({
@@ -743,7 +762,9 @@ app.get(
                 error:
                     "No se pudo obtener el mantenimiento."
             });
+
         }
+
     }
 );
 
@@ -771,6 +792,7 @@ app.post(
                     error:
                         "Contraseña incorrecta."
                 });
+
             }
 
             const {
@@ -795,6 +817,7 @@ app.post(
                     error:
                         "No se recibió el equipo."
                 });
+
             }
 
             const equipoRecord =
@@ -855,7 +878,9 @@ app.post(
 
                 actualizacion[
                     "Fecha de ultimo mantenimiento"
-                ] = fechaMantenimiento;
+                ] =
+                    fechaMantenimiento;
+
             }
 
             if (fechaProximoMantenimiento) {
@@ -864,6 +889,7 @@ app.post(
                     "Fecha de próximo mantenimiento"
                 ] =
                     fechaProximoMantenimiento;
+
             }
 
             if (
@@ -875,11 +901,13 @@ app.post(
                         equipoId,
                         actualizacion
                     );
+
             }
 
             res.json({
 
-                correcto: true,
+                correcto:
+                    true,
 
                 id:
                     mantenimiento.id,
@@ -898,7 +926,8 @@ app.post(
 
             res.status(500).json({
 
-                correcto: false,
+                correcto:
+                    false,
 
                 error:
                     "No se pudo registrar el mantenimiento.",
@@ -907,13 +936,15 @@ app.post(
                     error.message
 
             });
+
         }
+
     }
 );
 
 
 /* =========================================================
-   FUNCION PARA GENERAR NUMERO DE REPORTE
+   GENERAR NÚMERO DE REPORTE
 ========================================================= */
 
 async function generarNumeroReporte() {
@@ -942,7 +973,9 @@ async function generarNumeroReporte() {
 
         const coincidencia =
             String(numero)
-                .match(/FALLA-(\d+)/i);
+                .match(
+                    /FALLA-(\d+)/i
+                );
 
         if (!coincidencia) {
             return;
@@ -958,8 +991,11 @@ async function generarNumeroReporte() {
             !isNaN(valor) &&
             valor > mayor
         ) {
+
             mayor = valor;
+
         }
+
     });
 
     const siguiente =
@@ -970,6 +1006,7 @@ async function generarNumeroReporte() {
         String(siguiente)
             .padStart(4, "0")
     );
+
 }
 
 
@@ -998,36 +1035,42 @@ app.post(
 
                 return res.status(400).json({
 
-                    correcto: false,
+                    correcto:
+                        false,
 
                     error:
                         "No se recibió el equipo."
 
                 });
+
             }
 
             if (!tipoFalla) {
 
                 return res.status(400).json({
 
-                    correcto: false,
+                    correcto:
+                        false,
 
                     error:
                         "No se indicó el tipo de falla."
 
                 });
+
             }
 
             if (!descripcionFalla) {
 
                 return res.status(400).json({
 
-                    correcto: false,
+                    correcto:
+                        false,
 
                     error:
                         "No se describió la falla."
 
                 });
+
             }
 
             const equipoRecord =
@@ -1127,29 +1170,27 @@ app.post(
                     ) {
 
                         console.error(
-
                             "No se pudo subir la fotografía:",
-
                             await attachmentResponse.text()
-
                         );
+
                     }
 
                 } catch (errorFoto) {
 
                     console.error(
-
                         "Error al subir fotografía:",
-
                         errorFoto
-
                     );
+
                 }
+
             }
 
             res.json({
 
-                correcto: true,
+                correcto:
+                    true,
 
                 id:
                     fallaRecord.id,
@@ -1170,7 +1211,8 @@ app.post(
 
             res.status(500).json({
 
-                correcto: false,
+                correcto:
+                    false,
 
                 error:
                     "No se pudo registrar la falla.",
@@ -1179,7 +1221,9 @@ app.post(
                     error.message
 
             });
+
         }
+
     }
 );
 
@@ -1197,18 +1241,15 @@ app.get(
             const equipoId =
                 req.params.id;
 
+            /*
+             * Se obtienen los registros sin utilizar
+             * sort de Airtable para evitar errores de
+             * consulta.
+             */
+
             const registros =
                 await base(TABLA_FALLAS)
-                    .select({
-                        sort: [
-                            {
-                                field:
-                                    "Fecha y hora",
-                                direction:
-                                    "desc"
-                            }
-                        ]
-                    })
+                    .select()
                     .all();
 
             const resultado = [];
@@ -1225,12 +1266,18 @@ app.get(
                     f["Equipo relacionado"] ||
                     [];
 
+                /*
+                 * Verificar que el reporte pertenezca
+                 * al equipo consultado.
+                 */
+
                 if (
-                    !relacionados.includes(
-                        equipoId
-                    )
+                    !Array.isArray(relacionados) ||
+                    !relacionados.includes(equipoId)
                 ) {
+
                     continue;
+
                 }
 
                 const fotografia =
@@ -1262,7 +1309,7 @@ app.get(
                         f["Tipo de falla"] ||
                         "",
 
-                    descripcion:
+                    descripcionFalla:
                         f["Descripción de la falla"] ||
                         "",
 
@@ -1270,7 +1317,7 @@ app.get(
                         f["Reportado por"] ||
                         "",
 
-                    estado:
+                    estadoFalla:
                         f["Estado de la falla"] ||
                         "Pendiente",
 
@@ -1279,14 +1326,51 @@ app.get(
                         "",
 
                     fotografia:
+                        Array.isArray(fotografia) &&
                         fotografia.length > 0
-                            ? fotografia[0].url
-                            : ""
+                        ?
+                        fotografia[0].url
+                        :
+                        ""
 
                 });
+
             }
 
-            res.json(resultado);
+
+            /*
+             * Ordenar del reporte más reciente
+             * al más antiguo.
+             */
+
+            resultado.sort(
+                (a, b) => {
+
+                    const fechaA =
+                        new Date(
+                            a.fechaHora || 0
+                        );
+
+                    const fechaB =
+                        new Date(
+                            b.fechaHora || 0
+                        );
+
+                    return fechaB - fechaA;
+
+                }
+            );
+
+
+            res.json({
+
+                correcto:
+                    true,
+
+                fallas:
+                    resultado
+
+            });
 
         } catch (error) {
 
@@ -1297,11 +1381,19 @@ app.get(
 
             res.status(500).json({
 
+                correcto:
+                    false,
+
                 error:
-                    "No se pudieron obtener los reportes."
+                    "No se pudieron obtener los reportes.",
+
+                detalle:
+                    error.message
 
             });
+
         }
+
     }
 );
 
@@ -1394,7 +1486,9 @@ app.get(
                         "Error obteniendo equipo del reporte:",
                         errorEquipo
                     );
+
                 }
+
             }
 
             const fotografia =
@@ -1418,7 +1512,7 @@ app.get(
                     f["Tipo de falla"] ||
                     "",
 
-                descripcion:
+                descripcionFalla:
                     f["Descripción de la falla"] ||
                     "",
 
@@ -1426,7 +1520,7 @@ app.get(
                     f["Reportado por"] ||
                     "",
 
-                estado:
+                estadoFalla:
                     f["Estado de la falla"] ||
                     "Pendiente",
 
@@ -1459,7 +1553,9 @@ app.get(
                     error.message
 
             });
+
         }
+
     }
 );
 
