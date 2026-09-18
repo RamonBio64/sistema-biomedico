@@ -922,10 +922,61 @@ async function cargarMantenimiento() {
             await respuesta.json();
 
 
+        /*
+         * El servidor puede devolver:
+         *
+         * 1. El mantenimiento directamente:
+         *
+         * {
+         *     id,
+         *     numeroActivo,
+         *     fechaMantenimiento,
+         *     ...
+         * }
+         *
+         * 2. Un objeto con:
+         *
+         * {
+         *     correcto: true,
+         *     mantenimiento: {...},
+         *     equipo: {...}
+         * }
+         *
+         * Se aceptan ambos formatos.
+         */
+
+
+        let mantenimiento = null;
+
+        let equipo = null;
+
+
         if (
-            !datos.correcto ||
-            !datos.mantenimiento
+            datos &&
+            datos.mantenimiento
         ) {
+
+            mantenimiento =
+                datos.mantenimiento;
+
+            equipo =
+                datos.equipo || null;
+
+        } else if (
+            datos &&
+            !Array.isArray(datos)
+        ) {
+
+            mantenimiento =
+                datos;
+
+            equipo =
+                datos.equipo || null;
+
+        }
+
+
+        if (!mantenimiento) {
 
             throw new Error(
                 "No se encontró el registro de mantenimiento."
@@ -934,9 +985,32 @@ async function cargarMantenimiento() {
         }
 
 
-        mostrarMantenimiento(
-            datos
-        );
+        /*
+         * Si el mantenimiento trae la información
+         * del equipo dentro del mismo objeto,
+         * también la utilizamos.
+         */
+
+        if (
+            !equipo &&
+            mantenimiento.equipo
+        ) {
+
+            equipo =
+                mantenimiento.equipo;
+
+        }
+
+
+        mostrarMantenimiento({
+
+            mantenimiento:
+                mantenimiento,
+
+            equipo:
+                equipo
+
+        });
 
 
     } catch (error) {
