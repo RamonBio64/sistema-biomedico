@@ -230,19 +230,19 @@ app.get(
                                 record.id,
 
                             nombre:
-                                f["nombre"] || "",
+                                f["Nombre del accesorio"] || "",
 
                             activoFijo:
-                                f["activo fijo"] || "",
+                                f["Numero de activo fijo"] || "",
 
                             serie:
-                                f["serie"] || "",
+                                f["número de serie"] || "",
 
                             modelo:
-                                f["modelo"] || "",
+                                f["Modelo"] || "",
 
                             estado:
-                                f["estado"] || "",
+                                f["estado del accesorio"] || "",
 
                             color:
                                 f["color"] || "",
@@ -251,10 +251,16 @@ app.get(
                                 f["activo"] || false,
 
                             observaciones:
-                                f["observaciones"] || "",
+                                f["Observaciones"] || "",
 
                             fotografia:
-                                f["fotografía"] || []
+                                f["Fotografia"] || [],
+
+                            equipoRelacionado:
+                                f["Equipo Médico relacionado"] || [],
+
+                            cantidad:
+                                f["Cantidad Repuestos/Accesorios"] || ""
 
                         };
 
@@ -304,19 +310,19 @@ app.get(
                     record.id,
 
                 nombre:
-                    f["nombre"] || "",
+                    f["Nombre del accesorio"] || "",
 
                 activoFijo:
-                    f["activo fijo"] || "",
+                    f["Numero de activo fijo"] || "",
 
                 serie:
-                    f["serie"] || "",
+                    f["número de serie"] || "",
 
                 modelo:
-                    f["modelo"] || "",
+                    f["Modelo"] || "",
 
                 estado:
-                    f["estado"] || "",
+                    f["estado del accesorio"] || "",
 
                 color:
                     f["color"] || "",
@@ -325,13 +331,16 @@ app.get(
                     f["activo"] || false,
 
                 observaciones:
-                    f["observaciones"] || "",
+                    f["Observaciones"] || "",
 
                 fotografia:
-                    f["fotografía"] || [],
+                    f["Fotografia"] || [],
 
                 equipoRelacionado:
-                    f["Equipo Médico relacionado"] || []
+                    f["Equipo Médico relacionado"] || [],
+
+                cantidad:
+                    f["Cantidad Repuestos/Accesorios"] || ""
 
             });
 
@@ -520,10 +529,6 @@ app.get(
 
         try {
 
-            /* =================================================
-               OBTENER EL EQUIPO
-            ================================================= */
-
             const equipoRecord =
                 await base(TABLA_EQUIPOS)
                     .find(req.params.id);
@@ -535,10 +540,6 @@ app.get(
                 ef["Numero de activo fijo"] ||
                 ef["Número de activo fijo"] ||
                 "";
-
-            /* =================================================
-               BUSCAR MANTENIMIENTOS POR NÚMERO DE ACTIVO FIJO
-            ================================================= */
 
             const registros =
                 await base(TABLA_MANTENIMIENTOS)
@@ -606,10 +607,6 @@ app.get(
                     };
 
                 });
-
-            /* =================================================
-               ORDENAR DEL MÁS RECIENTE AL MÁS ANTIGUO
-            ================================================= */
 
             resultado.sort(
                 (a, b) => {
