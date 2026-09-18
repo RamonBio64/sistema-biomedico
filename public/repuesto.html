@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -424,22 +425,39 @@ async function cargarDatos() {
 
 
         /*
-         * LA API DE REPUESTOS DEVUELVE:
+         * LA API ACTUAL DE REPUESTOS DEVUELVE
+         * DIRECTAMENTE UN ARREGLO:
+         *
+         * [
+         *     {
+         *         id,
+         *         nombre,
+         *         estado,
+         *         lugar,
+         *         observaciones,
+         *         activoFijo,
+         *         serie,
+         *         color,
+         *         modelo,
+         *         compatibilidad,
+         *         fotografia,
+         *         equipoRelacionado,
+         *         cantidad
+         *     }
+         * ]
+         *
+         * Ya NO devuelve:
          *
          * {
          *     correcto: true,
          *     repuestos: [...]
          * }
-         *
-         * Por eso debemos obtener
-         * respuestaJSON.repuestos
          */
 
+
         if (
-            !respuestaJSON ||
-            !respuestaJSON.correcto ||
             !Array.isArray(
-                respuestaJSON.repuestos
+                respuestaJSON
             )
         ) {
 
@@ -456,7 +474,7 @@ async function cargarDatos() {
 
 
         const lista =
-            respuestaJSON.repuestos;
+            respuestaJSON;
 
 
         if (lista.length === 0) {
@@ -496,23 +514,29 @@ async function cargarDatos() {
                             <div>
 
                                 <div class="nombre">
+
                                     ${escaparHTML(
                                         repuesto.nombre
                                     )}
+
                                 </div>
 
                                 <div class="modelo">
+
                                     Modelo:
                                     ${escaparHTML(
                                         repuesto.modelo
                                     )}
+
                                 </div>
 
                                 <div class="activo">
+
                                     Activo:
                                     ${escaparHTML(
-                                        repuesto.numeroActivo
+                                        repuesto.activoFijo
                                     )}
+
                                 </div>
 
                             </div>
@@ -558,3 +582,4 @@ async function cargarDatos() {
 
 </body>
 </html>
+
