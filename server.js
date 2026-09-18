@@ -206,55 +206,60 @@ app.get(
 
         try {
 
-            const registros =
-                await base(TABLA_ACCESORIOS)
-                    .select({
-                        filterByFormula:
-                            `FIND("${req.params.id}", ARRAYJOIN({Equipo Médico relacionado})) > 0`
-                    })
-                    .all();
+            const equipoRecord =
+                await base(TABLA_EQUIPOS)
+                    .find(req.params.id);
+
+            const idsAccesorios =
+                equipoRecord.fields["Accesorios Médicos"] || [];
 
             const resultado =
-                registros.map(record => {
+                await Promise.all(
+                    idsAccesorios.map(async (accesorioId) => {
 
-                    const f =
-                        record.fields;
+                        const record =
+                            await base(TABLA_ACCESORIOS)
+                                .find(accesorioId);
 
-                    return {
+                        const f =
+                            record.fields;
 
-                        id:
-                            record.id,
+                        return {
 
-                        nombre:
-                            f["nombre"] || "",
+                            id:
+                                record.id,
 
-                        activoFijo:
-                            f["activo fijo"] || "",
+                            nombre:
+                                f["nombre"] || "",
 
-                        serie:
-                            f["serie"] || "",
+                            activoFijo:
+                                f["activo fijo"] || "",
 
-                        modelo:
-                            f["modelo"] || "",
+                            serie:
+                                f["serie"] || "",
 
-                        estado:
-                            f["estado"] || "",
+                            modelo:
+                                f["modelo"] || "",
 
-                        color:
-                            f["color"] || "",
+                            estado:
+                                f["estado"] || "",
 
-                        activo:
-                            f["activo"] || false,
+                            color:
+                                f["color"] || "",
 
-                        observaciones:
-                            f["observaciones"] || "",
+                            activo:
+                                f["activo"] || false,
 
-                        fotografia:
-                            f["fotografía"] || []
+                            observaciones:
+                                f["observaciones"] || "",
 
-                    };
+                            fotografia:
+                                f["fotografía"] || []
 
-                });
+                        };
+
+                    })
+                );
 
             res.json(resultado);
 
@@ -358,55 +363,60 @@ app.get(
 
         try {
 
-            const registros =
-                await base(TABLA_REPUESTOS)
-                    .select({
-                        filterByFormula:
-                            `FIND("${req.params.id}", ARRAYJOIN({Equipo Médico relacionado})) > 0`
-                    })
-                    .all();
+            const equipoRecord =
+                await base(TABLA_EQUIPOS)
+                    .find(req.params.id);
+
+            const idsRepuestos =
+                equipoRecord.fields["Repuestos Médicos"] || [];
 
             const resultado =
-                registros.map(record => {
+                await Promise.all(
+                    idsRepuestos.map(async (repuestoId) => {
 
-                    const f =
-                        record.fields;
+                        const record =
+                            await base(TABLA_REPUESTOS)
+                                .find(repuestoId);
 
-                    return {
+                        const f =
+                            record.fields;
 
-                        id:
-                            record.id,
+                        return {
 
-                        nombre:
-                            f["nombre"] || "",
+                            id:
+                                record.id,
 
-                        estado:
-                            f["estado"] || "",
+                            nombre:
+                                f["nombre"] || "",
 
-                        lugar:
-                            f["lugar"] || "",
+                            estado:
+                                f["estado"] || "",
 
-                        observaciones:
-                            f["observaciones"] || "",
+                            lugar:
+                                f["lugar"] || "",
 
-                        activoFijo:
-                            f["activo fijo"] || "",
+                            observaciones:
+                                f["observaciones"] || "",
 
-                        serie:
-                            f["serie"] || "",
+                            activoFijo:
+                                f["activo fijo"] || "",
 
-                        color:
-                            f["color"] || "",
+                            serie:
+                                f["serie"] || "",
 
-                        modelo:
-                            f["modelo"] || "",
+                            color:
+                                f["color"] || "",
 
-                        compatibilidad:
-                            f["compatibilidad"] || ""
+                            modelo:
+                                f["modelo"] || "",
 
-                    };
+                            compatibilidad:
+                                f["compatibilidad"] || ""
 
-                });
+                        };
+
+                    })
+                );
 
             res.json(resultado);
 
@@ -692,10 +702,12 @@ app.get(
                             "",
 
                         marca:
-                            ef["marca"] || "",
+                            ef["marca"] ||
+                            "",
 
                         modelo:
-                            ef["modelo"] || "",
+                            ef["modelo"] ||
+                            "",
 
                         serie:
                             ef["número de serie"] ||
