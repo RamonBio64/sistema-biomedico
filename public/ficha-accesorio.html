@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -472,10 +472,8 @@
                 window.location.search
             );
 
-
         const accesorioId =
             parametros.get("accesorioId");
-
 
         const equipoId =
             parametros.get("equipoId");
@@ -487,7 +485,6 @@
 
         const btnVolver =
             document.getElementById("btnVolver");
-
 
         if (equipoId) {
 
@@ -556,17 +553,22 @@
                     await respuesta.json();
 
 
-                if (!datos.correcto) {
+                /*
+                 * EL SERVIDOR ACTUAL DEVUELVE DIRECTAMENTE
+                 * LOS DATOS DEL ACCESORIO.
+                 *
+                 * Antes el HTML esperaba:
+                 *
+                 * {
+                 *     correcto: true,
+                 *     accesorio: {...}
+                 * }
+                 *
+                 * Eso provocaba el error.
+                 */
 
-                    throw new Error(
-                        datos.error ||
-                        "No se pudo obtener la información del accesorio."
-                    );
 
-                }
-
-
-                if (!datos.accesorio) {
+                if (!datos || !datos.id) {
 
                     throw new Error(
                         "El servidor no devolvió la información del accesorio."
@@ -576,7 +578,7 @@
 
 
                 mostrarAccesorio(
-                    datos.accesorio
+                    datos
                 );
 
 
@@ -613,10 +615,104 @@
 
 
         // =====================================================
+        // OBTENER EQUIPOS RELACIONADOS
+        // =====================================================
+
+        async function obtenerEquiposRelacionados(
+            datos
+        ) {
+
+            let ids = [];
+
+
+            if (
+                Array.isArray(
+                    datos.equipoRelacionado
+                )
+            ) {
+
+                ids =
+                    datos.equipoRelacionado;
+
+            }
+
+
+            if (
+                !ids.length &&
+                Array.isArray(
+                    datos.equiposRelacionados
+                )
+            ) {
+
+                return datos.equiposRelacionados;
+
+            }
+
+
+            if (!ids.length) {
+
+                return [];
+
+            }
+
+
+            const equipos = [];
+
+
+            for (
+                const equipoIdRelacionado
+                of ids
+            ) {
+
+                try {
+
+                    const respuesta =
+                        await fetch(
+                            `/api/equipo/${encodeURIComponent(
+                                equipoIdRelacionado
+                            )}`
+                        );
+
+
+                    if (!respuesta.ok) {
+
+                        continue;
+
+                    }
+
+
+                    const equipo =
+                        await respuesta.json();
+
+
+                    equipos.push(
+                        equipo
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "Error al obtener equipo relacionado:",
+                        error
+                    );
+
+                }
+
+            }
+
+
+            return equipos;
+
+        }
+
+
+        // =====================================================
         // MOSTRAR ACCESORIO
         // =====================================================
 
-        function mostrarAccesorio(datos) {
+        async function mostrarAccesorio(
+            datos
+        ) {
 
             const ficha =
                 document.getElementById("ficha");
@@ -678,36 +774,10 @@
             // EQUIPOS RELACIONADOS
             // =================================================
 
-            let equipos = [];
-
-
-            if (
-                Array.isArray(
-                    datos.equiposRelacionados
-                )
-            ) {
-
-                equipos =
-                    datos.equiposRelacionados;
-
-            }
-
-
-            // -------------------------------------------------
-            // SI EL SERVIDOR DEVUELVE UN SOLO OBJETO
-            // -------------------------------------------------
-
-            else if (
-                datos.equiposRelacionados
-                &&
-                typeof datos.equiposRelacionados === "object"
-            ) {
-
-                equipos = [
-                    datos.equiposRelacionados
-                ];
-
-            }
+            const equipos =
+                await obtenerEquiposRelacionados(
+                    datos
+                );
 
 
             // =================================================
@@ -979,7 +1049,7 @@
                             <span>
                                 ${escapeHTML(
                                     obtenerValor(
-                                        datos.numeroActivo,
+                                        datos.activoFijo,
                                         "No registrado"
                                     )
                                 )}
@@ -1119,7 +1189,10 @@
         // OBTENER VALOR SEGURO
         // =====================================================
 
-        function obtenerValor(valor, defecto) {
+        function obtenerValor(
+            valor,
+            defecto
+        ) {
 
             if (
                 valor === null ||
@@ -1190,13 +1263,18 @@
         // PROTEGER TEXTO HTML
         // =====================================================
 
-        function escapeHTML(valor) {
+        function escapeHTML(
+            valor
+        ) {
 
             const div =
                 document.createElement("div");
 
             div.textContent =
-                obtenerValor(valor, "");
+                obtenerValor(
+                    valor,
+                    ""
+                );
 
             return div.innerHTML;
 
@@ -1207,11 +1285,21 @@
         // PROTEGER ATRIBUTOS HTML
         // =====================================================
 
-        function escapeAttribute(valor) {
+        function escapeAttribute(
+            valor
+        ) {
 
-            return escapeHTML(valor)
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+            return escapeHTML(
+                valor
+            )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
 
         }
 
@@ -1228,4 +1316,5 @@
 </body>
 
 </html>
-```
+
+
