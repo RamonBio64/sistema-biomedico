@@ -1,11 +1,18 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Ficha Técnica | Accesorio Biomédico</title>
+
 
     <style>
 
@@ -19,6 +26,7 @@
             background: #f3f6f8;
             color: #222;
         }
+
 
         /* =====================================================
            ENCABEZADO
@@ -316,6 +324,10 @@
                 display: none;
             }
 
+            .foto-accesorio {
+                border: 1px solid #ccc;
+            }
+
         }
 
 
@@ -410,6 +422,7 @@
 
 
             <button
+                type="button"
                 onclick="window.print()"
                 class="btn btn-imprimir"
             >
@@ -451,7 +464,7 @@
     <script>
 
         // =====================================================
-        // OBTENER ID DEL ACCESORIO
+        // OBTENER PARÁMETROS DE LA URL
         // =====================================================
 
         const parametros =
@@ -464,13 +477,13 @@
             parametros.get("accesorioId");
 
 
-        // =====================================================
-        // CONFIGURAR BOTÓN VOLVER
-        // =====================================================
-
         const equipoId =
             parametros.get("equipoId");
 
+
+        // =====================================================
+        // CONFIGURAR BOTÓN VOLVER
+        // =====================================================
 
         const btnVolver =
             document.getElementById("btnVolver");
@@ -533,7 +546,7 @@
                 if (!respuesta.ok) {
 
                     throw new Error(
-                        "No se pudo obtener el accesorio."
+                        `Error del servidor (${respuesta.status}).`
                     );
 
                 }
@@ -547,7 +560,16 @@
 
                     throw new Error(
                         datos.error ||
-                        "No se pudo obtener la información."
+                        "No se pudo obtener la información del accesorio."
+                    );
+
+                }
+
+
+                if (!datos.accesorio) {
+
+                    throw new Error(
+                        "El servidor no devolvió la información del accesorio."
                     );
 
                 }
@@ -561,7 +583,7 @@
             } catch (error) {
 
                 console.error(
-                    "Error:",
+                    "Error al cargar accesorio:",
                     error
                 );
 
@@ -575,7 +597,10 @@
                         </h2>
 
                         <p>
-                            ${error.message}
+                            ${escapeHTML(
+                                error.message ||
+                                "Ocurrió un error inesperado."
+                            )}
                         </p>
 
                     </div>
@@ -588,7 +613,7 @@
 
 
         // =====================================================
-        // MOSTRAR INFORMACIÓN DEL ACCESORIO
+        // MOSTRAR ACCESORIO
         // =====================================================
 
         function mostrarAccesorio(datos) {
@@ -597,9 +622,9 @@
                 document.getElementById("ficha");
 
 
-            // -------------------------------------------------
+            // =================================================
             // FOTOGRAFÍA
-            // -------------------------------------------------
+            // =================================================
 
             let fotografia = "";
 
@@ -608,17 +633,22 @@
                 Array.isArray(datos.fotografia)
                 &&
                 datos.fotografia.length > 0
+                &&
+                datos.fotografia[0]
             ) {
 
                 fotografia =
-                    datos.fotografia[0].url;
+                    datos.fotografia[0].url ||
+                    datos.fotografia[0].thumbnails?.large?.url ||
+                    datos.fotografia[0].thumbnails?.full?.url ||
+                    "";
 
             }
 
 
-            // -------------------------------------------------
+            // =================================================
             // FOTO HTML
-            // -------------------------------------------------
+            // =================================================
 
             const fotoHTML =
                 fotografia
@@ -628,9 +658,13 @@
                         <div class="foto-contenedor">
 
                             <img
-                                src="${fotografia}"
-                                alt="${escapeHTML(datos.nombre || "Accesorio biomédico")}"
+                                src="${escapeAttribute(fotografia)}"
+                                alt="${escapeAttribute(
+                                    datos.nombre ||
+                                    "Accesorio biomédico"
+                                )}"
                                 class="foto-accesorio"
+                                onerror="this.style.display='none';"
                             >
 
                         </div>
@@ -640,17 +674,45 @@
                     : "";
 
 
-            // -------------------------------------------------
+            // =================================================
             // EQUIPOS RELACIONADOS
-            // -------------------------------------------------
+            // =================================================
 
-            const equipos =
+            let equipos = [];
+
+
+            if (
                 Array.isArray(
                     datos.equiposRelacionados
                 )
-                    ? datos.equiposRelacionados
-                    : [];
+            ) {
 
+                equipos =
+                    datos.equiposRelacionados;
+
+            }
+
+
+            // -------------------------------------------------
+            // SI EL SERVIDOR DEVUELVE UN SOLO OBJETO
+            // -------------------------------------------------
+
+            else if (
+                datos.equiposRelacionados
+                &&
+                typeof datos.equiposRelacionados === "object"
+            ) {
+
+                equipos = [
+                    datos.equiposRelacionados
+                ];
+
+            }
+
+
+            // =================================================
+            // HTML DE EQUIPOS
+            // =================================================
 
             let equiposHTML = "";
 
@@ -680,8 +742,10 @@
 
                                     <h3>
                                         ${escapeHTML(
-                                            equipo.nombre ||
-                                            "Equipo sin nombre"
+                                            obtenerValor(
+                                                equipo.nombre,
+                                                "Equipo sin nombre"
+                                            )
                                         )}
                                     </h3>
 
@@ -697,8 +761,10 @@
 
                                             <span>
                                                 ${escapeHTML(
-                                                    equipo.numeroActivo ||
-                                                    "No registrado"
+                                                    obtenerValor(
+                                                        equipo.numeroActivo,
+                                                        "No registrado"
+                                                    )
                                                 )}
                                             </span>
 
@@ -713,8 +779,10 @@
 
                                             <span>
                                                 ${escapeHTML(
-                                                    equipo.servicio ||
-                                                    "No registrado"
+                                                    obtenerValor(
+                                                        equipo.servicio,
+                                                        "No registrado"
+                                                    )
                                                 )}
                                             </span>
 
@@ -729,8 +797,10 @@
 
                                             <span>
                                                 ${escapeHTML(
-                                                    equipo.marca ||
-                                                    "No registrada"
+                                                    obtenerValor(
+                                                        equipo.marca,
+                                                        "No registrada"
+                                                    )
                                                 )}
                                             </span>
 
@@ -745,8 +815,10 @@
 
                                             <span>
                                                 ${escapeHTML(
-                                                    equipo.modelo ||
-                                                    "No registrado"
+                                                    obtenerValor(
+                                                        equipo.modelo,
+                                                        "No registrado"
+                                                    )
                                                 )}
                                             </span>
 
@@ -761,8 +833,10 @@
 
                                             <span>
                                                 ${escapeHTML(
-                                                    equipo.serie ||
-                                                    "No registrado"
+                                                    obtenerValor(
+                                                        equipo.serie,
+                                                        "No registrado"
+                                                    )
                                                 )}
                                             </span>
 
@@ -777,8 +851,10 @@
 
                                             <span>
                                                 ${escapeHTML(
-                                                    equipo.ubicacion ||
-                                                    "No registrada"
+                                                    obtenerValor(
+                                                        equipo.ubicacion,
+                                                        "No registrada"
+                                                    )
                                                 )}
                                             </span>
 
@@ -793,8 +869,10 @@
 
                                             <span>
                                                 ${escapeHTML(
-                                                    equipo.estado ||
-                                                    "No registrado"
+                                                    obtenerValor(
+                                                        equipo.estado,
+                                                        "No registrado"
+                                                    )
                                                 )}
                                             </span>
 
@@ -809,8 +887,10 @@
 
                                             <span>
                                                 ${escapeHTML(
-                                                    equipo.criticidad ||
-                                                    "No registrada"
+                                                    obtenerValor(
+                                                        equipo.criticidad,
+                                                        "No registrada"
+                                                    )
                                                 )}
                                             </span>
 
@@ -831,9 +911,9 @@
             }
 
 
-            // -------------------------------------------------
-            // CONSTRUIR FICHA COMPLETA
-            // -------------------------------------------------
+            // =================================================
+            // FICHA COMPLETA
+            // =================================================
 
             ficha.innerHTML = `
 
@@ -841,8 +921,10 @@
 
                     <h2>
                         ${escapeHTML(
-                            datos.nombre ||
-                            "Accesorio Biomédico"
+                            obtenerValor(
+                                datos.nombre,
+                                "Accesorio Biomédico"
+                            )
                         )}
                     </h2>
 
@@ -878,8 +960,10 @@
 
                             <span>
                                 ${escapeHTML(
-                                    datos.nombre ||
-                                    "No registrado"
+                                    obtenerValor(
+                                        datos.nombre,
+                                        "No registrado"
+                                    )
                                 )}
                             </span>
 
@@ -894,8 +978,10 @@
 
                             <span>
                                 ${escapeHTML(
-                                    datos.numeroActivo ||
-                                    "No registrado"
+                                    obtenerValor(
+                                        datos.numeroActivo,
+                                        "No registrado"
+                                    )
                                 )}
                             </span>
 
@@ -910,8 +996,10 @@
 
                             <span>
                                 ${escapeHTML(
-                                    datos.serie ||
-                                    "No registrado"
+                                    obtenerValor(
+                                        datos.serie,
+                                        "No registrado"
+                                    )
                                 )}
                             </span>
 
@@ -926,8 +1014,10 @@
 
                             <span>
                                 ${escapeHTML(
-                                    datos.modelo ||
-                                    "No registrado"
+                                    obtenerValor(
+                                        datos.modelo,
+                                        "No registrado"
+                                    )
                                 )}
                             </span>
 
@@ -942,8 +1032,10 @@
 
                             <span>
                                 ${escapeHTML(
-                                    datos.estado ||
-                                    "No registrado"
+                                    obtenerValor(
+                                        datos.estado,
+                                        "No registrado"
+                                    )
                                 )}
                             </span>
 
@@ -958,8 +1050,10 @@
 
                             <span>
                                 ${escapeHTML(
-                                    datos.color ||
-                                    "No registrado"
+                                    obtenerValor(
+                                        datos.color,
+                                        "No registrado"
+                                    )
                                 )}
                             </span>
 
@@ -973,7 +1067,7 @@
                             </strong>
 
                             <span>
-                                ${datos.activo ? "Sí" : "No"}
+                                ${datos.activo === true ? "Sí" : "No"}
                             </span>
 
                         </div>
@@ -987,8 +1081,10 @@
 
                             <span>
                                 ${escapeHTML(
-                                    datos.observaciones ||
-                                    "Sin observaciones"
+                                    obtenerValor(
+                                        datos.observaciones,
+                                        "Sin observaciones"
+                                    )
                                 )}
                             </span>
 
@@ -1020,6 +1116,77 @@
 
 
         // =====================================================
+        // OBTENER VALOR SEGURO
+        // =====================================================
+
+        function obtenerValor(valor, defecto) {
+
+            if (
+                valor === null ||
+                valor === undefined ||
+                valor === ""
+            ) {
+
+                return defecto;
+
+            }
+
+
+            if (Array.isArray(valor)) {
+
+                if (valor.length === 0) {
+
+                    return defecto;
+
+                }
+
+
+                return valor
+                    .map(item => {
+
+                        if (
+                            item !== null &&
+                            typeof item === "object"
+                        ) {
+
+                            return (
+                                item.name ||
+                                item.nombre ||
+                                item.value ||
+                                item.id ||
+                                ""
+                            );
+
+                        }
+
+                        return String(item);
+
+                    })
+                    .filter(Boolean)
+                    .join(", ");
+
+            }
+
+
+            if (typeof valor === "object") {
+
+                return (
+                    valor.name ||
+                    valor.nombre ||
+                    valor.value ||
+                    valor.id ||
+                    defecto
+                );
+
+            }
+
+
+            return String(valor);
+
+        }
+
+
+        // =====================================================
         // PROTEGER TEXTO HTML
         // =====================================================
 
@@ -1029,9 +1196,22 @@
                 document.createElement("div");
 
             div.textContent =
-                valor ?? "";
+                obtenerValor(valor, "");
 
             return div.innerHTML;
+
+        }
+
+
+        // =====================================================
+        // PROTEGER ATRIBUTOS HTML
+        // =====================================================
+
+        function escapeAttribute(valor) {
+
+            return escapeHTML(valor)
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
 
         }
 
@@ -1046,4 +1226,6 @@
 
 
 </body>
+
 </html>
+```
