@@ -1,5 +1,4 @@
 
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -205,6 +204,34 @@
             background: #ffebee;
         }
 
+        /* ==============================
+           EQUIPOS RELACIONADOS
+           ============================== */
+
+        .equipo-relacionado {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            background: white;
+            border: 1px solid #d9e2e5;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #126579;
+            font-weight: bold;
+        }
+
+        .equipo-relacionado:last-child {
+            margin-bottom: 0;
+        }
+
+        .equipo-relacionado:hover {
+            background: #f1f6f7;
+        }
+
+        .sin-equipo {
+            color: #78909c;
+        }
+
 
         /* =========================================================
            IMPRESIÓN PROFESIONAL
@@ -233,19 +260,9 @@
                 font-family: Arial, Helvetica, sans-serif;
             }
 
-
-            /* =====================================================
-               OCULTAR ELEMENTOS QUE NO DEBEN SALIR EN LA HOJA
-               ===================================================== */
-
             .acciones {
                 display: none !important;
             }
-
-
-            /* =====================================================
-               ENCABEZADO
-               ===================================================== */
 
             header {
                 background: white !important;
@@ -299,11 +316,6 @@
                 opacity: 1;
             }
 
-
-            /* =====================================================
-               CONTENEDOR PRINCIPAL
-               ===================================================== */
-
             main {
                 max-width: none;
                 width: 100%;
@@ -325,11 +337,6 @@
 
                 overflow: visible;
             }
-
-
-            /* =====================================================
-               TÍTULO DE LA FICHA
-               ===================================================== */
 
             .titulo {
                 padding: 9px 12px;
@@ -355,19 +362,9 @@
                 color: #607d8b !important;
             }
 
-
-            /* =====================================================
-               CONTENIDO
-               ===================================================== */
-
             .contenido {
                 padding: 12px;
             }
-
-
-            /* =====================================================
-               FOTOGRAFÍA
-               ===================================================== */
 
             .fotografia {
                 display: block;
@@ -413,12 +410,6 @@
                 page-break-inside: avoid;
             }
 
-
-            /* =====================================================
-               DATOS
-               Se convierten visualmente en una tabla
-               ===================================================== */
-
             .datos {
                 display: grid;
 
@@ -457,11 +448,6 @@
                 min-height: 75px;
             }
 
-
-            /* =====================================================
-               ETIQUETAS
-               ===================================================== */
-
             .etiqueta {
                 margin: 0 0 4px 0;
 
@@ -475,11 +461,6 @@
 
                 letter-spacing: .2px;
             }
-
-
-            /* =====================================================
-               VALORES
-               ===================================================== */
 
             .valor {
                 font-size: 10pt;
@@ -503,10 +484,22 @@
                 font-weight: bold;
             }
 
+            .equipo-relacionado {
+                display: block;
 
-            /* =====================================================
-               EVITAR CORTES
-               ===================================================== */
+                padding: 3px 0;
+                margin: 0;
+
+                background: white !important;
+
+                border: none;
+
+                border-radius: 0;
+
+                color: #263238 !important;
+
+                font-weight: normal;
+            }
 
             .tarjeta,
             .contenido,
@@ -646,7 +639,7 @@ const equipoId =
 
 /* =========================================================
    ESCAPAR HTML
-   ========================================================= */
+========================================================= */
 
 function escaparHTML(valor) {
 
@@ -674,7 +667,7 @@ function escaparHTML(valor) {
 
 /* =========================================================
    OBTENER VALOR
-   ========================================================= */
+========================================================= */
 
 function obtenerValor(
     objeto,
@@ -706,7 +699,7 @@ function obtenerValor(
 
 /* =========================================================
    OBTENER URL DE FOTOGRAFÍA
-   ========================================================= */
+========================================================= */
 
 function obtenerURLFotografia(
     fotografia
@@ -793,8 +786,96 @@ function obtenerURLFotografia(
 
 
 /* =========================================================
+   OBTENER EQUIPOS RELACIONADOS
+========================================================= */
+
+async function obtenerEquiposRelacionados(
+    repuesto
+) {
+
+    let ids =
+        Array.isArray(
+            repuesto.equipoRelacionado
+        )
+            ? repuesto.equipoRelacionado
+            : [];
+
+
+    /*
+     * Compatibilidad con una respuesta
+     * anterior, por si existiera.
+     */
+
+    if (
+        ids.length === 0 &&
+        Array.isArray(
+            repuesto.equiposRelacionados
+        )
+    ) {
+
+        return repuesto.equiposRelacionados;
+
+    }
+
+
+    const equipos = [];
+
+
+    for (
+        const idEquipo of ids
+    ) {
+
+        try {
+
+            const respuesta =
+                await fetch(
+                    `/api/equipo/${encodeURIComponent(idEquipo)}`
+                );
+
+
+            if (!respuesta.ok) {
+
+                continue;
+
+            }
+
+
+            const equipo =
+                await respuesta.json();
+
+
+            if (
+                equipo &&
+                equipo.id
+            ) {
+
+                equipos.push(
+                    equipo
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Error obteniendo equipo relacionado:",
+                error
+            );
+
+        }
+
+    }
+
+
+    return equipos;
+
+}
+
+
+
+/* =========================================================
    VALIDAR ID
-   ========================================================= */
+========================================================= */
 
 if (!repuestoId) {
 
@@ -838,7 +919,7 @@ if (!repuestoId) {
 
 /* =========================================================
    CARGAR REPUESTO
-   ========================================================= */
+========================================================= */
 
 async function cargarRepuesto() {
 
@@ -860,35 +941,39 @@ async function cargarRepuesto() {
         }
 
 
-
         /*
-         * LA API DEVUELVE:
+         * EL SERVER ACTUAL DEVUELVE DIRECTAMENTE:
          *
          * {
-         *     correcto: true,
-         *     repuesto: {...}
+         *   id,
+         *   nombre,
+         *   estado,
+         *   lugar,
+         *   observaciones,
+         *   activoFijo,
+         *   serie,
+         *   color,
+         *   modelo,
+         *   compatibilidad,
+         *   fotografia,
+         *   equipoRelacionado,
+         *   cantidad
          * }
-         *
-         * Por eso primero obtenemos
-         * respuestaJSON.repuesto
          */
 
 
-        const respuestaJSON =
+        const repuesto =
             await respuesta.json();
 
 
-
         if (
-            !respuestaJSON ||
-            !respuestaJSON.correcto ||
-            !respuestaJSON.repuesto ||
-            !respuestaJSON.repuesto.id
+            !repuesto ||
+            !repuesto.id
         ) {
 
             console.error(
                 "Respuesta recibida:",
-                respuestaJSON
+                repuesto
             );
 
 
@@ -900,22 +985,16 @@ async function cargarRepuesto() {
 
 
 
-        const repuesto =
-            respuestaJSON.repuesto;
-
-
-
         /* =====================================================
            CAMPOS
-           ===================================================== */
+        ===================================================== */
 
 
         const nombre =
             obtenerValor(
                 repuesto,
                 [
-                    "nombre",
-                    "nombreRepuesto"
+                    "nombre"
                 ]
             );
 
@@ -924,8 +1003,7 @@ async function cargarRepuesto() {
             obtenerValor(
                 repuesto,
                 [
-                    "estado",
-                    "estadoRepuesto"
+                    "estado"
                 ]
             );
 
@@ -934,8 +1012,7 @@ async function cargarRepuesto() {
             obtenerValor(
                 repuesto,
                 [
-                    "lugar",
-                    "lugarDondeSeEncuentra"
+                    "lugar"
                 ]
             );
 
@@ -953,8 +1030,7 @@ async function cargarRepuesto() {
             obtenerValor(
                 repuesto,
                 [
-                    "numeroActivo",
-                    "numeroActivoFijo"
+                    "activoFijo"
                 ]
             );
 
@@ -963,8 +1039,7 @@ async function cargarRepuesto() {
             obtenerValor(
                 repuesto,
                 [
-                    "serie",
-                    "numeroSerie"
+                    "serie"
                 ]
             );
 
@@ -991,8 +1066,16 @@ async function cargarRepuesto() {
             obtenerValor(
                 repuesto,
                 [
-                    "tipoCompatibilidad",
                     "compatibilidad"
+                ]
+            );
+
+
+        const cantidad =
+            obtenerValor(
+                repuesto,
+                [
+                    "cantidad"
                 ]
             );
 
@@ -1001,16 +1084,26 @@ async function cargarRepuesto() {
             obtenerValor(
                 repuesto,
                 [
-                    "fotografia",
-                    "foto"
+                    "fotografia"
                 ]
             );
 
 
 
         /* =====================================================
+           EQUIPOS RELACIONADOS
+        ===================================================== */
+
+        const equiposRelacionados =
+            await obtenerEquiposRelacionados(
+                repuesto
+            );
+
+
+
+        /* =====================================================
            FOTOGRAFÍA
-           ===================================================== */
+        ===================================================== */
 
         const urlFotografia =
             obtenerURLFotografia(
@@ -1060,7 +1153,7 @@ async function cargarRepuesto() {
 
         /* =====================================================
            ESTADO
-           ===================================================== */
+        ===================================================== */
 
         let estadoHTML =
             escaparHTML(
@@ -1086,10 +1179,99 @@ async function cargarRepuesto() {
         }
 
 
+        if (
+            estadoNormalizado.includes("fuera") ||
+            estadoNormalizado.includes("no disponible")
+        ) {
+
+            estadoHTML =
+                `<span class="activo-no">${estadoHTML}</span>`;
+
+        }
+
+
+
+        /* =====================================================
+           EQUIPOS RELACIONADOS HTML
+        ===================================================== */
+
+        let equiposHTML = "";
+
+
+        if (
+            equiposRelacionados.length > 0
+        ) {
+
+            equiposHTML =
+                equiposRelacionados
+                    .map(
+                        equipo => {
+
+                            const nombreEquipo =
+                                obtenerValor(
+                                    equipo,
+                                    [
+                                        "nombre"
+                                    ]
+                                );
+
+
+                            const activoEquipo =
+                                obtenerValor(
+                                    equipo,
+                                    [
+                                        "numeroActivo"
+                                    ]
+                                );
+
+
+                            const textoEquipo =
+                                nombreEquipo
+                                    ? `${nombreEquipo}${activoEquipo ? ` · Activo: ${activoEquipo}` : ""}`
+                                    : (
+                                        activoEquipo ||
+                                        "Equipo relacionado"
+                                    );
+
+
+                            return `
+
+                                <a
+                                    class="equipo-relacionado"
+                                    href="/?equipoId=${encodeURIComponent(equipo.id)}"
+                                >
+
+                                    🔧 ${escaparHTML(
+                                        textoEquipo
+                                    )}
+
+                                </a>
+
+                            `;
+
+                        }
+                    )
+                    .join("");
+
+        } else {
+
+            equiposHTML = `
+
+                <span class="sin-equipo">
+
+                    No hay equipo médico relacionado.
+
+                </span>
+
+            `;
+
+        }
+
+
 
         /* =====================================================
            MOSTRAR FICHA
-           ===================================================== */
+        ===================================================== */
 
         document.getElementById(
             "contenidoPrincipal"
@@ -1310,6 +1492,50 @@ async function cargarRepuesto() {
 
 
 
+                    <!-- CANTIDAD -->
+
+                    <div class="dato">
+
+                        <div class="etiqueta">
+
+                            Cantidad de repuestos
+
+                        </div>
+
+
+                        <div class="valor">
+
+                            ${escaparHTML(
+                                cantidad
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- EQUIPO RELACIONADO -->
+
+                    <div class="dato dato-completo">
+
+                        <div class="etiqueta">
+
+                            Equipo(s) relacionado(s)
+
+                        </div>
+
+
+                        <div class="valor">
+
+                            ${equiposHTML}
+
+                        </div>
+
+                    </div>
+
+
+
                     <!-- OBSERVACIONES -->
 
                     <div class="dato dato-completo">
@@ -1378,4 +1604,3 @@ async function cargarRepuesto() {
 
 </body>
 </html>
-```

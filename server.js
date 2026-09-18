@@ -396,31 +396,40 @@ app.get(
                                 record.id,
 
                             nombre:
-                                f["nombre"] || "",
+                                f["Nombre del repuesto"] || "",
 
                             estado:
-                                f["estado"] || "",
+                                f["estado del repuesto"] || "",
 
                             lugar:
-                                f["lugar"] || "",
+                                f["Lugar donde se encuentra"] || "",
 
                             observaciones:
-                                f["observaciones"] || "",
+                                f["Observaciones"] || "",
 
                             activoFijo:
-                                f["activo fijo"] || "",
+                                f["Numero de activo fijo"] || "",
 
                             serie:
-                                f["serie"] || "",
+                                f["número de serie"] || "",
 
                             color:
                                 f["color"] || "",
 
                             modelo:
-                                f["modelo"] || "",
+                                f["Modelo"] || "",
 
                             compatibilidad:
-                                f["compatibilidad"] || ""
+                                f["Tipo de compatibilidad"] || "",
+
+                            fotografia:
+                                f["Fotografía"] || [],
+
+                            equipoRelacionado:
+                                f["Equipo Médico relacionado"] || [],
+
+                            cantidad:
+                                f["Cantidad Repuestos/Accesorios"] || ""
 
                         };
 
@@ -470,34 +479,40 @@ app.get(
                     record.id,
 
                 nombre:
-                    f["nombre"] || "",
+                    f["Nombre del repuesto"] || "",
 
                 estado:
-                    f["estado"] || "",
+                    f["estado del repuesto"] || "",
 
                 lugar:
-                    f["lugar"] || "",
+                    f["Lugar donde se encuentra"] || "",
 
                 observaciones:
-                    f["observaciones"] || "",
+                    f["Observaciones"] || "",
 
                 activoFijo:
-                    f["activo fijo"] || "",
+                    f["Numero de activo fijo"] || "",
 
                 serie:
-                    f["serie"] || "",
+                    f["número de serie"] || "",
 
                 color:
                     f["color"] || "",
 
                 modelo:
-                    f["modelo"] || "",
+                    f["Modelo"] || "",
 
                 compatibilidad:
-                    f["compatibilidad"] || "",
+                    f["Tipo de compatibilidad"] || "",
+
+                fotografia:
+                    f["Fotografía"] || [],
 
                 equipoRelacionado:
-                    f["Equipo Médico relacionado"] || []
+                    f["Equipo Médico relacionado"] || [],
+
+                cantidad:
+                    f["Cantidad Repuestos/Accesorios"] || ""
 
             });
 
