@@ -175,7 +175,11 @@ app.get(
                     f["URL ficha"] || "",
 
                 urlManuales:
-                    f["URL manuales"] || "",
+                    f["URL manuales"] ||
+                    f["URL Manuales"] ||
+                    f["URL manual"] ||
+                    f["URL Manual"] ||
+                    "",
 
                 videos
 
