@@ -174,6 +174,9 @@ app.get(
                 urlFicha:
                     f["URL ficha"] || "",
 
+                urlManuales:
+                    f["URL manuales"] || "",
+
                 videos
 
             });
