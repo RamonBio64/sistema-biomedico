@@ -496,6 +496,42 @@ header {
 }
 
 /* =====================================================
+   BOTÓN MANUAL
+===================================================== */
+
+.manual-btn {
+    display:
+        block;
+    width:
+        100%;
+    border:
+        none;
+    border-radius:
+        12px;
+    padding:
+        16px;
+    background:
+        #126579;
+    color:
+        white;
+    font-size:
+        16px;
+    font-weight:
+        bold;
+    cursor:
+        pointer;
+    text-align:
+        center;
+    text-decoration:
+        none;
+}
+
+.manual-btn:hover {
+    background:
+        #0b3d4a;
+}
+
+/* =====================================================
    REPORTAR FALLA / ALARMA
 ===================================================== */
 
@@ -1263,7 +1299,8 @@ header {
     .imprimir-btn,
     .mantenimiento-btn,
     .falla-btn,
-    .reportes-falla-btn {
+    .reportes-falla-btn,
+    .manual-btn {
         display:
             none !important;
     }
@@ -2655,6 +2692,41 @@ function generarAlertaMantenimiento(fecha) {
 
 
 /* =========================================================
+   MANUAL DEL EQUIPO
+========================================================= */
+
+function generarBotonManual(datos) {
+
+    const urlManual =
+        String(
+            datos.urlManuales || ""
+        ).trim();
+
+    if (!urlManual) {
+        return "";
+    }
+
+    return `
+
+        <section class="seccion">
+
+            <a
+                class="manual-btn"
+                href="${escaparHTML(urlManual)}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                📖 Consultar manual del equipo
+            </a>
+
+        </section>
+
+    `;
+
+}
+
+
+/* =========================================================
    MOSTRAR EQUIPO
 ========================================================= */
 
@@ -3107,6 +3179,9 @@ function mostrarEquipo(datos) {
             </button>
 
         </section>
+
+
+        ${generarBotonManual(datos)}
 
     `;
 
