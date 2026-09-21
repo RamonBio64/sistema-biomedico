@@ -75,7 +75,13 @@ app.get(
                 await base(TABLA_EQUIPOS)
                     .find(req.params.id);
 
-            const f = record.fields;
+            const f =
+                record.fields;
+
+            console.log(
+                "Campos del equipo:",
+                Object.keys(f)
+            );
 
             const videos = [];
 
@@ -98,9 +104,59 @@ app.get(
 
             }
 
+            /*
+             * =====================================================
+             * URL DEL MANUAL
+             * =====================================================
+             *
+             * Se busca primero el nombre exacto:
+             * "URL manuales"
+             *
+             * También se contemplan variaciones por si Airtable
+             * devuelve el nombre con mayúsculas diferentes.
+             */
+
+            let urlManuales = "";
+
+            if (
+                typeof f["URL manuales"] === "string"
+            ) {
+
+                urlManuales =
+                    f["URL manuales"].trim();
+
+            } else if (
+                typeof f["URL Manuales"] === "string"
+            ) {
+
+                urlManuales =
+                    f["URL Manuales"].trim();
+
+            } else if (
+                typeof f["URL manual"] === "string"
+            ) {
+
+                urlManuales =
+                    f["URL manual"].trim();
+
+            } else if (
+                typeof f["URL Manual"] === "string"
+            ) {
+
+                urlManuales =
+                    f["URL Manual"].trim();
+
+            }
+
+            console.log(
+                "URL manual encontrada:",
+                urlManuales
+            );
+
             res.json({
 
-                id: record.id,
+                id:
+                    record.id,
 
                 numeroActivo:
                     f["Numero de activo fijo"] ||
@@ -175,11 +231,7 @@ app.get(
                     f["URL ficha"] || "",
 
                 urlManuales:
-                    f["URL manuales"] ||
-                    f["URL Manuales"] ||
-                    f["URL manual"] ||
-                    f["URL Manual"] ||
-                    "",
+                    urlManuales,
 
                 videos
 
