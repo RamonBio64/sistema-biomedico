@@ -3240,14 +3240,11 @@ async function cargarCantidadAccesorios() {
             await respuesta.json();
 
         if (
-            datos.correcto &&
-            Array.isArray(
-                datos.accesorios
-            )
+            Array.isArray(datos)
         ) {
 
             const cantidad =
-                datos.accesorios.length;
+                datos.length;
 
             elemento.textContent =
                 cantidad === 1
@@ -3303,14 +3300,11 @@ async function cargarCantidadRepuestos() {
             await respuesta.json();
 
         if (
-            datos.correcto &&
-            Array.isArray(
-                datos.repuestos
-            )
+            Array.isArray(datos)
         ) {
 
             const cantidad =
-                datos.repuestos.length;
+                datos.length;
 
             elemento.textContent =
                 cantidad === 1
