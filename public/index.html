@@ -2355,9 +2355,13 @@ async function cargarEquipo() {
         );
 
 
-        cargarCantidadAccesorios();
+        cargarCantidadAccesorios(
+            equipo
+        );
 
-        cargarCantidadRepuestos();
+        cargarCantidadRepuestos(
+            equipo
+        );
 
         cargarMantenimiento(
             equipo.fechaProximoMantenimiento,
@@ -3392,7 +3396,9 @@ function verReportesFalla() {
    CANTIDAD DE ACCESORIOS
 ========================================================= */
 
-async function cargarCantidadAccesorios() {
+async function cargarCantidadAccesorios(
+    equipo
+) {
 
     const elemento =
         document.getElementById(
@@ -3405,6 +3411,39 @@ async function cargarCantidadAccesorios() {
 
     try {
 
+        const campos =
+            equipo &&
+            equipo._campos
+            ?
+            equipo._campos
+            :
+            null;
+
+
+        if (
+            campos &&
+            Array.isArray(
+                campos["Accesorios Médicos"]
+            )
+        ) {
+
+            const cantidad =
+                campos[
+                    "Accesorios Médicos"
+                ].length;
+
+            elemento.textContent =
+                cantidad === 1
+                ?
+                "1 accesorio disponible · Ver accesorios →"
+                :
+                `${cantidad} accesorios disponibles · Ver accesorios →`;
+
+            return;
+
+        }
+
+
         const respuesta =
             await fetch(
                 `/api/accesorios/${encodeURIComponent(
@@ -3412,8 +3451,19 @@ async function cargarCantidadAccesorios() {
                 )}`
             );
 
+
+        if (!respuesta.ok) {
+
+            throw new Error(
+                "No se pudieron obtener los accesorios."
+            );
+
+        }
+
+
         const datos =
             await respuesta.json();
+
 
         if (
             Array.isArray(datos)
@@ -3438,7 +3488,10 @@ async function cargarCantidadAccesorios() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Error cargando accesorios:",
+            error
+        );
 
         elemento.textContent =
             "Ver accesorios del equipo →";
@@ -3452,7 +3505,9 @@ async function cargarCantidadAccesorios() {
    CANTIDAD DE REPUESTOS
 ========================================================= */
 
-async function cargarCantidadRepuestos() {
+async function cargarCantidadRepuestos(
+    equipo
+) {
 
     const elemento =
         document.getElementById(
@@ -3465,6 +3520,39 @@ async function cargarCantidadRepuestos() {
 
     try {
 
+        const campos =
+            equipo &&
+            equipo._campos
+            ?
+            equipo._campos
+            :
+            null;
+
+
+        if (
+            campos &&
+            Array.isArray(
+                campos["Repuestos Médicos"]
+            )
+        ) {
+
+            const cantidad =
+                campos[
+                    "Repuestos Médicos"
+                ].length;
+
+            elemento.textContent =
+                cantidad === 1
+                ?
+                "1 repuesto disponible · Ver repuestos →"
+                :
+                `${cantidad} repuestos disponibles · Ver repuestos →`;
+
+            return;
+
+        }
+
+
         const respuesta =
             await fetch(
                 `/api/repuestos/${encodeURIComponent(
@@ -3472,8 +3560,19 @@ async function cargarCantidadRepuestos() {
                 )}`
             );
 
+
+        if (!respuesta.ok) {
+
+            throw new Error(
+                "No se pudieron obtener los repuestos."
+            );
+
+        }
+
+
         const datos =
             await respuesta.json();
+
 
         if (
             Array.isArray(datos)
@@ -3498,7 +3597,10 @@ async function cargarCantidadRepuestos() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Error cargando repuestos:",
+            error
+        );
 
         elemento.textContent =
             "Ver repuestos del equipo →";
@@ -3578,23 +3680,6 @@ async function cargarMantenimiento(
                 datos.mantenimientos;
 
         }
-
-
-        /*
-         * El servidor devuelve:
-         *
-         * {
-         *     id,
-         *     fields: {
-         *         "Fecha de mantenimiento realizado": "...",
-         *         "Tipo de mantenimiento": "...",
-         *         ...
-         *     }
-         * }
-         *
-         * Aquí convertimos esos campos al formato
-         * que ya utiliza esta ficha.
-         */
 
 
         const mantenimientos =
@@ -3680,10 +3765,6 @@ async function cargarMantenimiento(
             );
 
 
-        /* =================================================
-           SI NO HAY MANTENIMIENTOS
-        ================================================= */
-
         if (
             mantenimientos.length === 0
         ) {
@@ -3740,10 +3821,6 @@ async function cargarMantenimiento(
 
         }
 
-
-        /* =================================================
-           ÚLTIMO MANTENIMIENTO
-        ================================================= */
 
         const ultimo =
             mantenimientos[0];
@@ -3823,10 +3900,6 @@ async function cargarMantenimiento(
 
         `;
 
-
-        /* =================================================
-           HISTORIAL DE MANTENIMIENTOS
-        ================================================= */
 
         historial.innerHTML =
             mantenimientos
