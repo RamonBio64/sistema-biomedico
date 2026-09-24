@@ -142,16 +142,6 @@ app.get(
 
             }
 
-
-            /*
-             * =====================================================
-             * URL DEL MANUAL
-             * =====================================================
-             *
-             * Se toma directamente del campo:
-             * "Manuales"
-             */
-
             let urlManuales =
                 f["Manuales"] || "";
 
@@ -159,7 +149,6 @@ app.get(
                 "URL manual encontrada:",
                 urlManuales
             );
-
 
             res.json({
 
@@ -312,19 +301,19 @@ app.get(
                             record.id,
 
                         nombre:
-                            f["nombre"] || "",
+                            f["Nombre del accesorio"] || "",
 
                         activoFijo:
-                            f["activo fijo"] || "",
+                            f["Numero de activo fijo"] || "",
 
                         serie:
-                            f["serie"] || "",
+                            f["número de serie"] || "",
 
                         modelo:
-                            f["modelo"] || "",
+                            f["Modelo"] || "",
 
                         estado:
-                            f["estado"] || "",
+                            f["estado del accesorio"] || "",
 
                         color:
                             f["color"] || "",
@@ -333,10 +322,12 @@ app.get(
                             f["activo"] || "",
 
                         observaciones:
-                            f["observaciones"] || "",
+                            f["Observaciones"] || "",
 
                         fotografia:
-                            f["fotografía"] || [],
+                            f["Fotografia"] ||
+                            f["Fotografía"] ||
+                            [],
 
                         equipoRelacionado:
                             f[
@@ -346,7 +337,11 @@ app.get(
                         cantidadAccesorios:
                             f[
                                 "Cantidad Accesorios"
-                            ] || ""
+                            ] ||
+                            f[
+                                "Cantidad Repuestos/Accesorios"
+                            ] ||
+                            ""
 
                     });
 
@@ -414,19 +409,19 @@ app.get(
                     record.id,
 
                 nombre:
-                    f["nombre"] || "",
+                    f["Nombre del accesorio"] || "",
 
                 activoFijo:
-                    f["activo fijo"] || "",
+                    f["Numero de activo fijo"] || "",
 
                 serie:
-                    f["serie"] || "",
+                    f["número de serie"] || "",
 
                 modelo:
-                    f["modelo"] || "",
+                    f["Modelo"] || "",
 
                 estado:
-                    f["estado"] || "",
+                    f["estado del accesorio"] || "",
 
                 color:
                     f["color"] || "",
@@ -435,10 +430,12 @@ app.get(
                     f["activo"] || "",
 
                 observaciones:
-                    f["observaciones"] || "",
+                    f["Observaciones"] || "",
 
                 fotografia:
-                    f["fotografía"] || [],
+                    f["Fotografia"] ||
+                    f["Fotografía"] ||
+                    [],
 
                 equipoRelacionado:
                     f[
@@ -448,7 +445,11 @@ app.get(
                 cantidadAccesorios:
                     f[
                         "Cantidad Accesorios"
-                    ] || ""
+                    ] ||
+                    f[
+                        "Cantidad Repuestos/Accesorios"
+                    ] ||
+                    ""
 
             });
 
@@ -519,31 +520,36 @@ app.get(
                             record.id,
 
                         nombre:
-                            f["nombre"] || "",
+                            f["Nombre del repuesto"] || "",
 
                         activoFijo:
-                            f["activo fijo"] || "",
+                            f["Numero de activo fijo"] || "",
 
                         serie:
-                            f["serie"] || "",
+                            f["número de serie"] || "",
 
                         modelo:
-                            f["modelo"] || "",
+                            f["Modelo"] || "",
 
                         estado:
-                            f["estado"] || "",
+                            f["estado del repuesto"] || "",
 
                         lugar:
-                            f["lugar"] || "",
+                            f["Lugar donde se encuentra"] || "",
 
                         color:
                             f["color"] || "",
 
                         observaciones:
-                            f["observaciones"] || "",
+                            f["Observaciones"] || "",
 
                         compatibilidad:
-                            f["compatibilidad"] || "",
+                            f["Tipo de compatibilidad"] || "",
+
+                        fotografia:
+                            f["Fotografía"] ||
+                            f["Fotografia"] ||
+                            [],
 
                         equipoRelacionado:
                             f[
@@ -552,7 +558,7 @@ app.get(
 
                         cantidadRepuestos:
                             f[
-                                "Cantidad Repuestos"
+                                "Cantidad Repuestos/Accesorios"
                             ] || ""
 
                     });
@@ -621,31 +627,36 @@ app.get(
                     record.id,
 
                 nombre:
-                    f["nombre"] || "",
+                    f["Nombre del repuesto"] || "",
 
                 activoFijo:
-                    f["activo fijo"] || "",
+                    f["Numero de activo fijo"] || "",
 
                 serie:
-                    f["serie"] || "",
+                    f["número de serie"] || "",
 
                 modelo:
-                    f["modelo"] || "",
+                    f["Modelo"] || "",
 
                 estado:
-                    f["estado"] || "",
+                    f["estado del repuesto"] || "",
 
                 lugar:
-                    f["lugar"] || "",
+                    f["Lugar donde se encuentra"] || "",
 
                 color:
                     f["color"] || "",
 
                 observaciones:
-                    f["observaciones"] || "",
+                    f["Observaciones"] || "",
 
                 compatibilidad:
-                    f["compatibilidad"] || "",
+                    f["Tipo de compatibilidad"] || "",
+
+                fotografia:
+                    f["Fotografía"] ||
+                    f["Fotografia"] ||
+                    [],
 
                 equipoRelacionado:
                     f[
@@ -654,7 +665,7 @@ app.get(
 
                 cantidadRepuestos:
                     f[
-                        "Cantidad Repuestos"
+                        "Cantidad Repuestos/Accesorios"
                     ] || ""
 
             });
@@ -705,9 +716,7 @@ app.get(
                 "";
 
             const records =
-                await base(
-                    TABLA_MANTENIMIENTOS
-                )
+                await base(TABLA_MANTENIMIENTOS)
                     .select({
 
                         filterByFormula:
