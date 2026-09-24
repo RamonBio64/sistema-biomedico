@@ -4006,7 +4006,16 @@ async function registrarFalla(event) {
             await respuesta.json();
 
 
-        if (!respuesta.ok || !datos.success) {
+        /* =================================================
+           CORRECCIÓN REALIZADA
+           El servidor devuelve:
+           success, id y numeroFalla
+        ================================================= */
+
+        if (
+            !respuesta.ok ||
+            !datos.success
+        ) {
 
             throw new Error(
                 datos.error ||
