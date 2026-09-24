@@ -819,7 +819,7 @@ app.post(
                     descripcionFalla,
 
                 "Estado":
-                    "Pendiente",
+                    "Reportada",
 
                 "Reportado por":
                     reportadoPor,
