@@ -4006,10 +4006,19 @@ async function registrarFalla(event) {
             await respuesta.json();
 
 
-        if (!respuesta.ok || !datos.correcto) {
+        /* =================================================
+           CORRECCIÓN REALIZADA
+           El servidor devuelve:
+           success, id y numeroFalla
+        ================================================= */
+
+        if (
+            !respuesta.ok ||
+            !datos.success
+        ) {
 
             throw new Error(
-                datos.mensaje ||
+                datos.error ||
                 "No se pudo registrar la falla."
             );
 
@@ -4017,8 +4026,7 @@ async function registrarFalla(event) {
 
 
         mostrarMensajeFalla(
-            datos.mensaje ||
-            "Falla registrada correctamente.",
+            `Falla #${datos.numeroFalla || ""} registrada correctamente.`,
             false
         );
 
