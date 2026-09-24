@@ -1086,6 +1086,12 @@ async function generarNumeroFalla(
     numeroActivo
 ) {
 
+    if (!numeroActivo) {
+
+        return 1;
+
+    }
+
     const records =
         await base(
             TABLA_FALLAS
@@ -1137,6 +1143,11 @@ app.post(
             const datos =
                 req.body;
 
+            console.log(
+                "Datos recibidos para falla:",
+                datos
+            );
+
             const numeroActivo =
                 datos.numeroActivo || "";
 
@@ -1145,39 +1156,69 @@ app.post(
                     numeroActivo
                 );
 
+            const equipoRelacionado =
+                datos.equipoRelacionado
+                    ? datos.equipoRelacionado
+                        .split(",")
+                        .map(
+                            id => id.trim()
+                        )
+                        .filter(Boolean)
+                    : [];
+
+            const camposFalla = {
+
+                "ID Falla":
+                    numeroFalla,
+
+                "Equipo relacionado":
+                    equipoRelacionado,
+
+                "Nombre del equipo relacionado":
+                    datos.nombreEquipo || "",
+
+                "Número de activo fijo":
+                    numeroActivo,
+
+                "Fecha y hora del reporte":
+                    datos.fechaHora || "",
+
+                "Tipo de falla":
+                    datos.tipo || "",
+
+                "Descripción de la falla":
+                    datos.descripcion || "",
+
+                "Estado":
+                    datos.estado ||
+                    "Pendiente",
+
+                "Reportado por":
+                    datos.reportadoPor || "",
+
+                "Observaciones":
+                    datos.observaciones || ""
+
+            };
+
+            console.log(
+                "Campos que se enviarán a Airtable:",
+                camposFalla
+            );
+
             const fallaRecord =
                 await base(
                     TABLA_FALLAS
-                ).create({
+                ).create(
+                    camposFalla
+                );
 
-                    "Número de falla":
-                        numeroFalla,
 
-                    "Equipo relacionado":
-                        datos.equipoRelacionado
-                            ? datos.equipoRelacionado.split(",")
-                            : [],
-
-                    "Nombre del equipo relacionado":
-                        datos.nombreEquipo || "",
-
-                    "Número de activo fijo":
-                        numeroActivo,
-
-                    "Fecha y hora del reporte":
-                        datos.fechaHora || "",
-
-                    "Tipo":
-                        datos.tipo || "",
-
-                    "Descripción":
-                        datos.descripcion || "",
-
-                    "Estado":
-                        datos.estado || "Pendiente"
-
-                });
-
+            /*
+             * =================================================
+             * FOTOGRAFÍA DEL ERROR
+             * =================================================
+             */
 
             if (
                 req.file
@@ -1206,27 +1247,44 @@ app.post(
                     req.file.originalname
                 );
 
-                await fetch(
-                    uploadUrl,
-                    {
+                const respuestaFotografia =
+                    await fetch(
+                        uploadUrl,
+                        {
 
-                        method:
-                            "POST",
+                            method:
+                                "POST",
 
-                        headers: {
+                            headers: {
 
-                            Authorization:
-                                `Bearer ${AIRTABLE_TOKEN}`
+                                Authorization:
+                                    `Bearer ${AIRTABLE_TOKEN}`
 
-                        },
+                            },
 
-                        body:
-                            formData
+                            body:
+                                formData
 
-                    }
-                );
+                        }
+                    );
+
+
+                if (
+                    !respuestaFotografia.ok
+                ) {
+
+                    const errorFotografia =
+                        await respuestaFotografia.text();
+
+                    console.error(
+                        "Error al subir fotografía:",
+                        errorFotografia
+                    );
+
+                }
 
             }
+
 
             res.json({
 
@@ -1240,6 +1298,7 @@ app.post(
 
             });
 
+
         } catch (error) {
 
             console.error(
@@ -1250,6 +1309,7 @@ app.post(
             res.status(500).json({
 
                 error:
+                    error.message ||
                     "No se pudo reportar la falla."
 
             });
@@ -1315,7 +1375,7 @@ app.get(
 
                             numeroFalla:
                                 f[
-                                    "Número de falla"
+                                    "ID Falla"
                                 ] || "",
 
                             equipoRelacionado:
@@ -1340,17 +1400,27 @@ app.get(
 
                             tipo:
                                 f[
-                                    "Tipo"
+                                    "Tipo de falla"
                                 ] || "",
 
                             descripcion:
                                 f[
-                                    "Descripción"
+                                    "Descripción de la falla"
                                 ] || "",
 
                             estado:
                                 f[
                                     "Estado"
+                                ] || "",
+
+                            reportadoPor:
+                                f[
+                                    "Reportado por"
+                                ] || "",
+
+                            observaciones:
+                                f[
+                                    "Observaciones"
                                 ] || "",
 
                             fotografia:
@@ -1417,7 +1487,7 @@ app.get(
 
                 numeroFalla:
                     f[
-                        "Número de falla"
+                        "ID Falla"
                     ] || "",
 
                 equipoRelacionado:
@@ -1442,17 +1512,27 @@ app.get(
 
                 tipo:
                     f[
-                        "Tipo"
+                        "Tipo de falla"
                     ] || "",
 
                 descripcion:
                     f[
-                        "Descripción"
+                        "Descripción de la falla"
                     ] || "",
 
                 estado:
                     f[
                         "Estado"
+                    ] || "",
+
+                reportadoPor:
+                    f[
+                        "Reportado por"
+                    ] || "",
+
+                observaciones:
+                    f[
+                        "Observaciones"
                     ] || "",
 
                 fotografia:
