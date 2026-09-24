@@ -1252,8 +1252,9 @@ app.post(
              * ---------------------------------------------
              *
              * ID Falla es TEXTO.
-             * Por eso se convierte explícitamente
-             * a String().
+             * Nombre del equipo relacionado es un
+             * campo calculado, por lo que NO se envía.
+             * Airtable lo obtiene automáticamente.
              * ---------------------------------------------
              */
 
@@ -1264,9 +1265,6 @@ app.post(
 
                 "Equipo relacionado":
                     equipoRelacionado,
-
-                "Nombre del equipo relacionado":
-                    nombreEquipo,
 
                 "Número de activo fijo":
                     numeroActivo,
