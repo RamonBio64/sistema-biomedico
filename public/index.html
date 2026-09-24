@@ -2116,6 +2116,172 @@ function formatearFecha(valor) {
 }
 
 
+/* =========================================================
+   PREPARAR DATOS DEL EQUIPO
+========================================================= */
+
+function prepararDatosEquipo(datos) {
+
+    const campos =
+        datos.fields ||
+        {};
+
+    return {
+
+        id:
+            datos.id,
+
+        nombre:
+            campos["Nombre del equipo"] ||
+            campos["nombre del equipo"] ||
+            "",
+
+        numeroActivo:
+            campos["Número de activo fijo"] ||
+            campos["Numero de activo fijo"] ||
+            campos["numero de activo fijo"] ||
+            "",
+
+        servicio:
+            campos["Servicio / Área"] ||
+            campos["Servicio o área"] ||
+            campos["Servicio o Área"] ||
+            campos["servicio o área"] ||
+            "",
+
+        marca:
+            campos["Marca"] ||
+            campos["marca"] ||
+            "",
+
+        modelo:
+            campos["Modelo"] ||
+            campos["modelo"] ||
+            "",
+
+        serie:
+            campos["Número de serie"] ||
+            campos["Numero de serie"] ||
+            campos["número de serie"] ||
+            "",
+
+        ubicacion:
+            campos["Ubicación"] ||
+            campos["ubicación"] ||
+            "",
+
+        responsable:
+            campos["Responsable"] ||
+            campos["responsable"] ||
+            "",
+
+        estado:
+            campos["Estado del equipo"] ||
+            campos["estado del equipo"] ||
+            "",
+
+        garantia:
+            campos["Garantía"] ||
+            campos["garantía"] ||
+            "",
+
+        condicionFisica:
+            campos["Condición Física"] ||
+            campos["Condición física"] ||
+            campos["condición física"] ||
+            "",
+
+        fechaAdquisicion:
+            campos["Fecha de adquisición"] ||
+            campos["fecha de adquisición"] ||
+            "",
+
+        proveedor:
+            campos["Proveedor"] ||
+            campos["proveedor"] ||
+            "",
+
+        fechaUltimoMantenimiento:
+            campos["Fecha de ultimo mantenimiento"] ||
+            campos["Fecha de último mantenimiento"] ||
+            campos["fecha de ultimo mantenimiento"] ||
+            "",
+
+        fechaProximoMantenimiento:
+            campos["Fecha de próximo mantenimiento"] ||
+            campos["fecha de próximo mantenimiento"] ||
+            "",
+
+        criticidad:
+            campos["Criticidad"] ||
+            campos["criticidad"] ||
+            "",
+
+        fotografia:
+            campos["Fotografía del equipo"] ||
+            campos["Fotografia del equipo"] ||
+            campos["fotografía del equipo"] ||
+            [],
+
+        urlManuales:
+            campos["URL manuales"] ||
+            campos["URL Manuales"] ||
+            campos["url manuales"] ||
+            "",
+
+        videos: [
+
+            {
+                titulo:
+                    campos["Título del video 1"] ||
+                    "",
+
+                url:
+                    campos["URL del video 1 (YouTube)"] ||
+                    ""
+            },
+
+            {
+                titulo:
+                    campos["Título del video 2"] ||
+                    "",
+
+                url:
+                    campos["URL del video 2 (YouTube)"] ||
+                    ""
+            },
+
+            {
+                titulo:
+                    campos["Título del video 3"] ||
+                    "",
+
+                url:
+                    campos["URL del video 3 (YouTube)"] ||
+                    ""
+            },
+
+            {
+                titulo:
+                    campos["Título del video 4"] ||
+                    "",
+
+                url:
+                    campos["URL del video 4 (YouTube)"] ||
+                    ""
+            }
+
+        ].filter(
+            video =>
+                video.titulo &&
+                video.url
+        )
+
+    };
+
+}
+
+
 function mostrarError(mensaje) {
 
     document.getElementById(
@@ -2177,15 +2343,25 @@ async function cargarEquipo() {
 
         }
 
-        mostrarEquipo(datos);
+
+        const equipo =
+            prepararDatosEquipo(
+                datos
+            );
+
+
+        mostrarEquipo(
+            equipo
+        );
+
 
         cargarCantidadAccesorios();
 
         cargarCantidadRepuestos();
 
         cargarMantenimiento(
-            datos.fechaProximoMantenimiento,
-            datos.fechaUltimoMantenimiento
+            equipo.fechaProximoMantenimiento,
+            equipo.fechaUltimoMantenimiento
         );
 
     } catch (error) {
@@ -3231,9 +3407,9 @@ async function cargarCantidadAccesorios() {
 
         const respuesta =
             await fetch(
-                `/api/equipo/${encodeURIComponent(
+                `/api/accesorios/${encodeURIComponent(
                     equipoId
-                )}/accesorios`
+                )}`
             );
 
         const datos =
@@ -3291,9 +3467,9 @@ async function cargarCantidadRepuestos() {
 
         const respuesta =
             await fetch(
-                `/api/equipo/${encodeURIComponent(
+                `/api/repuestos/${encodeURIComponent(
                     equipoId
-                )}/repuestos`
+                )}`
             );
 
         const datos =
@@ -3362,9 +3538,9 @@ async function cargarMantenimiento(
 
         const respuesta =
             await fetch(
-                `/api/equipo/${encodeURIComponent(
+                `/api/mantenimientos/${encodeURIComponent(
                     equipoId
-                )}/mantenimientos`
+                )}`
             );
 
 
@@ -3381,39 +3557,14 @@ async function cargarMantenimiento(
             await respuesta.json();
 
 
-        /*
-         * EL SERVIDOR DEVUELVE DIRECTAMENTE UN ARREGLO:
-         *
-         * [
-         *     {
-         *         id,
-         *         numeroActivo,
-         *         fechaMantenimiento,
-         *         tipoMantenimiento,
-         *         tecnico,
-         *         estado,
-         *         actividades,
-         *         hallazgos,
-         *         refacciones,
-         *         observaciones,
-         *         proximoMantenimiento,
-         *         idMantenimiento
-         *     }
-         * ]
-         *
-         * También dejamos compatibilidad por si posteriormente
-         * el servidor devuelve { mantenimientos: [...] }.
-         */
-
-
-        let mantenimientos = [];
+        let registros = [];
 
 
         if (
             Array.isArray(datos)
         ) {
 
-            mantenimientos =
+            registros =
                 datos;
 
         } else if (
@@ -3423,10 +3574,110 @@ async function cargarMantenimiento(
             )
         ) {
 
-            mantenimientos =
+            registros =
                 datos.mantenimientos;
 
         }
+
+
+        /*
+         * El servidor devuelve:
+         *
+         * {
+         *     id,
+         *     fields: {
+         *         "Fecha de mantenimiento realizado": "...",
+         *         "Tipo de mantenimiento": "...",
+         *         ...
+         *     }
+         * }
+         *
+         * Aquí convertimos esos campos al formato
+         * que ya utiliza esta ficha.
+         */
+
+
+        const mantenimientos =
+            registros.map(
+                registro => {
+
+                    const campos =
+                        registro.fields ||
+                        registro;
+
+                    return {
+
+                        id:
+                            registro.id ||
+                            "",
+
+                        fechaMantenimiento:
+                            campos[
+                                "Fecha de mantenimiento realizado"
+                            ] ||
+                            campos.fechaMantenimiento ||
+                            "",
+
+                        tipoMantenimiento:
+                            campos[
+                                "Tipo de mantenimiento"
+                            ] ||
+                            campos.tipoMantenimiento ||
+                            "",
+
+                        tecnico:
+                            campos[
+                                "Técnico responsable"
+                            ] ||
+                            campos.tecnico ||
+                            "",
+
+                        estado:
+                            campos[
+                                "Estado del mantenimiento"
+                            ] ||
+                            campos.estado ||
+                            "",
+
+                        actividades:
+                            campos[
+                                "Actividades realizadas"
+                            ] ||
+                            campos.actividades ||
+                            "",
+
+                        hallazgos:
+                            campos[
+                                "Hallazgos"
+                            ] ||
+                            campos.hallazgos ||
+                            "",
+
+                        refacciones:
+                            campos[
+                                "Refacciones utilizadas"
+                            ] ||
+                            campos.refacciones ||
+                            "",
+
+                        observaciones:
+                            campos[
+                                "Observaciones"
+                            ] ||
+                            campos.observaciones ||
+                            "",
+
+                        proximoMantenimiento:
+                            campos[
+                                "Fecha de próximo mantenimiento"
+                            ] ||
+                            campos.proximoMantenimiento ||
+                            ""
+
+                    };
+
+                }
+            );
 
 
         /* =================================================
@@ -3807,19 +4058,28 @@ function abrirFormularioFalla() {
         .then(
             datos => {
 
+                const campos =
+                    datos.fields ||
+                    {};
+
+
                 if (nombreEquipo) {
 
                     nombreEquipo.textContent =
-                        datos.nombre ||
+                        campos["Nombre del equipo"] ||
+                        campos["nombre del equipo"] ||
                         "No especificado";
 
                 }
+
 
                 if (activoEquipo) {
 
                     activoEquipo.textContent =
                         `Activo fijo: ${
-                            datos.numeroActivo ||
+                            campos["Número de activo fijo"] ||
+                            campos["Numero de activo fijo"] ||
+                            campos["numero de activo fijo"] ||
                             "No especificado"
                         }`;
 
@@ -4006,10 +4266,13 @@ async function registrarFalla(event) {
             await respuesta.json();
 
 
-        if (!respuesta.ok || !datos.correcto) {
+        if (
+            !respuesta.ok ||
+            !datos.success
+        ) {
 
             throw new Error(
-                datos.mensaje ||
+                datos.error ||
                 "No se pudo registrar la falla."
             );
 
@@ -4017,8 +4280,10 @@ async function registrarFalla(event) {
 
 
         mostrarMensajeFalla(
-            datos.mensaje ||
-            "Falla registrada correctamente.",
+            `Falla #${
+                datos.numeroFalla ||
+                ""
+            } registrada correctamente.`,
             false
         );
 
