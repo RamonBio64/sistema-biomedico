@@ -1088,7 +1088,7 @@ async function generarNumeroFalla(
 
     if (!numeroActivo) {
 
-        return 1;
+        return "1";
 
     }
 
@@ -1104,7 +1104,9 @@ async function generarNumeroFalla(
             })
             .all();
 
-    return records.length + 1;
+    return String(
+        records.length + 1
+    );
 
 }
 
@@ -1148,63 +1150,159 @@ app.post(
                 datos
             );
 
-            const numeroActivo =
-                datos.numeroActivo || "";
+
+            /*
+             * ---------------------------------------------
+             * DATOS QUE REALMENTE ENVÍA EL FORMULARIO
+             * ---------------------------------------------
+             */
+
+            const equipoId =
+                datos.equipoId || "";
+
+            const tipoFalla =
+                datos.tipoFalla || "";
+
+            const descripcionFalla =
+                datos.descripcionFalla || "";
+
+            const reportadoPor =
+                datos.reportadoPor || "";
+
+            const observaciones =
+                datos.observaciones || "";
+
+
+            /*
+             * ---------------------------------------------
+             * BUSCAR EL EQUIPO
+             * ---------------------------------------------
+             */
+
+            let equipoRelacionado = [];
+
+            let numeroActivo = "";
+
+            let nombreEquipo = "";
+
+
+            if (equipoId) {
+
+                const equipoRecord =
+                    await base(
+                        TABLA_EQUIPOS
+                    )
+                        .find(
+                            equipoId
+                        );
+
+                const equipoFields =
+                    equipoRecord.fields;
+
+
+                equipoRelacionado = [
+                    equipoRecord.id
+                ];
+
+
+                numeroActivo =
+                    equipoFields[
+                        "Numero de activo fijo"
+                    ] ||
+                    equipoFields[
+                        "Número de activo fijo"
+                    ] ||
+                    "";
+
+
+                nombreEquipo =
+                    equipoFields[
+                        "nombre del equipo"
+                    ] ||
+                    "";
+
+            }
+
+
+            /*
+             * ---------------------------------------------
+             * NÚMERO DE FALLA
+             * ---------------------------------------------
+             */
 
             const numeroFalla =
                 await generarNumeroFalla(
                     numeroActivo
                 );
 
-            const equipoRelacionado =
-                datos.equipoRelacionado
-                    ? datos.equipoRelacionado
-                        .split(",")
-                        .map(
-                            id => id.trim()
-                        )
-                        .filter(Boolean)
-                    : [];
+
+            /*
+             * ---------------------------------------------
+             * FECHA Y HORA AUTOMÁTICA
+             * ---------------------------------------------
+             */
+
+            const fechaHora =
+                new Date().toISOString();
+
+
+            /*
+             * ---------------------------------------------
+             * CAMPOS DE AIRTABLE
+             * ---------------------------------------------
+             *
+             * ID Falla es TEXTO.
+             * Por eso se convierte explícitamente
+             * a String().
+             * ---------------------------------------------
+             */
 
             const camposFalla = {
 
                 "ID Falla":
-                    numeroFalla,
+                    String(numeroFalla),
 
                 "Equipo relacionado":
                     equipoRelacionado,
 
                 "Nombre del equipo relacionado":
-                    datos.nombreEquipo || "",
+                    nombreEquipo,
 
                 "Número de activo fijo":
                     numeroActivo,
 
                 "Fecha y hora del reporte":
-                    datos.fechaHora || "",
+                    fechaHora,
 
                 "Tipo de falla":
-                    datos.tipo || "",
+                    tipoFalla,
 
                 "Descripción de la falla":
-                    datos.descripcion || "",
+                    descripcionFalla,
 
                 "Estado":
-                    datos.estado ||
                     "Pendiente",
 
                 "Reportado por":
-                    datos.reportadoPor || "",
+                    reportadoPor,
 
                 "Observaciones":
-                    datos.observaciones || ""
+                    observaciones
 
             };
+
 
             console.log(
                 "Campos que se enviarán a Airtable:",
                 camposFalla
             );
+
+
+            /*
+             * ---------------------------------------------
+             * CREAR FALLA
+             * ---------------------------------------------
+             */
 
             const fallaRecord =
                 await base(
@@ -1286,6 +1384,12 @@ app.post(
             }
 
 
+            /*
+             * ---------------------------------------------
+             * RESPUESTA EXITOSA
+             * ---------------------------------------------
+             */
+
             res.json({
 
                 success:
@@ -1294,7 +1398,8 @@ app.post(
                 id:
                     fallaRecord.id,
 
-                numeroFalla
+                numeroFalla:
+                    String(numeroFalla)
 
             });
 
@@ -1378,6 +1483,11 @@ app.get(
                                     "ID Falla"
                                 ] || "",
 
+                            numeroReporte:
+                                f[
+                                    "ID Falla"
+                                ] || "",
+
                             equipoRelacionado:
                                 f[
                                     "Equipo relacionado"
@@ -1403,12 +1513,27 @@ app.get(
                                     "Tipo de falla"
                                 ] || "",
 
+                            tipoFalla:
+                                f[
+                                    "Tipo de falla"
+                                ] || "",
+
                             descripcion:
                                 f[
                                     "Descripción de la falla"
                                 ] || "",
 
+                            descripcionFalla:
+                                f[
+                                    "Descripción de la falla"
+                                ] || "",
+
                             estado:
+                                f[
+                                    "Estado"
+                                ] || "",
+
+                            estadoFalla:
                                 f[
                                     "Estado"
                                 ] || "",
@@ -1490,6 +1615,11 @@ app.get(
                         "ID Falla"
                     ] || "",
 
+                numeroReporte:
+                    f[
+                        "ID Falla"
+                    ] || "",
+
                 equipoRelacionado:
                     f[
                         "Equipo relacionado"
@@ -1515,12 +1645,27 @@ app.get(
                         "Tipo de falla"
                     ] || "",
 
+                tipoFalla:
+                    f[
+                        "Tipo de falla"
+                    ] || "",
+
                 descripcion:
                     f[
                         "Descripción de la falla"
                     ] || "",
 
+                descripcionFalla:
+                    f[
+                        "Descripción de la falla"
+                    ] || "",
+
                 estado:
+                    f[
+                        "Estado"
+                    ] || "",
+
+                estadoFalla:
                     f[
                         "Estado"
                     ] || "",
