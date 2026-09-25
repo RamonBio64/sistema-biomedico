@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -553,21 +552,6 @@
                     await respuesta.json();
 
 
-                /*
-                 * EL SERVIDOR ACTUAL DEVUELVE DIRECTAMENTE
-                 * LOS DATOS DEL ACCESORIO.
-                 *
-                 * Antes el HTML esperaba:
-                 *
-                 * {
-                 *     correcto: true,
-                 *     accesorio: {...}
-                 * }
-                 *
-                 * Eso provocaba el error.
-                 */
-
-
                 if (!datos || !datos.id) {
 
                     throw new Error(
@@ -685,9 +669,149 @@
                         await respuesta.json();
 
 
-                    equipos.push(
-                        equipo
-                    );
+                    if (
+                        !equipo ||
+                        !equipo.id
+                    ) {
+
+                        continue;
+
+                    }
+
+
+                    /*
+                     * IMPORTANTE:
+                     *
+                     * /api/equipo/:id devuelve:
+                     *
+                     * {
+                     *     id,
+                     *     fields: {
+                     *         ...
+                     *     }
+                     * }
+                     *
+                     * Por eso aquí leemos los campos
+                     * directamente desde equipo.fields.
+                     */
+
+                    const fields =
+                        equipo.fields || {};
+
+
+                    // =================================================
+                    // OBTENER CAMPO POR NOMBRE
+                    // =================================================
+
+                    function campo(
+                        nombres
+                    ) {
+
+                        for (
+                            const nombre
+                            of nombres
+                        ) {
+
+                            if (
+                                fields[nombre] !== undefined &&
+                                fields[nombre] !== null &&
+                                fields[nombre] !== ""
+                            ) {
+
+                                return fields[nombre];
+
+                            }
+
+                        }
+
+                        return "";
+
+                    }
+
+
+                    // =================================================
+                    // NORMALIZAR DATOS DEL EQUIPO
+                    // =================================================
+
+                    equipos.push({
+
+                        id:
+                            equipo.id,
+
+                        nombre:
+                            campo([
+                                "nombre del equipo",
+                                "Nombre del equipo",
+                                "Nombre",
+                                "nombre",
+                                "Equipo"
+                            ]),
+
+                        numeroActivo:
+                            campo([
+                                "Numero de activo fijo",
+                                "Número de activo fijo",
+                                "Numero de activo",
+                                "Número de activo",
+                                "Activo fijo",
+                                "Activo"
+                            ]),
+
+                        servicio:
+                            campo([
+                                "servicio o área",
+                                "Servicio o área",
+                                "Servicio o Area",
+                                "Área / Servicio",
+                                "Area / Servicio",
+                                "Área",
+                                "Area"
+                            ]),
+
+                        marca:
+                            campo([
+                                "marca",
+                                "Marca"
+                            ]),
+
+                        modelo:
+                            campo([
+                                "modelo",
+                                "Modelo"
+                            ]),
+
+                        serie:
+                            campo([
+                                "número de serie",
+                                "Número de serie",
+                                "Numero de serie",
+                                "Número de Serie",
+                                "Serie"
+                            ]),
+
+                        ubicacion:
+                            campo([
+                                "ubicación",
+                                "Ubicación",
+                                "ubicacion"
+                            ]),
+
+                        estado:
+                            campo([
+                                "estado del equipo",
+                                "Estado del equipo",
+                                "estado",
+                                "Estado"
+                            ]),
+
+                        criticidad:
+                            campo([
+                                "Criticidad",
+                                "criticidad"
+                            ])
+
+                    });
+
 
                 } catch (error) {
 
@@ -1008,10 +1132,6 @@
                 ${fotoHTML}
 
 
-                <!-- =========================================
-                     INFORMACIÓN DEL ACCESORIO
-                ========================================== -->
-
                 <div class="info-section">
 
                     <h2>
@@ -1166,10 +1286,6 @@
                 </div>
 
 
-                <!-- =========================================
-                     EQUIPO(S) RELACIONADO(S)
-                ========================================== -->
-
                 <div class="info-section">
 
                     <h2>
@@ -1316,5 +1432,3 @@
 </body>
 
 </html>
-
-
