@@ -149,10 +149,22 @@ async function obtenerEquiposRelacionados(
                     obtenerCampo(
                         fields,
                         [
+                            "nombre del equipo",
                             "Nombre del equipo",
                             "Nombre",
-                            "nombre del equipo",
+                            "nombre",
                             "Equipo"
+                        ]
+                    ),
+
+                numeroActivo:
+                    obtenerCampo(
+                        fields,
+                        [
+                            "Numero de activo fijo",
+                            "Número de activo fijo",
+                            "Numero de activo",
+                            "Número de activo"
                         ]
                     ),
 
@@ -161,7 +173,23 @@ async function obtenerEquiposRelacionados(
                         fields,
                         [
                             "Numero de activo fijo",
-                            "Número de activo fijo"
+                            "Número de activo fijo",
+                            "Numero de activo",
+                            "Número de activo"
+                        ]
+                    ),
+
+                servicio:
+                    obtenerCampo(
+                        fields,
+                        [
+                            "servicio o área",
+                            "Servicio o área",
+                            "Servicio o Area",
+                            "Área / Servicio",
+                            "Area / Servicio",
+                            "Área",
+                            "Area"
                         ]
                     ),
 
@@ -169,6 +197,7 @@ async function obtenerEquiposRelacionados(
                     obtenerCampo(
                         fields,
                         [
+                            "servicio o área",
                             "Servicio o área",
                             "Servicio o Area",
                             "Área / Servicio",
@@ -182,8 +211,8 @@ async function obtenerEquiposRelacionados(
                     obtenerCampo(
                         fields,
                         [
-                            "Marca",
-                            "marca"
+                            "marca",
+                            "Marca"
                         ]
                     ),
 
@@ -191,8 +220,20 @@ async function obtenerEquiposRelacionados(
                     obtenerCampo(
                         fields,
                         [
-                            "Modelo",
-                            "modelo"
+                            "modelo",
+                            "Modelo"
+                        ]
+                    ),
+
+                serie:
+                    obtenerCampo(
+                        fields,
+                        [
+                            "número de serie",
+                            "Número de serie",
+                            "Numero de serie",
+                            "Número de Serie",
+                            "Serie"
                         ]
                     ),
 
@@ -200,6 +241,7 @@ async function obtenerEquiposRelacionados(
                     obtenerCampo(
                         fields,
                         [
+                            "número de serie",
                             "Número de serie",
                             "Numero de serie",
                             "Número de Serie",
@@ -211,6 +253,7 @@ async function obtenerEquiposRelacionados(
                     obtenerCampo(
                         fields,
                         [
+                            "ubicación",
                             "Ubicación",
                             "Ubicacion"
                         ]
@@ -220,9 +263,9 @@ async function obtenerEquiposRelacionados(
                     obtenerCampo(
                         fields,
                         [
+                            "estado del equipo",
                             "Estado del equipo",
-                            "Estado",
-                            "estado del equipo"
+                            "Estado"
                         ]
                     ),
 
@@ -1073,7 +1116,367 @@ app.get(
 
 
 /* =========================================================
-   MANTENIMIENTOS
+   NORMALIZAR MANTENIMIENTO
+========================================================= */
+
+function normalizarMantenimiento(
+    record
+) {
+
+    const fields =
+        record.fields || {};
+
+
+    const equipoRelacionado =
+        obtenerCampo(
+            fields,
+            [
+                "Equipo relacionado",
+                "Equipo Médico relacionado",
+                "Equipo médico relacionado"
+            ]
+        );
+
+
+    return {
+
+        id:
+            record.id,
+
+        fields:
+            fields,
+
+        idMantenimiento:
+            obtenerCampo(
+                fields,
+                [
+                    "ID Mantenimiento por Equipo",
+                    "ID de mantenimiento",
+                    "ID Mantenimiento",
+                    "ID"
+                ]
+            ),
+
+        numeroActivo:
+            obtenerCampo(
+                fields,
+                [
+                    "Número de activo fijo",
+                    "Numero de activo fijo",
+                    "Numero de activo",
+                    "Número de activo"
+                ]
+            ),
+
+        numeroActivoFijo:
+            obtenerCampo(
+                fields,
+                [
+                    "Número de activo fijo",
+                    "Numero de activo fijo",
+                    "Numero de activo",
+                    "Número de activo"
+                ]
+            ),
+
+        fechaMantenimiento:
+            obtenerCampo(
+                fields,
+                [
+                    "Fecha de mantenimiento realizado",
+                    "Fecha de mantenimiento",
+                    "Fecha"
+                ]
+            ),
+
+        tipoMantenimiento:
+            obtenerCampo(
+                fields,
+                [
+                    "Tipo de mantenimiento",
+                    "Tipo"
+                ]
+            ),
+
+        tecnico:
+            obtenerCampo(
+                fields,
+                [
+                    "Técnico responsable",
+                    "Tecnico responsable",
+                    "Técnico",
+                    "Tecnico"
+                ]
+            ),
+
+        estado:
+            obtenerCampo(
+                fields,
+                [
+                    "Estado del mantenimiento",
+                    "Estado de mantenimiento",
+                    "Estado"
+                ]
+            ),
+
+        actividades:
+            obtenerCampo(
+                fields,
+                [
+                    "Actividades realizadas",
+                    "Actividades"
+                ]
+            ),
+
+        hallazgos:
+            obtenerCampo(
+                fields,
+                [
+                    "Hallazgos"
+                ]
+            ),
+
+        refacciones:
+            obtenerCampo(
+                fields,
+                [
+                    "Refacciones utilizadas",
+                    "Refacciones"
+                ]
+            ),
+
+        observaciones:
+            obtenerCampo(
+                fields,
+                [
+                    "Observaciones"
+                ]
+            ),
+
+        proximoMantenimiento:
+            obtenerCampo(
+                fields,
+                [
+                    "Fecha de próximo mantenimiento",
+                    "Fecha de proximo mantenimiento",
+                    "Próximo mantenimiento",
+                    "Proximo mantenimiento"
+                ]
+            ),
+
+        equipoRelacionado:
+            equipoRelacionado
+
+    };
+
+}
+
+
+/* =========================================================
+   OBTENER EQUIPO PARA MANTENIMIENTO
+========================================================= */
+
+async function obtenerEquipoParaMantenimiento(
+    equipoRelacionado
+) {
+
+    if (
+        !Array.isArray(equipoRelacionado) ||
+        equipoRelacionado.length === 0
+    ) {
+
+        return null;
+
+    }
+
+
+    const equipoId =
+        equipoRelacionado[0];
+
+
+    try {
+
+        const equipoRecord =
+            await base(
+                TABLA_EQUIPOS
+            ).find(
+                equipoId
+            );
+
+
+        const fields =
+            equipoRecord.fields || {};
+
+
+        const nombre =
+            obtenerCampo(
+                fields,
+                [
+                    "nombre del equipo",
+                    "Nombre del equipo",
+                    "Nombre",
+                    "nombre",
+                    "Equipo"
+                ]
+            );
+
+
+        const numeroActivo =
+            obtenerCampo(
+                fields,
+                [
+                    "Numero de activo fijo",
+                    "Número de activo fijo",
+                    "Numero de activo",
+                    "Número de activo"
+                ]
+            );
+
+
+        const servicio =
+            obtenerCampo(
+                fields,
+                [
+                    "servicio o área",
+                    "Servicio o área",
+                    "Servicio o Area",
+                    "Área / Servicio",
+                    "Area / Servicio",
+                    "Área",
+                    "Area"
+                ]
+            );
+
+
+        const marca =
+            obtenerCampo(
+                fields,
+                [
+                    "marca",
+                    "Marca"
+                ]
+            );
+
+
+        const modelo =
+            obtenerCampo(
+                fields,
+                [
+                    "modelo",
+                    "Modelo"
+                ]
+            );
+
+
+        const serie =
+            obtenerCampo(
+                fields,
+                [
+                    "número de serie",
+                    "Número de serie",
+                    "Numero de serie",
+                    "Número de Serie",
+                    "Serie"
+                ]
+            );
+
+
+        const ubicacion =
+            obtenerCampo(
+                fields,
+                [
+                    "ubicación",
+                    "Ubicación",
+                    "Ubicacion"
+                ]
+            );
+
+
+        const estado =
+            obtenerCampo(
+                fields,
+                [
+                    "estado del equipo",
+                    "Estado del equipo",
+                    "Estado"
+                ]
+            );
+
+
+        const criticidad =
+            obtenerCampo(
+                fields,
+                [
+                    "Criticidad",
+                    "criticidad"
+                ]
+            );
+
+
+        return {
+
+            id:
+                equipoRecord.id,
+
+            nombre:
+                nombre,
+
+            numeroActivo:
+                numeroActivo,
+
+            numeroActivoFijo:
+                numeroActivo,
+
+            servicio:
+                servicio,
+
+            areaServicio:
+                servicio,
+
+            marca:
+                marca,
+
+            modelo:
+                modelo,
+
+            serie:
+                serie,
+
+            numeroSerie:
+                serie,
+
+            ubicacion:
+                ubicacion,
+
+            estado:
+                estado,
+
+            criticidad:
+                criticidad,
+
+            fields:
+                fields
+
+        };
+
+
+    } catch (error) {
+
+        console.error(
+            "Error al obtener equipo del mantenimiento:",
+            error.message
+        );
+
+
+        return null;
+
+    }
+
+}
+
+
+/* =========================================================
+   MANTENIMIENTOS POR EQUIPO
 ========================================================= */
 
 app.get(
@@ -1102,6 +1505,9 @@ app.get(
                             record.fields[
                                 "Equipo relacionado"
                             ] ||
+                            record.fields[
+                                "Equipo Médico relacionado"
+                            ] ||
                             [];
 
 
@@ -1116,18 +1522,39 @@ app.get(
                 );
 
 
+            const resultado = [];
+
+
+            for (
+                const record of mantenimientos
+            ) {
+
+                const mantenimiento =
+                    normalizarMantenimiento(
+                        record
+                    );
+
+
+                const equipo =
+                    await obtenerEquipoParaMantenimiento(
+                        mantenimiento.equipoRelacionado
+                    );
+
+
+                resultado.push({
+
+                    ...mantenimiento,
+
+                    equipo:
+                        equipo
+
+                });
+
+            }
+
+
             res.json(
-                mantenimientos.map(
-                    record => ({
-
-                        id:
-                            record.id,
-
-                        fields:
-                            record.fields
-
-                    })
-                )
+                resultado
             );
 
 
@@ -1170,13 +1597,24 @@ app.get(
                 );
 
 
+            const mantenimiento =
+                normalizarMantenimiento(
+                    record
+                );
+
+
+            const equipo =
+                await obtenerEquipoParaMantenimiento(
+                    mantenimiento.equipoRelacionado
+                );
+
+
             res.json({
 
-                id:
-                    record.id,
+                ...mantenimiento,
 
-                fields:
-                    record.fields
+                equipo:
+                    equipo
 
             });
 
