@@ -75,10 +75,6 @@ app.use(
    FUNCIONES AUXILIARES
 ========================================================= */
 
-/*
- * Obtiene el primer valor existente entre varios
- * nombres posibles de un campo.
- */
 function obtenerCampo(
     fields,
     nombres
@@ -105,13 +101,172 @@ function obtenerCampo(
 }
 
 
-/*
- * Normaliza los datos de ACCESORIOS.
- *
- * Conservamos TODOS los campos originales de Airtable
- * y además agregamos nombres sencillos que puede utilizar
- * la ficha HTML.
- */
+/* =========================================================
+   OBTENER EQUIPOS RELACIONADOS
+========================================================= */
+
+async function obtenerEquiposRelacionados(
+    equipoRelacionado
+) {
+
+    if (
+        !Array.isArray(equipoRelacionado) ||
+        equipoRelacionado.length === 0
+    ) {
+
+        return [];
+
+    }
+
+
+    const equipos = [];
+
+
+    for (
+        const equipoId of equipoRelacionado
+    ) {
+
+        try {
+
+            const equipoRecord =
+                await base(
+                    TABLA_EQUIPOS
+                ).find(
+                    equipoId
+                );
+
+
+            const fields =
+                equipoRecord.fields || {};
+
+
+            const equipo = {
+
+                id:
+                    equipoRecord.id,
+
+                nombre:
+                    obtenerCampo(
+                        fields,
+                        [
+                            "Nombre del equipo",
+                            "Nombre",
+                            "nombre del equipo",
+                            "Equipo"
+                        ]
+                    ),
+
+                numeroActivoFijo:
+                    obtenerCampo(
+                        fields,
+                        [
+                            "Numero de activo fijo",
+                            "Número de activo fijo"
+                        ]
+                    ),
+
+                areaServicio:
+                    obtenerCampo(
+                        fields,
+                        [
+                            "Servicio o área",
+                            "Servicio o Area",
+                            "Área / Servicio",
+                            "Area / Servicio",
+                            "Área",
+                            "Area"
+                        ]
+                    ),
+
+                marca:
+                    obtenerCampo(
+                        fields,
+                        [
+                            "Marca",
+                            "marca"
+                        ]
+                    ),
+
+                modelo:
+                    obtenerCampo(
+                        fields,
+                        [
+                            "Modelo",
+                            "modelo"
+                        ]
+                    ),
+
+                numeroSerie:
+                    obtenerCampo(
+                        fields,
+                        [
+                            "Número de serie",
+                            "Numero de serie",
+                            "Número de Serie",
+                            "Serie"
+                        ]
+                    ),
+
+                ubicacion:
+                    obtenerCampo(
+                        fields,
+                        [
+                            "Ubicación",
+                            "Ubicacion"
+                        ]
+                    ),
+
+                estado:
+                    obtenerCampo(
+                        fields,
+                        [
+                            "Estado del equipo",
+                            "Estado",
+                            "estado del equipo"
+                        ]
+                    ),
+
+                criticidad:
+                    obtenerCampo(
+                        fields,
+                        [
+                            "Criticidad",
+                            "criticidad"
+                        ]
+                    ),
+
+                fields:
+                    fields
+
+            };
+
+
+            equipos.push(
+                equipo
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                `Error al obtener equipo relacionado ${equipoId}:`,
+                error.message
+            );
+
+        }
+
+    }
+
+
+    return equipos;
+
+}
+
+
+/* =========================================================
+   NORMALIZAR ACCESORIO
+========================================================= */
+
 function normalizarAccesorio(
     record
 ) {
@@ -247,15 +402,9 @@ function normalizarAccesorio(
         id:
             record.id,
 
-        /*
-         * Campos originales de Airtable.
-         */
         fields:
             fields,
 
-        /*
-         * Campos normalizados.
-         */
         nombre:
             nombre,
 
@@ -309,12 +458,10 @@ function normalizarAccesorio(
 }
 
 
-/*
- * Normaliza los datos de REPUESTOS.
- *
- * Conservamos TODOS los campos originales de Airtable
- * y agregamos nombres normalizados para la ficha.
- */
+/* =========================================================
+   NORMALIZAR REPUESTO
+========================================================= */
+
 function normalizarRepuesto(
     record
 ) {
@@ -460,15 +607,9 @@ function normalizarRepuesto(
         id:
             record.id,
 
-        /*
-         * Campos originales.
-         */
         fields:
             fields,
 
-        /*
-         * Campos normalizados.
-         */
         nombre:
             nombre,
 
@@ -562,12 +703,17 @@ app.get(
                     req.params.id
                 );
 
+
             res.json({
+
                 id:
                     record.id,
+
                 fields:
                     record.fields
+
             });
+
 
         } catch (error) {
 
@@ -576,9 +722,12 @@ app.get(
                 error
             );
 
+
             res.status(500).json({
+
                 error:
                     error.message
+
             });
 
         }
@@ -637,13 +786,39 @@ app.get(
                 );
 
 
+            const resultado = [];
+
+
+            for (
+                const record of accesorios
+            ) {
+
+                const accesorio =
+                    normalizarAccesorio(
+                        record
+                    );
+
+
+                const equiposRelacionados =
+                    await obtenerEquiposRelacionados(
+                        accesorio.equipoRelacionado
+                    );
+
+
+                resultado.push({
+
+                    ...accesorio,
+
+                    equiposRelacionados:
+                        equiposRelacionados
+
+                });
+
+            }
+
+
             res.json(
-                accesorios.map(
-                    record =>
-                        normalizarAccesorio(
-                            record
-                        )
-                )
+                resultado
             );
 
 
@@ -654,9 +829,12 @@ app.get(
                 error
             );
 
+
             res.status(500).json({
+
                 error:
                     error.message
+
             });
 
         }
@@ -683,11 +861,26 @@ app.get(
                 );
 
 
-            res.json(
+            const accesorio =
                 normalizarAccesorio(
                     record
-                )
-            );
+                );
+
+
+            const equiposRelacionados =
+                await obtenerEquiposRelacionados(
+                    accesorio.equipoRelacionado
+                );
+
+
+            res.json({
+
+                ...accesorio,
+
+                equiposRelacionados:
+                    equiposRelacionados
+
+            });
 
 
         } catch (error) {
@@ -697,9 +890,12 @@ app.get(
                 error
             );
 
+
             res.status(500).json({
+
                 error:
                     error.message
+
             });
 
         }
@@ -758,13 +954,39 @@ app.get(
                 );
 
 
+            const resultado = [];
+
+
+            for (
+                const record of repuestos
+            ) {
+
+                const repuesto =
+                    normalizarRepuesto(
+                        record
+                    );
+
+
+                const equiposRelacionados =
+                    await obtenerEquiposRelacionados(
+                        repuesto.equipoRelacionado
+                    );
+
+
+                resultado.push({
+
+                    ...repuesto,
+
+                    equiposRelacionados:
+                        equiposRelacionados
+
+                });
+
+            }
+
+
             res.json(
-                repuestos.map(
-                    record =>
-                        normalizarRepuesto(
-                            record
-                        )
-                )
+                resultado
             );
 
 
@@ -775,9 +997,12 @@ app.get(
                 error
             );
 
+
             res.status(500).json({
+
                 error:
                     error.message
+
             });
 
         }
@@ -804,11 +1029,26 @@ app.get(
                 );
 
 
-            res.json(
+            const repuesto =
                 normalizarRepuesto(
                     record
-                )
-            );
+                );
+
+
+            const equiposRelacionados =
+                await obtenerEquiposRelacionados(
+                    repuesto.equipoRelacionado
+                );
+
+
+            res.json({
+
+                ...repuesto,
+
+                equiposRelacionados:
+                    equiposRelacionados
+
+            });
 
 
         } catch (error) {
@@ -818,9 +1058,12 @@ app.get(
                 error
             );
 
+
             res.status(500).json({
+
                 error:
                     error.message
+
             });
 
         }
@@ -876,10 +1119,13 @@ app.get(
             res.json(
                 mantenimientos.map(
                     record => ({
+
                         id:
                             record.id,
+
                         fields:
                             record.fields
+
                     })
                 )
             );
@@ -892,9 +1138,12 @@ app.get(
                 error
             );
 
+
             res.status(500).json({
+
                 error:
                     error.message
+
             });
 
         }
@@ -922,10 +1171,13 @@ app.get(
 
 
             res.json({
+
                 id:
                     record.id,
+
                 fields:
                     record.fields
+
             });
 
 
@@ -936,9 +1188,12 @@ app.get(
                 error
             );
 
+
             res.status(500).json({
+
                 error:
                     error.message
+
             });
 
         }
