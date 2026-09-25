@@ -287,10 +287,6 @@
 <script>
 
 
-// =====================================================
-// OBTENER PARÁMETROS
-// =====================================================
-
 const parametros =
     new URLSearchParams(
         window.location.search
@@ -300,10 +296,6 @@ const parametros =
 const equipoId =
     parametros.get("equipoId");
 
-
-// =====================================================
-// ESCAPAR HTML
-// =====================================================
 
 function escaparHTML(valor) {
 
@@ -380,15 +372,11 @@ function escaparHTML(valor) {
 }
 
 
-// =====================================================
-// OBTENER UN CAMPO DEL ACCESORIO
-// =====================================================
-
-function obtenerCampo(accesorio, nombres) {
+function obtenerCampo(objeto, nombres) {
 
     if (
-        !accesorio ||
-        typeof accesorio !== "object"
+        !objeto ||
+        typeof objeto !== "object"
     ) {
 
         return null;
@@ -396,17 +384,15 @@ function obtenerCampo(accesorio, nombres) {
     }
 
 
-    for (
-        const nombre of nombres
-    ) {
+    for (const nombre of nombres) {
 
         if (
-            accesorio[nombre] !== undefined &&
-            accesorio[nombre] !== null &&
-            accesorio[nombre] !== ""
+            objeto[nombre] !== undefined &&
+            objeto[nombre] !== null &&
+            objeto[nombre] !== ""
         ) {
 
-            return accesorio[nombre];
+            return objeto[nombre];
 
         }
 
@@ -414,21 +400,19 @@ function obtenerCampo(accesorio, nombres) {
 
 
     if (
-        accesorio.fields &&
-        typeof accesorio.fields === "object"
+        objeto.fields &&
+        typeof objeto.fields === "object"
     ) {
 
-        for (
-            const nombre of nombres
-        ) {
+        for (const nombre of nombres) {
 
             if (
-                accesorio.fields[nombre] !== undefined &&
-                accesorio.fields[nombre] !== null &&
-                accesorio.fields[nombre] !== ""
+                objeto.fields[nombre] !== undefined &&
+                objeto.fields[nombre] !== null &&
+                objeto.fields[nombre] !== ""
             ) {
 
-                return accesorio.fields[nombre];
+                return objeto.fields[nombre];
 
             }
 
@@ -441,10 +425,6 @@ function obtenerCampo(accesorio, nombres) {
 
 }
 
-
-// =====================================================
-// VALIDAR EQUIPO
-// =====================================================
 
 if (!equipoId) {
 
@@ -460,24 +440,17 @@ if (!equipoId) {
 
 } else {
 
-
     document.getElementById("volver").href =
         `/?equipoId=${encodeURIComponent(equipoId)}`;
-
 
     cargarDatos();
 
 }
 
 
-// =====================================================
-// CARGAR DATOS
-// =====================================================
-
 async function cargarDatos() {
 
     try {
-
 
         const [
             respuestaEquipo,
@@ -489,7 +462,7 @@ async function cargarDatos() {
             ),
 
             fetch(
-                `/api/equipo/${encodeURIComponent(equipoId)}/accesorios`
+                `/api/accesorios/${encodeURIComponent(equipoId)}`
             )
 
         ]);
@@ -517,20 +490,13 @@ async function cargarDatos() {
             await respuestaEquipo.json();
 
 
-        const respuestaAccesoriosJSON =
+        const lista =
             await respuestaAccesorios.json();
 
 
-        // =================================================
-        // VALIDAR EQUIPO
-        // =================================================
-
         if (
             !equipo ||
-            (
-                !equipo.id &&
-                !equipo.correcto
-            )
+            !equipo.id
         ) {
 
             throw new Error(
@@ -540,35 +506,29 @@ async function cargarDatos() {
         }
 
 
-        // =================================================
-        // DATOS DEL EQUIPO
-        // =================================================
-
-        const datosEquipo =
-            equipo.equipo ||
-            equipo;
+        const camposEquipo =
+            equipo.fields || {};
 
 
         const nombreEquipo =
             obtenerCampo(
-                datosEquipo,
+                camposEquipo,
                 [
-                    "nombre",
-                    "nombreEquipo",
+                    "nombre del equipo",
                     "Nombre del equipo",
-                    "Nombre del Equipo"
+                    "Nombre del Equipo",
+                    "nombre"
                 ]
             );
 
 
         const numeroActivoEquipo =
             obtenerCampo(
-                datosEquipo,
+                camposEquipo,
                 [
-                    "numeroActivo",
-                    "numeroActivoFijo",
                     "Numero de activo fijo",
                     "Número de activo fijo",
+                    "numero de activo fijo",
                     "Activo fijo"
                 ]
             );
@@ -579,61 +539,7 @@ async function cargarDatos() {
             `${nombreEquipo || "Equipo"} · Activo: ${numeroActivoEquipo || "No especificado"}`;
 
 
-        // =================================================
-        // OBTENER LISTA DE ACCESORIOS
-        // =================================================
-
-        let lista = [];
-
-
-        if (
-            respuestaAccesoriosJSON &&
-            Array.isArray(
-                respuestaAccesoriosJSON.accesorios
-            )
-        ) {
-
-            lista =
-                respuestaAccesoriosJSON.accesorios;
-
-        }
-
-        else if (
-            respuestaAccesoriosJSON &&
-            Array.isArray(
-                respuestaAccesoriosJSON.data
-            )
-        ) {
-
-            lista =
-                respuestaAccesoriosJSON.data;
-
-        }
-
-        else if (
-            respuestaAccesoriosJSON &&
-            Array.isArray(
-                respuestaAccesoriosJSON.records
-            )
-        ) {
-
-            lista =
-                respuestaAccesoriosJSON.records;
-
-        }
-
-        else if (
-            Array.isArray(
-                respuestaAccesoriosJSON
-            )
-        ) {
-
-            lista =
-                respuestaAccesoriosJSON;
-
-        }
-
-        else {
+        if (!Array.isArray(lista)) {
 
             throw new Error(
                 "La respuesta de accesorios no tiene un formato válido."
@@ -641,10 +547,6 @@ async function cargarDatos() {
 
         }
 
-
-        // =================================================
-        // SIN ACCESORIOS
-        // =================================================
 
         if (lista.length === 0) {
 
@@ -663,142 +565,107 @@ async function cargarDatos() {
         }
 
 
-        // =================================================
-        // MOSTRAR ACCESORIOS
-        // =================================================
-
         document.getElementById("lista").innerHTML =
 
-            lista.map(
-                accesorio => {
+            lista.map(accesorio => {
 
 
-                    // -------------------------------------
-                    // ID
-                    // -------------------------------------
-
-                    const id =
-                        accesorio.id ||
-                        accesorio.recordId ||
-                        accesorio._id;
+                const id =
+                    accesorio.id ||
+                    accesorio.recordId ||
+                    accesorio._id;
 
 
-                    // -------------------------------------
-                    // NOMBRE
-                    // -------------------------------------
-
-                    const nombre =
-                        obtenerCampo(
-                            accesorio,
-                            [
-                                "nombre",
-                                "Nombre",
-                                "nombreAccesorio",
-                                "Nombre del accesorio",
-                                "Nombre del Accesorio"
-                            ]
-                        );
+                const campos =
+                    accesorio.fields ||
+                    accesorio;
 
 
-                    // -------------------------------------
-                    // ACTIVO FIJO
-                    // -------------------------------------
-
-                    const numeroActivo =
-                        obtenerCampo(
-                            accesorio,
-                            [
-                                "activoFijo",
-                                "activo fijo",
-                                "Numero de activo fijo",
-                                "Número de activo fijo",
-                                "numeroActivo",
-                                "numeroActivoFijo",
-                                "Activo fijo",
-                                "Activo"
-                            ]
-                        );
+                const nombre =
+                    obtenerCampo(
+                        campos,
+                        [
+                            "nombre",
+                            "Nombre",
+                            "nombreAccesorio",
+                            "Nombre del accesorio",
+                            "Nombre del Accesorio"
+                        ]
+                    );
 
 
-                    // -------------------------------------
-                    // URL
-                    // -------------------------------------
-
-                    const url =
-
-                        `/ficha-accesorio.html?` +
-
-                        `accesorioId=${encodeURIComponent(id)}` +
-
-                        `&equipoId=${encodeURIComponent(equipoId)}`;
-
-
-                    return `
-
-                        <a
-                            class="accesorio"
-                            href="${url}"
-                        >
-
-                            <div class="izquierda">
+                const numeroActivo =
+                    obtenerCampo(
+                        campos,
+                        [
+                            "activoFijo",
+                            "activo fijo",
+                            "Numero de activo fijo",
+                            "Número de activo fijo",
+                            "numeroActivo",
+                            "numeroActivoFijo",
+                            "Activo fijo",
+                            "Activo"
+                        ]
+                    );
 
 
-                                <div class="icono">
+                const url =
 
-                                    🔌
+                    `/ficha-accesorio.html?` +
+
+                    `accesorioId=${encodeURIComponent(id)}` +
+
+                    `&equipoId=${encodeURIComponent(equipoId)}`;
+
+
+                return `
+
+                    <a
+                        class="accesorio"
+                        href="${url}"
+                    >
+
+                        <div class="izquierda">
+
+                            <div class="icono">
+                                🔌
+                            </div>
+
+                            <div>
+
+                                <div class="nombre">
+
+                                    ${escaparHTML(nombre)}
 
                                 </div>
 
+                                <div class="activo">
 
-                                <div>
+                                    Activo:
 
-
-                                    <div class="nombre">
-
-                                        ${escaparHTML(
-                                            nombre
-                                        )}
-
-                                    </div>
-
-
-                                    <div class="activo">
-
-                                        Activo:
-
-                                        ${escaparHTML(
-                                            numeroActivo
-                                        )}
-
-                                    </div>
-
+                                    ${escaparHTML(numeroActivo)}
 
                                 </div>
 
-
                             </div>
 
+                        </div>
 
-                            <div class="flecha">
+                        <div class="flecha">
 
-                                →
+                            →
 
-                            </div>
+                        </div>
 
+                    </a>
 
-                        </a>
+                `;
 
-                    `;
-
-                }
-            ).join("");
-
-
-    }
+            }).join("");
 
 
-    catch (error) {
-
+    } catch (error) {
 
         console.error(
             "Error cargando accesorios:",

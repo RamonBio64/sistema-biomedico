@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -313,6 +312,7 @@ const parametros =
         window.location.search
     );
 
+
 const equipoId =
     parametros.get("equipoId");
 
@@ -324,7 +324,9 @@ function escaparHTML(valor) {
         valor === undefined ||
         valor === ""
     ) {
+
         return "No especificado";
+
     }
 
     return String(valor)
@@ -337,12 +339,70 @@ function escaparHTML(valor) {
 }
 
 
+function obtenerCampo(objeto, nombres) {
+
+    if (
+        !objeto ||
+        typeof objeto !== "object"
+    ) {
+
+        return null;
+
+    }
+
+
+    for (const nombre of nombres) {
+
+        if (
+            objeto[nombre] !== undefined &&
+            objeto[nombre] !== null &&
+            objeto[nombre] !== ""
+        ) {
+
+            return objeto[nombre];
+
+        }
+
+    }
+
+
+    if (
+        objeto.fields &&
+        typeof objeto.fields === "object"
+    ) {
+
+        for (const nombre of nombres) {
+
+            if (
+                objeto.fields[nombre] !== undefined &&
+                objeto.fields[nombre] !== null &&
+                objeto.fields[nombre] !== ""
+            ) {
+
+                return objeto.fields[nombre];
+
+            }
+
+        }
+
+    }
+
+
+    return null;
+
+}
+
+
 if (!equipoId) {
 
     document.getElementById("lista").innerHTML = `
+
         <div class="error">
+
             ❌ No se encontró el equipo.
+
         </div>
+
     `;
 
     document.getElementById("equipo").textContent =
@@ -372,7 +432,7 @@ async function cargarDatos() {
             ),
 
             fetch(
-                `/api/equipo/${encodeURIComponent(equipoId)}/repuestos`
+                `/api/repuestos/${encodeURIComponent(equipoId)}`
             )
 
         ]);
@@ -399,14 +459,10 @@ async function cargarDatos() {
         const equipo =
             await respuestaEquipo.json();
 
-        const respuestaJSON =
+
+        const lista =
             await respuestaRepuestos.json();
 
-
-        /*
-         * LA API DEL EQUIPO DEVUELVE
-         * DIRECTAMENTE EL OBJETO.
-         */
 
         if (
             !equipo ||
@@ -420,50 +476,45 @@ async function cargarDatos() {
         }
 
 
+        const camposEquipo =
+            equipo.fields ||
+            {};
+
+
+        const nombreEquipo =
+            obtenerCampo(
+                camposEquipo,
+                [
+                    "nombre del equipo",
+                    "Nombre del equipo",
+                    "Nombre del Equipo",
+                    "nombre"
+                ]
+            );
+
+
+        const numeroActivoEquipo =
+            obtenerCampo(
+                camposEquipo,
+                [
+                    "Numero de activo fijo",
+                    "Número de activo fijo",
+                    "numero de activo fijo",
+                    "Activo fijo"
+                ]
+            );
+
+
         document.getElementById("equipo").textContent =
-            `${equipo.nombre || "Equipo"} · Activo: ${equipo.numeroActivo || "No especificado"}`;
+
+            `${nombreEquipo || "Equipo"} · Activo: ${numeroActivoEquipo || "No especificado"}`;
 
 
-        /*
-         * LA API ACTUAL DE REPUESTOS DEVUELVE
-         * DIRECTAMENTE UN ARREGLO:
-         *
-         * [
-         *     {
-         *         id,
-         *         nombre,
-         *         estado,
-         *         lugar,
-         *         observaciones,
-         *         activoFijo,
-         *         serie,
-         *         color,
-         *         modelo,
-         *         compatibilidad,
-         *         fotografia,
-         *         equipoRelacionado,
-         *         cantidad
-         *     }
-         * ]
-         *
-         * Ya NO devuelve:
-         *
-         * {
-         *     correcto: true,
-         *     repuestos: [...]
-         * }
-         */
-
-
-        if (
-            !Array.isArray(
-                respuestaJSON
-            )
-        ) {
+        if (!Array.isArray(lista)) {
 
             console.error(
                 "Respuesta recibida:",
-                respuestaJSON
+                lista
             );
 
             throw new Error(
@@ -473,16 +524,16 @@ async function cargarDatos() {
         }
 
 
-        const lista =
-            respuestaJSON;
-
-
         if (lista.length === 0) {
 
             document.getElementById("lista").innerHTML = `
+
                 <div class="vacio">
+
                     Este equipo no tiene repuestos relacionados.
+
                 </div>
+
             `;
 
             return;
@@ -494,8 +545,57 @@ async function cargarDatos() {
 
             lista.map(repuesto => {
 
+
+                const campos =
+                    repuesto.fields ||
+                    repuesto;
+
+
+                const nombre =
+                    obtenerCampo(
+                        campos,
+                        [
+                            "nombre",
+                            "Nombre",
+                            "nombre del repuesto",
+                            "Nombre del repuesto"
+                        ]
+                    );
+
+
+                const modelo =
+                    obtenerCampo(
+                        campos,
+                        [
+                            "modelo",
+                            "Modelo"
+                        ]
+                    );
+
+
+                const activoFijo =
+                    obtenerCampo(
+                        campos,
+                        [
+                            "activoFijo",
+                            "activo fijo",
+                            "Numero de activo fijo",
+                            "Número de activo fijo",
+                            "numeroActivo",
+                            "numeroActivoFijo",
+                            "Activo fijo",
+                            "Activo"
+                        ]
+                    );
+
+
                 const url =
-                    `/ficha-repuesto.html?repuestoId=${encodeURIComponent(repuesto.id)}&equipoId=${encodeURIComponent(equipoId)}`;
+
+                    `/ficha-repuesto.html?` +
+
+                    `repuestoId=${encodeURIComponent(repuesto.id)}` +
+
+                    `&equipoId=${encodeURIComponent(equipoId)}`;
 
 
                 return `
@@ -516,7 +616,7 @@ async function cargarDatos() {
                                 <div class="nombre">
 
                                     ${escaparHTML(
-                                        repuesto.nombre
+                                        nombre
                                     )}
 
                                 </div>
@@ -524,8 +624,9 @@ async function cargarDatos() {
                                 <div class="modelo">
 
                                     Modelo:
+
                                     ${escaparHTML(
-                                        repuesto.modelo
+                                        modelo
                                     )}
 
                                 </div>
@@ -533,8 +634,9 @@ async function cargarDatos() {
                                 <div class="activo">
 
                                     Activo:
+
                                     ${escaparHTML(
-                                        repuesto.activoFijo
+                                        activoFijo
                                     )}
 
                                 </div>
@@ -561,6 +663,7 @@ async function cargarDatos() {
             error
         );
 
+
         document.getElementById("lista").innerHTML = `
 
             <div class="error">
@@ -582,4 +685,3 @@ async function cargarDatos() {
 
 </body>
 </html>
-
