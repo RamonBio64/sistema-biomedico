@@ -72,6 +72,460 @@ app.use(
 
 
 /* =========================================================
+   FUNCIONES AUXILIARES
+========================================================= */
+
+/*
+ * Obtiene el primer valor existente entre varios
+ * nombres posibles de un campo.
+ */
+function obtenerCampo(
+    fields,
+    nombres
+) {
+
+    for (
+        const nombre of nombres
+    ) {
+
+        if (
+            fields[nombre] !== undefined &&
+            fields[nombre] !== null &&
+            fields[nombre] !== ""
+        ) {
+
+            return fields[nombre];
+
+        }
+
+    }
+
+    return "";
+
+}
+
+
+/*
+ * Normaliza los datos de ACCESORIOS.
+ *
+ * Conservamos TODOS los campos originales de Airtable
+ * y además agregamos nombres sencillos que puede utilizar
+ * la ficha HTML.
+ */
+function normalizarAccesorio(
+    record
+) {
+
+    const fields =
+        record.fields || {};
+
+
+    const nombre =
+        obtenerCampo(
+            fields,
+            [
+                "Nombre",
+                "nombre",
+                "Nombre del accesorio",
+                "Nombre del accesorio médico"
+            ]
+        );
+
+
+    const activoFijo =
+        obtenerCampo(
+            fields,
+            [
+                "Numero de activo fijo",
+                "Número de activo fijo",
+                "Numero de activo",
+                "Número de activo",
+                "Activo fijo",
+                "Activo"
+            ]
+        );
+
+
+    const serie =
+        obtenerCampo(
+            fields,
+            [
+                "Serie",
+                "Número de serie",
+                "Numero de serie"
+            ]
+        );
+
+
+    const modelo =
+        obtenerCampo(
+            fields,
+            [
+                "Modelo",
+                "modelo"
+            ]
+        );
+
+
+    const estado =
+        obtenerCampo(
+            fields,
+            [
+                "Estado",
+                "estado"
+            ]
+        );
+
+
+    const color =
+        obtenerCampo(
+            fields,
+            [
+                "Color",
+                "color"
+            ]
+        );
+
+
+    const activo =
+        obtenerCampo(
+            fields,
+            [
+                "Activo",
+                "activo"
+            ]
+        );
+
+
+    const observaciones =
+        obtenerCampo(
+            fields,
+            [
+                "Observaciones",
+                "observaciones"
+            ]
+        );
+
+
+    const fotografia =
+        obtenerCampo(
+            fields,
+            [
+                "Fotografía",
+                "Fotografia",
+                "Fotografía del accesorio",
+                "Fotografia del accesorio"
+            ]
+        );
+
+
+    const equipoRelacionado =
+        obtenerCampo(
+            fields,
+            [
+                "Equipo Médico relacionado",
+                "Equipo médico relacionado",
+                "Equipo relacionado"
+            ]
+        );
+
+
+    const cantidad =
+        obtenerCampo(
+            fields,
+            [
+                "Cantidad de accesorios",
+                "Cantidad de accesorios médicos",
+                "Conteo de accesorios",
+                "Cantidad"
+            ]
+        );
+
+
+    return {
+
+        id:
+            record.id,
+
+        /*
+         * Campos originales de Airtable.
+         */
+        fields:
+            fields,
+
+        /*
+         * Campos normalizados.
+         */
+        nombre:
+            nombre,
+
+        nombreAccesorio:
+            nombre,
+
+        activoFijo:
+            activoFijo,
+
+        numeroActivoFijo:
+            activoFijo,
+
+        numeroDeActivoFijo:
+            activoFijo,
+
+        serie:
+            serie,
+
+        numeroSerie:
+            serie,
+
+        modelo:
+            modelo,
+
+        estado:
+            estado,
+
+        color:
+            color,
+
+        activo:
+            activo,
+
+        observaciones:
+            observaciones,
+
+        fotografia:
+            fotografia,
+
+        equipoRelacionado:
+            equipoRelacionado,
+
+        cantidad:
+            cantidad,
+
+        cantidadAccesorios:
+            cantidad
+
+    };
+
+}
+
+
+/*
+ * Normaliza los datos de REPUESTOS.
+ *
+ * Conservamos TODOS los campos originales de Airtable
+ * y agregamos nombres normalizados para la ficha.
+ */
+function normalizarRepuesto(
+    record
+) {
+
+    const fields =
+        record.fields || {};
+
+
+    const nombre =
+        obtenerCampo(
+            fields,
+            [
+                "Nombre",
+                "nombre",
+                "Nombre del repuesto",
+                "Nombre del repuesto médico"
+            ]
+        );
+
+
+    const activoFijo =
+        obtenerCampo(
+            fields,
+            [
+                "Numero de activo fijo",
+                "Número de activo fijo",
+                "Numero de activo",
+                "Número de activo",
+                "Activo fijo",
+                "Activo"
+            ]
+        );
+
+
+    const serie =
+        obtenerCampo(
+            fields,
+            [
+                "Serie",
+                "Número de serie",
+                "Numero de serie"
+            ]
+        );
+
+
+    const modelo =
+        obtenerCampo(
+            fields,
+            [
+                "Modelo",
+                "modelo"
+            ]
+        );
+
+
+    const estado =
+        obtenerCampo(
+            fields,
+            [
+                "Estado",
+                "estado"
+            ]
+        );
+
+
+    const lugar =
+        obtenerCampo(
+            fields,
+            [
+                "Lugar",
+                "lugar"
+            ]
+        );
+
+
+    const color =
+        obtenerCampo(
+            fields,
+            [
+                "Color",
+                "color"
+            ]
+        );
+
+
+    const observaciones =
+        obtenerCampo(
+            fields,
+            [
+                "Observaciones",
+                "observaciones"
+            ]
+        );
+
+
+    const compatibilidad =
+        obtenerCampo(
+            fields,
+            [
+                "Compatibilidad",
+                "compatibilidad"
+            ]
+        );
+
+
+    const equipoRelacionado =
+        obtenerCampo(
+            fields,
+            [
+                "Equipo Médico relacionado",
+                "Equipo médico relacionado",
+                "Equipo relacionado"
+            ]
+        );
+
+
+    const fotografia =
+        obtenerCampo(
+            fields,
+            [
+                "Fotografía",
+                "Fotografia",
+                "Fotografía del repuesto",
+                "Fotografia del repuesto"
+            ]
+        );
+
+
+    const cantidad =
+        obtenerCampo(
+            fields,
+            [
+                "Cantidad de repuestos",
+                "Cantidad de repuestos médicos",
+                "Conteo de repuestos",
+                "Cantidad"
+            ]
+        );
+
+
+    return {
+
+        id:
+            record.id,
+
+        /*
+         * Campos originales.
+         */
+        fields:
+            fields,
+
+        /*
+         * Campos normalizados.
+         */
+        nombre:
+            nombre,
+
+        nombreRepuesto:
+            nombre,
+
+        activoFijo:
+            activoFijo,
+
+        numeroActivoFijo:
+            activoFijo,
+
+        numeroDeActivoFijo:
+            activoFijo,
+
+        serie:
+            serie,
+
+        numeroSerie:
+            serie,
+
+        modelo:
+            modelo,
+
+        estado:
+            estado,
+
+        lugar:
+            lugar,
+
+        color:
+            color,
+
+        observaciones:
+            observaciones,
+
+        compatibilidad:
+            compatibilidad,
+
+        equipoRelacionado:
+            equipoRelacionado,
+
+        fotografia:
+            fotografia,
+
+        cantidad:
+            cantidad,
+
+        cantidadRepuestos:
+            cantidad
+
+    };
+
+}
+
+
+/* =========================================================
    RUTA PRINCIPAL
 ========================================================= */
 
@@ -109,8 +563,10 @@ app.get(
                 );
 
             res.json({
-                id: record.id,
-                fields: record.fields
+                id:
+                    record.id,
+                fields:
+                    record.fields
             });
 
         } catch (error) {
@@ -144,12 +600,14 @@ app.get(
             const equipoId =
                 req.params.equipoId;
 
+
             const records =
                 await base(
                     TABLA_ACCESORIOS
                 )
                     .select()
                     .all();
+
 
             const accesorios =
                 records.filter(
@@ -167,6 +625,7 @@ app.get(
                             ] ||
                             [];
 
+
                         return Array.isArray(
                             relacionados
                         ) &&
@@ -177,16 +636,16 @@ app.get(
                     }
                 );
 
+
             res.json(
                 accesorios.map(
-                    record => ({
-                        id:
-                            record.id,
-                        fields:
-                            record.fields
-                    })
+                    record =>
+                        normalizarAccesorio(
+                            record
+                        )
                 )
             );
+
 
         } catch (error) {
 
@@ -223,12 +682,13 @@ app.get(
                     req.params.id
                 );
 
-            res.json({
-                id:
-                    record.id,
-                fields:
-                    record.fields
-            });
+
+            res.json(
+                normalizarAccesorio(
+                    record
+                )
+            );
+
 
         } catch (error) {
 
@@ -261,12 +721,14 @@ app.get(
             const equipoId =
                 req.params.equipoId;
 
+
             const records =
                 await base(
                     TABLA_REPUESTOS
                 )
                     .select()
                     .all();
+
 
             const repuestos =
                 records.filter(
@@ -284,6 +746,7 @@ app.get(
                             ] ||
                             [];
 
+
                         return Array.isArray(
                             relacionados
                         ) &&
@@ -294,16 +757,16 @@ app.get(
                     }
                 );
 
+
             res.json(
                 repuestos.map(
-                    record => ({
-                        id:
-                            record.id,
-                        fields:
-                            record.fields
-                    })
+                    record =>
+                        normalizarRepuesto(
+                            record
+                        )
                 )
             );
+
 
         } catch (error) {
 
@@ -340,12 +803,13 @@ app.get(
                     req.params.id
                 );
 
-            res.json({
-                id:
-                    record.id,
-                fields:
-                    record.fields
-            });
+
+            res.json(
+                normalizarRepuesto(
+                    record
+                )
+            );
+
 
         } catch (error) {
 
@@ -378,12 +842,14 @@ app.get(
             const equipoId =
                 req.params.equipoId;
 
+
             const records =
                 await base(
                     TABLA_MANTENIMIENTOS
                 )
                     .select()
                     .all();
+
 
             const mantenimientos =
                 records.filter(
@@ -395,6 +861,7 @@ app.get(
                             ] ||
                             [];
 
+
                         return Array.isArray(
                             relacionados
                         ) &&
@@ -404,6 +871,7 @@ app.get(
 
                     }
                 );
+
 
             res.json(
                 mantenimientos.map(
@@ -415,6 +883,7 @@ app.get(
                     })
                 )
             );
+
 
         } catch (error) {
 
@@ -451,12 +920,14 @@ app.get(
                     req.params.id
                 );
 
+
             res.json({
                 id:
                     record.id,
                 fields:
                     record.fields
             });
+
 
         } catch (error) {
 
@@ -489,32 +960,42 @@ app.post(
             const datos =
                 req.body;
 
+
             const equipoId =
                 datos.equipoId || "";
+
 
             const tipoMantenimiento =
                 datos.tipoMantenimiento || "";
 
+
             const tecnicoResponsable =
                 datos.tecnicoResponsable || "";
+
 
             const estadoMantenimiento =
                 datos.estadoMantenimiento || "";
 
+
             const actividades =
                 datos.actividades || "";
+
 
             const hallazgos =
                 datos.hallazgos || "";
 
+
             const refacciones =
                 datos.refacciones || "";
+
 
             const observaciones =
                 datos.observaciones || "";
 
+
             const fechaRealizado =
                 datos.fechaRealizado || "";
+
 
             const fechaProximo =
                 datos.fechaProximo || "";
@@ -542,45 +1023,44 @@ app.post(
                 "";
 
 
-            const campos =
-                {
+            const campos = {
 
-                    "Equipo relacionado":
-                        [
-                            equipoRecord.id
-                        ],
+                "Equipo relacionado":
+                    [
+                        equipoRecord.id
+                    ],
 
-                    "Número de activo fijo":
-                        numeroActivo,
+                "Número de activo fijo":
+                    numeroActivo,
 
-                    "Fecha de mantenimiento realizado":
-                        fechaRealizado,
+                "Fecha de mantenimiento realizado":
+                    fechaRealizado,
 
-                    "Tipo de mantenimiento":
-                        tipoMantenimiento,
+                "Tipo de mantenimiento":
+                    tipoMantenimiento,
 
-                    "Técnico responsable":
-                        tecnicoResponsable,
+                "Técnico responsable":
+                    tecnicoResponsable,
 
-                    "Estado del mantenimiento":
-                        estadoMantenimiento,
+                "Estado del mantenimiento":
+                    estadoMantenimiento,
 
-                    "Actividades realizadas":
-                        actividades,
+                "Actividades realizadas":
+                    actividades,
 
-                    "Hallazgos":
-                        hallazgos,
+                "Hallazgos":
+                    hallazgos,
 
-                    "Refacciones utilizadas":
-                        refacciones,
+                "Refacciones utilizadas":
+                    refacciones,
 
-                    "Observaciones":
-                        observaciones,
+                "Observaciones":
+                    observaciones,
 
-                    "Fecha de próximo mantenimiento":
-                        fechaProximo
+                "Fecha de próximo mantenimiento":
+                    fechaProximo
 
-                };
+            };
 
 
             const mantenimientoRecord =
@@ -601,12 +1081,14 @@ app.post(
 
             });
 
+
         } catch (error) {
 
             console.error(
                 "Error al crear mantenimiento:",
                 error
             );
+
 
             res.status(500).json({
 
@@ -766,15 +1248,6 @@ app.post(
             }
 
 
-            /*
-             * El número se genera por equipo.
-             * Ejemplo:
-             *
-             * CMG-MSV-001 → 1
-             * CMG-MSV-001 → 2
-             * CMG-MSV-001 → 3
-             */
-
             const numeroFalla =
                 await generarNumeroFalla(
                     numeroActivo
@@ -784,17 +1257,6 @@ app.post(
             const fechaHora =
                 new Date().toISOString();
 
-
-            /*
-             * IMPORTANTE:
-             *
-             * NO se envía:
-             *
-             * "Nombre del equipo relacionado"
-             *
-             * porque es un campo de Búsqueda
-             * y Airtable lo calcula automáticamente.
-             */
 
             const camposFalla = {
 
@@ -836,11 +1298,6 @@ app.post(
             );
 
 
-            /*
-             * Crear primero el registro
-             * sin la fotografía.
-             */
-
             const fallaRecord =
                 await base(
                     TABLA_FALLAS
@@ -854,12 +1311,6 @@ app.post(
                 fallaRecord.id
             );
 
-
-            /*
-             * Si el usuario seleccionó
-             * una fotografía, se sube
-             * después de crear el registro.
-             */
 
             if (
                 req.file
@@ -937,11 +1388,6 @@ app.post(
 
             }
 
-
-            /*
-             * Respuesta correcta
-             * al navegador.
-             */
 
             res.json({
 
