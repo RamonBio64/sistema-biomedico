@@ -1145,7 +1145,6 @@ app.get(
 
 /* =========================================================
    CREAR MANTENIMIENTO
-   CORREGIDO PARA coincidir con mantenimiento.html
 ========================================================= */
 
 app.post(
@@ -1206,10 +1205,6 @@ app.post(
                 "";
 
 
-            /* -----------------------------------------
-               VALIDAR EQUIPO
-            ----------------------------------------- */
-
             if (!equipoId) {
 
                 return res.status(400).json({
@@ -1221,10 +1216,6 @@ app.post(
 
             }
 
-
-            /* -----------------------------------------
-               VALIDAR DATOS OBLIGATORIOS
-            ----------------------------------------- */
 
             if (!fechaMantenimiento) {
 
@@ -1260,10 +1251,6 @@ app.post(
             }
 
 
-            /* -----------------------------------------
-               BUSCAR EQUIPO
-            ----------------------------------------- */
-
             const equipoRecord =
                 await base(
                     TABLA_EQUIPOS
@@ -1275,10 +1262,6 @@ app.post(
                 equipoRecord.fields;
 
 
-            /* -----------------------------------------
-               OBTENER ACTIVO FIJO
-            ----------------------------------------- */
-
             const numeroActivo =
                 equipoFields[
                     "Número de activo fijo"
@@ -1288,10 +1271,6 @@ app.post(
                 ] ||
                 "";
 
-
-            /* -----------------------------------------
-               CAMPOS PARA AIRTABLE
-            ----------------------------------------- */
 
             const campos = {
 
@@ -1330,11 +1309,6 @@ app.post(
             };
 
 
-            /* -----------------------------------------
-               FECHA PRÓXIMO MANTENIMIENTO
-               Solo se envía si existe
-            ----------------------------------------- */
-
             if (
                 fechaProximoMantenimiento
             ) {
@@ -1352,10 +1326,6 @@ app.post(
                 campos
             );
 
-
-            /* -----------------------------------------
-               CREAR REGISTRO
-            ----------------------------------------- */
 
             const mantenimientoRecord =
                 await base(
@@ -1489,6 +1459,9 @@ async function generarNumeroFalla() {
 
 /* =========================================================
    CREAR FALLA
+   CORREGIDO:
+   "Nombre del equipo relacionado" ES BÚSQUEDA
+   Y NO SE ESCRIBE MANUALMENTE
 ========================================================= */
 
 app.post(
@@ -1502,6 +1475,11 @@ app.post(
     ) => {
 
         try {
+
+            console.log(
+                "Datos recibidos para falla:",
+                req.body
+            );
 
             const datos =
                 req.body;
@@ -1522,6 +1500,10 @@ app.post(
             }
 
 
+            /* -----------------------------------------
+               BUSCAR EQUIPO
+            ----------------------------------------- */
+
             const equipoRecord =
                 await base(
                     TABLA_EQUIPOS
@@ -1533,6 +1515,10 @@ app.post(
                 equipoRecord.fields;
 
 
+            /* -----------------------------------------
+               OBTENER ACTIVO FIJO
+            ----------------------------------------- */
+
             const numeroActivo =
                 equipoFields[
                     "Número de activo fijo"
@@ -1543,20 +1529,21 @@ app.post(
                 "";
 
 
-            const nombreEquipo =
-                obtenerCampo(
-                    equipoFields,
-                    [
-                        "Nombre del equipo",
-                        "nombre del equipo",
-                        "Nombre"
-                    ]
-                );
-
+            /* -----------------------------------------
+               GENERAR ID DE FALLA
+            ----------------------------------------- */
 
             const numeroFalla =
                 await generarNumeroFalla();
 
+
+            /* -----------------------------------------
+               CAMPOS PARA AIRTABLE
+               
+               IMPORTANTE:
+               "Nombre del equipo relacionado"
+               NO SE ENVÍA PORQUE ES BÚSQUEDA.
+            ----------------------------------------- */
 
             const campos = {
 
@@ -1569,9 +1556,6 @@ app.post(
                     [
                         equipoRecord.id
                     ],
-
-                "Nombre del equipo relacionado":
-                    nombreEquipo,
 
                 "Número de activo fijo":
                     numeroActivo,
@@ -1630,12 +1614,28 @@ app.post(
             }
 
 
+            console.log(
+                "Campos de falla enviados a Airtable:",
+                campos
+            );
+
+
+            /* -----------------------------------------
+               CREAR FALLA
+            ----------------------------------------- */
+
             const fallaRecord =
                 await base(
                     TABLA_FALLAS
                 ).create(
                     campos
                 );
+
+
+            console.log(
+                "Falla creada correctamente:",
+                fallaRecord.id
+            );
 
 
             res.json({
