@@ -37,6 +37,10 @@ const TABLA_FALLAS =
     "Fallas y Alarmas";
 
 
+/* =========================================================
+   AIRTABLE
+========================================================= */
+
 Airtable.configure({
     apiKey: AIRTABLE_TOKEN
 });
@@ -47,9 +51,11 @@ const base =
     );
 
 
-app.use(
-    cors()
-);
+/* =========================================================
+   CONFIGURACIÓN EXPRESS
+========================================================= */
+
+app.use(cors());
 
 app.use(
     express.json()
@@ -63,10 +69,7 @@ app.use(
 
 app.use(
     express.static(
-        path.join(
-            __dirname,
-            "public"
-        )
+        path.join(__dirname, "public")
     )
 );
 
@@ -75,14 +78,9 @@ app.use(
    FUNCIONES AUXILIARES
 ========================================================= */
 
-function obtenerCampo(
-    fields,
-    nombres
-) {
+function obtenerCampo(fields, nombres) {
 
-    for (
-        const nombre of nombres
-    ) {
+    for (const nombre of nombres) {
 
         if (
             fields[nombre] !== undefined &&
@@ -102,7 +100,7 @@ function obtenerCampo(
 
 
 /* =========================================================
-   OBTENER EQUIPOS RELACIONADOS
+   EQUIPOS RELACIONADOS
 ========================================================= */
 
 async function obtenerEquiposRelacionados(
@@ -110,72 +108,53 @@ async function obtenerEquiposRelacionados(
 ) {
 
     if (
-        !Array.isArray(equipoRelacionado) ||
-        equipoRelacionado.length === 0
+        !equipoRelacionado ||
+        !Array.isArray(equipoRelacionado)
     ) {
 
         return [];
 
     }
 
-
-    const equipos = [];
-
+    const resultados = [];
 
     for (
-        const equipoId of equipoRelacionado
+        const equipoId
+        of equipoRelacionado
     ) {
 
         try {
 
-            const equipoRecord =
+            const equipo =
                 await base(
                     TABLA_EQUIPOS
                 ).find(
                     equipoId
                 );
 
-
             const fields =
-                equipoRecord.fields || {};
+                equipo.fields;
 
+            resultados.push({
 
-            const equipo = {
-
-                id:
-                    equipoRecord.id,
-
-                nombre:
-                    obtenerCampo(
-                        fields,
-                        [
-                            "nombre del equipo",
-                            "Nombre del equipo",
-                            "Nombre",
-                            "nombre",
-                            "Equipo"
-                        ]
-                    ),
+                id: equipo.id,
 
                 numeroActivo:
                     obtenerCampo(
                         fields,
                         [
-                            "Numero de activo fijo",
                             "Número de activo fijo",
-                            "Numero de activo",
-                            "Número de activo"
+                            "Numero de activo fijo"
                         ]
                     ),
 
-                numeroActivoFijo:
+                nombre:
                     obtenerCampo(
                         fields,
                         [
-                            "Numero de activo fijo",
-                            "Número de activo fijo",
-                            "Numero de activo",
-                            "Número de activo"
+                            "Nombre del equipo",
+                            "nombre del equipo",
+                            "Nombre"
                         ]
                     ),
 
@@ -185,25 +164,7 @@ async function obtenerEquiposRelacionados(
                         [
                             "servicio o área",
                             "Servicio o área",
-                            "Servicio o Area",
-                            "Área / Servicio",
-                            "Area / Servicio",
-                            "Área",
-                            "Area"
-                        ]
-                    ),
-
-                areaServicio:
-                    obtenerCampo(
-                        fields,
-                        [
-                            "servicio o área",
-                            "Servicio o área",
-                            "Servicio o Area",
-                            "Área / Servicio",
-                            "Area / Servicio",
-                            "Área",
-                            "Area"
+                            "Servicio"
                         ]
                     ),
 
@@ -211,8 +172,8 @@ async function obtenerEquiposRelacionados(
                     obtenerCampo(
                         fields,
                         [
-                            "marca",
-                            "Marca"
+                            "Marca",
+                            "marca"
                         ]
                     ),
 
@@ -220,8 +181,8 @@ async function obtenerEquiposRelacionados(
                     obtenerCampo(
                         fields,
                         [
-                            "modelo",
-                            "Modelo"
+                            "Modelo",
+                            "modelo"
                         ]
                     ),
 
@@ -229,22 +190,8 @@ async function obtenerEquiposRelacionados(
                     obtenerCampo(
                         fields,
                         [
-                            "número de serie",
                             "Número de serie",
                             "Numero de serie",
-                            "Número de Serie",
-                            "Serie"
-                        ]
-                    ),
-
-                numeroSerie:
-                    obtenerCampo(
-                        fields,
-                        [
-                            "número de serie",
-                            "Número de serie",
-                            "Numero de serie",
-                            "Número de Serie",
                             "Serie"
                         ]
                     ),
@@ -253,9 +200,8 @@ async function obtenerEquiposRelacionados(
                     obtenerCampo(
                         fields,
                         [
-                            "ubicación",
                             "Ubicación",
-                            "Ubicacion"
+                            "ubicación"
                         ]
                     ),
 
@@ -263,9 +209,8 @@ async function obtenerEquiposRelacionados(
                     obtenerCampo(
                         fields,
                         [
-                            "estado del equipo",
                             "Estado del equipo",
-                            "Estado"
+                            "estado del equipo"
                         ]
                     ),
 
@@ -276,23 +221,14 @@ async function obtenerEquiposRelacionados(
                             "Criticidad",
                             "criticidad"
                         ]
-                    ),
+                    )
 
-                fields:
-                    fields
-
-            };
-
-
-            equipos.push(
-                equipo
-            );
-
+            });
 
         } catch (error) {
 
             console.error(
-                `Error al obtener equipo relacionado ${equipoId}:`,
+                "Error obteniendo equipo relacionado:",
                 error.message
             );
 
@@ -300,8 +236,7 @@ async function obtenerEquiposRelacionados(
 
     }
 
-
-    return equipos;
+    return resultados;
 
 }
 
@@ -310,191 +245,113 @@ async function obtenerEquiposRelacionados(
    NORMALIZAR ACCESORIO
 ========================================================= */
 
-function normalizarAccesorio(
+async function normalizarAccesorio(
     record
 ) {
 
     const fields =
-        record.fields || {};
+        record.fields;
 
-
-    const nombre =
-        obtenerCampo(
-            fields,
-            [
-                "Nombre",
-                "nombre",
-                "Nombre del accesorio",
-                "Nombre del accesorio médico"
-            ]
-        );
-
-
-    const activoFijo =
-        obtenerCampo(
-            fields,
-            [
-                "Numero de activo fijo",
-                "Número de activo fijo",
-                "Numero de activo",
-                "Número de activo",
-                "Activo fijo",
-                "Activo"
-            ]
-        );
-
-
-    const serie =
-        obtenerCampo(
-            fields,
-            [
-                "Serie",
-                "Número de serie",
-                "Numero de serie"
-            ]
-        );
-
-
-    const modelo =
-        obtenerCampo(
-            fields,
-            [
-                "Modelo",
-                "modelo"
-            ]
-        );
-
-
-    const estado =
-        obtenerCampo(
-            fields,
-            [
-                "Estado",
-                "estado"
-            ]
-        );
-
-
-    const color =
-        obtenerCampo(
-            fields,
-            [
-                "Color",
-                "color"
-            ]
-        );
-
-
-    const activo =
-        obtenerCampo(
-            fields,
-            [
-                "Activo",
-                "activo"
-            ]
-        );
-
-
-    const observaciones =
-        obtenerCampo(
-            fields,
-            [
-                "Observaciones",
-                "observaciones"
-            ]
-        );
-
-
-    const fotografia =
-        obtenerCampo(
-            fields,
-            [
-                "Fotografía",
-                "Fotografia",
-                "Fotografía del accesorio",
-                "Fotografia del accesorio"
-            ]
-        );
-
-
-    const equipoRelacionado =
-        obtenerCampo(
-            fields,
-            [
-                "Equipo Médico relacionado",
-                "Equipo médico relacionado",
+    const equiposRelacionados =
+        await obtenerEquiposRelacionados(
+            fields[
+                "Equipo Médico relacionado"
+            ] ||
+            fields[
                 "Equipo relacionado"
             ]
         );
-
-
-    const cantidad =
-        obtenerCampo(
-            fields,
-            [
-                "Cantidad de accesorios",
-                "Cantidad de accesorios médicos",
-                "Conteo de accesorios",
-                "Cantidad"
-            ]
-        );
-
 
     return {
 
         id:
             record.id,
 
-        fields:
-            fields,
-
         nombre:
-            nombre,
-
-        nombreAccesorio:
-            nombre,
+            obtenerCampo(
+                fields,
+                [
+                    "Nombre",
+                    "nombre"
+                ]
+            ),
 
         activoFijo:
-            activoFijo,
-
-        numeroActivoFijo:
-            activoFijo,
-
-        numeroDeActivoFijo:
-            activoFijo,
+            obtenerCampo(
+                fields,
+                [
+                    "Activo fijo",
+                    "Número de activo fijo",
+                    "Numero de activo fijo"
+                ]
+            ),
 
         serie:
-            serie,
-
-        numeroSerie:
-            serie,
+            obtenerCampo(
+                fields,
+                [
+                    "Número de serie",
+                    "Numero de serie",
+                    "Serie"
+                ]
+            ),
 
         modelo:
-            modelo,
+            obtenerCampo(
+                fields,
+                [
+                    "Modelo",
+                    "modelo"
+                ]
+            ),
 
         estado:
-            estado,
+            obtenerCampo(
+                fields,
+                [
+                    "Estado",
+                    "estado"
+                ]
+            ),
 
         color:
-            color,
+            obtenerCampo(
+                fields,
+                [
+                    "Color",
+                    "color"
+                ]
+            ),
 
         activo:
-            activo,
+            obtenerCampo(
+                fields,
+                [
+                    "Activo",
+                    "activo"
+                ]
+            ),
 
         observaciones:
-            observaciones,
+            obtenerCampo(
+                fields,
+                [
+                    "Observaciones",
+                    "observaciones"
+                ]
+            ),
 
         fotografia:
-            fotografia,
+            obtenerCampo(
+                fields,
+                [
+                    "Fotografía",
+                    "fotografía",
+                    "Fotografia"
+                ]
+            ),
 
-        equipoRelacionado:
-            equipoRelacionado,
-
-        cantidad:
-            cantidad,
-
-        cantidadAccesorios:
-            cantidad
+        equiposRelacionados
 
     };
 
@@ -505,204 +362,112 @@ function normalizarAccesorio(
    NORMALIZAR REPUESTO
 ========================================================= */
 
-function normalizarRepuesto(
+async function normalizarRepuesto(
     record
 ) {
 
     const fields =
-        record.fields || {};
+        record.fields;
 
-
-    const nombre =
-        obtenerCampo(
-            fields,
-            [
-                "Nombre",
-                "nombre",
-                "Nombre del repuesto",
-                "Nombre del repuesto médico"
-            ]
-        );
-
-
-    const activoFijo =
-        obtenerCampo(
-            fields,
-            [
-                "Numero de activo fijo",
-                "Número de activo fijo",
-                "Numero de activo",
-                "Número de activo",
-                "Activo fijo",
-                "Activo"
-            ]
-        );
-
-
-    const serie =
-        obtenerCampo(
-            fields,
-            [
-                "Serie",
-                "Número de serie",
-                "Numero de serie"
-            ]
-        );
-
-
-    const modelo =
-        obtenerCampo(
-            fields,
-            [
-                "Modelo",
-                "modelo"
-            ]
-        );
-
-
-    const estado =
-        obtenerCampo(
-            fields,
-            [
-                "Estado",
-                "estado"
-            ]
-        );
-
-
-    const lugar =
-        obtenerCampo(
-            fields,
-            [
-                "Lugar",
-                "lugar"
-            ]
-        );
-
-
-    const color =
-        obtenerCampo(
-            fields,
-            [
-                "Color",
-                "color"
-            ]
-        );
-
-
-    const observaciones =
-        obtenerCampo(
-            fields,
-            [
-                "Observaciones",
-                "observaciones"
-            ]
-        );
-
-
-    const compatibilidad =
-        obtenerCampo(
-            fields,
-            [
-                "Compatibilidad",
-                "compatibilidad"
-            ]
-        );
-
-
-    const equipoRelacionado =
-        obtenerCampo(
-            fields,
-            [
-                "Equipo Médico relacionado",
-                "Equipo médico relacionado",
+    const equiposRelacionados =
+        await obtenerEquiposRelacionados(
+            fields[
+                "Equipo Médico relacionado"
+            ] ||
+            fields[
                 "Equipo relacionado"
             ]
         );
-
-
-    const fotografia =
-        obtenerCampo(
-            fields,
-            [
-                "Fotografía",
-                "Fotografia",
-                "Fotografía del repuesto",
-                "Fotografia del repuesto"
-            ]
-        );
-
-
-    const cantidad =
-        obtenerCampo(
-            fields,
-            [
-                "Cantidad de repuestos",
-                "Cantidad de repuestos médicos",
-                "Conteo de repuestos",
-                "Cantidad"
-            ]
-        );
-
 
     return {
 
         id:
             record.id,
 
-        fields:
-            fields,
-
         nombre:
-            nombre,
-
-        nombreRepuesto:
-            nombre,
+            obtenerCampo(
+                fields,
+                [
+                    "Nombre",
+                    "nombre"
+                ]
+            ),
 
         activoFijo:
-            activoFijo,
-
-        numeroActivoFijo:
-            activoFijo,
-
-        numeroDeActivoFijo:
-            activoFijo,
+            obtenerCampo(
+                fields,
+                [
+                    "Número de activo fijo",
+                    "Numero de activo fijo",
+                    "Activo fijo"
+                ]
+            ),
 
         serie:
-            serie,
-
-        numeroSerie:
-            serie,
+            obtenerCampo(
+                fields,
+                [
+                    "Número de serie",
+                    "Numero de serie",
+                    "Serie"
+                ]
+            ),
 
         modelo:
-            modelo,
+            obtenerCampo(
+                fields,
+                [
+                    "Modelo",
+                    "modelo"
+                ]
+            ),
 
         estado:
-            estado,
+            obtenerCampo(
+                fields,
+                [
+                    "Estado",
+                    "estado"
+                ]
+            ),
 
         lugar:
-            lugar,
+            obtenerCampo(
+                fields,
+                [
+                    "Lugar",
+                    "lugar"
+                ]
+            ),
 
         color:
-            color,
+            obtenerCampo(
+                fields,
+                [
+                    "Color",
+                    "color"
+                ]
+            ),
 
         observaciones:
-            observaciones,
+            obtenerCampo(
+                fields,
+                [
+                    "Observaciones",
+                    "observaciones"
+                ]
+            ),
 
         compatibilidad:
-            compatibilidad,
+            obtenerCampo(
+                fields,
+                [
+                    "Compatibilidad",
+                    "compatibilidad"
+                ]
+            ),
 
-        equipoRelacionado:
-            equipoRelacionado,
-
-        fotografia:
-            fotografia,
-
-        cantidad:
-            cantidad,
-
-        cantidadRepuestos:
-            cantidad
+        equiposRelacionados
 
     };
 
@@ -710,32 +475,15 @@ function normalizarRepuesto(
 
 
 /* =========================================================
-   RUTA PRINCIPAL
-========================================================= */
-
-app.get(
-    "/",
-    (req, res) => {
-
-        res.sendFile(
-            path.join(
-                __dirname,
-                "public",
-                "index.html"
-            )
-        );
-
-    }
-);
-
-
-/* =========================================================
-   EQUIPO
+   OBTENER EQUIPO
 ========================================================= */
 
 app.get(
     "/api/equipo/:id",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -745,7 +493,6 @@ app.get(
                 ).find(
                     req.params.id
                 );
-
 
             res.json({
 
@@ -757,19 +504,18 @@ app.get(
 
             });
 
-
         } catch (error) {
 
             console.error(
-                "Error al obtener equipo:",
+                "Error obteniendo equipo:",
                 error
             );
-
 
             res.status(500).json({
 
                 error:
-                    error.message
+                    error.message ||
+                    "No se pudo obtener el equipo."
 
             });
 
@@ -780,98 +526,73 @@ app.get(
 
 
 /* =========================================================
-   ACCESORIOS
+   ACCESORIOS DE UN EQUIPO
 ========================================================= */
 
 app.get(
     "/api/accesorios/:equipoId",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
-            const equipoId =
-                req.params.equipoId;
-
-
-            const records =
+            const registros =
                 await base(
                     TABLA_ACCESORIOS
                 )
-                    .select()
-                    .all();
-
+                .select()
+                .all();
 
             const accesorios =
-                records.filter(
-                    record => {
-
-                        const relacionados =
-                            record.fields[
-                                "Equipo Médico relacionado"
-                            ] ||
-                            record.fields[
-                                "Equipo médico relacionado"
-                            ] ||
-                            record.fields[
-                                "Equipo relacionado"
-                            ] ||
-                            [];
-
-
-                        return Array.isArray(
-                            relacionados
-                        ) &&
-                        relacionados.includes(
-                            equipoId
-                        );
-
-                    }
-                );
-
-
-            const resultado = [];
-
+                [];
 
             for (
-                const record of accesorios
+                const record
+                of registros
             ) {
 
-                const accesorio =
-                    normalizarAccesorio(
-                        record
+                const fields =
+                    record.fields;
+
+                const relacionados =
+                    fields[
+                        "Equipo Médico relacionado"
+                    ] ||
+                    fields[
+                        "Equipo relacionado"
+                    ];
+
+                if (
+                    Array.isArray(
+                        relacionados
+                    ) &&
+                    relacionados.includes(
+                        req.params.equipoId
+                    )
+                ) {
+
+                    accesorios.push(
+                        await normalizarAccesorio(
+                            record
+                        )
                     );
 
-
-                const equiposRelacionados =
-                    await obtenerEquiposRelacionados(
-                        accesorio.equipoRelacionado
-                    );
-
-
-                resultado.push({
-
-                    ...accesorio,
-
-                    equiposRelacionados:
-                        equiposRelacionados
-
-                });
+                }
 
             }
 
-
             res.json(
-                resultado
+                accesorios
             );
-
 
         } catch (error) {
 
             console.error(
-                "Error al obtener accesorios:",
+                "Error obteniendo accesorios:",
                 error
             );
-
 
             res.status(500).json({
 
@@ -892,7 +613,10 @@ app.get(
 
 app.get(
     "/api/accesorio/:id",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -903,36 +627,21 @@ app.get(
                     req.params.id
                 );
 
-
             const accesorio =
-                normalizarAccesorio(
+                await normalizarAccesorio(
                     record
                 );
 
-
-            const equiposRelacionados =
-                await obtenerEquiposRelacionados(
-                    accesorio.equipoRelacionado
-                );
-
-
-            res.json({
-
-                ...accesorio,
-
-                equiposRelacionados:
-                    equiposRelacionados
-
-            });
-
+            res.json(
+                accesorio
+            );
 
         } catch (error) {
 
             console.error(
-                "Error al obtener accesorio:",
+                "Error obteniendo accesorio:",
                 error
             );
-
 
             res.status(500).json({
 
@@ -948,98 +657,73 @@ app.get(
 
 
 /* =========================================================
-   REPUESTOS
+   REPUESTOS DE UN EQUIPO
 ========================================================= */
 
 app.get(
     "/api/repuestos/:equipoId",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
-            const equipoId =
-                req.params.equipoId;
-
-
-            const records =
+            const registros =
                 await base(
                     TABLA_REPUESTOS
                 )
-                    .select()
-                    .all();
-
+                .select()
+                .all();
 
             const repuestos =
-                records.filter(
-                    record => {
-
-                        const relacionados =
-                            record.fields[
-                                "Equipo Médico relacionado"
-                            ] ||
-                            record.fields[
-                                "Equipo médico relacionado"
-                            ] ||
-                            record.fields[
-                                "Equipo relacionado"
-                            ] ||
-                            [];
-
-
-                        return Array.isArray(
-                            relacionados
-                        ) &&
-                        relacionados.includes(
-                            equipoId
-                        );
-
-                    }
-                );
-
-
-            const resultado = [];
-
+                [];
 
             for (
-                const record of repuestos
+                const record
+                of registros
             ) {
 
-                const repuesto =
-                    normalizarRepuesto(
-                        record
+                const fields =
+                    record.fields;
+
+                const relacionados =
+                    fields[
+                        "Equipo Médico relacionado"
+                    ] ||
+                    fields[
+                        "Equipo relacionado"
+                    ];
+
+                if (
+                    Array.isArray(
+                        relacionados
+                    ) &&
+                    relacionados.includes(
+                        req.params.equipoId
+                    )
+                ) {
+
+                    repuestos.push(
+                        await normalizarRepuesto(
+                            record
+                        )
                     );
 
-
-                const equiposRelacionados =
-                    await obtenerEquiposRelacionados(
-                        repuesto.equipoRelacionado
-                    );
-
-
-                resultado.push({
-
-                    ...repuesto,
-
-                    equiposRelacionados:
-                        equiposRelacionados
-
-                });
+                }
 
             }
 
-
             res.json(
-                resultado
+                repuestos
             );
-
 
         } catch (error) {
 
             console.error(
-                "Error al obtener repuestos:",
+                "Error obteniendo repuestos:",
                 error
             );
-
 
             res.status(500).json({
 
@@ -1060,7 +744,10 @@ app.get(
 
 app.get(
     "/api/repuesto/:id",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -1071,36 +758,21 @@ app.get(
                     req.params.id
                 );
 
-
             const repuesto =
-                normalizarRepuesto(
+                await normalizarRepuesto(
                     record
                 );
 
-
-            const equiposRelacionados =
-                await obtenerEquiposRelacionados(
-                    repuesto.equipoRelacionado
-                );
-
-
-            res.json({
-
-                ...repuesto,
-
-                equiposRelacionados:
-                    equiposRelacionados
-
-            });
-
+            res.json(
+                repuesto
+            );
 
         } catch (error) {
 
             console.error(
-                "Error al obtener repuesto:",
+                "Error obteniendo repuesto:",
                 error
             );
-
 
             res.status(500).json({
 
@@ -1124,58 +796,28 @@ function normalizarMantenimiento(
 ) {
 
     const fields =
-        record.fields || {};
-
-
-    const equipoRelacionado =
-        obtenerCampo(
-            fields,
-            [
-                "Equipo relacionado",
-                "Equipo Médico relacionado",
-                "Equipo médico relacionado"
-            ]
-        );
-
+        record.fields;
 
     return {
 
         id:
             record.id,
 
-        fields:
-            fields,
-
-        idMantenimiento:
-            obtenerCampo(
-                fields,
-                [
-                    "ID Mantenimiento por Equipo",
-                    "ID de mantenimiento",
-                    "ID Mantenimiento",
-                    "ID"
-                ]
-            ),
+        equipoRelacionado:
+            fields[
+                "Equipo relacionado"
+            ] ||
+            fields[
+                "Equipo Médico relacionado"
+            ] ||
+            [],
 
         numeroActivo:
             obtenerCampo(
                 fields,
                 [
                     "Número de activo fijo",
-                    "Numero de activo fijo",
-                    "Numero de activo",
-                    "Número de activo"
-                ]
-            ),
-
-        numeroActivoFijo:
-            obtenerCampo(
-                fields,
-                [
-                    "Número de activo fijo",
-                    "Numero de activo fijo",
-                    "Numero de activo",
-                    "Número de activo"
+                    "Numero de activo fijo"
                 ]
             ),
 
@@ -1183,9 +825,7 @@ function normalizarMantenimiento(
             obtenerCampo(
                 fields,
                 [
-                    "Fecha de mantenimiento realizado",
-                    "Fecha de mantenimiento",
-                    "Fecha"
+                    "Fecha de mantenimiento realizado"
                 ]
             ),
 
@@ -1193,38 +833,32 @@ function normalizarMantenimiento(
             obtenerCampo(
                 fields,
                 [
-                    "Tipo de mantenimiento",
-                    "Tipo"
+                    "Tipo de mantenimiento"
                 ]
             ),
 
-        tecnico:
+        tecnicoResponsable:
             obtenerCampo(
                 fields,
                 [
                     "Técnico responsable",
-                    "Tecnico responsable",
-                    "Técnico",
-                    "Tecnico"
+                    "Tecnico responsable"
                 ]
             ),
 
-        estado:
+        estadoMantenimiento:
             obtenerCampo(
                 fields,
                 [
-                    "Estado del mantenimiento",
-                    "Estado de mantenimiento",
-                    "Estado"
+                    "Estado del mantenimiento"
                 ]
             ),
 
-        actividades:
+        actividadesRealizadas:
             obtenerCampo(
                 fields,
                 [
-                    "Actividades realizadas",
-                    "Actividades"
+                    "Actividades realizadas"
                 ]
             ),
 
@@ -1236,12 +870,11 @@ function normalizarMantenimiento(
                 ]
             ),
 
-        refacciones:
+        refaccionesUtilizadas:
             obtenerCampo(
                 fields,
                 [
-                    "Refacciones utilizadas",
-                    "Refacciones"
+                    "Refacciones utilizadas"
                 ]
             ),
 
@@ -1253,19 +886,14 @@ function normalizarMantenimiento(
                 ]
             ),
 
-        proximoMantenimiento:
+        fechaProximoMantenimiento:
             obtenerCampo(
                 fields,
                 [
                     "Fecha de próximo mantenimiento",
-                    "Fecha de proximo mantenimiento",
-                    "Próximo mantenimiento",
-                    "Proximo mantenimiento"
+                    "Fecha de proximo mantenimiento"
                 ]
-            ),
-
-        equipoRelacionado:
-            equipoRelacionado
+            )
 
     };
 
@@ -1281,7 +909,9 @@ async function obtenerEquipoParaMantenimiento(
 ) {
 
     if (
-        !Array.isArray(equipoRelacionado) ||
+        !Array.isArray(
+            equipoRelacionado
+        ) ||
         equipoRelacionado.length === 0
     ) {
 
@@ -1289,184 +919,78 @@ async function obtenerEquipoParaMantenimiento(
 
     }
 
-
-    const equipoId =
-        equipoRelacionado[0];
-
-
     try {
 
-        const equipoRecord =
+        const equipo =
             await base(
                 TABLA_EQUIPOS
             ).find(
-                equipoId
+                equipoRelacionado[0]
             );
-
 
         const fields =
-            equipoRecord.fields || {};
-
-
-        const nombre =
-            obtenerCampo(
-                fields,
-                [
-                    "nombre del equipo",
-                    "Nombre del equipo",
-                    "Nombre",
-                    "nombre",
-                    "Equipo"
-                ]
-            );
-
-
-        const numeroActivo =
-            obtenerCampo(
-                fields,
-                [
-                    "Numero de activo fijo",
-                    "Número de activo fijo",
-                    "Numero de activo",
-                    "Número de activo"
-                ]
-            );
-
-
-        const servicio =
-            obtenerCampo(
-                fields,
-                [
-                    "servicio o área",
-                    "Servicio o área",
-                    "Servicio o Area",
-                    "Área / Servicio",
-                    "Area / Servicio",
-                    "Área",
-                    "Area"
-                ]
-            );
-
-
-        const marca =
-            obtenerCampo(
-                fields,
-                [
-                    "marca",
-                    "Marca"
-                ]
-            );
-
-
-        const modelo =
-            obtenerCampo(
-                fields,
-                [
-                    "modelo",
-                    "Modelo"
-                ]
-            );
-
-
-        const serie =
-            obtenerCampo(
-                fields,
-                [
-                    "número de serie",
-                    "Número de serie",
-                    "Numero de serie",
-                    "Número de Serie",
-                    "Serie"
-                ]
-            );
-
-
-        const ubicacion =
-            obtenerCampo(
-                fields,
-                [
-                    "ubicación",
-                    "Ubicación",
-                    "Ubicacion"
-                ]
-            );
-
-
-        const estado =
-            obtenerCampo(
-                fields,
-                [
-                    "estado del equipo",
-                    "Estado del equipo",
-                    "Estado"
-                ]
-            );
-
-
-        const criticidad =
-            obtenerCampo(
-                fields,
-                [
-                    "Criticidad",
-                    "criticidad"
-                ]
-            );
-
+            equipo.fields;
 
         return {
 
             id:
-                equipoRecord.id,
-
-            nombre:
-                nombre,
+                equipo.id,
 
             numeroActivo:
-                numeroActivo,
+                obtenerCampo(
+                    fields,
+                    [
+                        "Número de activo fijo",
+                        "Numero de activo fijo"
+                    ]
+                ),
 
-            numeroActivoFijo:
-                numeroActivo,
-
-            servicio:
-                servicio,
-
-            areaServicio:
-                servicio,
+            nombre:
+                obtenerCampo(
+                    fields,
+                    [
+                        "Nombre del equipo",
+                        "nombre del equipo",
+                        "Nombre"
+                    ]
+                ),
 
             marca:
-                marca,
+                obtenerCampo(
+                    fields,
+                    [
+                        "Marca",
+                        "marca"
+                    ]
+                ),
 
             modelo:
-                modelo,
+                obtenerCampo(
+                    fields,
+                    [
+                        "Modelo",
+                        "modelo"
+                    ]
+                ),
 
-            serie:
-                serie,
-
-            numeroSerie:
-                serie,
-
-            ubicacion:
-                ubicacion,
-
-            estado:
-                estado,
-
-            criticidad:
-                criticidad,
-
-            fields:
-                fields
+            servicio:
+                obtenerCampo(
+                    fields,
+                    [
+                        "servicio o área",
+                        "Servicio o área",
+                        "Servicio"
+                    ]
+                )
 
         };
-
 
     } catch (error) {
 
         console.error(
-            "Error al obtener equipo del mantenimiento:",
+            "Error obteniendo equipo del mantenimiento:",
             error.message
         );
-
 
         return null;
 
@@ -1476,95 +1000,81 @@ async function obtenerEquipoParaMantenimiento(
 
 
 /* =========================================================
-   MANTENIMIENTOS POR EQUIPO
+   LISTAR MANTENIMIENTOS DE UN EQUIPO
 ========================================================= */
 
 app.get(
     "/api/mantenimientos/:equipoId",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
-            const equipoId =
-                req.params.equipoId;
-
-
-            const records =
+            const registros =
                 await base(
                     TABLA_MANTENIMIENTOS
                 )
-                    .select()
-                    .all();
-
+                .select()
+                .all();
 
             const mantenimientos =
-                records.filter(
-                    record => {
-
-                        const relacionados =
-                            record.fields[
-                                "Equipo relacionado"
-                            ] ||
-                            record.fields[
-                                "Equipo Médico relacionado"
-                            ] ||
-                            [];
-
-
-                        return Array.isArray(
-                            relacionados
-                        ) &&
-                        relacionados.includes(
-                            equipoId
-                        );
-
-                    }
-                );
-
-
-            const resultado = [];
-
+                [];
 
             for (
-                const record of mantenimientos
+                const record
+                of registros
             ) {
 
-                const mantenimiento =
-                    normalizarMantenimiento(
-                        record
+                const fields =
+                    record.fields;
+
+                const relacionados =
+                    fields[
+                        "Equipo relacionado"
+                    ] ||
+                    fields[
+                        "Equipo Médico relacionado"
+                    ];
+
+                if (
+                    Array.isArray(
+                        relacionados
+                    ) &&
+                    relacionados.includes(
+                        req.params.equipoId
+                    )
+                ) {
+
+                    const mantenimiento =
+                        normalizarMantenimiento(
+                            record
+                        );
+
+                    mantenimiento.equipo =
+                        await obtenerEquipoParaMantenimiento(
+                            mantenimiento.equipoRelacionado
+                        );
+
+                    mantenimientos.push(
+                        mantenimiento
                     );
 
-
-                const equipo =
-                    await obtenerEquipoParaMantenimiento(
-                        mantenimiento.equipoRelacionado
-                    );
-
-
-                resultado.push({
-
-                    ...mantenimiento,
-
-                    equipo:
-                        equipo
-
-                });
+                }
 
             }
 
-
             res.json(
-                resultado
+                mantenimientos
             );
-
 
         } catch (error) {
 
             console.error(
-                "Error al obtener mantenimientos:",
+                "Error obteniendo mantenimientos:",
                 error
             );
-
 
             res.status(500).json({
 
@@ -1585,7 +1095,10 @@ app.get(
 
 app.get(
     "/api/mantenimiento/:id",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -1596,36 +1109,26 @@ app.get(
                     req.params.id
                 );
 
-
             const mantenimiento =
                 normalizarMantenimiento(
                     record
                 );
 
-
-            const equipo =
+            mantenimiento.equipo =
                 await obtenerEquipoParaMantenimiento(
                     mantenimiento.equipoRelacionado
                 );
 
-
-            res.json({
-
-                ...mantenimiento,
-
-                equipo:
-                    equipo
-
-            });
-
+            res.json(
+                mantenimiento
+            );
 
         } catch (error) {
 
             console.error(
-                "Error al obtener mantenimiento:",
+                "Error obteniendo mantenimiento:",
                 error
             );
-
 
             res.status(500).json({
 
@@ -1642,57 +1145,124 @@ app.get(
 
 /* =========================================================
    CREAR MANTENIMIENTO
+   CORREGIDO PARA coincidir con mantenimiento.html
 ========================================================= */
 
 app.post(
     "/api/mantenimiento",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
+
+            console.log(
+                "Datos recibidos para mantenimiento:",
+                req.body
+            );
 
             const datos =
                 req.body;
 
-
             const equipoId =
-                datos.equipoId || "";
+                datos.equipoId ||
+                "";
 
+            const fechaMantenimiento =
+                datos.fechaMantenimiento ||
+                "";
 
             const tipoMantenimiento =
-                datos.tipoMantenimiento || "";
-
+                datos.tipoMantenimiento ||
+                "";
 
             const tecnicoResponsable =
-                datos.tecnicoResponsable || "";
-
+                datos.tecnicoResponsable ||
+                "";
 
             const estadoMantenimiento =
-                datos.estadoMantenimiento || "";
+                datos.estadoMantenimiento ||
+                "";
 
-
-            const actividades =
-                datos.actividades || "";
-
+            const actividadesRealizadas =
+                datos.actividadesRealizadas ||
+                "";
 
             const hallazgos =
-                datos.hallazgos || "";
+                datos.hallazgos ||
+                "";
 
-
-            const refacciones =
-                datos.refacciones || "";
-
+            const refaccionesUtilizadas =
+                datos.refaccionesUtilizadas ||
+                "";
 
             const observaciones =
-                datos.observaciones || "";
+                datos.observaciones ||
+                "";
+
+            const fechaProximoMantenimiento =
+                datos.fechaProximoMantenimiento ||
+                "";
 
 
-            const fechaRealizado =
-                datos.fechaRealizado || "";
+            /* -----------------------------------------
+               VALIDAR EQUIPO
+            ----------------------------------------- */
+
+            if (!equipoId) {
+
+                return res.status(400).json({
+
+                    error:
+                        "No se recibió el identificador del equipo."
+
+                });
+
+            }
 
 
-            const fechaProximo =
-                datos.fechaProximo || "";
+            /* -----------------------------------------
+               VALIDAR DATOS OBLIGATORIOS
+            ----------------------------------------- */
 
+            if (!fechaMantenimiento) {
+
+                return res.status(400).json({
+
+                    error:
+                        "La fecha de mantenimiento es obligatoria."
+
+                });
+
+            }
+
+            if (!tipoMantenimiento) {
+
+                return res.status(400).json({
+
+                    error:
+                        "El tipo de mantenimiento es obligatorio."
+
+                });
+
+            }
+
+            if (!tecnicoResponsable) {
+
+                return res.status(400).json({
+
+                    error:
+                        "El técnico responsable es obligatorio."
+
+                });
+
+            }
+
+
+            /* -----------------------------------------
+               BUSCAR EQUIPO
+            ----------------------------------------- */
 
             const equipoRecord =
                 await base(
@@ -1701,20 +1271,27 @@ app.post(
                     equipoId
                 );
 
-
             const equipoFields =
                 equipoRecord.fields;
 
 
+            /* -----------------------------------------
+               OBTENER ACTIVO FIJO
+            ----------------------------------------- */
+
             const numeroActivo =
-                equipoFields[
-                    "Numero de activo fijo"
-                ] ||
                 equipoFields[
                     "Número de activo fijo"
                 ] ||
+                equipoFields[
+                    "Numero de activo fijo"
+                ] ||
                 "";
 
+
+            /* -----------------------------------------
+               CAMPOS PARA AIRTABLE
+            ----------------------------------------- */
 
             const campos = {
 
@@ -1727,7 +1304,7 @@ app.post(
                     numeroActivo,
 
                 "Fecha de mantenimiento realizado":
-                    fechaRealizado,
+                    fechaMantenimiento,
 
                 "Tipo de mantenimiento":
                     tipoMantenimiento,
@@ -1739,22 +1316,46 @@ app.post(
                     estadoMantenimiento,
 
                 "Actividades realizadas":
-                    actividades,
+                    actividadesRealizadas,
 
                 "Hallazgos":
                     hallazgos,
 
                 "Refacciones utilizadas":
-                    refacciones,
+                    refaccionesUtilizadas,
 
                 "Observaciones":
-                    observaciones,
-
-                "Fecha de próximo mantenimiento":
-                    fechaProximo
+                    observaciones
 
             };
 
+
+            /* -----------------------------------------
+               FECHA PRÓXIMO MANTENIMIENTO
+               Solo se envía si existe
+            ----------------------------------------- */
+
+            if (
+                fechaProximoMantenimiento
+            ) {
+
+                campos[
+                    "Fecha de próximo mantenimiento"
+                ] =
+                    fechaProximoMantenimiento;
+
+            }
+
+
+            console.log(
+                "Campos enviados a Airtable:",
+                campos
+            );
+
+
+            /* -----------------------------------------
+               CREAR REGISTRO
+            ----------------------------------------- */
 
             const mantenimientoRecord =
                 await base(
@@ -1762,6 +1363,12 @@ app.post(
                 ).create(
                     campos
                 );
+
+
+            console.log(
+                "Mantenimiento creado correctamente:",
+                mantenimientoRecord.id
+            );
 
 
             res.json({
@@ -1774,14 +1381,12 @@ app.post(
 
             });
 
-
         } catch (error) {
 
             console.error(
                 "Error al crear mantenimiento:",
                 error
             );
-
 
             res.status(500).json({
 
@@ -1798,42 +1403,7 @@ app.post(
 
 
 /* =========================================================
-   GENERAR NÚMERO DE FALLA
-========================================================= */
-
-async function generarNumeroFalla(
-    numeroActivo
-) {
-
-    if (!numeroActivo) {
-
-        return "1";
-
-    }
-
-
-    const records =
-        await base(
-            TABLA_FALLAS
-        )
-            .select({
-
-                filterByFormula:
-                    `AND({Número de activo fijo}="${numeroActivo}")`
-
-            })
-            .all();
-
-
-    return String(
-        records.length + 1
-    );
-
-}
-
-
-/* =========================================================
-   SUBIDA DE FOTOGRAFÍA
+   MULTER PARA FOTOGRAFÍAS DE FALLAS
 ========================================================= */
 
 const upload =
@@ -1853,7 +1423,72 @@ const upload =
 
 
 /* =========================================================
-   CREAR FALLA / ALARMA
+   GENERAR ID DE FALLA
+========================================================= */
+
+async function generarNumeroFalla() {
+
+    const registros =
+        await base(
+            TABLA_FALLAS
+        )
+        .select({
+            fields: [
+                "ID Falla"
+            ]
+        })
+        .all();
+
+    let mayor =
+        0;
+
+    for (
+        const record
+        of registros
+    ) {
+
+        const valor =
+            record.fields[
+                "ID Falla"
+            ];
+
+        if (
+            valor !== undefined &&
+            valor !== null
+        ) {
+
+            const numero =
+                parseInt(
+                    String(
+                        valor
+                    ).replace(
+                        /\D/g,
+                        ""
+                    )
+                ) || 0;
+
+            if (
+                numero > mayor
+            ) {
+
+                mayor =
+                    numero;
+
+            }
+
+        }
+
+    }
+
+    return (
+        mayor + 1
+    );
+
+}
+
+
+/* =========================================================
+   CREAR FALLA
 ========================================================= */
 
 app.post(
@@ -1861,97 +1496,69 @@ app.post(
     upload.single(
         "fotografia"
     ),
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
             const datos =
                 req.body;
 
-
-            console.log(
-                "Datos recibidos para falla:",
-                datos
-            );
-
-
             const equipoId =
                 datos.equipoId ||
                 "";
 
+            if (!equipoId) {
 
-            const tipoFalla =
-                datos.tipoFalla ||
-                "";
+                return res.status(400).json({
 
+                    error:
+                        "No se recibió el identificador del equipo."
 
-            const descripcionFalla =
-                datos.descripcionFalla ||
-                "";
-
-
-            const reportadoPor =
-                datos.reportadoPor ||
-                "";
-
-
-            const observaciones =
-                datos.observaciones ||
-                "";
-
-
-            let equipoRelacionado =
-                [];
-
-
-            let numeroActivo =
-                "";
-
-
-            if (equipoId) {
-
-                const equipoRecord =
-                    await base(
-                        TABLA_EQUIPOS
-                    )
-                        .find(
-                            equipoId
-                        );
-
-
-                const equipoFields =
-                    equipoRecord.fields;
-
-
-                equipoRelacionado =
-                    [
-                        equipoRecord.id
-                    ];
-
-
-                numeroActivo =
-                    equipoFields[
-                        "Numero de activo fijo"
-                    ] ||
-                    equipoFields[
-                        "Número de activo fijo"
-                    ] ||
-                    "";
+                });
 
             }
 
 
-            const numeroFalla =
-                await generarNumeroFalla(
-                    numeroActivo
+            const equipoRecord =
+                await base(
+                    TABLA_EQUIPOS
+                ).find(
+                    equipoId
+                );
+
+            const equipoFields =
+                equipoRecord.fields;
+
+
+            const numeroActivo =
+                equipoFields[
+                    "Número de activo fijo"
+                ] ||
+                equipoFields[
+                    "Numero de activo fijo"
+                ] ||
+                "";
+
+
+            const nombreEquipo =
+                obtenerCampo(
+                    equipoFields,
+                    [
+                        "Nombre del equipo",
+                        "nombre del equipo",
+                        "Nombre"
+                    ]
                 );
 
 
-            const fechaHora =
-                new Date().toISOString();
+            const numeroFalla =
+                await generarNumeroFalla();
 
 
-            const camposFalla = {
+            const campos = {
 
                 "ID Falla":
                     String(
@@ -1959,127 +1566,76 @@ app.post(
                     ),
 
                 "Equipo relacionado":
-                    equipoRelacionado,
+                    [
+                        equipoRecord.id
+                    ],
+
+                "Nombre del equipo relacionado":
+                    nombreEquipo,
 
                 "Número de activo fijo":
                     numeroActivo,
 
                 "Fecha y hora del reporte":
-                    fechaHora,
+                    datos.fechaHora ||
+                    new Date().toISOString(),
 
                 "Tipo de falla":
-                    tipoFalla,
+                    datos.tipoFalla ||
+                    "",
 
                 "Descripción de la falla":
-                    descripcionFalla,
+                    datos.descripcion ||
+                    "",
 
                 "Estado":
-                    "Reportada",
+                    datos.estado ||
+                    "Pendiente",
 
                 "Reportado por":
-                    reportadoPor,
+                    datos.reportadoPor ||
+                    "",
 
                 "Observaciones":
-                    observaciones
+                    datos.observaciones ||
+                    ""
 
             };
 
 
-            console.log(
-                "Campos que se enviarán a Airtable:",
-                camposFalla
-            );
+            /* -----------------------------------------
+               FOTOGRAFÍA
+            ----------------------------------------- */
+
+            if (
+                req.file
+            ) {
+
+                campos[
+                    "Fotografía del error"
+                ] = [
+
+                    {
+
+                        filename:
+                            req.file.originalname,
+
+                        content:
+                            req.file.buffer
+
+                    }
+
+                ];
+
+            }
 
 
             const fallaRecord =
                 await base(
                     TABLA_FALLAS
                 ).create(
-                    camposFalla
+                    campos
                 );
-
-
-            console.log(
-                "Falla creada correctamente:",
-                fallaRecord.id
-            );
-
-
-            if (
-                req.file
-            ) {
-
-                const uploadUrl =
-                    `https://content.airtable.com/v0/${AIRTABLE_BASE_ID}/${fallaRecord.id}/fldOUKCZoD8IDLkPe/uploadAttachment`;
-
-
-                const formData =
-                    new FormData();
-
-
-                const blob =
-                    new Blob(
-                        [
-                            req.file.buffer
-                        ],
-                        {
-                            type:
-                                req.file.mimetype
-                        }
-                    );
-
-
-                formData.append(
-                    "file",
-                    blob,
-                    req.file.originalname
-                );
-
-
-                const respuestaFotografia =
-                    await fetch(
-                        uploadUrl,
-                        {
-
-                            method:
-                                "POST",
-
-                            headers: {
-
-                                Authorization:
-                                    `Bearer ${AIRTABLE_TOKEN}`
-
-                            },
-
-                            body:
-                                formData
-
-                        }
-                    );
-
-
-                if (
-                    !respuestaFotografia.ok
-                ) {
-
-                    const errorFotografia =
-                        await respuestaFotografia.text();
-
-
-                    console.error(
-                        "Error al subir fotografía:",
-                        errorFotografia
-                    );
-
-                } else {
-
-                    console.log(
-                        "Fotografía subida correctamente."
-                    );
-
-                }
-
-            }
 
 
             res.json({
@@ -2088,29 +1644,22 @@ app.post(
                     true,
 
                 id:
-                    fallaRecord.id,
-
-                numeroFalla:
-                    String(
-                        numeroFalla
-                    )
+                    fallaRecord.id
 
             });
-
 
         } catch (error) {
 
             console.error(
-                "Error al reportar falla:",
+                "Error al crear falla:",
                 error
             );
-
 
             res.status(500).json({
 
                 error:
                     error.message ||
-                    "No se pudo reportar la falla."
+                    "No se pudo registrar la falla."
 
             });
 
@@ -2121,151 +1670,124 @@ app.post(
 
 
 /* =========================================================
-   CONSULTAR FALLAS DE UN EQUIPO
+   LISTAR FALLAS DE UN EQUIPO
 ========================================================= */
 
 app.get(
     "/api/fallas/:equipoId",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
-            const equipoId =
-                req.params.equipoId;
-
-
-            const records =
+            const registros =
                 await base(
                     TABLA_FALLAS
                 )
-                    .select()
-                    .all();
-
+                .select()
+                .all();
 
             const fallas =
-                records.filter(
-                    record => {
+                [];
 
-                        const relacionados =
-                            record.fields[
-                                "Equipo relacionado"
-                            ] ||
-                            [];
+            for (
+                const record
+                of registros
+            ) {
 
+                const fields =
+                    record.fields;
 
-                        return Array.isArray(
-                            relacionados
-                        ) &&
-                        relacionados.includes(
-                            equipoId
-                        );
+                const relacionados =
+                    fields[
+                        "Equipo relacionado"
+                    ];
 
-                    }
-                );
+                if (
+                    Array.isArray(
+                        relacionados
+                    ) &&
+                    relacionados.includes(
+                        req.params.equipoId
+                    )
+                ) {
 
+                    fallas.push({
+
+                        id:
+                            record.id,
+
+                        fields:
+                            fields,
+
+                        idFalla:
+                            fields[
+                                "ID Falla"
+                            ] || "",
+
+                        nombreEquipo:
+                            fields[
+                                "Nombre del equipo relacionado"
+                            ] || "",
+
+                        numeroActivo:
+                            fields[
+                                "Número de activo fijo"
+                            ] || "",
+
+                        fechaHora:
+                            fields[
+                                "Fecha y hora del reporte"
+                            ] || "",
+
+                        tipoFalla:
+                            fields[
+                                "Tipo de falla"
+                            ] || "",
+
+                        descripcion:
+                            fields[
+                                "Descripción de la falla"
+                            ] || "",
+
+                        fotografia:
+                            fields[
+                                "Fotografía del error"
+                            ] || [],
+
+                        estado:
+                            fields[
+                                "Estado"
+                            ] || "",
+
+                        reportadoPor:
+                            fields[
+                                "Reportado por"
+                            ] || "",
+
+                        observaciones:
+                            fields[
+                                "Observaciones"
+                            ] || ""
+
+                    });
+
+                }
+
+            }
 
             res.json(
-                fallas.map(
-                    record => {
-
-                        const fields =
-                            record.fields;
-
-
-                        return {
-
-                            id:
-                                record.id,
-
-                            fields:
-                                fields,
-
-                            numeroFalla:
-                                fields[
-                                    "ID Falla"
-                                ] ||
-                                "",
-
-                            numeroReporte:
-                                fields[
-                                    "ID Falla"
-                                ] ||
-                                "",
-
-                            tipo:
-                                fields[
-                                    "Tipo de falla"
-                                ] ||
-                                "",
-
-                            tipoFalla:
-                                fields[
-                                    "Tipo de falla"
-                                ] ||
-                                "",
-
-                            descripcion:
-                                fields[
-                                    "Descripción de la falla"
-                                ] ||
-                                "",
-
-                            descripcionFalla:
-                                fields[
-                                    "Descripción de la falla"
-                                ] ||
-                                "",
-
-                            estado:
-                                fields[
-                                    "Estado"
-                                ] ||
-                                "",
-
-                            estadoFalla:
-                                fields[
-                                    "Estado"
-                                ] ||
-                                "",
-
-                            fecha:
-                                fields[
-                                    "Fecha y hora del reporte"
-                                ] ||
-                                "",
-
-                            reportadoPor:
-                                fields[
-                                    "Reportado por"
-                                ] ||
-                                "",
-
-                            observaciones:
-                                fields[
-                                    "Observaciones"
-                                ] ||
-                                "",
-
-                            fotografia:
-                                fields[
-                                    "Fotografía del error"
-                                ] ||
-                                []
-
-                        };
-
-                    }
-                )
+                fallas
             );
-
 
         } catch (error) {
 
             console.error(
-                "Error al obtener fallas:",
+                "Error obteniendo fallas:",
                 error
             );
-
 
             res.status(500).json({
 
@@ -2286,7 +1808,10 @@ app.get(
 
 app.get(
     "/api/falla/:id",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -2297,10 +1822,8 @@ app.get(
                     req.params.id
                 );
 
-
             const fields =
                 record.fields;
-
 
             res.json({
 
@@ -2310,88 +1833,64 @@ app.get(
                 fields:
                     fields,
 
-                numeroFalla:
+                idFalla:
                     fields[
                         "ID Falla"
-                    ] ||
-                    "",
+                    ] || "",
 
-                numeroReporte:
+                nombreEquipo:
                     fields[
-                        "ID Falla"
-                    ] ||
-                    "",
+                        "Nombre del equipo relacionado"
+                    ] || "",
 
-                tipo:
+                numeroActivo:
                     fields[
-                        "Tipo de falla"
-                    ] ||
-                    "",
+                        "Número de activo fijo"
+                    ] || "",
+
+                fechaHora:
+                    fields[
+                        "Fecha y hora del reporte"
+                    ] || "",
 
                 tipoFalla:
                     fields[
                         "Tipo de falla"
-                    ] ||
-                    "",
+                    ] || "",
 
                 descripcion:
                     fields[
                         "Descripción de la falla"
-                    ] ||
-                    "",
-
-                descripcionFalla:
-                    fields[
-                        "Descripción de la falla"
-                    ] ||
-                    "",
-
-                estado:
-                    fields[
-                        "Estado"
-                    ] ||
-                    "",
-
-                estadoFalla:
-                    fields[
-                        "Estado"
-                    ] ||
-                    "",
-
-                fecha:
-                    fields[
-                        "Fecha y hora del reporte"
-                    ] ||
-                    "",
-
-                reportadoPor:
-                    fields[
-                        "Reportado por"
-                    ] ||
-                    "",
-
-                observaciones:
-                    fields[
-                        "Observaciones"
-                    ] ||
-                    "",
+                    ] || "",
 
                 fotografia:
                     fields[
                         "Fotografía del error"
-                    ] ||
-                    []
+                    ] || [],
+
+                estado:
+                    fields[
+                        "Estado"
+                    ] || "",
+
+                reportadoPor:
+                    fields[
+                        "Reportado por"
+                    ] || "",
+
+                observaciones:
+                    fields[
+                        "Observaciones"
+                    ] || ""
 
             });
-
 
         } catch (error) {
 
             console.error(
-                "Error al obtener falla:",
+                "Error obteniendo falla:",
                 error
             );
-
 
             res.status(500).json({
 
@@ -2401,6 +1900,29 @@ app.get(
             });
 
         }
+
+    }
+);
+
+
+/* =========================================================
+   RUTA PRINCIPAL
+========================================================= */
+
+app.get(
+    "/",
+    (
+        req,
+        res
+    ) => {
+
+        res.sendFile(
+            path.join(
+                __dirname,
+                "public",
+                "index.html"
+            )
+        );
 
     }
 );
