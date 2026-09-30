@@ -117,6 +117,153 @@ function obtenerCampo(
 
 
 /* =========================================================
+   NORMALIZAR FOTOGRAFÍA DE AIRTABLE
+========================================================= */
+
+function obtenerUrlFotografia(valor) {
+
+    if (!valor) {
+        return "";
+    }
+
+    /*
+     * Airtable normalmente devuelve los archivos
+     * como un arreglo de objetos:
+     *
+     * [
+     *   {
+     *      id: "...",
+     *      url: "https://...",
+     *      filename: "foto.jpg"
+     *   }
+     * ]
+     */
+
+    if (Array.isArray(valor)) {
+
+        for (const archivo of valor) {
+
+            if (
+                archivo &&
+                typeof archivo === "object" &&
+                typeof archivo.url === "string" &&
+                archivo.url.trim() !== ""
+            ) {
+
+                return archivo.url;
+            }
+        }
+
+        return "";
+    }
+
+
+    /*
+     * En algunos casos puede venir directamente
+     * como objeto.
+     */
+
+    if (
+        typeof valor === "object" &&
+        typeof valor.url === "string" &&
+        valor.url.trim() !== ""
+    ) {
+
+        return valor.url;
+    }
+
+
+    /*
+     * Si ya es una URL.
+     */
+
+    if (typeof valor === "string") {
+
+        const texto =
+            valor.trim();
+
+        if (
+            texto.startsWith("http://") ||
+            texto.startsWith("https://") ||
+            texto.startsWith("data:image/")
+        ) {
+
+            return texto;
+        }
+
+        return "";
+    }
+
+
+    /*
+     * Si es un Buffer o un arreglo de números,
+     * NO lo enviamos al navegador.
+     */
+
+    return "";
+}
+
+
+/* =========================================================
+   NORMALIZAR FIELDS DE FALLA
+========================================================= */
+
+function normalizarFieldsFalla(
+    fields
+) {
+
+    const original =
+        fields || {};
+
+    const resultado = {
+        ...original
+    };
+
+
+    /*
+     * Convertimos la fotografía en una URL.
+     * Nunca devolvemos el Buffer ni el arreglo
+     * de números.
+     */
+
+    const fotografia =
+        obtenerUrlFotografia(
+            original[
+                "Fotografía del error"
+            ]
+        );
+
+
+    if (fotografia) {
+
+        resultado[
+            "Fotografía del error"
+        ] = [
+
+            {
+                url:
+                    fotografia
+            }
+        ];
+
+    } else {
+
+        /*
+         * Si no hay una URL válida,
+         * dejamos un arreglo vacío.
+         */
+
+        resultado[
+            "Fotografía del error"
+        ] = [];
+    }
+
+
+    return resultado;
+}
+
+
+/* =========================================================
    OBTENER EQUIPOS RELACIONADOS
 ========================================================= */
 
@@ -161,7 +308,8 @@ async function obtenerEquiposRelacionados(
 
                 equipos.push({
 
-                    id: equipo.id,
+                    id:
+                        equipo.id,
 
                     numeroActivo:
                         obtenerCampo(
@@ -266,7 +414,8 @@ async function obtenerEquiposRelacionados(
 
         resultados.push({
 
-            id: registro.id,
+            id:
+                registro.id,
 
             fields,
 
@@ -1437,7 +1586,6 @@ app.post(
                     "",
 
                 /*
-                 * IMPORTANTE:
                  * Las opciones existentes en Airtable son:
                  *
                  * Reportada
@@ -1487,8 +1635,32 @@ app.post(
                 "Campos enviados para falla:"
             );
 
+            /*
+             * No imprimimos el Buffer completo
+             * en consola.
+             */
+
+            const camposLog =
+                {
+                    ...campos
+                };
+
+            if (req.file) {
+
+                camposLog[
+                    "Fotografía del error"
+                ] =
+                    {
+                        filename:
+                            req.file.originalname,
+
+                        tamaño:
+                            req.file.size
+                    };
+            }
+
             console.log(
-                campos
+                camposLog
             );
 
 
@@ -1595,6 +1767,18 @@ app.get(
                         const fields =
                             registro.fields || {};
 
+                        const fieldsNormalizados =
+                            normalizarFieldsFalla(
+                                fields
+                            );
+
+                        const fotografia =
+                            obtenerUrlFotografia(
+                                fields[
+                                    "Fotografía del error"
+                                ]
+                            );
+
 
                         return {
 
@@ -1602,7 +1786,7 @@ app.get(
                                 registro.id,
 
                             fields:
-                                fields,
+                                fieldsNormalizados,
 
                             idFalla:
                                 obtenerCampo(
@@ -1669,13 +1853,7 @@ app.get(
                                 ),
 
                             fotografia:
-                                obtenerCampo(
-                                    fields,
-                                    [
-                                        "Fotografía del error"
-                                    ],
-                                    []
-                                ),
+                                fotografia,
 
                             estado:
                                 obtenerCampo(
@@ -1753,13 +1931,33 @@ app.get(
                 registro.fields || {};
 
 
+            /*
+             * Normalizamos los fields antes de enviarlos.
+             * Así evitamos que un Buffer se convierta
+             * en miles de números dentro del JSON.
+             */
+
+            const fieldsNormalizados =
+                normalizarFieldsFalla(
+                    fields
+                );
+
+
+            const fotografia =
+                obtenerUrlFotografia(
+                    fields[
+                        "Fotografía del error"
+                    ]
+                );
+
+
             res.json({
 
                 id:
                     registro.id,
 
                 fields:
-                    fields,
+                    fieldsNormalizados,
 
                 idFalla:
                     obtenerCampo(
@@ -1825,14 +2023,12 @@ app.get(
                         ""
                     ),
 
+                /*
+                 * AHORA fotografia será solamente
+                 * una URL.
+                 */
                 fotografia:
-                    obtenerCampo(
-                        fields,
-                        [
-                            "Fotografía del error"
-                        ],
-                        []
-                    ),
+                    fotografia,
 
                 estado:
                     obtenerCampo(
