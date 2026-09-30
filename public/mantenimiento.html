@@ -948,13 +948,82 @@ function obtenerDato(
 
 
 /* =========================================================
+   CONVERTIR VALORES DE AIRTABLE A TEXTO
+========================================================= */
+
+function convertirATexto(valor) {
+
+    if (
+        valor === undefined ||
+        valor === null
+    ) {
+
+        return "";
+
+    }
+
+
+    if (
+        Array.isArray(valor)
+    ) {
+
+        return valor
+            .map(
+                elemento => {
+
+                    if (
+                        typeof elemento === "object" &&
+                        elemento !== null
+                    ) {
+
+                        return (
+                            elemento.name ||
+                            elemento.value ||
+                            elemento.id ||
+                            ""
+                        );
+
+                    }
+
+                    return String(elemento);
+
+                }
+            )
+            .filter(
+                texto => texto !== ""
+            )
+            .join(", ");
+
+    }
+
+
+    if (
+        typeof valor === "object"
+    ) {
+
+        return (
+            valor.name ||
+            valor.value ||
+            valor.text ||
+            valor.id ||
+            ""
+        );
+
+    }
+
+
+    return String(valor);
+
+}
+
+
+/* =========================================================
    CARGAR INFORMACIÓN DEL EQUIPO
 ========================================================= */
 
 async function cargarEquipo() {
 
     try {
-
 
         const respuesta =
             await fetch(
@@ -988,47 +1057,76 @@ async function cargarEquipo() {
 
 
         /*
-         * El servidor puede devolver los datos
-         * directamente o dentro de "fields".
+         * El servidor normalmente devuelve:
+         *
+         * {
+         *     id: "...",
+         *     fields: {
+         *         "nombre del equipo": "...",
+         *         ...
+         *     }
+         * }
          */
 
         const fields =
             equipo.fields || {};
 
 
-
         /* =================================================
            NOMBRE DEL EQUIPO
         ================================================= */
 
-        const nombreEquipo =
+        let nombreEquipo =
             obtenerDato(
                 equipo,
                 [
                     "nombre",
                     "nombreEquipo",
                     "Nombre",
-                    "Nombre del equipo"
-                ]
-            )
-            ||
-            obtenerDato(
-                fields,
-                [
-                    "nombre",
-                    "Nombre",
                     "Nombre del equipo",
-                    "Nombre del Equipo"
+                    "Nombre del Equipo",
+                    "nombre del equipo"
                 ]
             );
 
+
+        if (
+            !nombreEquipo
+        ) {
+
+            nombreEquipo =
+                obtenerDato(
+                    fields,
+                    [
+                        "nombre",
+                        "nombreEquipo",
+                        "Nombre",
+                        "Nombre del equipo",
+                        "Nombre del Equipo",
+                        "nombre del equipo"
+                    ]
+                );
+
+        }
+
+
+        /*
+         * Airtable puede devolver algunos campos
+         * como arreglos u objetos. Los convertimos
+         * correctamente a texto.
+         */
+
+        nombreEquipo =
+            convertirATexto(
+                nombreEquipo
+            );
 
 
         /* =================================================
            NÚMERO DE ACTIVO
         ================================================= */
 
-        const numeroActivo =
+        let numeroActivo =
             obtenerDato(
                 equipo,
                 [
@@ -1037,64 +1135,103 @@ async function cargarEquipo() {
                     "Numero de activo fijo",
                     "Número de activo fijo"
                 ]
-            )
-            ||
-            obtenerDato(
-                fields,
-                [
-                    "Numero de activo fijo",
-                    "Número de activo fijo",
-                    "Numero de activo",
-                    "Número de activo"
-                ]
             );
 
+
+        if (
+            !numeroActivo
+        ) {
+
+            numeroActivo =
+                obtenerDato(
+                    fields,
+                    [
+                        "Numero de activo fijo",
+                        "Número de activo fijo",
+                        "Numero de activo",
+                        "Número de activo"
+                    ]
+                );
+
+        }
+
+
+        numeroActivo =
+            convertirATexto(
+                numeroActivo
+            );
 
 
         /* =================================================
            MARCA
         ================================================= */
 
-        const marca =
+        let marca =
             obtenerDato(
                 equipo,
                 [
                     "marca",
                     "Marca"
                 ]
-            )
-            ||
-            obtenerDato(
-                fields,
-                [
-                    "marca",
-                    "Marca"
-                ]
             );
 
+
+        if (
+            !marca
+        ) {
+
+            marca =
+                obtenerDato(
+                    fields,
+                    [
+                        "marca",
+                        "Marca"
+                    ]
+                );
+
+        }
+
+
+        marca =
+            convertirATexto(
+                marca
+            );
 
 
         /* =================================================
            MODELO
         ================================================= */
 
-        const modelo =
+        let modelo =
             obtenerDato(
                 equipo,
                 [
                     "modelo",
                     "Modelo"
                 ]
-            )
-            ||
-            obtenerDato(
-                fields,
-                [
-                    "modelo",
-                    "Modelo"
-                ]
             );
 
+
+        if (
+            !modelo
+        ) {
+
+            modelo =
+                obtenerDato(
+                    fields,
+                    [
+                        "modelo",
+                        "Modelo"
+                    ]
+                );
+
+        }
+
+
+        modelo =
+            convertirATexto(
+                modelo
+            );
 
 
         /* =================================================
@@ -1131,12 +1268,15 @@ async function cargarEquipo() {
                 nombre: nombreEquipo,
                 numeroActivo: numeroActivo,
                 marca: marca,
-                modelo: modelo
+                modelo: modelo,
+                fields: fields
             }
         );
 
 
-    } catch (error) {
+    } catch (
+        error
+    ) {
 
 
         console.error(
