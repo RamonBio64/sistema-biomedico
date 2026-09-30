@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 
@@ -20,440 +21,688 @@
     box-sizing: border-box;
 }
 
+
 body {
     margin: 0;
+
     font-family:
         Arial,
         Helvetica,
         sans-serif;
+
     background:
         #f3f6f8;
+
     color:
         #263238;
 }
 
+
+/* =========================================================
+   ENCABEZADO
+========================================================= */
+
 header {
+
     background:
         linear-gradient(
             135deg,
             #0b3d4a,
             #126579
         );
-    color: white;
+
+    color:
+        white;
+
     padding:
         18px 20px;
+
     box-shadow:
         0 3px 12px
         rgba(0,0,0,0.15);
 }
 
+
 .header-content {
+
     max-width:
         1100px;
+
     margin:
         auto;
+
     display:
         flex;
+
     align-items:
         center;
+
     gap:
         15px;
 }
 
+
 .logo {
+
     width:
         65px;
+
     height:
         65px;
+
     object-fit:
         contain;
+
     background:
         white;
+
     border-radius:
         10px;
+
     padding:
         5px;
 }
 
+
 .header-text h1 {
+
     margin:
         0;
+
     font-size:
         22px;
 }
 
+
 .header-text p {
+
     margin:
         5px 0 0;
+
     opacity:
         0.9;
+
     font-size:
         14px;
 }
 
+
+/* =========================================================
+   CONTENEDOR
+========================================================= */
+
 .contenedor {
+
     max-width:
         1100px;
+
     margin:
         25px auto;
+
     padding:
         0 15px;
 }
 
+
+/* =========================================================
+   ENCABEZADO DE LA FICHA
+========================================================= */
+
 .encabezado {
+
     background:
         white;
+
     border-radius:
         15px;
+
     padding:
         25px;
+
     margin-bottom:
         20px;
+
     box-shadow:
         0 4px 15px
         rgba(0,0,0,0.08);
 }
 
+
 .encabezado h2 {
+
     margin:
         0 0 8px;
+
     color:
         #0b3d4a;
 }
 
+
 .encabezado p {
+
     margin:
         0;
+
     color:
         #607d8b;
+
     font-size:
         14px;
 }
 
+
+/* =========================================================
+   INFORMACIÓN DEL EQUIPO
+========================================================= */
+
 .equipo-info {
+
     margin-top:
         18px;
+
     padding:
         14px;
+
     border-left:
         4px solid
         #126579;
+
     background:
         #f7f9fa;
+
     border-radius:
         8px;
 }
 
+
 .equipo-info strong {
+
     display:
         block;
+
     color:
         #0b3d4a;
+
     font-size:
         16px;
+
     margin-bottom:
         5px;
 }
 
+
 .equipo-info span {
+
     color:
         #607d8b;
+
     font-size:
         14px;
 }
 
+
+/* =========================================================
+   BOTÓN REGRESAR
+========================================================= */
+
 .boton-regresar {
+
     display:
         inline-block;
+
     border:
         none;
+
     border-radius:
         10px;
+
     padding:
         12px 18px;
+
     background:
         #0b3d4a;
+
     color:
         white;
+
     font-size:
         14px;
+
     font-weight:
         bold;
+
     cursor:
         pointer;
+
     text-decoration:
         none;
+
     margin-bottom:
         20px;
 }
 
+
 .boton-regresar:hover {
+
     background:
         #126579;
 }
 
+
+/* =========================================================
+   REPORTE
+========================================================= */
+
 .reporte {
+
     background:
         white;
+
     border:
         1px solid
         #dce5e8;
+
     border-left:
         5px solid
         #c62828;
+
     border-radius:
         12px;
+
     padding:
         20px;
+
     margin-bottom:
         14px;
+
     cursor:
         pointer;
+
     transition:
         0.2s;
 }
 
+
 .reporte:hover {
+
     transform:
         translateY(-2px);
+
     box-shadow:
         0 5px 15px
         rgba(0,0,0,0.10);
+
     border-color:
         #c62828;
 }
 
+
+/* =========================================================
+   PARTE SUPERIOR DEL REPORTE
+========================================================= */
+
 .reporte-superior {
+
     display:
         flex;
+
     justify-content:
         space-between;
+
     align-items:
         center;
+
     gap:
         15px;
+
     margin-bottom:
         12px;
 }
 
+
 .reporte-numero {
+
     color:
         #c62828;
+
     font-size:
         17px;
+
     font-weight:
         bold;
 }
+
 
 .reporte-fecha {
+
     color:
         #607d8b;
+
     font-size:
         13px;
+
     font-weight:
         bold;
 }
 
+
+/* =========================================================
+   DATOS DEL REPORTE
+========================================================= */
+
 .reporte-datos {
+
     display:
         grid;
+
     grid-template-columns:
         repeat(3, 1fr);
+
     gap:
         10px;
 }
 
+
 .reporte-dato {
+
     background:
         #f7f9fa;
+
     padding:
         10px;
+
     border-radius:
         8px;
 }
 
+
 .reporte-dato strong {
+
     display:
         block;
+
     color:
         #607d8b;
+
     font-size:
         11px;
+
     margin-bottom:
         4px;
 }
 
+
 .reporte-dato span {
+
     font-size:
         14px;
+
     font-weight:
         600;
 }
 
+
+/* =========================================================
+   ESTADOS
+========================================================= */
+
 .estado {
+
     display:
         inline-block;
+
     padding:
         5px 10px;
+
     border-radius:
         15px;
+
     font-size:
         11px;
+
     font-weight:
         bold;
 }
 
+
 .estado-pendiente {
+
     background:
         #fff8e1;
+
     color:
         #f57f17;
 }
 
+
 .estado-en-proceso {
+
     background:
         #e3f2fd;
+
     color:
         #1565c0;
 }
 
+
 .estado-atendido,
 .estado-resuelto,
 .estado-cerrado {
+
     background:
         #e8f5e9;
+
     color:
         #2e7d32;
 }
 
+
 .estado-cancelado {
+
     background:
         #eceff1;
+
     color:
         #455a64;
 }
 
+
+/* =========================================================
+   VER REPORTE
+========================================================= */
+
 .ver-reporte {
+
     margin-top:
         14px;
+
     text-align:
         right;
+
     color:
         #126579;
+
     font-size:
         13px;
+
     font-weight:
         bold;
 }
+
+
+/* =========================================================
+   CARGANDO
+========================================================= */
 
 .cargando {
+
     text-align:
         center;
+
     padding:
         40px;
+
     color:
         #607d8b;
 }
 
+
+/* =========================================================
+   ERROR
+========================================================= */
+
 .error {
+
     background:
         #ffebee;
+
     color:
         #b71c1c;
+
     padding:
         20px;
+
     border-radius:
         12px;
+
     text-align:
         center;
+
     font-weight:
         bold;
 }
 
+
+/* =========================================================
+   SIN REPORTES
+========================================================= */
+
 .sin-reportes {
+
     background:
         white;
+
     padding:
         35px;
+
     border-radius:
         15px;
+
     text-align:
         center;
+
     color:
         #607d8b;
+
     box-shadow:
         0 4px 15px
         rgba(0,0,0,0.07);
 }
 
+
 .sin-reportes strong {
+
     display:
         block;
+
     color:
         #0b3d4a;
+
     font-size:
         18px;
+
     margin-bottom:
         8px;
 }
 
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
 @media (max-width: 700px) {
 
     .header-text h1 {
+
         font-size:
             18px;
     }
 
+
     .logo {
+
         width:
             55px;
+
         height:
             55px;
     }
 
+
     .reporte-superior {
+
         align-items:
             flex-start;
+
         flex-direction:
             column;
     }
 
+
     .reporte-datos {
+
         grid-template-columns:
             1fr;
     }
 
 }
 
+
+/* =========================================================
+   IMPRESIÓN
+========================================================= */
+
 @media print {
 
     @page {
+
         size:
             Letter;
+
         margin:
             10mm;
     }
 
+
     body {
+
         background:
             white;
     }
 
+
     header {
+
         box-shadow:
             none;
     }
 
+
     .boton-regresar {
+
         display:
             none;
     }
 
+
     .reporte {
+
         box-shadow:
             none !important;
+
         break-inside:
             avoid;
+
         page-break-inside:
             avoid;
     }
@@ -464,7 +713,9 @@ header {
 
 </head>
 
+
 <body>
+
 
 <header>
 
@@ -493,7 +744,9 @@ header {
 </header>
 
 
+
 <main class="contenedor">
+
 
     <a
         href="#"
@@ -502,6 +755,7 @@ header {
     >
         ← Regresar a ficha del equipo
     </a>
+
 
 
     <section class="encabezado">
@@ -513,6 +767,7 @@ header {
         <p>
             Historial de fallas y alarmas registradas para este equipo.
         </p>
+
 
         <div
             id="equipo-info"
@@ -532,27 +787,45 @@ header {
     </section>
 
 
+
     <div id="contenido">
 
         <div class="cargando">
+
             Cargando reportes...
+
         </div>
 
     </div>
 
+
 </main>
 
 
+
 <script>
+
+
+/* =========================================================
+   OBTENER ID DEL EQUIPO
+========================================================= */
 
 const parametros =
     new URLSearchParams(
         window.location.search
     );
 
-const equipoId =
-    parametros.get("equipoId");
 
+const equipoId =
+    parametros.get(
+        "equipoId"
+    );
+
+
+
+/* =========================================================
+   ESCAPAR HTML
+========================================================= */
 
 function escaparHTML(valor) {
 
@@ -561,26 +834,34 @@ function escaparHTML(valor) {
         valor === undefined ||
         valor === ""
     ) {
+
         return "No especificado";
+
     }
 
+
     return String(valor)
+
         .replace(
             /&/g,
             "&amp;"
         )
+
         .replace(
             /</g,
             "&lt;"
         )
+
         .replace(
             />/g,
             "&gt;"
         )
+
         .replace(
             /"/g,
             "&quot;"
         )
+
         .replace(
             /'/g,
             "&#039;"
@@ -589,14 +870,47 @@ function escaparHTML(valor) {
 }
 
 
+
+/* =========================================================
+   ESCAPAR ATRIBUTO
+========================================================= */
+
+function escaparAtributo(valor) {
+
+    return String(
+        valor || ""
+    )
+
+        .replace(
+            /\\/g,
+            "\\\\"
+        )
+
+        .replace(
+            /'/g,
+            "\\'"
+        );
+
+}
+
+
+
+/* =========================================================
+   FORMATEAR FECHA
+========================================================= */
+
 function formatearFecha(valor) {
 
     if (!valor) {
+
         return "No especificado";
+
     }
+
 
     const fecha =
         new Date(valor);
+
 
     if (
         !isNaN(
@@ -607,25 +921,39 @@ function formatearFecha(valor) {
         return fecha.toLocaleString(
             "es-MX",
             {
+
                 day:
                     "2-digit",
+
                 month:
                     "2-digit",
+
                 year:
                     "numeric",
+
                 hour:
                     "2-digit",
+
                 minute:
                     "2-digit"
+
             }
         );
 
     }
 
-    return escaparHTML(valor);
+
+    return escaparHTML(
+        valor
+    );
 
 }
 
+
+
+/* =========================================================
+   OBTENER DATO
+========================================================= */
 
 function obtenerDato(
     objeto,
@@ -649,12 +977,20 @@ function obtenerDato(
 
     }
 
+
     return "";
 
 }
 
 
-function claseEstado(estado) {
+
+/* =========================================================
+   CLASE DEL ESTADO
+========================================================= */
+
+function claseEstado(
+    estado
+) {
 
     const texto =
         String(
@@ -666,55 +1002,97 @@ function claseEstado(estado) {
                 "-"
             );
 
+
     if (
-        texto.includes("pendiente")
+        texto.includes(
+            "pendiente"
+        )
     ) {
+
         return "estado-pendiente";
+
     }
 
+
     if (
-        texto.includes("proceso")
+        texto.includes(
+            "proceso"
+        )
     ) {
+
         return "estado-en-proceso";
+
     }
 
+
     if (
-        texto.includes("atendido")
+        texto.includes(
+            "atendido"
+        )
     ) {
+
         return "estado-atendido";
+
     }
 
+
     if (
-        texto.includes("resuelto")
+        texto.includes(
+            "resuelto"
+        )
     ) {
+
         return "estado-resuelto";
+
     }
 
+
     if (
-        texto.includes("cerrado")
+        texto.includes(
+            "cerrado"
+        )
     ) {
+
         return "estado-cerrado";
+
     }
 
+
     if (
-        texto.includes("cancelado")
+        texto.includes(
+            "cancelado"
+        )
     ) {
+
         return "estado-cancelado";
+
     }
+
 
     return "estado-pendiente";
 
 }
 
 
-function mostrarError(mensaje) {
+
+/* =========================================================
+   MOSTRAR ERROR
+========================================================= */
+
+function mostrarError(
+    mensaje
+) {
 
     document.getElementById(
         "contenido"
     ).innerHTML = `
 
         <div class="error">
-            ❌ ${escaparHTML(mensaje)}
+
+            ❌ ${escaparHTML(
+                mensaje
+            )}
+
         </div>
 
     `;
@@ -722,9 +1100,15 @@ function mostrarError(mensaje) {
 }
 
 
+
+/* =========================================================
+   CARGAR INFORMACIÓN DEL EQUIPO
+========================================================= */
+
 async function cargarEquipo() {
 
     try {
+
 
         const respuesta =
             await fetch(
@@ -733,37 +1117,90 @@ async function cargarEquipo() {
                 )}`
             );
 
-        if (!respuesta.ok) {
+
+        if (
+            !respuesta.ok
+        ) {
+
             throw new Error(
                 "No se pudo cargar la información del equipo."
             );
+
         }
+
 
         const datos =
             await respuesta.json();
+
+
+        const fields =
+            datos.fields ||
+            {};
+
+
+        const nombre =
+            obtenerDato(
+                datos,
+                "nombre"
+            ) ||
+            obtenerDato(
+                fields,
+                "nombre del equipo",
+                "Nombre del equipo",
+                "Nombre",
+                "nombre",
+                "Equipo"
+            );
+
+
+        const numeroActivo =
+            obtenerDato(
+                datos,
+                "numeroActivo",
+                "numeroActivoFijo"
+            ) ||
+            obtenerDato(
+                fields,
+                "Numero de activo fijo",
+                "Número de activo fijo",
+                "Numero de activo",
+                "Número de activo"
+            );
+
 
         document.getElementById(
             "equipo-info"
         ).innerHTML = `
 
             <strong>
+
                 ${escaparHTML(
-                    datos.nombre
+                    nombre
                 )}
+
             </strong>
 
             <span>
+
                 Número de activo fijo:
+
                 ${escaparHTML(
-                    datos.numeroActivo
+                    numeroActivo
                 )}
+
             </span>
 
         `;
 
+
     } catch (error) {
 
-        console.error(error);
+
+        console.error(
+            "Error cargando equipo:",
+            error
+        );
+
 
         document.getElementById(
             "equipo-info"
@@ -784,48 +1221,80 @@ async function cargarEquipo() {
 }
 
 
+
+/* =========================================================
+   CARGAR REPORTES
+========================================================= */
+
 async function cargarReportes() {
 
     try {
 
+
+        /*
+         * IMPORTANTE:
+         *
+         * Esta es la ruta correcta del server.js:
+         *
+         * /api/fallas/:equipoId
+         *
+         * NO:
+         *
+         * /api/equipo/:equipoId/fallas
+         */
+
         const respuesta =
             await fetch(
-                `/api/equipo/${encodeURIComponent(
+                `/api/fallas/${encodeURIComponent(
                     equipoId
-                )}/fallas`
+                )}`
             );
 
-        const datos =
-            await respuesta.json();
+
+        /*
+         * Primero comprobamos si el servidor respondió
+         * correctamente antes de procesar los datos.
+         */
 
         if (
             !respuesta.ok
         ) {
 
+            const textoError =
+                await respuesta.text();
+
+            console.error(
+                "Respuesta del servidor:",
+                textoError
+            );
+
             throw new Error(
-                datos.error ||
-                datos.mensaje ||
                 "No se pudieron cargar los reportes."
             );
 
         }
 
 
+        const datos =
+            await respuesta.json();
+
+
+        /*
+         * El server.js devuelve directamente
+         * un arreglo de reportes.
+         */
+
         const reportes =
             Array.isArray(
-                datos.fallas
+                datos
             )
-            ?
-            datos.fallas
-            :
-            Array.isArray(
-                datos.reportes
-            )
-            ?
-            datos.reportes
-            :
-            [];
+                ? datos
+                : [];
 
+
+        /*
+         * SI NO EXISTEN REPORTES
+         */
 
         if (
             reportes.length === 0
@@ -841,7 +1310,8 @@ async function cargarReportes() {
                         📋 No hay reportes registrados
                     </strong>
 
-                    Este equipo todavía no tiene fallas o alarmas registradas.
+                    Este equipo todavía no tiene
+                    fallas o alarmas registradas.
 
                 </div>
 
@@ -852,6 +1322,11 @@ async function cargarReportes() {
         }
 
 
+
+        /*
+         * MOSTRAR REPORTES
+         */
+
         document.getElementById(
             "contenido"
         ).innerHTML =
@@ -860,6 +1335,7 @@ async function cargarReportes() {
                 .map(
                     reporte => {
 
+
                         const id =
                             obtenerDato(
                                 reporte,
@@ -867,34 +1343,44 @@ async function cargarReportes() {
                                 "recordId"
                             );
 
+
                         const numero =
                             obtenerDato(
                                 reporte,
                                 "numeroReporte",
+                                "numeroFalla",
                                 "Número de reporte"
                             ) ||
+
                             "Reporte de falla";
+
 
                         const fecha =
                             obtenerDato(
                                 reporte,
+                                "fecha",
                                 "fechaHora",
                                 "Fecha y hora"
                             );
+
 
                         const tipo =
                             obtenerDato(
                                 reporte,
                                 "tipoFalla",
+                                "tipo",
                                 "Tipo de falla"
                             );
+
 
                         const descripcion =
                             obtenerDato(
                                 reporte,
                                 "descripcionFalla",
+                                "descripcion",
                                 "Descripción de la falla"
                             );
+
 
                         const reportado =
                             obtenerDato(
@@ -903,13 +1389,17 @@ async function cargarReportes() {
                                 "Reportado por"
                             );
 
+
                         const estado =
                             obtenerDato(
                                 reporte,
                                 "estadoFalla",
+                                "estado",
                                 "Estado de la falla"
                             ) ||
+
                             "Pendiente";
+
 
 
                         return `
@@ -919,27 +1409,34 @@ async function cargarReportes() {
                                 onclick="abrirReporte('${escaparAtributo(id)}')"
                             >
 
+
                                 <div class="reporte-superior">
+
 
                                     <div class="reporte-numero">
 
                                         🔴
+
                                         ${escaparHTML(
                                             numero
                                         )}
 
                                     </div>
 
+
                                     <div class="reporte-fecha">
 
                                         📅
+
                                         ${formatearFecha(
                                             fecha
                                         )}
 
                                     </div>
 
+
                                 </div>
+
 
 
                                 <div class="reporte-datos">
@@ -952,12 +1449,15 @@ async function cargarReportes() {
                                         </strong>
 
                                         <span>
+
                                             ${escaparHTML(
                                                 tipo
                                             )}
+
                                         </span>
 
                                     </div>
+
 
 
                                     <div class="reporte-dato">
@@ -967,12 +1467,15 @@ async function cargarReportes() {
                                         </strong>
 
                                         <span>
+
                                             ${escaparHTML(
                                                 reportado
                                             )}
+
                                         </span>
 
                                     </div>
+
 
 
                                     <div class="reporte-dato">
@@ -988,9 +1491,11 @@ async function cargarReportes() {
                                                     estado
                                                 )}"
                                             >
+
                                                 ${escaparHTML(
                                                     estado
                                                 )}
+
                                             </span>
 
                                         </span>
@@ -1001,19 +1506,26 @@ async function cargarReportes() {
                                 </div>
 
 
-                                <div class="reporte-dato" style="margin-top:10px;">
+
+                                <div
+                                    class="reporte-dato"
+                                    style="margin-top:10px;"
+                                >
 
                                     <strong>
                                         Descripción
                                     </strong>
 
                                     <span>
+
                                         ${escaparHTML(
                                             descripcion
                                         )}
+
                                     </span>
 
                                 </div>
+
 
 
                                 <div class="ver-reporte">
@@ -1021,6 +1533,7 @@ async function cargarReportes() {
                                     Ver reporte completo →
 
                                 </div>
+
 
                             </div>
 
@@ -1030,12 +1543,15 @@ async function cargarReportes() {
                 )
                 .join("");
 
+
     } catch (error) {
+
 
         console.error(
             "Error cargando reportes:",
             error
         );
+
 
         mostrarError(
             error.message ||
@@ -1047,26 +1563,18 @@ async function cargarReportes() {
 }
 
 
-function escaparAtributo(valor) {
 
-    return String(
-        valor || ""
-    )
-        .replace(
-            /\\/g,
-            "\\\\"
-        )
-        .replace(
-            /'/g,
-            "\\'"
-        );
+/* =========================================================
+   ABRIR REPORTE INDIVIDUAL
+========================================================= */
 
-}
+function abrirReporte(
+    id
+) {
 
-
-function abrirReporte(id) {
-
-    if (!id) {
+    if (
+        !id
+    ) {
 
         alert(
             "No se encontró el identificador del reporte."
@@ -1075,6 +1583,7 @@ function abrirReporte(id) {
         return;
 
     }
+
 
     window.location.href =
         `/ficha-falla.html?fallaId=${encodeURIComponent(
@@ -1086,13 +1595,23 @@ function abrirReporte(id) {
 }
 
 
-if (!equipoId) {
+
+/* =========================================================
+   INICIO
+========================================================= */
+
+if (
+    !equipoId
+) {
+
 
     mostrarError(
         "No se encontró el identificador del equipo."
     );
 
+
 } else {
+
 
     document.getElementById(
         "regresar"
@@ -1100,6 +1619,7 @@ if (!equipoId) {
         `/index.html?equipoId=${encodeURIComponent(
             equipoId
         )}`;
+
 
     cargarEquipo();
 
@@ -1109,6 +1629,8 @@ if (!equipoId) {
 
 </script>
 
+
 </body>
 
 </html>
+```
