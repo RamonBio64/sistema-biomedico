@@ -779,13 +779,88 @@ app.get(
                 );
 
 
+            const fields =
+                registro.fields || {};
+
+
+            /*
+             * =====================================================
+             * GARANTÍA
+             *
+             * Valores actuales:
+             * - Vigente
+             * - No vigente
+             * =====================================================
+             */
+
+            const garantia =
+                obtenerCampo(
+                    fields,
+                    [
+                        "Garantía",
+                        "Garantia"
+                    ],
+                    ""
+                );
+
+
+            /*
+             * =====================================================
+             * CONDICIÓN FÍSICA
+             *
+             * Valores actuales:
+             * - Excelente
+             * - Buena
+             * - Regular
+             * - Mala
+             * - Critica
+             *
+             * "Enfermeria" ya no se contempla.
+             * =====================================================
+             */
+
+            const condicionFisica =
+                obtenerCampo(
+                    fields,
+                    [
+                        "Condición Física",
+                        "Condicion Física",
+                        "Condición física",
+                        "Condicion física"
+                    ],
+                    ""
+                );
+
+
+            console.log(
+                "Garantía del equipo:",
+                garantia
+            );
+
+            console.log(
+                "Condición física del equipo:",
+                condicionFisica
+            );
+
+
             res.json({
 
                 id:
                     registro.id,
 
                 fields:
-                    registro.fields
+                    fields,
+
+                /*
+                 * Valores enviados directamente
+                 * a la ficha técnica general.
+                 */
+
+                garantia:
+                    garantia,
+
+                condicionFisica:
+                    condicionFisica
 
             });
 
