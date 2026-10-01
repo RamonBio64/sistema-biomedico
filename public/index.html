@@ -4295,16 +4295,104 @@ async function registrarFalla(event) {
     }
 
 
+    /*
+     * Se crea el FormData manualmente para enviar
+     * exactamente los nombres que espera el servidor.
+     */
+
     const datosFormulario =
-        new FormData(
-            formulario
-        );
+        new FormData();
 
 
     datosFormulario.append(
         "equipoId",
         equipoId
     );
+
+
+    datosFormulario.append(
+        "tipoFalla",
+        tipoFalla
+    );
+
+
+    datosFormulario.append(
+        "descripcion",
+        descripcionFalla
+    );
+
+
+    datosFormulario.append(
+        "reportadoPor",
+        document.getElementById(
+            "reportado-por"
+        ).value.trim()
+    );
+
+
+    datosFormulario.append(
+        "observaciones",
+        document.getElementById(
+            "observaciones-falla"
+        ).value.trim()
+    );
+
+
+    datosFormulario.append(
+        "estado",
+        "Reportada"
+    );
+
+
+    /*
+     * Fotografía:
+     * si existe, se comprime antes de enviarla.
+     */
+
+    const fotografia =
+        document.getElementById(
+            "fotografia-falla"
+        );
+
+
+    if (
+        fotografia &&
+        fotografia.files &&
+        fotografia.files.length > 0
+    ) {
+
+        const archivo =
+            fotografia.files[0];
+
+
+        try {
+
+            const fotografiaComprimida =
+                await comprimirFotografia(
+                    archivo
+                );
+
+
+            datosFormulario.append(
+                "fotografia",
+                fotografiaComprimida,
+                "falla.jpg"
+            );
+
+
+        } catch (error) {
+
+            mostrarMensajeFalla(
+                error.message ||
+                "No se pudo procesar la fotografía.",
+                true
+            );
+
+            return;
+
+        }
+
+    }
 
 
     boton.disabled =
@@ -4335,8 +4423,32 @@ async function registrarFalla(event) {
             );
 
 
-        const datos =
-            await respuesta.json();
+        /*
+         * Se lee primero como texto para evitar
+         * que un error del servidor rompa el JSON.
+         */
+
+        const textoRespuesta =
+            await respuesta.text();
+
+
+        let datos;
+
+
+        try {
+
+            datos =
+                JSON.parse(
+                    textoRespuesta
+                );
+
+        } catch (error) {
+
+            throw new Error(
+                "El servidor rechazó la solicitud. La fotografía puede seguir siendo demasiado grande."
+            );
+
+        }
 
 
         if (
@@ -4393,6 +4505,225 @@ async function registrarFalla(event) {
             "🔴 Registrar falla";
 
     }
+
+}
+
+
+/*
+ * COMPRIMIR FOTOGRAFÍA
+ *
+ * Esta función solamente se utiliza cuando
+ * se registra una falla con fotografía.
+ *
+ * No modifica la fotografía que está guardada
+ * en el teléfono o computadora.
+ */
+
+function comprimirFotografia(archivo) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            if (!archivo) {
+
+                resolve(null);
+
+                return;
+
+            }
+
+
+            /*
+             * Si la fotografía ya es menor a
+             * aproximadamente 1.5 MB, se manda
+             * sin modificar.
+             */
+
+            if (
+                archivo.size <=
+                1500 * 1024
+            ) {
+
+                resolve(
+                    archivo
+                );
+
+                return;
+
+            }
+
+
+            const lector =
+                new FileReader();
+
+
+            lector.onload =
+                function(evento) {
+
+                    const imagen =
+                        new Image();
+
+
+                    imagen.onload =
+                        function() {
+
+                            const MAX_ANCHO =
+                                1600;
+
+                            const MAX_ALTO =
+                                1600;
+
+
+                            let ancho =
+                                imagen.width;
+
+                            let alto =
+                                imagen.height;
+
+
+                            if (
+                                ancho >
+                                    MAX_ANCHO ||
+                                alto >
+                                    MAX_ALTO
+                            ) {
+
+                                const proporcion =
+                                    Math.min(
+                                        MAX_ANCHO /
+                                            ancho,
+                                        MAX_ALTO /
+                                            alto
+                                    );
+
+
+                                ancho =
+                                    Math.round(
+                                        ancho *
+                                            proporcion
+                                    );
+
+
+                                alto =
+                                    Math.round(
+                                        alto *
+                                            proporcion
+                                    );
+
+                            }
+
+
+                            const canvas =
+                                document.createElement(
+                                    "canvas"
+                                );
+
+
+                            canvas.width =
+                                ancho;
+
+                            canvas.height =
+                                alto;
+
+
+                            const contexto =
+                                canvas.getContext(
+                                    "2d"
+                                );
+
+
+                            contexto.drawImage(
+                                imagen,
+                                0,
+                                0,
+                                ancho,
+                                alto
+                            );
+
+
+                            canvas.toBlob(
+                                function(blob) {
+
+                                    if (!blob) {
+
+                                        reject(
+                                            new Error(
+                                                "No se pudo comprimir la fotografía."
+                                            )
+                                        );
+
+                                        return;
+
+                                    }
+
+
+                                    if (
+                                        blob.size >
+                                        5 *
+                                            1024 *
+                                            1024
+                                    ) {
+
+                                        reject(
+                                            new Error(
+                                                "La fotografía sigue siendo demasiado grande. Intenta tomar una fotografía con menor resolución."
+                                            )
+                                        );
+
+                                        return;
+
+                                    }
+
+
+                                    resolve(
+                                        blob
+                                    );
+
+
+                                },
+                                "image/jpeg",
+                                0.75
+                            );
+
+                        };
+
+
+                    imagen.onerror =
+                        function() {
+
+                            reject(
+                                new Error(
+                                    "No se pudo leer la fotografía seleccionada."
+                                )
+                            );
+
+                        };
+
+
+                    imagen.src =
+                        evento.target.result;
+
+                };
+
+
+            lector.onerror =
+                function() {
+
+                    reject(
+                        new Error(
+                            "No se pudo procesar la fotografía."
+                        )
+                    );
+
+                };
+
+
+            lector.readAsDataURL(
+                archivo
+            );
+
+        }
+    );
 
 }
 
