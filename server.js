@@ -116,6 +116,7 @@ function obtenerCampo(
             fields[nombre] !== null &&
             fields[nombre] !== ""
         ) {
+
             return fields[nombre];
         }
     }
@@ -635,7 +636,7 @@ function normalizarRepuesto(
 
 
 /* =========================================================
-   EQUIPO
+   EQUIPO INDIVIDUAL
 ========================================================= */
 
 app.get(
@@ -911,7 +912,8 @@ function normalizarMantenimiento(
             obtenerCampo(
                 fields,
                 [
-                    "Equipo relacionado"
+                    "Equipo relacionado",
+                    "Equipo Médico relacionado"
                 ],
                 []
             ),
@@ -1005,6 +1007,56 @@ function normalizarMantenimiento(
                     "Fecha de próximo mantenimiento"
                 ],
                 ""
+            ),
+
+
+        /* =====================================================
+           ALIAS PARA LA FICHA HTML
+        ===================================================== */
+
+        tecnico:
+            obtenerCampo(
+                fields,
+                [
+                    "Técnico responsable"
+                ],
+                ""
+            ),
+
+        estado:
+            obtenerCampo(
+                fields,
+                [
+                    "Estado del mantenimiento"
+                ],
+                ""
+            ),
+
+        actividades:
+            obtenerCampo(
+                fields,
+                [
+                    "Actividades realizadas"
+                ],
+                ""
+            ),
+
+        refacciones:
+            obtenerCampo(
+                fields,
+                [
+                    "Refacciones utilizadas"
+                ],
+                ""
+            ),
+
+        proximoMantenimiento:
+            obtenerCampo(
+                fields,
+                [
+                    "Fecha de próximo mantenimiento"
+                ],
+                ""
             )
     };
 }
@@ -1051,6 +1103,16 @@ async function obtenerEquipoParaMantenimiento(
                 ""
             ),
 
+        servicio:
+            obtenerCampo(
+                fields,
+                [
+                    "servicio o área",
+                    "Servicio o área"
+                ],
+                ""
+            ),
+
         marca:
             obtenerCampo(
                 fields,
@@ -1067,6 +1129,46 @@ async function obtenerEquipoParaMantenimiento(
                 [
                     "Modelo",
                     "modelo"
+                ],
+                ""
+            ),
+
+        serie:
+            obtenerCampo(
+                fields,
+                [
+                    "Número de serie",
+                    "Numero de serie"
+                ],
+                ""
+            ),
+
+        ubicacion:
+            obtenerCampo(
+                fields,
+                [
+                    "Ubicación",
+                    "ubicación"
+                ],
+                ""
+            ),
+
+        estado:
+            obtenerCampo(
+                fields,
+                [
+                    "Estado del equipo",
+                    "estado del equipo"
+                ],
+                ""
+            ),
+
+        criticidad:
+            obtenerCampo(
+                fields,
+                [
+                    "Criticidad",
+                    "criticidad"
                 ],
                 ""
             )
@@ -1102,7 +1204,8 @@ app.get(
                             obtenerCampo(
                                 fields,
                                 [
-                                    "Equipo relacionado"
+                                    "Equipo relacionado",
+                                    "Equipo Médico relacionado"
                                 ],
                                 []
                             );
@@ -1142,6 +1245,7 @@ app.get(
 
 /* =========================================================
    MANTENIMIENTO INDIVIDUAL
+   CORREGIDO PARA DEVOLVER TAMBIÉN EL EQUIPO
 ========================================================= */
 
 app.get(
@@ -1153,13 +1257,72 @@ app.get(
             const registro =
                 await base(
                     TABLA_MANTENIMIENTOS
-                ).find(req.params.id);
+                ).find(
+                    req.params.id
+                );
 
-            res.json(
+
+            const mantenimiento =
                 normalizarMantenimiento(
                     registro
-                )
-            );
+                );
+
+
+            let equipo = null;
+
+
+            /* =================================================
+               OBTENER ID DEL EQUIPO RELACIONADO
+            ================================================= */
+
+            const equipoRelacionado =
+                mantenimiento.equipoRelacionado;
+
+
+            if (
+                Array.isArray(
+                    equipoRelacionado
+                ) &&
+                equipoRelacionado.length > 0
+            ) {
+
+                const equipoId =
+                    equipoRelacionado[0];
+
+
+                try {
+
+                    equipo =
+                        await obtenerEquipoParaMantenimiento(
+                            equipoId
+                        );
+
+                } catch (errorEquipo) {
+
+                    console.error(
+                        "No se pudo obtener el equipo del mantenimiento:",
+                        errorEquipo.message
+                    );
+                }
+            }
+
+
+            /* =================================================
+               RESPUESTA
+            ================================================= */
+
+            res.json({
+
+                correcto:
+                    true,
+
+                mantenimiento:
+                    mantenimiento,
+
+                equipo:
+                    equipo
+            });
+
 
         } catch (error) {
 
@@ -1169,6 +1332,7 @@ app.get(
             );
 
             res.status(500).json({
+
                 error:
                     "No se pudo obtener el mantenimiento."
             });
@@ -1553,17 +1717,6 @@ app.post(
                 await generarNumeroFalla();
 
 
-            /*
-             * IMPORTANTE:
-             *
-             * NO enviamos:
-             *
-             * "Nombre del equipo relacionado"
-             *
-             * porque ese campo es Lookup.
-             */
-
-
             const campos = {
 
                 "ID Falla":
@@ -1606,19 +1759,9 @@ app.post(
             };
 
 
-            /*
-             * LA FOTOGRAFÍA YA NO SE MANDA
-             * COMO BUFFER DENTRO DEL CREATE.
-             *
-             * Primero se crea la falla y después
-             * se sube el archivo directamente a Airtable.
-             */
-
-
             console.log(
                 "Campos enviados a Airtable:"
             );
-
 
             console.log(
                 campos
