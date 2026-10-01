@@ -157,9 +157,6 @@ function obtenerCampo(
     /*
      * SEGUNDA BÚSQUEDA:
      * Nombre normalizado.
-     *
-     * Permite encontrar el campo aunque existan
-     * diferencias de mayúsculas, acentos o espacios.
      */
 
     const nombresNormalizados =
@@ -443,11 +440,6 @@ async function obtenerEquiposRelacionados(
                             ],
                             ""
                         ),
-
-                    /*
-                     * NÚMERO DE SERIE
-                     * CORREGIDO
-                     */
 
                     serie:
                         obtenerCampo(
@@ -1257,8 +1249,6 @@ async function obtenerEquipoParaMantenimiento(
 
     /*
      * Mostrar en consola los campos del equipo.
-     * Esto ayuda a detectar si Airtable utiliza
-     * un nombre diferente para el número de serie.
      */
 
     console.log(
@@ -1326,7 +1316,6 @@ async function obtenerEquipoParaMantenimiento(
         /*
          * =====================================================
          * NÚMERO DE SERIE
-         * CORREGIDO
          * =====================================================
          */
 
@@ -1368,9 +1357,9 @@ async function obtenerEquipoParaMantenimiento(
                 ""
             ),
 
+
         /* =====================================================
            CONDICIÓN FÍSICA
-           AGREGADO ÚNICAMENTE PARA LA FICHA
         ===================================================== */
 
         condicionFisica:
@@ -1378,12 +1367,32 @@ async function obtenerEquipoParaMantenimiento(
                 fields,
                 [
                     "Condición Física",
-                    "Condicion Fisica",
+                    "Condicion Física",
                     "Condición física",
-                    "Condicion física"
+                    "Condicion física",
+                    "CONDICIÓN FÍSICA",
+                    "CONDICION FISICA"
                 ],
                 ""
             ),
+
+
+        /* =====================================================
+           GARANTÍA
+        ===================================================== */
+
+        garantia:
+            obtenerCampo(
+                fields,
+                [
+                    "Garantía",
+                    "Garantia",
+                    "GARANTÍA",
+                    "GARANTIA"
+                ],
+                ""
+            ),
+
 
         criticidad:
             obtenerCampo(
