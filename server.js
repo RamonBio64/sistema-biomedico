@@ -65,6 +65,14 @@ const TABLA_FALLAS =
 
 
 /* =========================================================
+   ID DEL CAMPO DE FOTOGRAFÍA DE FALLAS
+========================================================= */
+
+const CAMPO_FOTOGRAFIA_FALLA =
+    "fldOUKCZoD8IDLkPe";
+
+
+/* =========================================================
    MIDDLEWARE
 ========================================================= */
 
@@ -1383,16 +1391,9 @@ const upload =
 
         limits: {
 
-            /*
-             * La fotografía deberá llegar
-             * comprimida desde el navegador.
-             */
             fileSize:
                 2 * 1024 * 1024,
 
-            /*
-             * Límite para campos multipart.
-             */
             fieldSize:
                 2 * 1024 * 1024
         },
@@ -1606,25 +1607,12 @@ app.post(
 
 
             /*
-             * AGREGAR FOTOGRAFÍA
+             * LA FOTOGRAFÍA YA NO SE MANDA
+             * COMO BUFFER DENTRO DEL CREATE.
+             *
+             * Primero se crea la falla y después
+             * se sube el archivo directamente a Airtable.
              */
-
-            if (req.file) {
-
-                campos[
-                    "Fotografía del error"
-                ] = [
-
-                    {
-
-                        filename:
-                            req.file.originalname,
-
-                        content:
-                            req.file.buffer
-                    }
-                ];
-            }
 
 
             console.log(
@@ -1632,32 +1620,8 @@ app.post(
             );
 
 
-            const camposLog =
-                {
-                    ...campos
-                };
-
-
-            if (req.file) {
-
-                camposLog[
-                    "Fotografía del error"
-                ] = {
-
-                    filename:
-                        req.file.originalname,
-
-                    tamaño:
-                        req.file.size,
-
-                    tipo:
-                        req.file.mimetype
-                };
-            }
-
-
             console.log(
-                camposLog
+                campos
             );
 
 
@@ -1672,6 +1636,95 @@ app.post(
                 ]);
 
 
+            const idFallaCreada =
+                nuevoRegistro[0].id;
+
+
+            /* =====================================================
+               SUBIR FOTOGRAFÍA DIRECTAMENTE A AIRTABLE
+            ===================================================== */
+
+            if (req.file) {
+
+                console.log(
+                    "Subiendo fotografía a Airtable..."
+                );
+
+
+                const base64 =
+                    req.file.buffer.toString(
+                        "base64"
+                    );
+
+
+                const urlUpload =
+                    `https://content.airtable.com/v0/${AIRTABLE_BASE_ID}/${idFallaCreada}/${CAMPO_FOTOGRAFIA_FALLA}/uploadAttachment`;
+
+
+                const respuestaFoto =
+                    await fetch(
+                        urlUpload,
+                        {
+                            method:
+                                "POST",
+
+                            headers: {
+
+                                "Authorization":
+                                    `Bearer ${AIRTABLE_TOKEN}`,
+
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    contentType:
+                                        req.file.mimetype,
+
+                                    filename:
+                                        req.file.originalname,
+
+                                    file:
+                                        base64
+                                })
+                        }
+                    );
+
+
+                const textoRespuestaFoto =
+                    await respuestaFoto.text();
+
+
+                if (!respuestaFoto.ok) {
+
+                    console.error(
+                        "ERROR SUBIENDO FOTOGRAFÍA A AIRTABLE:"
+                    );
+
+                    console.error(
+                        textoRespuestaFoto
+                    );
+
+
+                    return res.status(500).json({
+
+                        success:
+                            false,
+
+                        error:
+                            "La falla se registró, pero no se pudo guardar la fotografía."
+                    });
+                }
+
+
+                console.log(
+                    "Fotografía subida correctamente a Airtable."
+                );
+            }
+
+
             res.json({
 
                 success:
@@ -1681,7 +1734,7 @@ app.post(
                     "Falla registrada correctamente.",
 
                 id:
-                    nuevoRegistro[0].id,
+                    idFallaCreada,
 
                 numeroFalla:
                     numeroFalla
