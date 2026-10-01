@@ -1368,6 +1368,23 @@ async function obtenerEquipoParaMantenimiento(
                 ""
             ),
 
+        /* =====================================================
+           CONDICIÓN FÍSICA
+           AGREGADO ÚNICAMENTE PARA LA FICHA
+        ===================================================== */
+
+        condicionFisica:
+            obtenerCampo(
+                fields,
+                [
+                    "Condición Física",
+                    "Condicion Fisica",
+                    "Condición física",
+                    "Condicion física"
+                ],
+                ""
+            ),
+
         criticidad:
             obtenerCampo(
                 fields,
