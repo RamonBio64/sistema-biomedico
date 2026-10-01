@@ -99,6 +99,29 @@ app.use(
 
 
 /* =========================================================
+   FUNCIÓN PARA NORMALIZAR NOMBRES DE CAMPOS
+========================================================= */
+
+function normalizarNombreCampo(
+    valor
+) {
+
+    return String(valor)
+        .normalize("NFD")
+        .replace(
+            /[\u0300-\u036f]/g,
+            ""
+        )
+        .toLowerCase()
+        .replace(
+            /\s+/g,
+            " "
+        )
+        .trim();
+}
+
+
+/* =========================================================
    FUNCIÓN PARA OBTENER CAMPOS
 ========================================================= */
 
@@ -108,10 +131,19 @@ function obtenerCampo(
     valorDefault = ""
 ) {
 
+    if (!fields) {
+        return valorDefault;
+    }
+
+
+    /*
+     * PRIMERA BÚSQUEDA:
+     * Nombre exacto del campo.
+     */
+
     for (const nombre of nombres) {
 
         if (
-            fields &&
             fields[nombre] !== undefined &&
             fields[nombre] !== null &&
             fields[nombre] !== ""
@@ -121,6 +153,53 @@ function obtenerCampo(
         }
     }
 
+
+    /*
+     * SEGUNDA BÚSQUEDA:
+     * Nombre normalizado.
+     *
+     * Permite encontrar el campo aunque existan
+     * diferencias de mayúsculas, acentos o espacios.
+     */
+
+    const nombresNormalizados =
+        nombres.map(
+            normalizarNombreCampo
+        );
+
+
+    for (
+        const clave of Object.keys(fields)
+    ) {
+
+        const claveNormalizada =
+            normalizarNombreCampo(
+                clave
+            );
+
+
+        if (
+            nombresNormalizados.includes(
+                claveNormalizada
+            )
+        ) {
+
+            const valor =
+                fields[clave];
+
+
+            if (
+                valor !== undefined &&
+                valor !== null &&
+                valor !== ""
+            ) {
+
+                return valor;
+            }
+        }
+    }
+
+
     return valorDefault;
 }
 
@@ -129,15 +208,20 @@ function obtenerCampo(
    NORMALIZAR FOTOGRAFÍA DE AIRTABLE
 ========================================================= */
 
-function obtenerUrlFotografia(valor) {
+function obtenerUrlFotografia(
+    valor
+) {
 
     if (!valor) {
         return "";
     }
 
+
     if (Array.isArray(valor)) {
 
-        for (const archivo of valor) {
+        for (
+            const archivo of valor
+        ) {
 
             if (
                 archivo &&
@@ -153,6 +237,7 @@ function obtenerUrlFotografia(valor) {
         return "";
     }
 
+
     if (
         typeof valor === "object" &&
         typeof valor.url === "string" &&
@@ -162,22 +247,34 @@ function obtenerUrlFotografia(valor) {
         return valor.url;
     }
 
-    if (typeof valor === "string") {
+
+    if (
+        typeof valor === "string"
+    ) {
 
         const texto =
             valor.trim();
 
+
         if (
-            texto.startsWith("http://") ||
-            texto.startsWith("https://") ||
-            texto.startsWith("data:image/")
+            texto.startsWith(
+                "http://"
+            ) ||
+            texto.startsWith(
+                "https://"
+            ) ||
+            texto.startsWith(
+                "data:image/"
+            )
         ) {
 
             return texto;
         }
 
+
         return "";
     }
+
 
     return "";
 }
@@ -194,9 +291,11 @@ function normalizarFieldsFalla(
     const original =
         fields || {};
 
+
     const resultado = {
         ...original
     };
+
 
     const fotografia =
         obtenerUrlFotografia(
@@ -204,6 +303,7 @@ function normalizarFieldsFalla(
                 "Fotografía del error"
             ]
         );
+
 
     if (fotografia) {
 
@@ -215,6 +315,7 @@ function normalizarFieldsFalla(
                 url:
                     fotografia
             }
+
         ];
 
     } else {
@@ -223,6 +324,7 @@ function normalizarFieldsFalla(
             "Fotografía del error"
         ] = [];
     }
+
 
     return resultado;
 }
@@ -238,10 +340,14 @@ async function obtenerEquiposRelacionados(
 
     const resultados = [];
 
-    for (const registro of registros) {
+
+    for (
+        const registro of registros
+    ) {
 
         const fields =
             registro.fields || {};
+
 
         const equiposRelacionados =
             obtenerCampo(
@@ -253,24 +359,35 @@ async function obtenerEquiposRelacionados(
                 []
             );
 
+
         const equipoIds =
-            Array.isArray(equiposRelacionados)
+            Array.isArray(
+                equiposRelacionados
+            )
                 ? equiposRelacionados
                 : [];
 
+
         const equipos = [];
 
-        for (const equipoId of equipoIds) {
+
+        for (
+            const equipoId of equipoIds
+        ) {
 
             try {
 
                 const equipo =
                     await base(
                         TABLA_EQUIPOS
-                    ).find(equipoId);
+                    ).find(
+                        equipoId
+                    );
+
 
                 const equipoFields =
                     equipo.fields || {};
+
 
                 equipos.push({
 
@@ -327,12 +444,24 @@ async function obtenerEquiposRelacionados(
                             ""
                         ),
 
+                    /*
+                     * NÚMERO DE SERIE
+                     * CORREGIDO
+                     */
+
                     serie:
                         obtenerCampo(
                             equipoFields,
                             [
                                 "Número de serie",
-                                "Numero de serie"
+                                "Numero de serie",
+                                "No. de serie",
+                                "No de serie",
+                                "N° de serie",
+                                "Nº de serie",
+                                "Número Serie",
+                                "Numero Serie",
+                                "Serie"
                             ],
                             ""
                         ),
@@ -368,6 +497,7 @@ async function obtenerEquiposRelacionados(
                         )
                 });
 
+
             } catch (error) {
 
                 console.error(
@@ -376,6 +506,7 @@ async function obtenerEquiposRelacionados(
                 );
             }
         }
+
 
         resultados.push({
 
@@ -388,6 +519,7 @@ async function obtenerEquiposRelacionados(
                 equipos
         });
     }
+
 
     return resultados;
 }
@@ -403,6 +535,7 @@ function normalizarAccesorio(
 
     const fields =
         registro.fields || {};
+
 
     return {
 
@@ -524,6 +657,7 @@ function normalizarRepuesto(
 
     const fields =
         registro.fields || {};
+
 
     return {
 
@@ -648,7 +782,10 @@ app.get(
             const registro =
                 await base(
                     TABLA_EQUIPOS
-                ).find(req.params.id);
+                ).find(
+                    req.params.id
+                );
+
 
             res.json({
 
@@ -657,7 +794,9 @@ app.get(
 
                 fields:
                     registro.fields
+
             });
+
 
         } catch (error) {
 
@@ -666,9 +805,12 @@ app.get(
                 error
             );
 
+
             res.status(500).json({
+
                 error:
                     "No se pudo obtener el equipo."
+
             });
         }
     }
@@ -692,12 +834,14 @@ app.get(
                     .select()
                     .all();
 
+
             const accesorios =
                 registros.filter(
                     registro => {
 
                         const fields =
                             registro.fields || {};
+
 
                         const relacionados =
                             obtenerCampo(
@@ -708,6 +852,7 @@ app.get(
                                 ],
                                 []
                             );
+
 
                         return (
                             Array.isArray(
@@ -720,11 +865,13 @@ app.get(
                     }
                 );
 
+
             res.json(
                 accesorios.map(
                     normalizarAccesorio
                 )
             );
+
 
         } catch (error) {
 
@@ -733,9 +880,12 @@ app.get(
                 error
             );
 
+
             res.status(500).json({
+
                 error:
                     "No se pudieron obtener los accesorios."
+
             });
         }
     }
@@ -755,13 +905,17 @@ app.get(
             const registro =
                 await base(
                     TABLA_ACCESORIOS
-                ).find(req.params.id);
+                ).find(
+                    req.params.id
+                );
+
 
             res.json(
                 normalizarAccesorio(
                     registro
                 )
             );
+
 
         } catch (error) {
 
@@ -770,9 +924,12 @@ app.get(
                 error
             );
 
+
             res.status(500).json({
+
                 error:
                     "No se pudo obtener el accesorio."
+
             });
         }
     }
@@ -796,12 +953,14 @@ app.get(
                     .select()
                     .all();
 
+
             const repuestos =
                 registros.filter(
                     registro => {
 
                         const fields =
                             registro.fields || {};
+
 
                         const relacionados =
                             obtenerCampo(
@@ -812,6 +971,7 @@ app.get(
                                 ],
                                 []
                             );
+
 
                         return (
                             Array.isArray(
@@ -824,11 +984,13 @@ app.get(
                     }
                 );
 
+
             res.json(
                 repuestos.map(
                     normalizarRepuesto
                 )
             );
+
 
         } catch (error) {
 
@@ -837,9 +999,12 @@ app.get(
                 error
             );
 
+
             res.status(500).json({
+
                 error:
                     "No se pudieron obtener los repuestos."
+
             });
         }
     }
@@ -859,13 +1024,17 @@ app.get(
             const registro =
                 await base(
                     TABLA_REPUESTOS
-                ).find(req.params.id);
+                ).find(
+                    req.params.id
+                );
+
 
             res.json(
                 normalizarRepuesto(
                     registro
                 )
             );
+
 
         } catch (error) {
 
@@ -874,9 +1043,12 @@ app.get(
                 error
             );
 
+
             res.status(500).json({
+
                 error:
                     "No se pudo obtener el repuesto."
+
             });
         }
     }
@@ -893,6 +1065,7 @@ function normalizarMantenimiento(
 
     const fields =
         registro.fields || {};
+
 
     return {
 
@@ -1073,10 +1246,26 @@ async function obtenerEquipoParaMantenimiento(
     const equipo =
         await base(
             TABLA_EQUIPOS
-        ).find(equipoId);
+        ).find(
+            equipoId
+        );
+
 
     const fields =
         equipo.fields || {};
+
+
+    /*
+     * Mostrar en consola los campos del equipo.
+     * Esto ayuda a detectar si Airtable utiliza
+     * un nombre diferente para el número de serie.
+     */
+
+    console.log(
+        "Campos del equipo para mantenimiento:",
+        Object.keys(fields)
+    );
+
 
     return {
 
@@ -1133,15 +1322,31 @@ async function obtenerEquipoParaMantenimiento(
                 ""
             ),
 
+
+        /*
+         * =====================================================
+         * NÚMERO DE SERIE
+         * CORREGIDO
+         * =====================================================
+         */
+
         serie:
             obtenerCampo(
                 fields,
                 [
                     "Número de serie",
-                    "Numero de serie"
+                    "Numero de serie",
+                    "No. de serie",
+                    "No de serie",
+                    "N° de serie",
+                    "Nº de serie",
+                    "Número Serie",
+                    "Numero Serie",
+                    "Serie"
                 ],
                 ""
             ),
+
 
         ubicacion:
             obtenerCampo(
@@ -1193,12 +1398,14 @@ app.get(
                     .select()
                     .all();
 
+
             const mantenimientos =
                 registros.filter(
                     registro => {
 
                         const fields =
                             registro.fields || {};
+
 
                         const relacionados =
                             obtenerCampo(
@@ -1209,6 +1416,7 @@ app.get(
                                 ],
                                 []
                             );
+
 
                         return (
                             Array.isArray(
@@ -1221,11 +1429,13 @@ app.get(
                     }
                 );
 
+
             res.json(
                 mantenimientos.map(
                     normalizarMantenimiento
                 )
             );
+
 
         } catch (error) {
 
@@ -1234,9 +1444,12 @@ app.get(
                 error
             );
 
+
             res.status(500).json({
+
                 error:
                     "No se pudieron obtener los mantenimientos."
+
             });
         }
     }
@@ -1245,7 +1458,7 @@ app.get(
 
 /* =========================================================
    MANTENIMIENTO INDIVIDUAL
-   CORREGIDO PARA DEVOLVER TAMBIÉN EL EQUIPO
+   DEVUELVE TAMBIÉN EL EQUIPO
 ========================================================= */
 
 app.get(
@@ -1297,6 +1510,7 @@ app.get(
                             equipoId
                         );
 
+
                 } catch (errorEquipo) {
 
                     console.error(
@@ -1321,6 +1535,7 @@ app.get(
 
                 equipo:
                     equipo
+
             });
 
 
@@ -1331,10 +1546,12 @@ app.get(
                 error
             );
 
+
             res.status(500).json({
 
                 error:
                     "No se pudo obtener el mantenimiento."
+
             });
         }
     }
@@ -1359,8 +1576,10 @@ app.post(
                 req.body
             );
 
+
             const datos =
                 req.body || {};
+
 
             const equipoId =
                 datos.equipoId;
@@ -1396,8 +1615,10 @@ app.post(
             if (!equipoId) {
 
                 return res.status(400).json({
+
                     error:
                         "No se recibió el equipo."
+
                 });
             }
 
@@ -1405,8 +1626,10 @@ app.post(
             if (!fechaMantenimiento) {
 
                 return res.status(400).json({
+
                     error:
                         "La fecha de mantenimiento es obligatoria."
+
                 });
             }
 
@@ -1414,8 +1637,10 @@ app.post(
             if (!tipoMantenimiento) {
 
                 return res.status(400).json({
+
                     error:
                         "El tipo de mantenimiento es obligatorio."
+
                 });
             }
 
@@ -1423,8 +1648,10 @@ app.post(
             if (!tecnicoResponsable) {
 
                 return res.status(400).json({
+
                     error:
                         "El técnico responsable es obligatorio."
+
                 });
             }
 
@@ -1516,6 +1743,7 @@ app.post(
 
                 id:
                     nuevoRegistro[0].id
+
             });
 
 
@@ -1529,6 +1757,7 @@ app.post(
                 error
             );
 
+
             res.status(500).json({
 
                 success:
@@ -1537,6 +1766,7 @@ app.post(
                 error:
                     error.message ||
                     "No se pudo registrar el mantenimiento."
+
             });
         }
     }
@@ -1567,7 +1797,9 @@ const upload =
 
                 if (
                     file.mimetype &&
-                    file.mimetype.startsWith("image/")
+                    file.mimetype.startsWith(
+                        "image/"
+                    )
                 ) {
 
                     callback(
@@ -1600,8 +1832,10 @@ async function generarNumeroFalla() {
             .select()
             .all();
 
+
     let mayor =
         0;
+
 
     for (
         const registro of registros
@@ -1613,11 +1847,13 @@ async function generarNumeroFalla() {
                 "ID Falla"
             ];
 
+
         const numero =
             parseInt(
                 valor,
                 10
             );
+
 
         if (
             !isNaN(numero) &&
@@ -1628,6 +1864,7 @@ async function generarNumeroFalla() {
                 numero;
         }
     }
+
 
     return mayor + 1;
 }
@@ -1673,6 +1910,7 @@ app.post(
             const datos =
                 req.body || {};
 
+
             const equipoId =
                 datos.equipoId;
 
@@ -1686,6 +1924,7 @@ app.post(
 
                     error:
                         "No se recibió el equipo relacionado."
+
                 });
             }
 
@@ -1808,6 +2047,7 @@ app.post(
                     await fetch(
                         urlUpload,
                         {
+
                             method:
                                 "POST",
 
@@ -1818,6 +2058,7 @@ app.post(
 
                                 "Content-Type":
                                     "application/json"
+
                             },
 
                             body:
@@ -1831,6 +2072,7 @@ app.post(
 
                                     file:
                                         base64
+
                                 })
                         }
                     );
@@ -1840,7 +2082,9 @@ app.post(
                     await respuestaFoto.text();
 
 
-                if (!respuestaFoto.ok) {
+                if (
+                    !respuestaFoto.ok
+                ) {
 
                     console.error(
                         "ERROR SUBIENDO FOTOGRAFÍA A AIRTABLE:"
@@ -1858,6 +2102,7 @@ app.post(
 
                         error:
                             "La falla se registró, pero no se pudo guardar la fotografía."
+
                     });
                 }
 
@@ -1881,6 +2126,7 @@ app.post(
 
                 numeroFalla:
                     numeroFalla
+
             });
 
 
@@ -1903,6 +2149,7 @@ app.post(
                 error:
                     error.message ||
                     "No se pudo registrar la falla."
+
             });
         }
     }
@@ -1934,6 +2181,7 @@ app.get(
                         const fields =
                             registro.fields || {};
 
+
                         const relacionados =
                             obtenerCampo(
                                 fields,
@@ -1963,10 +2211,12 @@ app.get(
                         const fields =
                             registro.fields || {};
 
+
                         const fieldsNormalizados =
                             normalizarFieldsFalla(
                                 fields
                             );
+
 
                         const fotografia =
                             obtenerUrlFotografia(
@@ -2099,6 +2349,7 @@ app.get(
 
                 error:
                     "No se pudieron obtener las fallas."
+
             });
         }
     }
@@ -2257,6 +2508,7 @@ app.get(
 
                 error:
                     "No se pudo obtener la falla."
+
             });
         }
     }
@@ -2292,6 +2544,7 @@ app.use(
 
                     error:
                         "La fotografía es demasiado grande. Debe pesar menos de 2 MB."
+
                 });
             }
 
@@ -2308,6 +2561,7 @@ app.use(
 
                     error:
                         "La información enviada es demasiado grande."
+
                 });
             }
 
@@ -2320,6 +2574,7 @@ app.use(
                 error:
                     "No se pudo procesar la fotografía: " +
                     error.message
+
             });
         }
 
@@ -2337,6 +2592,7 @@ app.use(
 
                 error:
                     error.message
+
             });
         }
 
@@ -2354,6 +2610,7 @@ app.use(
 
             error:
                 "Ocurrió un error en el servidor."
+
         });
     }
 );
