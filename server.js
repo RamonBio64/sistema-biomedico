@@ -126,19 +126,6 @@ function obtenerUrlFotografia(valor) {
         return "";
     }
 
-    /*
-     * Airtable normalmente devuelve los archivos
-     * como un arreglo de objetos:
-     *
-     * [
-     *   {
-     *      id: "...",
-     *      url: "https://...",
-     *      filename: "foto.jpg"
-     *   }
-     * ]
-     */
-
     if (Array.isArray(valor)) {
 
         for (const archivo of valor) {
@@ -157,12 +144,6 @@ function obtenerUrlFotografia(valor) {
         return "";
     }
 
-
-    /*
-     * En algunos casos puede venir directamente
-     * como objeto.
-     */
-
     if (
         typeof valor === "object" &&
         typeof valor.url === "string" &&
@@ -171,11 +152,6 @@ function obtenerUrlFotografia(valor) {
 
         return valor.url;
     }
-
-
-    /*
-     * Si ya es una URL.
-     */
 
     if (typeof valor === "string") {
 
@@ -193,12 +169,6 @@ function obtenerUrlFotografia(valor) {
 
         return "";
     }
-
-
-    /*
-     * Si es un Buffer o un arreglo de números,
-     * NO lo enviamos al navegador.
-     */
 
     return "";
 }
@@ -219,20 +189,12 @@ function normalizarFieldsFalla(
         ...original
     };
 
-
-    /*
-     * Convertimos la fotografía en una URL.
-     * Nunca devolvemos el Buffer ni el arreglo
-     * de números.
-     */
-
     const fotografia =
         obtenerUrlFotografia(
             original[
                 "Fotografía del error"
             ]
         );
-
 
     if (fotografia) {
 
@@ -248,16 +210,10 @@ function normalizarFieldsFalla(
 
     } else {
 
-        /*
-         * Si no hay una URL válida,
-         * dejamos un arreglo vacío.
-         */
-
         resultado[
             "Fotografía del error"
         ] = [];
     }
-
 
     return resultado;
 }
@@ -275,7 +231,8 @@ async function obtenerEquiposRelacionados(
 
     for (const registro of registros) {
 
-        const fields = registro.fields || {};
+        const fields =
+            registro.fields || {};
 
         const equiposRelacionados =
             obtenerCampo(
@@ -408,7 +365,6 @@ async function obtenerEquiposRelacionados(
                     "Error obteniendo equipo relacionado:",
                     error.message
                 );
-
             }
         }
 
@@ -1416,7 +1372,7 @@ app.post(
 
 
 /* =========================================================
-   MULTER PARA FOTOGRAFÍAS
+   MULTER PARA FOTOGRAFÍAS DE FALLAS
 ========================================================= */
 
 const upload =
@@ -1427,9 +1383,42 @@ const upload =
 
         limits: {
 
+            /*
+             * La fotografía deberá llegar
+             * comprimida desde el navegador.
+             */
             fileSize:
-                5 * 1024 * 1024
-        }
+                2 * 1024 * 1024,
+
+            /*
+             * Límite para campos multipart.
+             */
+            fieldSize:
+                2 * 1024 * 1024
+        },
+
+        fileFilter:
+            (req, file, callback) => {
+
+                if (
+                    file.mimetype &&
+                    file.mimetype.startsWith("image/")
+                ) {
+
+                    callback(
+                        null,
+                        true
+                    );
+
+                } else {
+
+                    callback(
+                        new Error(
+                            "El archivo seleccionado no es una imagen válida."
+                        )
+                    );
+                }
+            }
     });
 
 
@@ -1499,6 +1488,23 @@ app.post(
             );
 
 
+            console.log(
+                "Fotografía recibida:",
+                req.file
+                    ? {
+                        nombre:
+                            req.file.originalname,
+
+                        tipo:
+                            req.file.mimetype,
+
+                        tamaño:
+                            req.file.size
+                    }
+                    : "SIN FOTOGRAFÍA"
+            );
+
+
             const datos =
                 req.body || {};
 
@@ -1549,12 +1555,11 @@ app.post(
             /*
              * IMPORTANTE:
              *
-             * "Nombre del equipo relacionado"
-             * NO SE ENVÍA AQUÍ.
+             * NO enviamos:
              *
-             * Ese campo es un Lookup / Búsqueda
-             * y Airtable lo calcula automáticamente
-             * a partir de "Equipo relacionado".
+             * "Nombre del equipo relacionado"
+             *
+             * porque ese campo es Lookup.
              */
 
 
@@ -1583,16 +1588,8 @@ app.post(
 
                 "Descripción de la falla":
                     datos.descripcion ||
+                    datos.descripcionFalla ||
                     "",
-
-                /*
-                 * Las opciones existentes en Airtable son:
-                 *
-                 * Reportada
-                 * en revision
-                 * en mantenimiento
-                 * solucionado
-                 */
 
                 "Estado":
                     datos.estado ||
@@ -1609,8 +1606,7 @@ app.post(
 
 
             /*
-             * Si el usuario adjuntó una fotografía,
-             * se agrega al campo correspondiente.
+             * AGREGAR FOTOGRAFÍA
              */
 
             if (req.file) {
@@ -1632,32 +1628,33 @@ app.post(
 
 
             console.log(
-                "Campos enviados para falla:"
+                "Campos enviados a Airtable:"
             );
 
-            /*
-             * No imprimimos el Buffer completo
-             * en consola.
-             */
 
             const camposLog =
                 {
                     ...campos
                 };
 
+
             if (req.file) {
 
                 camposLog[
                     "Fotografía del error"
-                ] =
-                    {
-                        filename:
-                            req.file.originalname,
+                ] = {
 
-                        tamaño:
-                            req.file.size
-                    };
+                    filename:
+                        req.file.originalname,
+
+                    tamaño:
+                        req.file.size,
+
+                    tipo:
+                        req.file.mimetype
+                };
             }
+
 
             console.log(
                 camposLog
@@ -1684,7 +1681,10 @@ app.post(
                     "Falla registrada correctamente.",
 
                 id:
-                    nuevoRegistro[0].id
+                    nuevoRegistro[0].id,
+
+                numeroFalla:
+                    numeroFalla
             });
 
 
@@ -1931,12 +1931,6 @@ app.get(
                 registro.fields || {};
 
 
-            /*
-             * Normalizamos los fields antes de enviarlos.
-             * Así evitamos que un Buffer se convierta
-             * en miles de números dentro del JSON.
-             */
-
             const fieldsNormalizados =
                 normalizarFieldsFalla(
                     fields
@@ -2023,10 +2017,6 @@ app.get(
                         ""
                     ),
 
-                /*
-                 * AHORA fotografia será solamente
-                 * una URL.
-                 */
                 fotografia:
                     fotografia,
 
@@ -2073,6 +2063,102 @@ app.get(
                     "No se pudo obtener la falla."
             });
         }
+    }
+);
+
+
+/* =========================================================
+   MANEJO DE ERRORES DE MULTER
+========================================================= */
+
+app.use(
+    (error, req, res, next) => {
+
+        if (
+            error instanceof multer.MulterError
+        ) {
+
+            console.error(
+                "ERROR DE MULTER:",
+                error
+            );
+
+
+            if (
+                error.code ===
+                "LIMIT_FILE_SIZE"
+            ) {
+
+                return res.status(413).json({
+
+                    success:
+                        false,
+
+                    error:
+                        "La fotografía es demasiado grande. Debe pesar menos de 2 MB."
+                });
+            }
+
+
+            if (
+                error.code ===
+                "LIMIT_FIELD_SIZE"
+            ) {
+
+                return res.status(413).json({
+
+                    success:
+                        false,
+
+                    error:
+                        "La información enviada es demasiado grande."
+                });
+            }
+
+
+            return res.status(400).json({
+
+                success:
+                    false,
+
+                error:
+                    "No se pudo procesar la fotografía: " +
+                    error.message
+            });
+        }
+
+
+        if (
+            error &&
+            error.message ===
+                "El archivo seleccionado no es una imagen válida."
+        ) {
+
+            return res.status(400).json({
+
+                success:
+                    false,
+
+                error:
+                    error.message
+            });
+        }
+
+
+        console.error(
+            "ERROR NO CONTROLADO:",
+            error
+        );
+
+
+        res.status(500).json({
+
+            success:
+                false,
+
+            error:
+                "Ocurrió un error en el servidor."
+        });
     }
 );
 
