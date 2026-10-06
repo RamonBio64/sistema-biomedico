@@ -2493,13 +2493,252 @@ app.get(
                 );
 
 
+            /* =====================================================
+               OBTENER EQUIPO RELACIONADO
+               
+               La falla guarda la relación con el equipo.
+               Aquí buscamos nuevamente el registro completo
+               en "Equipos Médicos" para obtener Marca, Modelo,
+               Número de serie, Área, etc.
+            ===================================================== */
+
+            let equipoData = null;
+
+
+            let equipoRelacionado =
+                obtenerCampo(
+                    fields,
+                    [
+                        "Equipo relacionado",
+                        "Equipo Médico relacionado"
+                    ],
+                    []
+                );
+
+
+            /*
+             * Airtable normalmente devuelve los registros
+             * relacionados como un arreglo de IDs.
+             */
+            if (
+                !Array.isArray(
+                    equipoRelacionado
+                )
+            ) {
+
+                equipoRelacionado =
+                    equipoRelacionado
+                        ? [equipoRelacionado]
+                        : [];
+
+            }
+
+
+            /*
+             * Tomamos el primer equipo relacionado.
+             */
+            const equipoId =
+                equipoRelacionado.length > 0
+                    ? equipoRelacionado[0]
+                    : null;
+
+
+            if (equipoId) {
+
+                try {
+
+                    const equipo =
+                        await base(
+                            TABLA_EQUIPOS
+                        ).find(
+                            equipoId
+                        );
+
+
+                    const equipoFields =
+                        equipo.fields || {};
+
+
+                    equipoData = {
+
+                        id:
+                            equipo.id,
+
+
+                        fields:
+                            equipoFields,
+
+
+                        /*
+                         * Nombre del equipo
+                         */
+                        nombre:
+                            obtenerCampo(
+                                equipoFields,
+                                [
+                                    "Nombre del equipo",
+                                    "nombre del equipo"
+                                ],
+                                ""
+                            ),
+
+
+                        /*
+                         * Número de activo fijo
+                         */
+                        numeroActivo:
+                            obtenerCampo(
+                                equipoFields,
+                                [
+                                    "Número de activo fijo",
+                                    "Numero de activo fijo"
+                                ],
+                                ""
+                            ),
+
+
+                        /*
+                         * Marca
+                         */
+                        marca:
+                            obtenerCampo(
+                                equipoFields,
+                                [
+                                    "Marca",
+                                    "marca"
+                                ],
+                                ""
+                            ),
+
+
+                        /*
+                         * Modelo
+                         */
+                        modelo:
+                            obtenerCampo(
+                                equipoFields,
+                                [
+                                    "Modelo",
+                                    "modelo"
+                                ],
+                                ""
+                            ),
+
+
+                        /*
+                         * Número de serie
+                         */
+                        serie:
+                            obtenerCampo(
+                                equipoFields,
+                                [
+                                    "Número de serie",
+                                    "Numero de serie",
+                                    "No. de serie",
+                                    "No de serie",
+                                    "N° de serie",
+                                    "Nº de serie",
+                                    "Número Serie",
+                                    "Numero Serie",
+                                    "Serie"
+                                ],
+                                ""
+                            ),
+
+
+                        /*
+                         * Servicio / Área
+                         */
+                        servicio:
+                            obtenerCampo(
+                                equipoFields,
+                                [
+                                    "Servicio o área",
+                                    "Servicio o Área",
+                                    "servicio o área",
+                                    "Servicio",
+                                    "Área",
+                                    "Area"
+                                ],
+                                ""
+                            ),
+
+
+                        /*
+                         * Ubicación
+                         */
+                        ubicacion:
+                            obtenerCampo(
+                                equipoFields,
+                                [
+                                    "Ubicación",
+                                    "ubicación"
+                                ],
+                                ""
+                            ),
+
+
+                        /*
+                         * Estado
+                         */
+                        estado:
+                            obtenerCampo(
+                                equipoFields,
+                                [
+                                    "Estado del equipo",
+                                    "estado del equipo"
+                                ],
+                                ""
+                            ),
+
+
+                        /*
+                         * Criticidad
+                         */
+                        criticidad:
+                            obtenerCampo(
+                                equipoFields,
+                                [
+                                    "Criticidad",
+                                    "criticidad"
+                                ],
+                                ""
+                            )
+
+                    };
+
+
+                    console.log(
+                        "Equipo obtenido para ficha de falla:",
+                        equipoData
+                    );
+
+
+                } catch (errorEquipo) {
+
+                    console.error(
+                        "Error obteniendo equipo relacionado para la falla:",
+                        errorEquipo
+                    );
+
+                }
+
+            }
+
+
+            /* =====================================================
+               RESPUESTA DE LA FALLA
+            ===================================================== */
+
             res.json({
 
                 id:
                     registro.id,
 
+
                 fields:
                     fieldsNormalizados,
+
 
                 idFalla:
                     obtenerCampo(
@@ -2510,14 +2749,23 @@ app.get(
                         ""
                     ),
 
+
                 equipoRelacionado:
-                    obtenerCampo(
-                        fields,
-                        [
-                            "Equipo relacionado"
-                        ],
-                        []
-                    ),
+                    equipoRelacionado,
+
+
+                /*
+                 * AQUÍ ESTÁ LA CORRECCIÓN PRINCIPAL.
+                 *
+                 * Ahora la ficha recibirá:
+                 * reporte.equipo.marca
+                 * reporte.equipo.modelo
+                 * reporte.equipo.serie
+                 * reporte.equipo.servicio
+                 */
+                equipo:
+                    equipoData,
+
 
                 nombreEquipo:
                     obtenerCampo(
@@ -2527,6 +2775,7 @@ app.get(
                         ],
                         ""
                     ),
+
 
                 numeroActivo:
                     obtenerCampo(
@@ -2538,6 +2787,7 @@ app.get(
                         ""
                     ),
 
+
                 fechaHora:
                     obtenerCampo(
                         fields,
@@ -2546,6 +2796,7 @@ app.get(
                         ],
                         ""
                     ),
+
 
                 tipoFalla:
                     obtenerCampo(
@@ -2556,6 +2807,7 @@ app.get(
                         ""
                     ),
 
+
                 descripcion:
                     obtenerCampo(
                         fields,
@@ -2565,8 +2817,10 @@ app.get(
                         ""
                     ),
 
+
                 fotografia:
                     fotografia,
+
 
                 estado:
                     obtenerCampo(
@@ -2577,6 +2831,7 @@ app.get(
                         ""
                     ),
 
+
                 reportadoPor:
                     obtenerCampo(
                         fields,
@@ -2586,6 +2841,7 @@ app.get(
                         ""
                     ),
 
+
                 observaciones:
                     obtenerCampo(
                         fields,
@@ -2594,6 +2850,7 @@ app.get(
                         ],
                         ""
                     )
+
             });
 
 
@@ -2611,10 +2868,12 @@ app.get(
                     "No se pudo obtener la falla."
 
             });
-        }
-    }
-);
 
+        }
+
+    }
+
+);
 
 /* =========================================================
    MANEJO DE ERRORES DE MULTER
@@ -2752,4 +3011,4 @@ app.listen(
             `http://localhost:${PORT}`
         );
     }
-);
+);  
