@@ -1887,10 +1887,10 @@ const upload =
         limits: {
 
             fileSize:
-                2 * 1024 * 1024,
+                5 * 1024 * 1024,
 
             fieldSize:
-                2 * 1024 * 1024
+                5 * 1024 * 1024
         },
 
         fileFilter:
@@ -1918,7 +1918,6 @@ const upload =
                 }
             }
     });
-
 
 /* =========================================================
    GENERAR NÚMERO DE FALLA
