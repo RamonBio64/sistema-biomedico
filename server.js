@@ -2725,155 +2725,165 @@ app.get(
             }
 
 
-            /* =====================================================
-               RESPUESTA DE LA FALLA
-            ===================================================== */
+      /* =====================================================
+   RESPUESTA DE LA FALLA
+===================================================== */
 
-            res.json({
+res.json({
 
-                id:
-                    registro.id,
+    id: registro.id,
 
+    fields: fieldsNormalizados,
 
-                fields:
-                    fieldsNormalizados,
+    // Identificador de la falla
+    idFalla: obtenerCampo(
+        fields,
+        ["ID Falla"],
+        ""
+    ),
 
+    numeroReporte: obtenerCampo(
+        fields,
+        ["ID Falla"],
+        ""
+    ),
 
-                idFalla:
-                    obtenerCampo(
-                        fields,
-                        [
-                            "ID Falla"
-                        ],
-                        ""
-                    ),
+    "Número de reporte": obtenerCampo(
+        fields,
+        ["ID Falla"],
+        ""
+    ),
 
+    // Relación con el equipo
+    equipoRelacionado: equipoRelacionado,
 
-                equipoRelacionado:
-                    equipoRelacionado,
+    equipo: equipoData,
 
+    // Información del equipo
+    nombreEquipo:
+        equipoData?.nombre ||
+        obtenerCampo(
+            fields,
+            [
+                "Nombre del equipo relacionado",
+                "Nombre del equipo"
+            ],
+            ""
+        ),
 
-                /*
-                 * AQUÍ ESTÁ LA CORRECCIÓN PRINCIPAL.
-                 *
-                 * Ahora la ficha recibirá:
-                 * reporte.equipo.marca
-                 * reporte.equipo.modelo
-                 * reporte.equipo.serie
-                 * reporte.equipo.servicio
-                 */
-                equipo:
-                    equipoData,
+    numeroActivo:
+        equipoData?.numeroActivo ||
+        obtenerCampo(
+            fields,
+            [
+                "Número de activo fijo",
+                "Numero de activo fijo"
+            ],
+            ""
+        ),
 
+    marca: equipoData?.marca || "",
 
-                nombreEquipo:
-                    obtenerCampo(
-                        fields,
-                        [
-                            "Nombre del equipo relacionado"
-                        ],
-                        ""
-                    ),
+    modelo: equipoData?.modelo || "",
 
+    serie: equipoData?.serie || "",
 
-                numeroActivo:
-                    obtenerCampo(
-                        fields,
-                        [
-                            "Número de activo fijo",
-                            "Numero de activo fijo"
-                        ],
-                        ""
-                    ),
+    servicio: equipoData?.servicio || "",
 
+    ubicacion: equipoData?.ubicacion || "",
 
-                fechaHora:
-                    obtenerCampo(
-                        fields,
-                        [
-                            "Fecha y hora del reporte"
-                        ],
-                        ""
-                    ),
+    estadoEquipo: equipoData?.estado || "",
 
+    criticidad: equipoData?.criticidad || "",
 
-                tipoFalla:
-                    obtenerCampo(
-                        fields,
-                        [
-                            "Tipo de falla"
-                        ],
-                        ""
-                    ),
+    // Fecha y hora del reporte
+    fechaHora: obtenerCampo(
+        fields,
+        [
+            "Fecha y hora del reporte",
+            "Fecha y hora",
+            "Fecha y hora de la falla"
+        ],
+        ""
+    ),
 
+    // Tipo de falla
+    tipoFalla: obtenerCampo(
+        fields,
+        [
+            "Tipo de falla",
+            "Tipo"
+        ],
+        ""
+    ),
 
-                descripcion:
-                    obtenerCampo(
-                        fields,
-                        [
-                            "Descripción de la falla"
-                        ],
-                        ""
-                    ),
+    // Descripción de la falla
+    descripcion: obtenerCampo(
+        fields,
+        [
+            "Descripción de la falla",
+            "Descripcion de la falla",
+            "Descripción",
+            "Descripcion"
+        ],
+        ""
+    ),
 
+    descripcionFalla: obtenerCampo(
+        fields,
+        [
+            "Descripción de la falla",
+            "Descripcion de la falla",
+            "Descripción",
+            "Descripcion"
+        ],
+        ""
+    ),
 
-                fotografia:
-                    fotografia,
+    // Fotografía del error
+    fotografia: fotografia,
 
+    // Estado de la falla
+    estado: obtenerCampo(
+        fields,
+        [
+            "Estado",
+            "Estado de la falla"
+        ],
+        ""
+    ),
 
-                estado:
-                    obtenerCampo(
-                        fields,
-                        [
-                            "Estado"
-                        ],
-                        ""
-                    ),
+    estadoFalla: obtenerCampo(
+        fields,
+        [
+            "Estado",
+            "Estado de la falla"
+        ],
+        ""
+    ),
 
+    // Persona que reportó la falla
+    reportadoPor: obtenerCampo(
+        fields,
+        [
+            "Reportado por",
+            "Reportado por:"
+        ],
+        ""
+    ),
 
-                reportadoPor:
-                    obtenerCampo(
-                        fields,
-                        [
-                            "Reportado por"
-                        ],
-                        ""
-                    ),
+    // Observaciones
+    observaciones: obtenerCampo(
+        fields,
+        [
+            "Observaciones",
+            "Observación",
+            "Observacion"
+        ],
+        ""
+    )
 
-
-                observaciones:
-                    obtenerCampo(
-                        fields,
-                        [
-                            "Observaciones"
-                        ],
-                        ""
-                    )
-
-            });
-
-
-        } catch (error) {
-
-            console.error(
-                "Error obteniendo falla:",
-                error
-            );
-
-
-            res.status(500).json({
-
-                error:
-                    "No se pudo obtener la falla."
-
-            });
-
-        }
-
-    }
-
-);
-
+});
 /* =========================================================
    MANEJO DE ERRORES DE MULTER
 ========================================================= */
