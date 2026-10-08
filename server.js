@@ -2884,6 +2884,22 @@ res.json({
     )
 
 });
+        } catch (error) {
+
+            console.error(
+                "Error obteniendo falla individual:",
+                error
+            );
+
+            res.status(500).json({
+
+                error:
+                    "No se pudo obtener la falla."
+
+            });
+        }
+    }
+);
 /* =========================================================
    MANEJO DE ERRORES DE MULTER
 ========================================================= */
