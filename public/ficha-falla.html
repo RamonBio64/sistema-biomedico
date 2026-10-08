@@ -1392,11 +1392,17 @@ async function cargarReporte() {
             "Reportada";
 
 
-        const observaciones =
+        /* =========================================
+           SOLUCIÓN DE LA FALLA
+           CAMBIO: ANTES SE LEÍA OBSERVACIONES
+        ========================================= */
+
+        const solucion =
             obtenerDato(
                 reporte,
-                "observaciones",
-                "Observaciones"
+                "solucion",
+                "Solución",
+                "Solucion"
             );
 
 
@@ -1951,17 +1957,17 @@ async function cargarReporte() {
             </section>
 
 
-            <!-- OBSERVACIONES -->
+            <!-- SOLUCIÓN DE LA FALLA -->
 
             <section class="seccion">
 
                 <h3>
 
-                    📝
+                    🛠️
 
                     <span class="linea"></span>
 
-                    Observaciones
+                    Solución de la falla
 
                 </h3>
 
@@ -1969,7 +1975,8 @@ async function cargarReporte() {
                 <div class="descripcion">
 
                     ${escaparHTML(
-                        observaciones
+                        solucion ||
+                        "Pendiente de resolución por el personal técnico."
                     )}
 
                 </div>
