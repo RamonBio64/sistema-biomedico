@@ -40,6 +40,7 @@ const TABLA_REPUESTOS = "Repuestos Médicos";
 const TABLA_MANTENIMIENTOS = "Mantenimientos";
 const TABLA_FALLAS = "Fallas y Alarmas";
 const CAMPO_FOTOGRAFIA_FALLA = "fldOUKCZoD8IDLkPe";
+const CAMPO_ARCHIVO_IMPRESO = "fld8nCqJOb8px7ozh";
 
 /* =========================================================
    MIDDLEWARE
@@ -49,6 +50,32 @@ app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(express.static(path.join(__dirname, "public")));
+
+/* =========================================================
+   MULTER PARA PDF DE MANTENIMIENTOS
+   No modifica el middleware de fotografías de fallas.
+========================================================= */
+
+const uploadPDF = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+        fileSize: 10 * 1024 * 1024,
+        fieldSize: 5 * 1024 * 1024
+    },
+    fileFilter: (req, file, callback) => {
+        const nombreEsPDF = String(file.originalname || "")
+            .toLowerCase()
+            .endsWith(".pdf");
+
+        if (file.mimetype === "application/pdf" || nombreEsPDF) {
+            callback(null, true);
+        } else {
+            callback(new Error(
+                "El archivo seleccionado debe ser un PDF."
+            ));
+        }
+    }
+});
 
 /* =========================================================
    NORMALIZAR NOMBRES DE CAMPOS
@@ -735,10 +762,23 @@ app.get("/api/mantenimiento/:id", async (req, res) => {
    REGISTRAR MANTENIMIENTO
 ========================================================= */
 
-app.post("/api/mantenimiento", async (req, res) => {
+app.post("/api/mantenimiento", uploadPDF.single("archivoImpreso"), async (req, res) => {
+    let mantenimientoCreado = false;
+
     try {
         console.log("Datos recibidos para mantenimiento:");
         console.log(req.body);
+
+        if (req.file) {
+            // Verifica la firma real del archivo, no solo su extensión.
+            const firmaPDF = req.file.buffer.subarray(0, 5).toString("ascii");
+            if (firmaPDF !== "%PDF-") {
+                return res.status(400).json({
+                    success: false,
+                    error: "El archivo seleccionado no parece ser un PDF válido."
+                });
+            }
+        }
 
         const datos = req.body || {};
         const equipoId = datos.equipoId;
@@ -754,24 +794,28 @@ app.post("/api/mantenimiento", async (req, res) => {
 
         if (!equipoId) {
             return res.status(400).json({
+                success: false,
                 error: "No se recibió el equipo."
             });
         }
 
         if (!fechaMantenimiento) {
             return res.status(400).json({
+                success: false,
                 error: "La fecha de mantenimiento es obligatoria."
             });
         }
 
         if (!tipoMantenimiento) {
             return res.status(400).json({
+                success: false,
                 error: "El tipo de mantenimiento es obligatorio."
             });
         }
 
         if (!tecnicoResponsable) {
             return res.status(400).json({
+                success: false,
                 error: "El técnico responsable es obligatorio."
             });
         }
@@ -802,18 +846,62 @@ app.post("/api/mantenimiento", async (req, res) => {
         const nuevoRegistro = await base(TABLA_MANTENIMIENTOS).create([
             { fields: campos }
         ]);
+        const idMantenimiento = nuevoRegistro[0].id;
+        mantenimientoCreado = true;
 
-        res.json({
+        // Adjunta el PDF al campo "Archivo impreso" del registro recién creado.
+        if (req.file) {
+            console.log("Subiendo PDF del mantenimiento a Airtable...");
+
+            const base64 = req.file.buffer.toString("base64");
+            const urlUpload =
+                `https://content.airtable.com/v0/${AIRTABLE_BASE_ID}/${idMantenimiento}/${CAMPO_ARCHIVO_IMPRESO}/uploadAttachment`;
+
+            const respuestaPDF = await fetch(urlUpload, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${AIRTABLE_TOKEN}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    contentType: "application/pdf",
+                    filename: req.file.originalname,
+                    file: base64
+                })
+            });
+
+            const textoRespuestaPDF = await respuestaPDF.text();
+
+            if (!respuestaPDF.ok) {
+                console.error("ERROR SUBIENDO PDF A AIRTABLE:");
+                console.error(textoRespuestaPDF);
+
+                return res.status(500).json({
+                    success: false,
+                    mantenimientoCreado: true,
+                    id: idMantenimiento,
+                    error: "El mantenimiento se registró, pero no se pudo guardar el PDF en Airtable. Revisa el registro antes de volver a enviar para evitar duplicados."
+                });
+            }
+
+            console.log("PDF del mantenimiento subido correctamente a Airtable.");
+        }
+
+        return res.json({
             success: true,
-            message: "Mantenimiento registrado correctamente.",
-            id: nuevoRegistro[0].id
+            message: req.file
+                ? "Mantenimiento y PDF registrados correctamente."
+                : "Mantenimiento registrado correctamente.",
+            id: idMantenimiento,
+            archivoImpreso: Boolean(req.file)
         });
     } catch (error) {
         console.error("ERROR REGISTRANDO MANTENIMIENTO:");
         console.error(error);
 
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
+            mantenimientoCreado,
             error: error.message ||
                 "No se pudo registrar el mantenimiento."
         });
@@ -1370,7 +1458,7 @@ app.use((error, req, res, next) => {
         if (error.code === "LIMIT_FILE_SIZE") {
             return res.status(413).json({
                 success: false,
-                error: "La fotografía es demasiado grande. Debe pesar menos de 2 MB."
+                error: "El archivo es demasiado grande. El PDF debe pesar hasta 10 MB y la fotografía hasta 5 MB."
             });
         }
 
@@ -1390,6 +1478,16 @@ app.use((error, req, res, next) => {
     if (
         error &&
         error.message === "El archivo seleccionado no es una imagen válida."
+    ) {
+        return res.status(400).json({
+            success: false,
+            error: error.message
+        });
+    }
+
+    if (
+        error &&
+        error.message === "El archivo seleccionado debe ser un PDF."
     ) {
         return res.status(400).json({
             success: false,
