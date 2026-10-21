@@ -53,7 +53,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 /* =========================================================
    MULTER PARA PDF DE MANTENIMIENTOS
-   No modifica el middleware de fotografías de fallas.
 ========================================================= */
 
 const uploadPDF = multer({
@@ -253,7 +252,11 @@ function normalizarFieldsFalla(fields) {
     const resultado = { ...original };
 
     const fotografia = obtenerUrlFotografia(
-        obtenerCampo(original, ["Fotografía del error", "Fotografia del error"], [])
+        obtenerCampo(
+            original,
+            ["Fotografía del error", "Fotografia del error"],
+            []
+        )
     );
 
     resultado["Fotografía del error"] = fotografia
@@ -314,8 +317,16 @@ async function obtenerEquiposRelacionados(registros) {
                         ["servicio o área", "Servicio o área"],
                         ""
                     ),
-                    marca: obtenerCampo(equipoFields, ["Marca", "marca"], ""),
-                    modelo: obtenerCampo(equipoFields, ["Modelo", "modelo"], ""),
+                    marca: obtenerCampo(
+                        equipoFields,
+                        ["Marca", "marca"],
+                        ""
+                    ),
+                    modelo: obtenerCampo(
+                        equipoFields,
+                        ["Modelo", "modelo"],
+                        ""
+                    ),
                     serie: obtenerCampo(
                         equipoFields,
                         [
@@ -609,11 +620,21 @@ function normalizarMantenimiento(registro) {
             ""
         ),
         observaciones: obtenerCampo(fields, ["Observaciones"], ""),
+
+        // Nombre corregido: la propiedad no puede tener espacios sin comillas.
         fechaProximoMantenimiento: obtenerCampo(
             fields,
             ["Fecha de próximo mantenimiento"],
             ""
         ),
+
+        // PDF adjunto guardado en Airtable.
+        archivoImpreso: obtenerCampo(
+            fields,
+            ["Archivo impreso"],
+            []
+        ),
+
         tecnico: obtenerCampo(fields, ["Técnico responsable"], ""),
         estado: obtenerCampo(fields, ["Estado del mantenimiento"], ""),
         actividades: obtenerCampo(fields, ["Actividades realizadas"], ""),
@@ -772,6 +793,7 @@ app.post("/api/mantenimiento", uploadPDF.single("archivoImpreso"), async (req, r
         if (req.file) {
             // Verifica la firma real del archivo, no solo su extensión.
             const firmaPDF = req.file.buffer.subarray(0, 5).toString("ascii");
+
             if (firmaPDF !== "%PDF-") {
                 return res.status(400).json({
                     success: false,
@@ -846,6 +868,7 @@ app.post("/api/mantenimiento", uploadPDF.single("archivoImpreso"), async (req, r
         const nuevoRegistro = await base(TABLA_MANTENIMIENTOS).create([
             { fields: campos }
         ]);
+
         const idMantenimiento = nuevoRegistro[0].id;
         mantenimientoCreado = true;
 
@@ -854,6 +877,7 @@ app.post("/api/mantenimiento", uploadPDF.single("archivoImpreso"), async (req, r
             console.log("Subiendo PDF del mantenimiento a Airtable...");
 
             const base64 = req.file.buffer.toString("base64");
+
             const urlUpload =
                 `https://content.airtable.com/v0/${AIRTABLE_BASE_ID}/${idMantenimiento}/${CAMPO_ARCHIVO_IMPRESO}/uploadAttachment`;
 
@@ -951,7 +975,6 @@ async function generarNumeroFalla() {
 
 /* =========================================================
    REGISTRAR FALLA
-   CAMBIO: UTILIZA EL CAMPO "Solución"
 ========================================================= */
 
 app.post("/api/falla", upload.single("fotografia"), async (req, res) => {
@@ -1040,9 +1063,7 @@ app.post("/api/falla", upload.single("fotografia"), async (req, res) => {
             const textoRespuestaFoto = await respuestaFoto.text();
 
             if (!respuestaFoto.ok) {
-                console.error(
-                    "ERROR SUBIENDO FOTOGRAFÍA A AIRTABLE:"
-                );
+                console.error("ERROR SUBIENDO FOTOGRAFÍA A AIRTABLE:");
                 console.error(textoRespuestaFoto);
 
                 return res.status(500).json({
