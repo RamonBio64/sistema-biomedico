@@ -1,566 +1,1916 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ficha de Mantenimiento | Sistema Biomédico</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Registrar Mantenimiento | Sistema Biomédico
+    </title>
+
 
     <style>
-        * { box-sizing: border-box; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
 
         body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f3f6f8;
-            color: #263238;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                #f3f6f9;
+
+            color:
+                #263238;
         }
+
 
         header {
-            background: linear-gradient(135deg, #0b3d4a, #126579);
-            color: white;
-            padding: 18px 20px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+            background:
+                #ffffff;
+
+            padding:
+                18px 30px;
+
+            border-bottom:
+                1px solid #dfe5e9;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                18px;
         }
 
-        .header-content {
-            max-width: 1100px;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+
+        header img {
+            width:
+                65px;
+
+            height:
+                65px;
+
+            object-fit:
+                contain;
         }
 
-        .logo {
-            width: 65px;
-            height: 65px;
-            object-fit: contain;
-            background: white;
-            border-radius: 10px;
-            padding: 5px;
+
+        .header-text h1 {
+            font-size:
+                20px;
+
+            color:
+                #173f5f;
         }
 
-        .header-text h1 { margin: 0; font-size: 22px; }
 
         .header-text p {
-            margin: 5px 0 0;
-            opacity: 0.9;
-            font-size: 14px;
+            margin-top:
+                5px;
+
+            font-size:
+                13px;
+
+            color:
+                #607d8b;
         }
 
-        .contenedor {
-            max-width: 1100px;
-            margin: 25px auto;
-            padding: 0 15px;
+
+        .container {
+            width:
+                95%;
+
+            max-width:
+                1100px;
+
+            margin:
+                30px auto;
         }
 
-        .hero {
-            background: linear-gradient(135deg, #0b3d4a, #126579);
-            color: white;
-            border-radius: 16px;
-            padding: 28px;
-            margin-bottom: 20px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+
+        .back {
+            display:
+                inline-block;
+
+            margin-bottom:
+                18px;
+
+            color:
+                #1769aa;
+
+            text-decoration:
+                none;
+
+            font-weight:
+                bold;
         }
 
-        .hero-superior {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 20px;
+
+        .card {
+            background:
+                white;
+
+            border-radius:
+                16px;
+
+            padding:
+                28px;
+
+            box-shadow:
+                0 4px 18px rgba(0,0,0,.07);
+
+            margin-bottom:
+                22px;
         }
 
-        .etiqueta {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.75;
-            font-weight: bold;
-            margin-bottom: 8px;
+
+        .title {
+            font-size:
+                26px;
+
+            color:
+                #173f5f;
+
+            margin-bottom:
+                8px;
         }
 
-        .hero h2 { margin: 0 0 8px; font-size: 28px; }
 
-        .hero p { margin: 0; opacity: 0.9; font-size: 14px; }
+        .subtitle {
+            color:
+                #607d8b;
 
-        .numero-mantenimiento {
-            background: rgba(255,255,255,0.12);
-            border: 1px solid rgba(255,255,255,0.25);
-            border-radius: 12px;
-            padding: 15px;
-            min-width: 180px;
+            margin-bottom:
+                25px;
         }
 
-        .numero-mantenimiento span {
-            display: block;
-            font-size: 11px;
-            opacity: 0.75;
-            margin-bottom: 5px;
+
+        .equipment {
+            background:
+                #eef5f8;
+
+            border-left:
+                5px solid #1769aa;
+
+            padding:
+                18px;
+
+            border-radius:
+                10px;
+
+            margin-bottom:
+                25px;
         }
 
-        .numero-mantenimiento strong { font-size: 20px; }
 
-        .estado {
-            display: inline-block;
-            margin-top: 18px;
-            padding: 7px 13px;
-            border-radius: 20px;
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.25);
-            font-size: 13px;
-            font-weight: bold;
+        .equipment strong {
+            color:
+                #173f5f;
         }
 
-        .seccion {
-            background: white;
-            border-radius: 15px;
-            padding: 22px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+
+        .grid {
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                20px;
         }
 
-        .seccion h3 {
-            margin: 0 0 18px;
-            color: #0b3d4a;
-            border-bottom: 2px solid #e5ecef;
-            padding-bottom: 12px;
+
+        .field {
+            display:
+                flex;
+
+            flex-direction:
+                column;
         }
 
-        .grid-info {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+
+        .field.full {
+            grid-column:
+                1 / -1;
         }
 
-        .dato {
-            background: #f7f9fa;
-            padding: 15px;
-            border-radius: 9px;
-            border-left: 4px solid #126579;
-            min-height: 70px;
+
+        label {
+            font-weight:
+                bold;
+
+            font-size:
+                14px;
+
+            margin-bottom:
+                8px;
+
+            color:
+                #37474f;
         }
 
-        .dato strong {
-            display: block;
-            color: #607d8b;
-            font-size: 11px;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
+
+        input,
+        select,
+        textarea {
+            width:
+                100%;
+
+            padding:
+                12px 13px;
+
+            border:
+                1px solid #cfd8dc;
+
+            border-radius:
+                9px;
+
+            font-size:
+                14px;
+
+            font-family:
+                inherit;
+
+            background:
+                #fff;
         }
 
-        .dato span {
-            font-size: 15px;
-            font-weight: 600;
-            word-break: break-word;
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline:
+                none;
+
+            border-color:
+                #1769aa;
+
+            box-shadow:
+                0 0 0 2px rgba(23,105,170,.1);
         }
 
-        .texto {
-            background: #f7f9fa;
-            border: 1px solid #e1e8eb;
-            border-radius: 10px;
-            padding: 18px;
-            white-space: pre-wrap;
-            line-height: 1.6;
-            font-size: 15px;
-            min-height: 55px;
+
+        textarea {
+            min-height:
+                110px;
+
+            resize:
+                vertical;
         }
 
-        .acciones {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
+
+        .required {
+            color:
+                #d32f2f;
         }
 
-        .boton {
-            display: inline-block;
-            padding: 13px 18px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
-            border: none;
-            cursor: pointer;
+
+        .actions {
+            margin-top:
+                28px;
+
+            display:
+                flex;
+
+            gap:
+                12px;
+
+            flex-wrap:
+                wrap;
         }
 
-        .boton-regresar {
-            background: #e8f4f7;
-            color: #0b3d4a;
+
+        button {
+            border:
+                none;
+
+            border-radius:
+                9px;
+
+            padding:
+                13px 22px;
+
+            font-size:
+                15px;
+
+            font-weight:
+                bold;
+
+            cursor:
+                pointer;
         }
 
-        .boton-imprimir {
-            background: #0b3d4a;
-            color: white;
+
+        .save {
+            background:
+                #1769aa;
+
+            color:
+                white;
         }
 
-        .cargando {
-            background: white;
-            border-radius: 15px;
-            padding: 45px 25px;
-            text-align: center;
-            color: #607d8b;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+
+        .save:hover {
+            background:
+                #125589;
         }
+
+
+        .cancel {
+            background:
+                #eceff1;
+
+            color:
+                #37474f;
+        }
+
+
+        .message {
+            margin-top:
+                20px;
+
+            padding:
+                14px;
+
+            border-radius:
+                9px;
+
+            display:
+                none;
+
+            font-weight:
+                bold;
+        }
+
+
+        .success {
+            display:
+                block;
+
+            background:
+                #e8f5e9;
+
+            color:
+                #2e7d32;
+        }
+
 
         .error {
-            background: #ffebee;
-            color: #b71c1c;
-            padding: 25px;
-            border-radius: 12px;
-            text-align: center;
-            font-weight: bold;
+            display:
+                block;
+
+            background:
+                #ffebee;
+
+            color:
+                #c62828;
         }
 
-        .footer {
-            text-align: center;
-            color: #78909c;
-            font-size: 11px;
-            padding: 10px;
+
+        .loading {
+            color:
+                #607d8b;
+
+            padding:
+                10px 0;
         }
+
+
+        /* CONTROL PRESUPUESTAL */
+        .budget-section {
+            grid-column: 1 / -1;
+            border: 1px solid #d7e2e8;
+            border-radius: 12px;
+            padding: 20px;
+            background: #fbfdff;
+            margin-top: 4px;
+        }
+
+        .budget-title {
+            color: #173f5f;
+            font-size: 19px;
+            margin-bottom: 7px;
+        }
+
+        .budget-description {
+            color: #607d8b;
+            font-size: 13px;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .budget-subtitle {
+            color: #1769aa;
+            font-size: 15px;
+            margin: 16px 0 12px;
+            padding-bottom: 7px;
+            border-bottom: 1px solid #e2eaf0;
+        }
+
+        .budget-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px 20px;
+        }
+
+        .budget-totals {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .budget-total {
+            background: #eef5f8;
+            border-radius: 9px;
+            padding: 13px 15px;
+        }
+
+        .budget-total span {
+            display: block;
+            color: #607d8b;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .budget-total strong {
+            color: #173f5f;
+            font-size: 20px;
+        }
+
+        .budget-comparison {
+            margin-top: 12px;
+            padding: 12px 14px;
+            border-radius: 9px;
+            background: #f1f5f7;
+            color: #455a64;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .budget-note {
+            display: block;
+            color: #607d8b;
+            font-size: 12px;
+            margin-top: 6px;
+            line-height: 1.45;
+        }
+
 
         @media (max-width: 700px) {
-            .hero-superior { flex-direction: column; }
-            .numero-mantenimiento { width: 100%; }
-            .hero h2 { font-size: 23px; }
-            .grid-info { grid-template-columns: 1fr; }
-            .logo { width: 55px; height: 55px; }
-            .header-text h1 { font-size: 18px; }
+
+            header {
+                padding:
+                    15px;
+            }
+
+
+            header img {
+                width:
+                    50px;
+
+                height:
+                    50px;
+            }
+
+
+            .header-text h1 {
+                font-size:
+                    16px;
+            }
+
+
+            .container {
+                width:
+                    92%;
+
+                margin:
+                    20px auto;
+            }
+
+
+            .card {
+                padding:
+                    20px;
+            }
+
+
+            .grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .budget-grid,
+            .budget-totals {
+                grid-template-columns: 1fr;
+            }
+
+            .budget-section {
+                padding: 16px;
+            }
+
+            .field.full {
+                grid-column:
+                    auto;
+            }
+
+
+            .title {
+                font-size:
+                    22px;
+            }
+
         }
 
-        @media print {
-            body { background: white; }
-            header { box-shadow: none; }
-            .seccion, .hero {
-                box-shadow: none;
-                break-inside: avoid;
-            }
-            .acciones { display: none; }
-        }
     </style>
+
 </head>
 
+
 <body>
+
+
 <header>
-    <div class="header-content">
-        <img src="/img/fondo.jfif" class="logo" alt="Logo institucional">
-        <div class="header-text">
-            <h1>ÁREA DE INGENIERÍA BIOMÉDICA</h1>
-            <p>GESTIÓN DE EQUIPO BIOMÉDICO</p>
-        </div>
+
+    <img
+        src="/img/fondo.jfif"
+        alt="Hospital"
+    >
+
+    <div class="header-text">
+
+        <h1>
+            ÁREA DE INGENIERÍA BIOMÉDICA
+        </h1>
+
+        <p>
+            Sistema de Gestión de Equipo Biomédico
+        </p>
+
     </div>
+
 </header>
 
-<main class="contenedor">
-    <div id="contenido">
-        <div class="cargando">
-            🛠️
-            <h2>Cargando mantenimiento...</h2>
-            <p>Consultando el registro de mantenimiento.</p>
-        </div>
-    </div>
 
-    <div class="footer">
-        Sistema de Gestión de Equipo Biomédico
-    </div>
-</main>
 
-<script>
-const parametros = new URLSearchParams(window.location.search);
-const mantenimientoId = parametros.get("mantenimientoId");
-const equipoId = parametros.get("equipoId");
+<div class="container">
 
-function escaparHTML(valor) {
-    if (valor === null || valor === undefined || valor === "") {
-        return "No especificado";
-    }
 
-    return String(valor)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
+    <a
+        class="back"
+        id="volver"
+    >
+        ← Volver a la ficha del equipo
+    </a>
 
-function formatearFecha(valor) {
-    if (!valor) return "No especificado";
 
-    const partes = String(valor).split("-");
 
-    if (partes.length === 3) {
-        return `${partes[2]}/${partes[1]}/${partes[0]}`;
-    }
+    <div class="card">
 
-    return escaparHTML(valor);
-}
 
-function mostrarError(mensaje) {
-    document.getElementById("contenido").innerHTML = `
-        <div class="error">
-            <div style="font-size:40px;margin-bottom:10px;">⚠️</div>
-            ${escaparHTML(mensaje)}
-        </div>
-    `;
-}
+        <h2 class="title">
+            🔧 Registrar Mantenimiento
+        </h2>
 
-function dato(titulo, valor) {
-    return `
-        <div class="dato">
-            <strong>${titulo}</strong>
-            <span>${escaparHTML(valor)}</span>
-        </div>
-    `;
-}
 
-if (!mantenimientoId) {
-    mostrarError("No se encontró el identificador del mantenimiento.");
-} else {
-    cargarMantenimiento();
-}
+        <p class="subtitle">
+            Registre la información correspondiente al mantenimiento realizado.
+        </p>
 
-async function cargarMantenimiento() {
-    try {
-        const respuesta = await fetch(
-            `/api/mantenimiento/${encodeURIComponent(mantenimientoId)}`
-        );
 
-        if (!respuesta.ok) {
-            throw new Error("No se pudo obtener el mantenimiento.");
-        }
 
-        const datos = await respuesta.json();
+        <div class="equipment">
 
-        let mantenimiento = null;
-        let equipo = null;
 
-        if (datos && datos.mantenimiento) {
-            mantenimiento = datos.mantenimiento;
-            equipo = datos.equipo || null;
-        } else if (datos && !Array.isArray(datos)) {
-            mantenimiento = datos;
-            equipo = datos.equipo || null;
-        }
+            <div>
 
-        if (!mantenimiento) {
-            throw new Error("No se encontró el registro de mantenimiento.");
-        }
-
-        if (!equipo && mantenimiento.equipo) {
-            equipo = mantenimiento.equipo;
-        }
-
-        mostrarMantenimiento({
-            mantenimiento: mantenimiento,
-            equipo: equipo
-        });
-
-    } catch (error) {
-        console.error("Error:", error);
-
-        mostrarError(
-            error.message || "No se pudo cargar el mantenimiento."
-        );
-    }
-}
-
-/* =====================================================
-   ARCHIVO IMPRESO PDF
-   Muestra los documentos adjuntos que devuelve el servidor.
-===================================================== */
-
-function mostrarArchivosImpresos(archivos) {
-    if (!Array.isArray(archivos)) {
-        archivos = archivos ? [archivos] : [];
-    }
-
-    const pdfs = archivos.filter(archivo =>
-        archivo &&
-        typeof archivo === "object" &&
-        archivo.url
-    );
-
-    if (pdfs.length === 0) {
-        return `
-            <section class="seccion">
-                <h3>📎 Archivo impreso (PDF)</h3>
-                <div class="texto">
-                    No se adjuntó ningún PDF a este mantenimiento.
-                </div>
-            </section>
-        `;
-    }
-
-    const enlaces = pdfs.map((archivo, indice) => {
-        const url = String(archivo.url || "");
-        const nombre = archivo.filename || `Documento PDF ${indice + 1}`;
-
-        if (!/^https:\/\//i.test(url)) {
-            return "";
-        }
-
-        return `
-            <div style="margin-bottom:12px;">
-                <strong style="display:block;margin-bottom:8px;">
-                    ${escaparHTML(nombre)}
+                <strong>
+                    Equipo:
                 </strong>
 
-                <a
-                    class="boton boton-regresar"
-                    href="${escaparHTML(url)}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    📄 Abrir PDF
-                </a>
+                <span id="nombreEquipo">
+                    Cargando...
+                </span>
+
             </div>
-        `;
-    }).join("");
 
-    return `
-        <section class="seccion">
-            <h3>📎 Archivo impreso (PDF)</h3>
-            ${enlaces || `
-                <div class="texto">
-                    No se encontró un enlace válido para el PDF.
+
+
+            <div style="margin-top:8px;">
+
+                <strong>
+                    Número de activo fijo:
+                </strong>
+
+                <span id="numeroActivo">
+                    Cargando...
+                </span>
+
+            </div>
+
+
+
+            <div style="margin-top:8px;">
+
+                <strong>
+                    Marca / Modelo:
+                </strong>
+
+                <span id="marcaModelo">
+                    Cargando...
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <form id="formMantenimiento">
+
+
+            <div class="grid">
+
+
+                <div class="field">
+
+                    <label>
+
+                        Fecha de mantenimiento realizado
+
+                        <span class="required">
+                            *
+                        </span>
+
+                    </label>
+
+
+                    <input
+                        type="date"
+                        id="fechaMantenimiento"
+                        required
+                    >
+
                 </div>
-            `}
-        </section>
-    `;
-}
 
-function mostrarMantenimiento(datos) {
-    const m = datos.mantenimiento;
-    const equipo = datos.equipo;
 
-    const nombreEquipo =
-        equipo && equipo.nombre
-            ? equipo.nombre
-            : "Equipo biomédico";
 
-    const numeroActivo =
-        equipo && equipo.numeroActivo
-            ? equipo.numeroActivo
-            : m.numeroActivo;
+                <div class="field">
 
-    const servicio =
-        equipo && equipo.servicio
-            ? equipo.servicio
-            : "No especificado";
+                    <label>
 
-    document.getElementById("contenido").innerHTML = `
+                        Tipo de mantenimiento
 
-        <section class="hero">
-            <div class="hero-superior">
-                <div>
-                    <div class="etiqueta">
-                        REGISTRO DE MANTENIMIENTO
-                    </div>
+                        <span class="required">
+                            *
+                        </span>
 
-                    <h2>${escaparHTML(nombreEquipo)}</h2>
+                    </label>
 
-                    <p>
-                        Ficha detallada del mantenimiento
-                        realizado al equipo biomédico.
+
+                    <select
+                        id="tipoMantenimiento"
+                        required
+                    >
+
+                        <option value="">
+                            Seleccione...
+                        </option>
+
+                        <option value="Preventivo">
+                            Preventivo
+                        </option>
+
+                        <option value="Correctivo">
+                            Correctivo
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="field">
+
+                    <label>
+
+                        Técnico responsable
+
+                        <span class="required">
+                            *
+                        </span>
+
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="tecnicoResponsable"
+                        placeholder="Nombre del técnico"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="field">
+
+                    <label>
+                        Estado del mantenimiento
+                    </label>
+
+
+                    <select id="estadoMantenimiento">
+
+                        <option value="Realizado">
+                            Realizado
+                        </option>
+
+                        <option value="Pendiente">
+                            Pendiente
+                        </option>
+
+                        <option value="En proceso">
+                            En proceso
+                        </option>
+
+                        <option value="Cancelado">
+                            Cancelado
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="field full">
+
+                    <label>
+                        Actividades realizadas
+                    </label>
+
+
+                    <textarea
+                        id="actividadesRealizadas"
+                        placeholder="Describa las actividades realizadas durante el mantenimiento..."
+                    ></textarea>
+
+                </div>
+
+
+
+                <div class="field full">
+
+                    <label>
+                        Hallazgos
+                    </label>
+
+
+                    <textarea
+                        id="hallazgos"
+                        placeholder="Describa anomalías, fallas o hallazgos encontrados..."
+                    ></textarea>
+
+                </div>
+
+
+
+                <div class="field full">
+
+                    <label>
+                        Refacciones utilizadas
+                    </label>
+
+
+                    <textarea
+                        id="refaccionesUtilizadas"
+                        placeholder="Indique las refacciones utilizadas..."
+                    ></textarea>
+
+                </div>
+
+
+
+                <div class="field full">
+
+                    <label>
+                        Observaciones
+                    </label>
+
+
+                    <textarea
+                        id="observaciones"
+                        placeholder="Observaciones adicionales..."
+                    ></textarea>
+
+                </div>
+
+
+
+                <div class="field">
+
+                    <label>
+                        Fecha de próximo mantenimiento
+                    </label>
+
+
+                    <input
+                        type="date"
+                        id="fechaProximoMantenimiento"
+                    >
+
+                </div>
+
+
+
+                <!-- CONTROL PRESUPUESTAL DEL MANTENIMIENTO -->
+                <section class="budget-section">
+                    <h3 class="budget-title">💰 Control presupuestal del mantenimiento</h3>
+                    <p class="budget-description">
+                        Registre primero los costos estimados. Los costos reales pueden dejarse vacíos
+                        si todavía no se cuenta con el importe definitivo.
                     </p>
 
-                    <div class="estado">
-                        Estado: ${escaparHTML(m.estado)}
+                    <h4 class="budget-subtitle">A. Presupuesto estimado</h4>
+                    <div class="budget-grid">
+                        <div class="field">
+                            <label for="refaccionesEstimadas">Refacciones estimadas (MXN)</label>
+                            <input type="number" id="refaccionesEstimadas" min="0" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="field">
+                            <label for="consumiblesEstimados">Consumibles estimados (MXN)</label>
+                            <input type="number" id="consumiblesEstimados" min="0" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="field">
+                            <label for="manoObraEstimada">Mano de obra estimada (MXN)</label>
+                            <input type="number" id="manoObraEstimada" min="0" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="field">
+                            <label for="servicioExternoEstimado">Servicio externo estimado (MXN)</label>
+                            <input type="number" id="servicioExternoEstimado" min="0" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="field">
+                            <label for="otrosGastosEstimados">Otros gastos estimados (MXN)</label>
+                            <input type="number" id="otrosGastosEstimados" min="0" step="0.01" placeholder="0.00">
+                        </div>
                     </div>
+
+                    <h4 class="budget-subtitle">B. Costo real</h4>
+                    <div class="budget-grid">
+                        <div class="field">
+                            <label for="refaccionesReales">Refacciones reales (MXN)</label>
+                            <input type="number" id="refaccionesReales" min="0" step="0.01" placeholder="Pendiente">
+                        </div>
+                        <div class="field">
+                            <label for="consumiblesReales">Consumibles reales (MXN)</label>
+                            <input type="number" id="consumiblesReales" min="0" step="0.01" placeholder="Pendiente">
+                        </div>
+                        <div class="field">
+                            <label for="manoObraReal">Mano de obra real (MXN)</label>
+                            <input type="number" id="manoObraReal" min="0" step="0.01" placeholder="Pendiente">
+                        </div>
+                        <div class="field">
+                            <label for="servicioExternoReal">Servicio externo real (MXN)</label>
+                            <input type="number" id="servicioExternoReal" min="0" step="0.01" placeholder="Pendiente">
+                        </div>
+                        <div class="field">
+                            <label for="otrosGastosReales">Otros gastos reales (MXN)</label>
+                            <input type="number" id="otrosGastosReales" min="0" step="0.01" placeholder="Pendiente">
+                        </div>
+                    </div>
+                    <small class="budget-note">
+                        Si aún no conoce el gasto definitivo, deje vacíos los costos reales. No se registrarán como cero.
+                    </small>
+
+                    <div class="budget-totals">
+                        <div class="budget-total">
+                            <span>Total estimado</span>
+                            <strong id="totalEstimadoVista">$0.00 MXN</strong>
+                        </div>
+                        <div class="budget-total">
+                            <span>Total real</span>
+                            <strong id="totalRealVista">Pendiente</strong>
+                        </div>
+                    </div>
+                    <div class="budget-comparison" id="comparacionPresupuesto" aria-live="polite">
+                        Registre los costos estimados y, cuando estén disponibles, los costos reales para comparar.
+                    </div>
+                </section>
+
+                <!-- NUEVO CAMPO: ARCHIVO PDF -->
+
+                <div class="field full">
+
+                    <label for="archivoImpreso">
+                        Archivo impreso (PDF)
+                    </label>
+
+                    <input
+                        type="file"
+                        id="archivoImpreso"
+                        name="archivoImpreso"
+                        accept=".pdf,application/pdf"
+                    >
+
+                    <small style="margin-top:6px;color:#607d8b;">
+                        Opcional. Seleccione el documento PDF del mantenimiento (máximo 10 MB).
+                    </small>
+
                 </div>
 
-                <div class="numero-mantenimiento">
-                    <span>ID DE MANTENIMIENTO</span>
-                    <strong>
-                        ${escaparHTML(m.idMantenimiento || m.id)}
-                    </strong>
-                </div>
+
             </div>
-        </section>
 
-        <section class="seccion">
-            <h3>🏥 Información del equipo</h3>
 
-            <div class="grid-info">
-                ${dato("Número de activo fijo", numeroActivo)}
-                ${dato("Nombre del equipo", nombreEquipo)}
-                ${dato("Servicio / Área", servicio)}
-                ${dato("Marca", equipo ? equipo.marca : "")}
-                ${dato("Modelo", equipo ? equipo.modelo : "")}
-                ${dato("Número de serie", equipo ? equipo.serie : "")}
-                ${dato("Ubicación", equipo ? equipo.ubicacion : "")}
-            </div>
-        </section>
 
-        <section class="seccion">
-            <h3>🔧 Datos del mantenimiento</h3>
+            <div class="actions">
 
-            <div class="grid-info">
-                ${dato(
-                    "Fecha de mantenimiento realizado",
-                    formatearFecha(m.fechaMantenimiento)
-                )}
-
-                ${dato("Tipo de mantenimiento", m.tipoMantenimiento)}
-                ${dato("Técnico responsable", m.tecnico)}
-                ${dato("Estado del mantenimiento", m.estado)}
-
-                ${dato(
-                    "Fecha de próximo mantenimiento",
-                    formatearFecha(m.proximoMantenimiento)
-                )}
-
-                ${dato("ID del mantenimiento", m.idMantenimiento)}
-            </div>
-        </section>
-
-        <section class="seccion">
-            <h3>📝 Actividades realizadas</h3>
-            <div class="texto">${escaparHTML(m.actividades)}</div>
-        </section>
-
-        <section class="seccion">
-            <h3>🔎 Hallazgos</h3>
-            <div class="texto">${escaparHTML(m.hallazgos)}</div>
-        </section>
-
-        <section class="seccion">
-            <h3>🔩 Refacciones utilizadas</h3>
-            <div class="texto">${escaparHTML(m.refacciones)}</div>
-        </section>
-
-        <section class="seccion">
-            <h3>📋 Observaciones</h3>
-            <div class="texto">${escaparHTML(m.observaciones)}</div>
-        </section>
-
-        ${mostrarArchivosImpresos(m.archivoImpreso)}
-
-        <section class="seccion">
-            <h3>⚙️ Acciones</h3>
-
-            <div class="acciones">
-                ${
-                    equipoId
-                        ? `
-                            <a
-                                class="boton boton-regresar"
-                                href="/?equipoId=${encodeURIComponent(equipoId)}"
-                            >
-                                ← Regresar al equipo
-                            </a>
-                        `
-                        : ""
-                }
 
                 <button
-                    class="boton boton-imprimir"
-                    onclick="window.print()"
+                    type="submit"
+                    class="save"
+                    id="btnGuardar"
                 >
-                    🖨️ Imprimir ficha
+
+                    💾 Guardar Mantenimiento
+
                 </button>
+
+
+
+                <button
+                    type="button"
+                    class="cancel"
+                    id="btnCancelar"
+                >
+
+                    Cancelar
+
+                </button>
+
+
             </div>
-        </section>
-    `;
+
+
+
+            <div
+                id="mensaje"
+                class="message"
+            ></div>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================================================
+   OBTENER ID DEL EQUIPO
+========================================================= */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const equipoId =
+    params.get(
+        "equipoId"
+    );
+
+
+/* =========================================================
+   CONTRASEÑA DE MANTENIMIENTO
+========================================================= */
+
+const password =
+    sessionStorage.getItem(
+        "mantenimientoPassword"
+    );
+
+
+/* =========================================================
+   VALIDAR EQUIPO
+========================================================= */
+
+if (
+    !equipoId
+) {
+
+    alert(
+        "No se encontró el equipo."
+    );
+
+    window.location.href =
+        "/";
+
 }
+
+
+/* =========================================================
+   VALIDAR SESIÓN DE MANTENIMIENTO
+========================================================= */
+
+if (
+    !password
+) {
+
+    alert(
+        "Sesión de mantenimiento no válida."
+    );
+
+    window.location.href =
+        `/?equipoId=${encodeURIComponent(
+            equipoId || ""
+        )}`;
+
+}
+
+
+/* =========================================================
+   BOTONES
+========================================================= */
+
+const volver =
+    document.getElementById(
+        "volver"
+    );
+
+
+const cancelar =
+    document.getElementById(
+        "btnCancelar"
+    );
+
+
+volver.href =
+    `/?equipoId=${encodeURIComponent(
+        equipoId
+    )}`;
+
+
+cancelar.addEventListener(
+    "click",
+    () => {
+
+        window.location.href =
+            `/?equipoId=${encodeURIComponent(
+                equipoId
+            )}`;
+
+    }
+);
+
+
+/* =========================================================
+   OBTENER DATO DE DISTINTAS ESTRUCTURAS
+========================================================= */
+
+function obtenerDato(
+    objeto,
+    nombres
+) {
+
+    if (
+        !objeto
+    ) {
+
+        return "";
+
+    }
+
+
+    for (
+        const nombre of nombres
+    ) {
+
+        if (
+            objeto[nombre] !== undefined &&
+            objeto[nombre] !== null &&
+            objeto[nombre] !== ""
+        ) {
+
+            return objeto[nombre];
+
+        }
+
+    }
+
+
+    return "";
+
+}
+
+
+/* =========================================================
+   CONVERTIR VALORES DE AIRTABLE A TEXTO
+========================================================= */
+
+function convertirATexto(valor) {
+
+    if (
+        valor === undefined ||
+        valor === null
+    ) {
+
+        return "";
+
+    }
+
+
+    if (
+        Array.isArray(valor)
+    ) {
+
+        return valor
+            .map(
+                elemento => {
+
+                    if (
+                        typeof elemento === "object" &&
+                        elemento !== null
+                    ) {
+
+                        return (
+                            elemento.name ||
+                            elemento.value ||
+                            elemento.id ||
+                            ""
+                        );
+
+                    }
+
+                    return String(elemento);
+
+                }
+            )
+            .filter(
+                texto => texto !== ""
+            )
+            .join(", ");
+
+    }
+
+
+    if (
+        typeof valor === "object"
+    ) {
+
+        return (
+            valor.name ||
+            valor.value ||
+            valor.text ||
+            valor.id ||
+            ""
+        );
+
+    }
+
+
+    return String(valor);
+
+}
+
+
+/* =========================================================
+   CARGAR INFORMACIÓN DEL EQUIPO
+========================================================= */
+
+async function cargarEquipo() {
+
+    try {
+
+        const respuesta =
+            await fetch(
+                `/api/equipo/${encodeURIComponent(
+                    equipoId
+                )}`
+            );
+
+
+        if (
+            !respuesta.ok
+        ) {
+
+            const texto =
+                await respuesta.text();
+
+            console.error(
+                "Respuesta del servidor:",
+                texto
+            );
+
+            throw new Error(
+                "No se pudo cargar el equipo."
+            );
+
+        }
+
+
+        const equipo =
+            await respuesta.json();
+
+
+        /*
+         * El servidor normalmente devuelve:
+         *
+         * {
+         *     id: "...",
+         *     fields: {
+         *         "nombre del equipo": "...",
+         *         ...
+         *     }
+         * }
+         */
+
+        const fields =
+            equipo.fields || {};
+
+
+        /* =================================================
+           NOMBRE DEL EQUIPO
+        ================================================= */
+
+        let nombreEquipo =
+            obtenerDato(
+                equipo,
+                [
+                    "nombre",
+                    "nombreEquipo",
+                    "Nombre",
+                    "Nombre del equipo",
+                    "Nombre del Equipo",
+                    "nombre del equipo"
+                ]
+            );
+
+
+        if (
+            !nombreEquipo
+        ) {
+
+            nombreEquipo =
+                obtenerDato(
+                    fields,
+                    [
+                        "nombre",
+                        "nombreEquipo",
+                        "Nombre",
+                        "Nombre del equipo",
+                        "Nombre del Equipo",
+                        "nombre del equipo"
+                    ]
+                );
+
+        }
+
+
+        /*
+         * Airtable puede devolver algunos campos
+         * como arreglos u objetos. Los convertimos
+         * correctamente a texto.
+         */
+
+        nombreEquipo =
+            convertirATexto(
+                nombreEquipo
+            );
+
+
+        /* =================================================
+           NÚMERO DE ACTIVO
+        ================================================= */
+
+        let numeroActivo =
+            obtenerDato(
+                equipo,
+                [
+                    "numeroActivo",
+                    "numeroActivoFijo",
+                    "Numero de activo fijo",
+                    "Número de activo fijo"
+                ]
+            );
+
+
+        if (
+            !numeroActivo
+        ) {
+
+            numeroActivo =
+                obtenerDato(
+                    fields,
+                    [
+                        "Numero de activo fijo",
+                        "Número de activo fijo",
+                        "Numero de activo",
+                        "Número de activo"
+                    ]
+                );
+
+        }
+
+
+        numeroActivo =
+            convertirATexto(
+                numeroActivo
+            );
+
+
+        /* =================================================
+           MARCA
+        ================================================= */
+
+        let marca =
+            obtenerDato(
+                equipo,
+                [
+                    "marca",
+                    "Marca"
+                ]
+            );
+
+
+        if (
+            !marca
+        ) {
+
+            marca =
+                obtenerDato(
+                    fields,
+                    [
+                        "marca",
+                        "Marca"
+                    ]
+                );
+
+        }
+
+
+        marca =
+            convertirATexto(
+                marca
+            );
+
+
+        /* =================================================
+           MODELO
+        ================================================= */
+
+        let modelo =
+            obtenerDato(
+                equipo,
+                [
+                    "modelo",
+                    "Modelo"
+                ]
+            );
+
+
+        if (
+            !modelo
+        ) {
+
+            modelo =
+                obtenerDato(
+                    fields,
+                    [
+                        "modelo",
+                        "Modelo"
+                    ]
+                );
+
+        }
+
+
+        modelo =
+            convertirATexto(
+                modelo
+            );
+
+
+        /* =================================================
+           MOSTRAR INFORMACIÓN
+        ================================================= */
+
+        document.getElementById(
+            "nombreEquipo"
+        ).textContent =
+            nombreEquipo ||
+            "Sin información";
+
+
+        document.getElementById(
+            "numeroActivo"
+        ).textContent =
+            numeroActivo ||
+            "Sin información";
+
+
+        document.getElementById(
+            "marcaModelo"
+        ).textContent =
+
+            `${marca || "Sin información"} / ${
+                modelo || "Sin información"
+            }`;
+
+
+        console.log(
+            "Equipo cargado:",
+            {
+                id: equipoId,
+                nombre: nombreEquipo,
+                numeroActivo: numeroActivo,
+                marca: marca,
+                modelo: modelo,
+                fields: fields
+            }
+        );
+
+
+    } catch (
+        error
+    ) {
+
+
+        console.error(
+            "Error cargando equipo:",
+            error
+        );
+
+
+        document.getElementById(
+            "nombreEquipo"
+        ).textContent =
+            "No se pudo cargar el equipo.";
+
+
+        document.getElementById(
+            "numeroActivo"
+        ).textContent =
+            "No disponible";
+
+
+        document.getElementById(
+            "marcaModelo"
+        ).textContent =
+            "No disponible";
+
+    }
+
+}
+
+
+
+
+/* =========================================================
+   CÁLCULO EN VIVO DEL PRESUPUESTO
+========================================================= */
+
+const camposEstimados = [
+    "refaccionesEstimadas",
+    "consumiblesEstimados",
+    "manoObraEstimada",
+    "servicioExternoEstimado",
+    "otrosGastosEstimados"
+];
+
+const camposReales = [
+    "refaccionesReales",
+    "consumiblesReales",
+    "manoObraReal",
+    "servicioExternoReal",
+    "otrosGastosReales"
+];
+
+function obtenerSumaPresupuesto(ids) {
+    return ids.reduce((total, id) => {
+        const valor = document.getElementById(id).value;
+        return total + (valor === "" ? 0 : Number(valor));
+    }, 0);
+}
+
+function formatoMoneda(valor) {
+    return new Intl.NumberFormat("es-MX", {
+        style: "currency",
+        currency: "MXN"
+    }).format(valor);
+}
+
+function actualizarResumenPresupuesto() {
+    const totalEstimado = obtenerSumaPresupuesto(camposEstimados);
+    const hayCostoReal = camposReales.some(id =>
+        document.getElementById(id).value !== ""
+    );
+    const totalReal = obtenerSumaPresupuesto(camposReales);
+
+    document.getElementById("totalEstimadoVista").textContent =
+        formatoMoneda(totalEstimado);
+
+    document.getElementById("totalRealVista").textContent =
+        hayCostoReal ? formatoMoneda(totalReal) : "Pendiente";
+
+    const comparacion = document.getElementById("comparacionPresupuesto");
+
+    if (!hayCostoReal) {
+        comparacion.textContent =
+            "El costo real está pendiente. Puede registrarlo cuando tenga los importes definitivos.";
+        return;
+    }
+
+    const diferencia = totalReal - totalEstimado;
+    const variacion = totalEstimado > 0
+        ? (diferencia / totalEstimado) * 100
+        : null;
+
+    let estado = diferencia > 0
+        ? "Por encima del presupuesto"
+        : diferencia < 0
+            ? "Por debajo del presupuesto"
+            : "Dentro del presupuesto";
+
+    comparacion.textContent =
+        `${estado}. Diferencia: ${formatoMoneda(diferencia)}`
+        + (variacion === null ? "" : ` (${variacion.toFixed(2)}%).`);
+}
+
+[...camposEstimados, ...camposReales].forEach(id => {
+    document.getElementById(id).addEventListener("input", actualizarResumenPresupuesto);
+});
+
+actualizarResumenPresupuesto();
+
+
+/* =========================================================
+   GUARDAR MANTENIMIENTO
+========================================================= */
+
+document
+    .getElementById(
+        "formMantenimiento"
+    )
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+
+            event.preventDefault();
+
+
+            const btn =
+                document.getElementById(
+                    "btnGuardar"
+                );
+
+
+            const mensaje =
+                document.getElementById(
+                    "mensaje"
+                );
+
+
+            btn.disabled =
+                true;
+
+
+            btn.textContent =
+                "Guardando...";
+
+
+            mensaje.className =
+                "message";
+
+
+            mensaje.style.display =
+                "none";
+
+
+
+            /* =============================================
+               DATOS DEL FORMULARIO
+            ============================================= */
+
+            const datos = {
+
+                equipoId:
+                    equipoId,
+
+
+                numeroActivo:
+                    document.getElementById(
+                        "numeroActivo"
+                    ).textContent,
+
+
+                fechaMantenimiento:
+                    document.getElementById(
+                        "fechaMantenimiento"
+                    ).value,
+
+
+                tipoMantenimiento:
+                    document.getElementById(
+                        "tipoMantenimiento"
+                    ).value,
+
+
+                tecnicoResponsable:
+                    document.getElementById(
+                        "tecnicoResponsable"
+                    ).value,
+
+
+                estadoMantenimiento:
+                    document.getElementById(
+                        "estadoMantenimiento"
+                    ).value,
+
+
+                actividadesRealizadas:
+                    document.getElementById(
+                        "actividadesRealizadas"
+                    ).value,
+
+
+                hallazgos:
+                    document.getElementById(
+                        "hallazgos"
+                    ).value,
+
+
+                refaccionesUtilizadas:
+                    document.getElementById(
+                        "refaccionesUtilizadas"
+                    ).value,
+
+
+                observaciones:
+                    document.getElementById(
+                        "observaciones"
+                    ).value,
+
+
+                fechaProximoMantenimiento:
+                    document.getElementById(
+                        "fechaProximoMantenimiento"
+                    ).value,
+
+                // Costos estimados y reales del mantenimiento.
+                refaccionesEstimadas: document.getElementById("refaccionesEstimadas").value,
+                consumiblesEstimados: document.getElementById("consumiblesEstimados").value,
+                manoObraEstimada: document.getElementById("manoObraEstimada").value,
+                servicioExternoEstimado: document.getElementById("servicioExternoEstimado").value,
+                otrosGastosEstimados: document.getElementById("otrosGastosEstimados").value,
+
+                refaccionesReales: document.getElementById("refaccionesReales").value,
+                consumiblesReales: document.getElementById("consumiblesReales").value,
+                manoObraReal: document.getElementById("manoObraReal").value,
+                servicioExternoReal: document.getElementById("servicioExternoReal").value,
+                otrosGastosReales: document.getElementById("otrosGastosReales").value
+
+            };
+
+
+
+            try {
+
+                /*
+                 * Se utiliza FormData para enviar los datos
+                 * y el archivo PDF en la misma petición.
+                 *
+                 * No se debe establecer manualmente
+                 * Content-Type: el navegador agrega el
+                 * encabezado multipart/form-data correcto.
+                 */
+
+                const formulario = new FormData();
+
+                Object.entries(datos).forEach(([clave, valor]) => {
+                    formulario.append(
+                        clave,
+                        valor == null ? "" : String(valor)
+                    );
+                });
+
+
+                const archivoPDF =
+                    document.getElementById(
+                        "archivoImpreso"
+                    ).files[0];
+
+
+                if (archivoPDF) {
+
+                    const nombreArchivo =
+                        archivoPDF.name.toLowerCase();
+
+                    if (
+                        !nombreArchivo.endsWith(".pdf") ||
+                        (
+                            archivoPDF.type &&
+                            archivoPDF.type !== "application/pdf"
+                        )
+                    ) {
+
+                        throw new Error(
+                            "Selecciona un archivo PDF válido."
+                        );
+
+                    }
+
+
+                    if (
+                        archivoPDF.size > 10 * 1024 * 1024
+                    ) {
+
+                        throw new Error(
+                            "El PDF no debe pesar más de 10 MB."
+                        );
+
+                    }
+
+
+                    formulario.append(
+                        "archivoImpreso",
+                        archivoPDF
+                    );
+
+                }
+
+
+                const respuesta =
+                    await fetch(
+                        "/api/mantenimiento",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "x-mantenimiento-password": password
+                            },
+
+                            body: formulario
+                        }
+                    );
+
+
+
+                /*
+                 * Intentamos leer JSON.
+                 * Si el servidor devuelve HTML por algún error,
+                 * mostramos un mensaje entendible.
+                 */
+
+                const textoRespuesta =
+                    await respuesta.text();
+
+
+                let resultado = {};
+
+
+                try {
+
+                    resultado =
+                        JSON.parse(
+                            textoRespuesta
+                        );
+
+                } catch {
+
+                    console.error(
+                        "Respuesta no JSON:",
+                        textoRespuesta
+                    );
+
+                    throw new Error(
+                        "El servidor no devolvió una respuesta válida."
+                    );
+
+                }
+
+
+
+                if (
+                    !respuesta.ok
+                ) {
+
+                    throw new Error(
+
+                        resultado.detalle ||
+                        resultado.error ||
+                        "No se pudo guardar el mantenimiento."
+
+                    );
+
+                }
+
+
+
+                /* =========================================
+                   ÉXITO
+                ========================================= */
+
+                mensaje.textContent =
+                    resultado.message ||
+                    "✅ Mantenimiento registrado correctamente.";
+
+
+                mensaje.className =
+                    "message success";
+
+
+                btn.textContent =
+                    "✓ Guardado";
+
+
+                setTimeout(
+                    () => {
+
+                        window.location.href =
+                            `/?equipoId=${encodeURIComponent(
+                                equipoId
+                            )}`;
+
+                    },
+                    1200
+                );
+
+
+            } catch (
+                error
+            ) {
+
+
+                console.error(
+                    "Error guardando mantenimiento:",
+                    error
+                );
+
+
+                mensaje.textContent =
+                    "❌ " +
+                    (
+                        error.message ||
+                        "No se pudo guardar el mantenimiento."
+                    );
+
+
+                mensaje.className =
+                    "message error";
+
+
+                btn.disabled =
+                    false;
+
+
+                btn.textContent =
+                    "💾 Guardar Mantenimiento";
+
+            }
+
+        }
+    );
+
+
+
+/* =========================================================
+   INICIAR
+========================================================= */
+
+cargarEquipo();
+
 </script>
+
+
 </body>
 </html>

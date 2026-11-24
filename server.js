@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 
 const express = require("express");
@@ -621,6 +620,22 @@ function normalizarMantenimiento(registro) {
         ),
         observaciones: obtenerCampo(fields, ["Observaciones"], ""),
 
+        // Control presupuestal del mantenimiento.
+        refaccionesEstimadas: obtenerCampo(fields, ["Refacciones estimadas"], null),
+        consumiblesEstimados: obtenerCampo(fields, ["Consumibles estimados"], null),
+        manoObraEstimada: obtenerCampo(fields, ["Mano de obra estimada"], null),
+        servicioExternoEstimado: obtenerCampo(fields, ["Servicio externo estimado"], null),
+        otrosGastosEstimados: obtenerCampo(fields, ["Otros gastos estimados"], null),
+        totalEstimado: obtenerCampo(fields, ["Total estimado"], null),
+        refaccionesReales: obtenerCampo(fields, ["Refacciones reales"], null),
+        consumiblesReales: obtenerCampo(fields, ["Consumibles reales"], null),
+        manoObraReal: obtenerCampo(fields, ["Mano de obra real"], null),
+        servicioExternoReal: obtenerCampo(fields, ["Servicio externo real"], null),
+        otrosGastosReales: obtenerCampo(fields, ["Otros gastos reales"], null),
+        totalReal: obtenerCampo(fields, ["Total real"], null),
+        diferenciaPresupuestal: obtenerCampo(fields, ["Diferencia presupuestal"], null),
+        variacionPorcentual: obtenerCampo(fields, ["Variación porcentual"], null),
+
         // Nombre corregido: la propiedad no puede tener espacios sin comillas.
         fechaProximoMantenimiento: obtenerCampo(
             fields,
@@ -856,6 +871,41 @@ app.post("/api/mantenimiento", uploadPDF.single("archivoImpreso"), async (req, r
             "Refacciones utilizadas": refaccionesUtilizadas,
             "Observaciones": observaciones
         };
+
+        // Costos de presupuesto: solo se envían los importes capturados.
+        // Los campos de totales y comparaciones se calculan con fórmulas en Airtable.
+        const camposPresupuestales = [
+            ["refaccionesEstimadas", "Refacciones estimadas"],
+            ["consumiblesEstimados", "Consumibles estimados"],
+            ["manoObraEstimada", "Mano de obra estimada"],
+            ["servicioExternoEstimado", "Servicio externo estimado"],
+            ["otrosGastosEstimados", "Otros gastos estimados"],
+            ["refaccionesReales", "Refacciones reales"],
+            ["consumiblesReales", "Consumibles reales"],
+            ["manoObraReal", "Mano de obra real"],
+            ["servicioExternoReal", "Servicio externo real"],
+            ["otrosGastosReales", "Otros gastos reales"]
+        ];
+
+        for (const [clave, nombreCampo] of camposPresupuestales) {
+            const valorRecibido = datos[clave];
+
+            // Un campo vacío significa que el costo aún no se conoce.
+            if (valorRecibido === undefined || valorRecibido === null || String(valorRecibido).trim() === "") {
+                continue;
+            }
+
+            const importe = Number(valorRecibido);
+
+            if (!Number.isFinite(importe) || importe < 0) {
+                return res.status(400).json({
+                    success: false,
+                    error: `El importe de "${nombreCampo}" debe ser un número igual o mayor que cero.`
+                });
+            }
+
+            campos[nombreCampo] = importe;
+        }
 
         if (fechaProximoMantenimiento) {
             campos["Fecha de próximo mantenimiento"] =
@@ -1177,7 +1227,7 @@ app.get("/api/fallas/:equipoId", async (req, res) => {
     }
 });
 
-/* =========================================================
+/* ======================================================
    FALLA INDIVIDUAL
 ========================================================= */
 
